@@ -1,0 +1,13 @@
+<h2>Four logic ICs, one bit of scheduling history</h2>
+<p>Let <code>p=0</code> prefer requester 0 and <code>p=1</code> prefer requester 1 when both request. Each rising STEP edge accepts the visible grant. There is no separate downstream ready signal in this exercise.</p>
+<pre>g0 = r0 AND (NOT r1 OR NOT p)
+g1 = r1 AND (NOT r0 OR p)
+p_next = g0 OR (p AND NOT (r0 OR r1))
+RESET: p = 0</pre>
+<p>When both request, accepting g0 makes p=1; accepting g1 makes p=0. With no requests, priority is retained. With one request, that request wins regardless of priority. These are combinational grants for the upcoming sampling edge; after the edge, the displayed grants may immediately change to the next decision.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">r0 r1</th><th scope="col">g0 g1 if p=0</th><th scope="col">g0 g1 if p=1</th><th scope="col">Next priority</th></tr></thead><tbody><tr><td>00</td><td>00</td><td>00</td><td>Hold p</td></tr><tr><td>01</td><td>01</td><td>01</td><td>0</td></tr><tr><td>10</td><td>10</td><td>10</td><td>1</td></tr><tr><td>11</td><td>10</td><td>01</td><td>Toggle p</td></tr></tbody></table></div>
+<p><strong>Gate allocation:</strong> CD4011 supplies three inversions by joining each NAND’s two inputs (¬r0, ¬r1, ¬(r0∨r1)). CD4071 supplies four OR gates (r0∨r1, the two grant conditions, and the next-state merge). CD4081 supplies three AND gates (g0, g1, and idle hold). One half of CD4013 stores p and supplies both p and ¬p. Thus the advertised four core packages are sufficient; the listed buffer and clock-conditioning parts are support circuitry.</p>
+<p>Connect p_next to 4013 D, conditioned STEP or clock to CLK, RESET to its active-high reset, and SET to GND. Use a removable patch lead to select manual STEP or the 555 clock while power is off. Keep r0/r1 stable before the sampling edge and hold them until it has passed; these pushbuttons are classroom data inputs, not a fully synchronized external interface.</p>
+<h3>Check the behavior</h3>
+<ol><li>Reset: p=0. Both requests low must give no grant.</li><li>Exercise each single request with both possible p values.</li><li>Hold both requests high for eight steps. Record the grant just before each step: 0,1,0,1,0,1,0,1.</li><li>Insert three idle steps; confirm that the next contested decision retains the saved priority.</li><li>For every step check <code>NOT(g0 AND g1)</code>, <code>g0 → r0</code> and <code>g1 → r1</code>.</li></ol>
+<p>The accompanying software checks exhaust all input/state combinations and persistent-request traces. They verify these equations; physical timing and debounce still require the pilot build.</p>

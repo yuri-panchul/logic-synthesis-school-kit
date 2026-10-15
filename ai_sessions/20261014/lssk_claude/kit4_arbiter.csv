@@ -1,0 +1,30 @@
+Section,Category,Part,Description,Qty,Unit price USD,Total USD,Used in exercises,Why this quantity / note,Supplier
+Core,IC,CD4081,Quad 2-input AND,1,0.55,0.55,"G1, P4",,Elexp (elexp.com)
+Core,IC,CD4071,Quad 2-input OR,1,0.25,0.25,P4,,Elexp (elexp.com)
+Core,IC,CD4011,Quad 2-input NAND,1,0.35,0.35,P4,,Elexp (elexp.com)
+Core,IC,CD4013,Dual D flip-flop with set/reset,1,0.35,0.35,P4,,Elexp (elexp.com)
+Core,LED,"5V LED, green","5V-tolerant LED with built-in current limiting, green",1,0.45,0.45,G1,,https://www.elexp.com/products/08lg3330-hv5high-voltage-leds-5v-green
+Core,LED,"8-LED module, blue","8-LED bar module, common GND, no resistors needed (bulk of 20 price)",1,0.38,0.38,"G1, P4","up to 1 LED array at once (G1, P4)",https://www.aliexpress.us/item/3256804380748521.html
+Core,Input,"Buttons, 5 pcs",5 button modules 12x12 mm with built-in pull-down resistor (VCC / OUT / GND),1,0.66,0.66,"G1, P4",up to 3 buttons at once (P4),https://www.aliexpress.us/item/3256806475044826.html
+Core,Clock,555 clock module,"Assembled 555 clock generator module, blue (set to ~0.5-1 Hz)",1,0.53,0.53,P4,,https://www.aliexpress.us/item/3256809517040635.html
+Core,Power,Breadboard power module,MB102-style breadboard power supply module; set the jumpers to 5V,1,1.00,1.00,all,,https://www.aliexpress.us/item/2251832530395866.html
+Core,Power,USB-to-DC cable 9V,USB-to-DC barrel cable with 9V boost; the module regulates it to a stable 5V,1,1.17,1.17,all,,https://www.aliexpress.us/item/3256806703746727.html
+Core,Breadboard,Breadboard 830,"Solderless breadboard, 830 points (EL-CP-003)",1,3.00,3.00,all,"up to 1 large board at once (G1, P4)",https://www.amazon.com/EL-CP-003-Breadboard-Solderless-Distribution-Connecting/dp/B01EV6LJ7G
+Core,Wires,Dupont M-M x40,"40 male-male Dupont jumpers, 10 or 15 cm",2,1.30,2.60,"G1, P4",largest build ≈45 wires on the board + 25% spare,https://www.aliexpress.us/item/3256805315188857.html
+Core,Wires,Dupont M-F x40,"40 male-female Dupont jumpers, 10 or 15 cm (button and clock modules)",1,1.30,1.30,"G1, P4",largest build 12 M-F (3 per button or clock module),https://www.aliexpress.us/item/3256805315188857.html
+Core,Tool,IC extractor,IC extractor with insulated handle,1,1.20,1.20,all,,https://www.elexp.com/products/060404ic-extractor-insulated-handle
+Optional,IC,CD4069,Hex inverter (NOT),1,0.30,0.30,,Inverters for alternative designs,Elexp (elexp.com)
+Optional,LED,Traffic-light LED module,"Red/yellow/green LED module, 5V version (not the 1V one)",1,0.40,0.40,,Show grants and state as traffic lights,https://www.aliexpress.us/item/3256806333906622.html
+Optional,Wires,Pre-cut jumper wires x350,"Jameco ValuePro 350-piece pre-formed 22 AWG wire jumpers, 14 lengths",1,11.95,11.95,,Replaces the Dupont M-M jumpers for tidier boards,https://www.jameco.com/z/WJW-60P-R-Jameco-ValuePro-350-pc-Wire-Jumper-Refill-for-Part-Number-19290-14-Lengths-10-Colors-25-of-Each-Length_20080.html
+Optional,Tool,IC pin straightener,IC pin straightener,1,8.95,8.95,,Teacher tool,https://www.elexp.com/products/03ics-01ic-pin-straightener
+
+Cost summary,,"Parts, core",,,,13.79,,,
+Cost summary,,Spares and breakage allowance (5%),,,,0.69,,,
+Cost summary,,Inbound shipping and duties (10%),,,,1.38,,,
+Cost summary,,"Packaging (box, anti-static foam, bags, label)",,,,2.00,,,
+Cost summary,,Printed quick-start card with QR links,,,,1.00,,,
+Cost summary,,Kitting labor (14 lines),,,,2.96,,,
+Cost summary,,Landed cost per kit,,,,21.82,,,
+Cost summary,,Suggested classroom / bulk price (1.6x landed),,,,34.99,,,
+Cost summary,,Suggested retail price (2.2x landed),,,,48.99,,,
+Cost summary,,"Optional add-ons, parts cost",,,,21.60,,,

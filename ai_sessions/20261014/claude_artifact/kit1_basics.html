@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LSSK Basics kit</title>
+<style>
+:root{--bg:#f7f6f2;--fg:#1c2329;--muted:#5d6872;--card:#ffffff;--line:#dfe3e6;--accent:#0b6e4f;
+--accent-bg:#e5f2ec;--warn:#9a4d00;--warn-bg:#fdf1e3;--code:#eef1f3;--th:#f0f2f1;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;
+--card:#1b2126;--line:#2d363d;--accent:#55c79a;--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;--card:#1b2126;--line:#2d363d;--accent:#55c79a;
+--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+nav.top{background:var(--card);border-bottom:1px solid var(--line);font-size:14px}
+nav.top div{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 16px}
+nav.top a{color:var(--muted);text-decoration:none}nav.top a:hover,nav.top a.cur{color:var(--accent)}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px}h2{font-size:22px;margin:36px 0 10px}
+h3{font-size:18px;margin:0 0 6px}
+p.lead{font-size:18px;color:var(--muted);margin:0 0 18px;max-width:820px}
+a{color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:16px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:24px;line-height:1.2}.stat span{color:var(--muted);font-size:13px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--th);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;white-space:nowrap}
+tr.sum td{font-weight:600;background:var(--th)}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--accent-bg);
+color:var(--accent);margin:2px 4px 2px 0;white-space:nowrap}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.muted{color:var(--muted)}.small{font-size:13px}
+.note{background:var(--warn-bg);border-radius:10px;padding:12px 16px;margin:14px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:90%}
+.ex-head{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.ex-id{font-weight:700;color:var(--accent);min-width:44px}
+.res{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:14px}
+.res span b{font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.filters button,.btn{font:inherit;font-size:14px;padding:6px 12px;border-radius:8px;border:1px solid var(--line);
+background:var(--card);color:var(--fg);cursor:pointer}
+.filters button.on,.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+input,select{font:inherit;font-size:14px;padding:5px 8px;border-radius:6px;border:1px solid var(--line);
+background:var(--card);color:var(--fg)}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px}
+.calc label{font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.calc input{width:90px;text-align:right}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+figure{margin:18px 0}figure img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block}
+figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+b.tp{color:#d64541}b.tn{color:#2f6fd0}
+@media print{nav.top,.filters,.noprint{display:none}body{background:#fff;color:#000}.card,.tbl{break-inside:avoid}}
+</style>
+</head>
+<body>
+<nav class="top"><div><a href="index.html"><b>LSSK</b></a><a href="getting_started_en.html">Getting started (EN)</a><a href="getting_started_ru.html">Как начать (RU)</a><a href="exercises.html">Exercises</a><a href="kit1_basics.html" class=cur>Basics kit</a><a href="kit2_comprehensive.html">Comprehensive kit</a><a href="kit3_fifo.html">FIFO kit</a><a href="kit4_arbiter.html">Round-robin arbiter kit</a><a href="kit5_fsm.html">FSM kit</a></div></nav>
+<main>
+
+<p class="muted" style="margin:0">Kit 1 of 5</p>
+<h1>Basics kit</h1>
+<p class="lead">The minimum set for the Basics exercises: gates, D flip-flop, counter, shift register, 7-segment display and the 4008 adder.</p>
+<div class="grid">
+<div class="stat"><b>$27.02</b><span>parts (23 lines)</span></div>
+<div class="stat"><b>$39.29</b><span>landed cost per kit</span></div>
+<div class="stat"><b>$62.99</b><span>classroom / bulk price, 38% margin</span></div>
+<div class="stat"><b>$86.99</b><span>retail price, 55% margin</span></div>
+</div>
+
+
+<h2>Exercises</h2>
+<ul><li><a href="exercises.html#G1">G1</a> Getting started: breadboard, power, 5V LEDs, a gate chip and buttons</li><li><a href="exercises.html#B1">B1</a> Demo the basic gates 4081 (AND), 4071 (OR), 4069 (NOT), 4070 (XOR)</li><li><a href="exercises.html#B2">B2</a> De Morgan&#x27;s laws</li><li><a href="exercises.html#B4">B4</a> 4013 D flip-flop with asynchronous reset</li><li><a href="exercises.html#B5">B5</a> 4029 up/down binary/BCD counter</li><li><a href="exercises.html#B6">B6</a> 4015 serial-in / parallel-out shift register</li><li><a href="exercises.html#B7">B7</a> Seven-segment display and the 4511 decoder</li><li><a href="exercises.html#B8">B8</a> 4008 4-bit adder with buttons and the LED array</li><li><a href="exercises.html#B9">B9</a> 4008 adder with three 4511 decoders and three displays</li></ul><p>Also possible with the parts in this kit: <a href="exercises.html#M1">M1</a> <span class="muted">Half adder from XOR and AND</span>, <a href="exercises.html#M2">M2</a> <span class="muted">Full adder from basic gates</span>, <a href="exercises.html#M3">M3</a> <span class="muted">2-bit adder from a half adder and a full adder</span>, <a href="exercises.html#M10">M10</a> <span class="muted">Johnson counter from 4015 and 4069</span>, <a href="exercises.html#P5">P5</a> <span class="muted">FSM that recognizes the sequence 01 (the Harris &amp; Harris snail)</span>.</p>
+
+<h2>Parts</h2>
+<div class="tbl"><table><tr><th>Part</th><th>Description</th><th class=n>Qty</th><th class=n>Unit</th><th class=n>Total</th><th>Used in</th><th>Why / note</th><th>Supplier</th></tr>
+<tr class="sum"><td colspan="8">IC</td></tr>
+<tr><td><b>CD4081</b></td><td>Quad 2-input AND</td><td class=n>1</td><td class=n>$0.55</td><td class=n>$0.55</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4071</b></td><td>Quad 2-input OR</td><td class=n>1</td><td class=n>$0.25</td><td class=n>$0.25</td><td><a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4069</b></td><td>Hex inverter (NOT)</td><td class=n>1</td><td class=n>$0.30</td><td class=n>$0.30</td><td><a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4070</b></td><td>Quad 2-input XOR</td><td class=n>1</td><td class=n>$0.45</td><td class=n>$0.45</td><td><a href="exercises.html#B1">B1</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4013</b></td><td>Dual D flip-flop with set/reset</td><td class=n>1</td><td class=n>$0.35</td><td class=n>$0.35</td><td><a href="exercises.html#B4">B4</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4029</b></td><td>Presettable up/down binary/BCD counter</td><td class=n>1</td><td class=n>$0.80</td><td class=n>$0.80</td><td><a href="exercises.html#B5">B5</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4015</b></td><td>Dual 4-bit serial-in/parallel-out shift register</td><td class=n>1</td><td class=n>$0.35</td><td class=n>$0.35</td><td><a href="exercises.html#B6">B6</a></td><td class="small"></td><td class="small">Elexp (elexp.com)</td></tr>
+<tr><td><b>CD4008</b></td><td>4-bit full adder</td><td class=n>1</td><td class=n>$1.00</td><td class=n>$1.00</td><td><a href="exercises.html#B8">B8</a>, <a href="exercises.html#B9">B9</a></td><td class="small"></td><td class="small"><a href="https://leeselectronic.com/en/product/7192-7192ICCMOS40084BITADDER.html">leeselectronic.com</a></td></tr>
+<tr><td><b>CD4511</b></td><td>BCD-to-7-segment latch/decoder/driver</td><td class=n>3</td><td class=n>$0.65</td><td class=n>$1.95</td><td><a href="exercises.html#B7">B7</a>, <a href="exercises.html#B9">B9</a></td><td class="small">3 at once in B9</td><td class="small">Elexp (elexp.com)</td></tr>
+<tr class="sum"><td colspan="8">Display</td></tr>
+<tr><td><b>7-segment, green</b></td><td>Common-cathode single-digit 7-segment display, green</td><td class=n>2</td><td class=n>$0.90</td><td class=n>$1.80</td><td><a href="exercises.html#B7">B7</a>, <a href="exercises.html#B9">B9</a></td><td class="small">up to 3 displays at once (B9)</td><td class="small"><a href="https://www.elexp.com/products/08fndgrcc7-segment-display-c-c-green-c">elexp.com</a></td></tr>
+<tr><td><b>7-segment, red</b></td><td>Common-cathode single-digit 7-segment display, red</td><td class=n>1</td><td class=n>$0.90</td><td class=n>$0.90</td><td><a href="exercises.html#B9">B9</a></td><td class="small">up to 3 displays at once (B9)</td><td class="small"><a href="https://www.elexp.com/products/08fnd5007-segment-display-c-c-red-char">elexp.com</a></td></tr>
+<tr><td><b>Resistor 560 Ω ½ W</b></td><td>Segment resistor for 7-segment displays (½ W leads fit breadboard holes best)</td><td class=n>25</td><td class=n>$0.04</td><td class=n>$1.00</td><td><a href="exercises.html#B7">B7</a>, <a href="exercises.html#B9">B9</a></td><td class="small">up to 22 at once (B9) + spares</td><td class="small"><a href="https://www.elexp.com/products/13-55560res-1-2-w-5-560-ohm">elexp.com</a></td></tr>
+<tr class="sum"><td colspan="8">LED</td></tr>
+<tr><td><b>5V LED, green</b></td><td>5V-tolerant LED with built-in current limiting, green</td><td class=n>1</td><td class=n>$0.45</td><td class=n>$0.45</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B1">B1</a></td><td class="small"></td><td class="small"><a href="https://www.elexp.com/products/08lg3330-hv5high-voltage-leds-5v-green">elexp.com</a></td></tr>
+<tr><td><b>8-LED module, blue</b></td><td>8-LED bar module, common GND, no resistors needed (bulk of 20 price)</td><td class=n>1</td><td class=n>$0.38</td><td class=n>$0.38</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B2">B2</a>, <a href="exercises.html#B4">B4</a>, <a href="exercises.html#B5">B5</a>, <a href="exercises.html#B6">B6</a>, <a href="exercises.html#B8">B8</a></td><td class="small">up to 1 LED array at once (G1, B2, B4, B5, B6, B8)</td><td class="small"><a href="https://www.aliexpress.us/item/3256804380748521.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="8">Input</td></tr>
+<tr><td><b>Buttons, 5 pcs</b></td><td>5 button modules 12x12 mm with built-in pull-down resistor (VCC / OUT / GND)</td><td class=n>1</td><td class=n>$0.66</td><td class=n>$0.66</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a>, <a href="exercises.html#B4">B4</a>, <a href="exercises.html#B5">B5</a>, <a href="exercises.html#B6">B6</a>, <a href="exercises.html#B7">B7</a>, <a href="exercises.html#B8">B8</a>, <a href="exercises.html#B9">B9</a></td><td class="small">up to 8 buttons at once (B8, B9)</td><td class="small"><a href="https://www.aliexpress.us/item/3256806475044826.html">aliexpress.us</a></td></tr>
+<tr><td><b>Buttons, 5 pcs (2nd pack)</b></td><td>5 button modules 12x12 mm with built-in pull-down; needed for adder and comparator exercises</td><td class=n>1</td><td class=n>$2.03</td><td class=n>$2.03</td><td><a href="exercises.html#B8">B8</a>, <a href="exercises.html#B9">B9</a></td><td class="small">up to 8 buttons at once (B8, B9)</td><td class="small"><a href="https://www.aliexpress.us/item/3256803953260036.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="8">Clock</td></tr>
+<tr><td><b>555 clock module</b></td><td>Assembled 555 clock generator module, blue (set to ~0.5-1 Hz)</td><td class=n>1</td><td class=n>$0.53</td><td class=n>$0.53</td><td><a href="exercises.html#B4">B4</a>, <a href="exercises.html#B5">B5</a>, <a href="exercises.html#B6">B6</a></td><td class="small"></td><td class="small"><a href="https://www.aliexpress.us/item/3256809517040635.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="8">Power</td></tr>
+<tr><td><b>Breadboard power module</b></td><td>MB102-style breadboard power supply module; set the jumpers to 5V</td><td class=n>1</td><td class=n>$1.00</td><td class=n>$1.00</td><td>all</td><td class="small"></td><td class="small"><a href="https://www.aliexpress.us/item/2251832530395866.html">aliexpress.us</a></td></tr>
+<tr><td><b>USB-to-DC cable 9V</b></td><td>USB-to-DC barrel cable with 9V boost; the module regulates it to a stable 5V</td><td class=n>1</td><td class=n>$1.17</td><td class=n>$1.17</td><td>all</td><td class="small"></td><td class="small"><a href="https://www.aliexpress.us/item/3256806703746727.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="8">Breadboard</td></tr>
+<tr><td><b>Breadboard 830</b></td><td>Solderless breadboard, 830 points (EL-CP-003)</td><td class=n>2</td><td class=n>$3.00</td><td class=n>$6.00</td><td>all</td><td class="small">up to 2 large boards at once (B9)</td><td class="small"><a href="https://www.amazon.com/EL-CP-003-Breadboard-Solderless-Distribution-Connecting/dp/B01EV6LJ7G">amazon.com</a></td></tr>
+<tr class="sum"><td colspan="8">Wires</td></tr>
+<tr><td><b>Dupont M-M x40</b></td><td>40 male-male Dupont jumpers, 10 or 15 cm</td><td class=n>2</td><td class=n>$1.30</td><td class=n>$2.60</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a>, <a href="exercises.html#B4">B4</a>, <a href="exercises.html#B5">B5</a>, <a href="exercises.html#B6">B6</a>, <a href="exercises.html#B7">B7</a>, <a href="exercises.html#B8">B8</a>, <a href="exercises.html#B9">B9</a></td><td class="small">largest build ≈49 wires on the board + 4 between boards + 25% spare</td><td class="small"><a href="https://www.aliexpress.us/item/3256805315188857.html">aliexpress.us</a></td></tr>
+<tr><td><b>Dupont M-F x40</b></td><td>40 male-female Dupont jumpers, 10 or 15 cm (button and clock modules)</td><td class=n>1</td><td class=n>$1.30</td><td class=n>$1.30</td><td><a href="exercises.html#G1">G1</a>, <a href="exercises.html#B1">B1</a>, <a href="exercises.html#B2">B2</a>, <a href="exercises.html#B4">B4</a>, <a href="exercises.html#B5">B5</a>, <a href="exercises.html#B6">B6</a>, <a href="exercises.html#B7">B7</a>, <a href="exercises.html#B8">B8</a>, <a href="exercises.html#B9">B9</a></td><td class="small">largest build 24 M-F (3 per button or clock module)</td><td class="small"><a href="https://www.aliexpress.us/item/3256805315188857.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="8">Tool</td></tr>
+<tr><td><b>IC extractor</b></td><td>IC extractor with insulated handle</td><td class=n>1</td><td class=n>$1.20</td><td class=n>$1.20</td><td>all</td><td class="small"></td><td class="small"><a href="https://www.elexp.com/products/060404ic-extractor-insulated-handle">elexp.com</a></td></tr>
+<tr class="sum"><td colspan="4">Total</td><td class=n>$27.02</td><td colspan="3"></td></tr></table></div>
+
+<h2>Optional add-ons</h2>
+<div class="tbl"><table><tr><th>Part</th><th>Description</th><th class=n>Qty</th><th class=n>Unit</th><th class=n>Total</th><th>Why / note</th><th>Supplier</th></tr>
+<tr class="sum"><td colspan="7">IC</td></tr>
+<tr><td><b>HEX decoder</b></td><td>HEX-to-7-segment latch/decoder/driver (shows A-F too; Habr 1.2 suggests DM9368)</td><td class=n>3</td><td class=n>$2.29</td><td class=n>$6.87</td><td class="small">Instead of 4511: shows 10-15 as A-F</td><td class="small"><a href="https://www.aliexpress.us/item/2255801090867335.html">aliexpress.us</a></td></tr>
+<tr class="sum"><td colspan="7">Power</td></tr>
+<tr><td><b>9V battery clip to DC</b></td><td>9V battery to DC plug adapter, for demos away from USB</td><td class=n>1</td><td class=n>$0.59</td><td class=n>$0.59</td><td class="small">Battery power away from USB</td><td class="small"><a href="https://www.amazon.com/dp/B09L858G5T">amazon.com</a></td></tr>
+<tr><td><b>9V battery</b></td><td>9V battery, for demos away from USB</td><td class=n>1</td><td class=n>$0.67</td><td class=n>$0.67</td><td class="small">Battery power away from USB</td><td class="small"></td></tr>
+<tr class="sum"><td colspan="7">Wires</td></tr>
+<tr><td><b>Pre-cut jumper wires x350</b></td><td>Jameco ValuePro 350-piece pre-formed 22 AWG wire jumpers, 14 lengths</td><td class=n>1</td><td class=n>$11.95</td><td class=n>$11.95</td><td class="small">Replaces the Dupont M-M jumpers for tidier boards</td><td class="small"><a href="https://www.jameco.com/z/WJW-60P-R-Jameco-ValuePro-350-pc-Wire-Jumper-Refill-for-Part-Number-19290-14-Lengths-10-Colors-25-of-Each-Length_20080.html">jameco.com</a></td></tr>
+<tr class="sum"><td colspan="7">Tool</td></tr>
+<tr><td><b>IC pin straightener</b></td><td>IC pin straightener</td><td class=n>1</td><td class=n>$8.95</td><td class=n>$8.95</td><td class="small">Teacher tool</td><td class="small"><a href="https://www.elexp.com/products/03ics-01ic-pin-straightener">elexp.com</a></td></tr>
+<tr class="sum"><td colspan="4">Total</td><td class=n>$29.03</td><td colspan="2"></td></tr></table></div>
+
+<h2>Wires and buttons</h2>
+<p>The largest build needs about <b>49</b> wires on the breadboard and 4 between boards
+and <b>24</b> male-female jumpers. With about 25% spare, that is 2 × 40 Dupont M-M jumpers. Each button module and
+the 555 module take three M-F jumpers.</p>
+<div class="tbl"><table><tr><th>#</th><th>Exercise</th><th class=n>Pre-cut wires</th>
+<th class=n>M-F</th><th class=n>M-M</th><th class=n>Buttons</th></tr><tr><td><a href="exercises.html#G1">G1</a></td><td>Getting started: breadboard, power, 5V LEDs, a gate chip and buttons</td><td class=n>≈10</td><td class=n>6</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B1">B1</a></td><td>Demo the basic gates 4081 (AND), 4071 (OR), 4069 (NOT), 4070 (XOR)</td><td class=n>≈8</td><td class=n>6</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B2">B2</a></td><td>De Morgan&#x27;s laws</td><td class=n>≈29</td><td class=n>6</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B4">B4</a></td><td>4013 D flip-flop with asynchronous reset</td><td class=n>≈12</td><td class=n>9</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B5">B5</a></td><td>4029 up/down binary/BCD counter</td><td class=n>≈15</td><td class=n>9</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B6">B6</a></td><td>4015 serial-in / parallel-out shift register</td><td class=n>≈15</td><td class=n>9</td><td class=n>0</td><td class=n>2</td></tr><tr><td><a href="exercises.html#B7">B7</a></td><td>Seven-segment display and the 4511 decoder</td><td class=n>≈13</td><td class=n>12</td><td class=n>0</td><td class=n>4</td></tr><tr><td><a href="exercises.html#B8">B8</a></td><td>4008 4-bit adder with buttons and the LED array</td><td class=n>≈9</td><td class=n>24</td><td class=n>0</td><td class=n>8</td></tr><tr><td><a href="exercises.html#B9">B9</a></td><td>4008 adder with three 4511 decoders and three displays</td><td class=n>≈49</td><td class=n>24</td><td class=n>4</td><td class=n>8</td></tr></table></div>
+
+<h2>Cost and price</h2>
+<div class="tbl"><table>
+<tr><td>Parts, core (sheet prices)</td><td class=n>$27.02</td></tr>
+<tr><td>Spares and breakage allowance, 5%</td><td class=n>$1.35</td></tr>
+<tr><td>Inbound shipping and duties, 10%</td><td class=n>$2.70</td></tr>
+<tr><td>Packaging: box, anti-static foam for the chips, bags, label</td><td class=n>$3.00</td></tr>
+<tr><td>Printed quick-start card with QR links to the instructions</td><td class=n>$1.00</td></tr>
+<tr><td>Kitting labor: $1.00 + $0.14 per line × 23 lines</td><td class=n>$4.22</td></tr>
+<tr class="sum"><td>Landed cost per kit</td><td class=n>$39.29</td></tr>
+<tr><td>Classroom / bulk price (10+ kits), 1.6× landed</td><td class=n>$62.99</td></tr>
+<tr><td>Retail price (web shop, Maker Faire), 2.2× landed</td><td class=n>$86.99</td></tr>
+<tr><td class="muted">Optional add-ons, parts cost</td><td class="n muted">$29.03</td></tr>
+</table></div>
+<p class="small muted">Prices are the sheet's unit prices; many are AliExpress bulk prices, and the chip
+prices are single-quantity distributor prices that drop with volume. Outbound shipping to the customer is
+not included.</p>
+
+<div class="card noprint" id="calc">
+<h3>Price calculator</h3>
+<p class="small muted">Change the assumptions; the figures above are the defaults.</p>
+<div class="calc">
+<label>Parts, core ($) <input id="c_parts" type="number" step="0.01" value="27.02"></label>
+<label>Spares (%) <input id="c_sp" type="number" step="1" value="5"></label>
+<label>Inbound shipping (%) <input id="c_in" type="number" step="1" value="10"></label>
+<label>Packaging ($) <input id="c_pk" type="number" step="0.1" value="3.00"></label>
+<label>Printed card ($) <input id="c_doc" type="number" step="0.1" value="1.00"></label>
+<label>Labor ($) <input id="c_lab" type="number" step="0.1" value="4.22"></label>
+<label>Classroom multiplier <input id="c_cm" type="number" step="0.1" value="1.6"></label>
+<label>Retail multiplier <input id="c_rm" type="number" step="0.1" value="2.2"></label>
+</div>
+<div class="grid">
+<div class="stat"><b id="o_landed"></b><span>landed cost</span></div>
+<div class="stat"><b id="o_class"></b><span>classroom price</span></div>
+<div class="stat"><b id="o_retail"></b><span>retail price</span></div>
+</div>
+</div>
+<script>
+(function(){
+  const v = id => parseFloat(document.getElementById(id).value) || 0;
+  const r = x => (Math.ceil(x) - 0.01);
+  function upd(){
+    const parts = v('c_parts');
+    const landed = parts * (1 + (v('c_sp') + v('c_in')) / 100) + v('c_pk') + v('c_doc') + v('c_lab');
+    const c = r(landed * v('c_cm')), t = r(landed * v('c_rm'));
+    document.getElementById('o_landed').textContent = '$' + landed.toFixed(2);
+    document.getElementById('o_class').textContent = '$' + c.toFixed(2) + '  (' + Math.round(100 * (c - landed) / c) + '% margin)';
+    document.getElementById('o_retail').textContent = '$' + t.toFixed(2) + '  (' + Math.round(100 * (t - landed) / t) + '% margin)';
+  }
+  document.querySelectorAll('#calc input').forEach(i => i.addEventListener('input', upd));
+  upd();
+})();
+</script>
+<h2>Compared with the sheet</h2><p>The LSSK sheet has a <i>Quality basics</i> column for this kit. Differences:</p><ul><li>The sheet&#x27;s &#x27;basics&#x27; column has one 4511, one display and no 560 Ω resistors; the July 31 basics list asks for three 4511s and three displays for the 4008 exercise (B9), so this kit has three, plus the 22 segment resistors they need.</li><li>The sheet&#x27;s column has a 4072 (dual 4-input OR) but no 4071; the exercise list names the 4071, so this kit has the 4071.</li><li>The sheet&#x27;s column has one breadboard; B9 with three displays does not fit on one 830-point board, so this kit has two.</li><li>A second pack of 5 buttons is added for the 8-input adder (the sheet notes that it is needed for adder and comparator exercises).</li><li>One single 5V-tolerant LED is added for the first &#x27;try it&#x27; step of the getting-started notes.</li></ul>
+
+
+<footer>Logic Synthesis School Kit · Verilog Meetup · generated from <code>tools/lssk_data.py</code>
+with prices from the <a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?usp=sharing">LSSK components sheet</a> (snapshot 2026-10-14).</footer>
+</main>
+</body>
+</html>

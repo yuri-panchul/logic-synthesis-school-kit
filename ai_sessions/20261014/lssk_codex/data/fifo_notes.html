@@ -1,0 +1,37 @@
+<h2>A concrete FIFO lesson</h2>
+<p>First build C11. With SI low and SO low, pulse MR high, then low. Hold a four-bit word stable and pulse SI high then low while DIR is high. After DOR becomes high, the oldest word is valid on Q. A complete SO high→low pulse removes that word on its falling edge. Record input and output lists to prove ordering.</p>
+<div class="diagram" role="img" aria-label="Input FIFO A and FIFO B feed a four-bit adder; output FIFO C stores the sum; ready signals control a staged transfer."><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220"><g fill="#fff" stroke="#087c79" stroke-width="2"><rect x="20" y="20" width="200" height="70" rx="9"/><rect x="20" y="130" width="200" height="70" rx="9"/><rect x="340" y="68" width="180" height="84" rx="9"/><rect x="650" y="68" width="220" height="84" rx="9"/></g><g fill="#152c3c" font-family="sans-serif" font-size="20" text-anchor="middle"><text x="120" y="62">FIFO A · 16 × 4</text><text x="120" y="173">FIFO B · 16 × 4</text><text x="430" y="105">4008 adder</text><text x="430" y="132" font-size="15">sum[3:0]</text><text x="760" y="115">FIFO C · 16 × 4</text></g><g fill="none" stroke="#152c3c" stroke-width="3"><path d="M220 55 H275 V90 H335 M220 165 H275 V130 H335 M520 110 H645"/></g><g fill="#152c3c"><path d="m325 84 14 6-14 6z M325 124 l14 6-14 6z M635 104 l14 6-14 6z"/></g></svg></div>
+<h3>Three queues: freeze permission, capture, then consume</h3>
+<p>The source proposes the three-FIFO architecture without a completed controller. This kit budgets a <strong>manual teaching controller</strong>, not a proven automatic streaming controller. The selected FIFO is <strong>CD74HC40105E</strong> (LSSK row 36), whose shift-out behavior differs in one respect from older CD40105B. Do not mix variants without reviewing their datasheets.</p>
+<pre>ready = DOR_A AND DOR_B AND DIR_C
+permit &lt;= ready on the rising edge of debounced ARM (4013)
+transfer = debounced TRANSFER AND permit
+SI_C = transfer
+SO_A = transfer
+SO_B = transfer
+SI_A = debounced PUSH_A
+SI_B = debounced PUSH_B
+SO_C = debounced POP_C
+MR_A = MR_B = MR_C = RESET; 4013 RESET = RESET
+4013 SET = 0; all three FIFO /OE inputs = 0
+4008 carry-in = 0</pre>
+<p>Two AND gates form <code>ready</code>, and one qualifies TRANSFER. A CD4013 stores permit. The second 4081 in the inventory is a control-expansion allowance. Five buttons—PUSH_A, PUSH_B, ARM, TRANSFER and POP_C—are independently debounced; the sixth is RESET. Four data pins of each input FIFO are set with rail patch leads. Unused 4013 and gate inputs are tied to defined levels.</p>
+<ol>
+<li>Reset with every pulse button released. Leave SI and SO low; wait for flags to settle. Load A and B independently, accepting new words only when the respective DIR is high.</li>
+<li>When DOR_A, DOR_B and DIR_C are high, press and release ARM. Observe permit=1. <strong>Do not modify any FIFO between ARM and TRANSFER.</strong></li>
+<li>Press TRANSFER: its rising edge stores the stable low four sum bits in C. Hold it until the conditioned pulse is established. The heads of A and B are still unchanged.</li>
+<li>Release TRANSFER: its falling edge removes the consumed words from A and B. Wait for their DOR flags to settle. <strong>Press ARM afresh before every subsequent TRANSFER.</strong> Never reuse a stale permit.</li>
+<li>Consume C independently with a complete POP_C pulse only when DOR_C is high. Observe the output word before the falling edge.</li>
+</ol>
+<p>A single live expression <code>clock AND DOR_A AND DOR_B AND DIR_C</code> is unsuitable here: writing C can change DIR_C while the pulse is active. Latching permission first avoids that feedback during the transaction. This manual protocol relies on the stated operator sequence; it does not enforce atomicity under arbitrary button presses. Automatic operation would need an additional state machine and a revised BOM.</p>
+<h3>Pin reference for the chosen FIFO</h3>
+<p>CD74HC40105E: VCC=16, GND=8, MR=9, /OE=1, DIR=2, SI=3, D0…D3=4…7, Q0…Q3=13,12,11,10, DOR=14, SO=15. Place one 100 nF capacitor per IC. MR clears validity flags, not stored data bits: ignore Q while DOR=0. <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf">TI datasheet, loading/unloading and master reset</a>.</p>
+<h3>Acceptance sequence for the pilot build</h3>
+<ul>
+<li>Load A=[1,2,3], then B=[4,5,6] at different times. Three transfers must enqueue C=[5,7,9] in order.</li>
+<li>Leave B empty and press ARM: permit must remain 0 and TRANSFER must not enqueue C.</li>
+<li>Fill C with 16 results while never popping it. After flags settle, DIR_C must be 0. Fresh ARM must block another transfer and leave the next A/B pair intact.</li>
+<li>Pop one result, wait for DIR_C, then re-arm and transfer. The waiting pair must be consumed once.</li>
+<li>Verify exactly one SI rising edge and SO falling edge per physical press/release with the actual switch batch. Repeat after reset and when queues are empty/full.</li>
+</ul>
+<p>The three LED bars provide 24 observation channels: 12 data bits, six ready flags, carry and permit, with four channels spare. The FIFO word is four bits: carry is visible during computation but is <strong>not stored in C</strong>. Restrict sums to 0–15 or explicitly teach modulo-16 arithmetic. A five-bit result queue would require width expansion and a new inventory.</p>

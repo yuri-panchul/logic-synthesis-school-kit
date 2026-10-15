@@ -1,0 +1,137 @@
+<h1>How to start: your first circuit on a breadboard</h1>
+<p class="lead">Five steps from Yuri Panchul's hand-drawn notes (July 2026), with the parts from the LSSK
+components sheet. At the end you have a CMOS logic gate on a breadboard, driven by two buttons and showing
+its output on an LED.</p>
+
+<div class="card">
+<b>Why there are no resistors here.</b> The kit uses components that make 1970s busywork unnecessary:
+<b>5V-tolerant LEDs</b> and 8-LED modules with built-in current limiting, <b>button modules with a built-in
+pull-down resistor</b>, a <b>breadboard power module</b> that gives a stable 5&nbsp;V, and an assembled
+555 clock module. The only resistors you will use are for 7-segment displays, in later exercises.
+</div>
+
+<h2>What you need</h2>
+{{parts_table}}
+<figure><img src="images/breadboards_example.jpg" alt="Two breadboards with chips, LED modules, a button module, 7-segment displays, power modules and 555 clock modules" loading="lazy">
+<figcaption>Two finished boards from the July 23 post: the power module sits at the end of each board,
+the 555 clock modules (red) hang on male-female jumpers, the top board has a button module and two 8-LED
+modules, the bottom one 7-segment displays with their 560&nbsp;Ω resistors.</figcaption></figure>
+
+<h2>1. How the breadboard is connected inside</h2>
+{{svg_breadboard}}
+<ul>
+<li>The long <b>rails</b> along the top and bottom edges carry power. One is marked <b class="tp">+</b>
+(red line), the other <b class="tn">−</b> (blue or black line). All holes of one rail are connected along
+the board. Some boards split the rails in the middle: if a circuit at the far end does not work, check
+with an LED.</li>
+<li>In the middle, every <b>column of 5 holes</b> is connected (the vertical strips in the drawing; the
+numbers 1, 5, 10, 15 … mark the columns). Anything you plug into the same column is connected.</li>
+<li>The two halves are separated by a <b>gap</b>. A chip goes across the gap so that each of its pins gets
+its own column.</li>
+</ul>
+
+<h2>2. Connect the breadboard power supply</h2>
+<p>Plug the power module onto the end of the breadboard so that its pins go into the rails.
+<b>Pay attention to + and −:</b> the module's + pins must go into the + (red) rails.</p>
+<ul>
+<li><b>+ = VCC</b> = +5&nbsp;V. The name comes from "voltage at the common collector" of transistor circuits.</li>
+<li><b>− = GND</b> = ground = 0&nbsp;V.</li>
+<li>The module has a jumper or a switch for 3.3&nbsp;V / 5&nbsp;V on each side. <b>Set both to 5&nbsp;V.</b></li>
+<li>Feed it from USB: either a USB cable into the module's own USB socket, or the <b>9&nbsp;V USB-to-DC cable</b>
+into its barrel jack.</li>
+</ul>
+<div class="note"><b>A common mistake:</b> a 5&nbsp;V USB-to-DC cable in the barrel jack. The module's regulator
+drops it to about <b>3.5&nbsp;V, not 5&nbsp;V</b>: LEDs are dim and circuits misbehave even with the switch at 5&nbsp;V.
+Use the 9&nbsp;V USB-to-DC cable.</div>
+<div class="tbl"><table>
+<tr><th>Power option</th><th>Result</th></tr>
+<tr><td>9&nbsp;V USB-to-DC cable → power module set to 5&nbsp;V</td><td>Stable 5&nbsp;V. <b>Recommended.</b></td></tr>
+<tr><td>9&nbsp;V battery with a DC adapter → power module set to 5&nbsp;V</td><td>Stable 5&nbsp;V, for demos away from USB.</td></tr>
+<tr><td>USB cable straight into the module's USB socket</td><td>5&nbsp;V.</td></tr>
+<tr><td>5&nbsp;V USB-to-DC cable → breadboard-friendly DC jack (no power module)</td><td>5&nbsp;V straight to the rails.</td></tr>
+<tr><td>5&nbsp;V pin of an Arduino board used only as a power source</td><td>5&nbsp;V.</td></tr>
+<tr><td>5&nbsp;V USB-to-DC cable → power module</td><td><b>Wrong:</b> about 3.5&nbsp;V.</td></tr>
+</table></div>
+<figure><img src="images/notes_1.jpg" alt="Hand-drawn note 1 and 2: how the breadboard looks inside and how to connect the power supply" loading="lazy">
+<figcaption>Notes 1 and 2 (Yuri Panchul, 2026-07): the breadboard inside and the power module.</figcaption></figure>
+
+<h2>3. Light an LED</h2>
+{{svg_led}}
+<ul>
+<li>LED = light-emitting diode. The <b>long leg</b> (anode) connects to <b>+, VCC</b>; the <b>short leg</b>
+(cathode) connects to <b>−, GND</b>.</li>
+<li>We use special <b>5V-tolerant LEDs</b>, so no resistor is needed.</li>
+</ul>
+<div class="note"><b>5V-tolerant LEDs are different from the standard LEDs</b> recommended by most tutorials
+since the 1970s. Do not use standard LEDs with these circuits: without a resistor they burn out.</div>
+<p><b>Try it:</b> plug the LED straight into the power rails, long leg into +, short leg into −. It lights.
+Turn it around: it stays dark, because a diode conducts in one direction only.</p>
+<p><b>The 8-LED module</b> works the same way: plug it in, connect its GND pin to −, and touch each input
+with a wire from +.</p>
+<figure><img src="images/notes_2.jpg" alt="Hand-drawn note 3: LED legs and 5V-tolerant LEDs" loading="lazy">
+<figcaption>Note 3: the LED and the "try it" circuit.</figcaption></figure>
+
+<h2>4. Insert a DIP chip</h2>
+<p>DIP = dual in-line package, the chip with two rows of pins. Insert it <b>across the gap</b>.</p>
+<ul>
+<li>The <b>notch</b> (half circle) shows the direction. Hold the chip with the notch on the left: pin 1 is
+bottom-left, pins 1-7 run along the bottom from left to right, pins 8-14 along the top from right to left,
+so pin 14 is top-left.</li>
+<li><b>Power:</b> pin 14 → + rail with a male-male jumper, pin 7 → − rail (ground). All 14-pin CMOS 4000
+chips are powered this way; 16-pin chips use pins 16 and 8.</li>
+<li>CMOS <b>4081 (AND), 4071 (OR), 4070 (XOR)</b> each have four 2-input logic gates. For the first gate,
+<b>pins 1 and 2 are the inputs, pin 3 is the output.</b> Connect an LED from pin 3 to ground.</li>
+<li><b>Try it:</b> connect the inputs to 0 (−) and 1 (+) with wires and see for which combinations the LED
+lights.</li>
+</ul>
+<div class="card small"><b>Recommended tools:</b> (1) an IC pin straightener (about $10): new chips have
+their pins splayed out and do not fit the breadboard; (2) an IC extractor ($1.20) to pull chips out of the
+breadboard. Pulling with fingers bends and breaks the pins.<br>
+<b>CMOS rules:</b> unused inputs must not float, so tie them to − (or +); touch something grounded before
+you handle the chips; if a chip gets hot, unplug the power at once: it is probably inserted backwards.</div>
+<figure><img src="images/notes_3.jpg" alt="Hand-drawn note 4: how to insert a DIP chip into a breadboard" loading="lazy">
+<figcaption>Note 4: inserting a DIP chip, power on pins 14 and 7, the LED on output pin 3.</figcaption></figure>
+
+<h2>5. Connect buttons</h2>
+<div class="note"><b>Do not add the pull-down resistors from old tutorials.</b> Our button modules already
+include them.</div>
+<ul>
+<li>A button module has three pins: <b>+</b> (VCC), <b>OUT</b> (the value, 0 or 1) and <b>−</b> (GND).</li>
+<li>Use <b>male-female jumpers</b>: + to the + rail, OUT to the chip input, − to the − rail.</li>
+<li>Not pressed: OUT = 0. Pressed: OUT = 1.</li>
+<li><b>Use two buttons to drive the inputs of a logic gate</b> (pins 1 and 2) and watch the LED on pin 3.</li>
+</ul>
+{{svg_circuit}}
+<figure><img src="images/notes_4.jpg" alt="Hand-drawn note 5: how to connect a button" loading="lazy">
+<figcaption>Note 5: button modules on male-female jumpers drive the inputs of the gate.</figcaption></figure>
+
+<h3>Fill in the truth tables</h3>
+<p>Swap the chip (power off first!) and repeat for 4081, 4071 and 4070.</p>
+<div class="tbl"><table>
+<tr><th>A (pin 1)</th><th>B (pin 2)</th><th>4081 AND</th><th>4071 OR</th><th>4070 XOR</th></tr>
+<tr><td>0</td><td>0</td><td></td><td></td><td></td></tr>
+<tr><td>0</td><td>1</td><td></td><td></td><td></td></tr>
+<tr><td>1</td><td>0</td><td></td><td></td><td></td></tr>
+<tr><td>1</td><td>1</td><td></td><td></td><td></td></tr>
+</table></div>
+
+<h2>If something does not work</h2>
+<ul>
+<li><b>Nothing lights:</b> is the power module's LED on? Is the module plugged in with + to +? Are both
+jumpers at 5&nbsp;V? Are the rails split in the middle?</li>
+<li><b>LEDs are dim:</b> a 5&nbsp;V USB-to-DC cable is used through the power module (3.5&nbsp;V). Use the 9&nbsp;V one.</li>
+<li><b>The output flickers or changes by itself:</b> an input is floating. Check the button's − wire and
+tie the unused inputs of the chip.</li>
+<li><b>The chip is hot:</b> it is inserted backwards (notch on the wrong side). Unplug the power.</li>
+<li><b>An LED never lights:</b> it is reversed: long leg to +.</li>
+</ul>
+
+<h2>Next steps</h2>
+<p>Continue with the <a href="exercises.html">exercise list</a>: the other gates and De Morgan's laws
+(B1, B2), then the D flip-flop with the 555 clock module (B4). The clock module connects like a button,
+with three male-female jumpers (+, OUT, −); set its potentiometer to about 1&nbsp;Hz. The parts for each set of
+exercises are in the kits: <a href="kit1_basics.html">Basics</a>, <a href="kit2_comprehensive.html">Comprehensive</a>,
+<a href="kit3_fifo.html">FIFO</a>, <a href="kit4_arbiter.html">Arbiter</a>, <a href="kit5_fsm.html">FSM</a>.</p>
+<p class="small muted">Sources: <a href="{{july23}}">A prequel to FPGA and ASIC design using small-scale
+integration chips</a> (notes 1-5), <a href="{{habr}}">Habr, lesson 1.1</a> (power options),
+<a href="{{sheet}}">LSSK components sheet</a>.</p>
