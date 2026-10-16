@@ -1,0 +1,69 @@
+Are you trolling me? One of the major selling points of this kit, which I
+articulated in all texts - is "we got rid of all capacitors and resistors so
+kids do not get confused and we don't need to explain those resistors and
+capacitors to them". Why did you add 3 types of capacitors, multiple
+resistors, clock conditioner HCT14 and SN74HCT244N thing? What circuit fail
+if you don't add them?
+
+Why do I need to confuse a kid with "1 buffer + 8 resistors + 2 x 100 nF + 1
+x 10 uF" on his first XOR experiment that works just fine without those
+parts?
+
+Why do you call them "Engineering addition"? You are not an engineer. You a
+piece of AI code. Don't insert such отсебятина into the generated texts.
+
+If you are confident something has to be added otherwise the exercise fails,
+put it in a separate file issues_codex_is_confident_about.html .
+
+If you are not sure but just feel like adding something, put it into a
+separate file otsebyatina_from_codex_possible_hallucinations.html .
+
+What "uncertain LED module current are you talking about" ? This LED is
+connected to an output of 4070 powered with 5V. This LED is specifically
+sold with information from the store "don't need resistors when connected to
+5V".
+
+Why do you need an HCT14 clock conditioner after an assembled 555 module
+running with a frequency 1 Hz? What is the mean time to failure when a kid
+uses this clock to get an idea how a 4013 works?
+
+What is this talk about "mechanical button to clock input", "manual clock",
+RC and Schmitt circuit? Can you point me to an actual line in my texts where
+I asked you to document an exercise with a button driving a clock? If you
+cannot point me to the line in my text please point me to the line of any
+text you got it from.
+
+Also I am not going to explain RC to a 13-year old on the first lesson
+because if I do he is going to come for the next one.
+
+FIFO
+
+Why do you need 5 buttons to run a "3 FIFOs and an adder design". The design
+should match the following one:
+/home/verilog/projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_9_a_plus_b_using_wrapped_fifos/a_plus_b_using_wrapped_fifos.sv
+In this design addition happens and sum is pushed into the third FIFO when
+both arguments are available (i.e. FIFO #1 and FIFO #2 are not empty).
+What is this ARM/TRANSFER business? I don't understand. I do not have it in
+SystemVerilog design above.
+
+In addition to this "3 FIFOs and an adder design" kit I also want to create
+a separate kit with a single FIFO only. Assembled clock generator,
+buttons push/pop, 4 switches for data
+(
+TTP223 Capacitive Touch Switch Button Sensor Module Self Locking
+https://www.aliexpress.us/item/3256805900856431.html
+)
+LEDs for 4-bit data, empty and full.
+Create a file for it too.
+
+Where is the clock generator in FSM example? Where did fifteen 100 nF
+ceramic decoupling capacitors came from? Are you trying to make a manual
+clock there? Where did you see manual clocks in my texts? From which text
+did you get it from?
+
+Regenerate everything in a proper way and write the already mentioned
+additional files issues_codex_is_confident_about.html and
+otsebyatina_from_codex_possible_hallucinations.html ).
+
+and answers to all my questions in a separate HTML file
+20261015_answers_to_all_questions_1.html
