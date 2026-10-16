@@ -1,0 +1,155 @@
+<p class="muted" style="margin:0">Kit 4 · build instructions · <a href="arbiter_build_ru.html">По-русски</a></p>
+<h1>Build a round-robin arbiter</h1>
+<p class="lead">Two requesters want one shared resource, such as a memory. The arbiter gives it to at most
+one of them in each clock cycle, and when both keep asking it alternates, so neither of them starves. You
+build it from four CMOS chips: a 4011 NAND, a 4081 AND, a 4071 OR and a 4013 D flip-flop.</p>
+{{stats}}
+<div class="card">
+<b>Before you start</b>, do the <a href="getting_started_en.html">getting-started steps</a>: how the
+breadboard is connected inside, the power module set to 5&nbsp;V, how a DIP chip sits across the gap
+(notch on the left, pin 1 bottom-left), and how a button module connects with three male-female jumpers.
+</div>
+
+<h2>What you need</h2>
+{{parts_table}}
+
+<h2>How it works</h2>
+<p>The flip-flop stores one bit, <b>L</b>: who got the last grant. L&nbsp;=&nbsp;0 means requester 0,
+L&nbsp;=&nbsp;1 means requester 1. If only one requester asks, it gets the grant. If both ask, the one that
+did <i>not</i> get the last grant wins. At every rising clock edge the flip-flop takes the new value of L.</p>
+<code class="eq">g0&nbsp;=&nbsp;r0&nbsp;AND&nbsp;NOT&nbsp;(r1&nbsp;AND&nbsp;NOT&nbsp;L)<br>
+g1&nbsp;=&nbsp;r1&nbsp;AND&nbsp;NOT&nbsp;(r0&nbsp;AND&nbsp;L)<br>
+next&nbsp;L&nbsp;=&nbsp;g1&nbsp;OR&nbsp;(L&nbsp;AND&nbsp;NOT&nbsp;r0)</code>
+<p>Read the first line as: requester 0 gets the grant when it asks, unless requester 1 also asks and it is
+requester 1's turn (L&nbsp;=&nbsp;0). The rule for the next L comes from "grant 1 now: L becomes 1; grant 0
+now: L becomes 0; nobody asks: L stays". When L&nbsp;=&nbsp;1, grant 0 happens exactly when r0 asks, so
+this rule shrinks to the third line.</p>
+<p><b>The trick that saves a chip.</b> The NAND gate N2 already computes
+y&nbsp;=&nbsp;NOT&nbsp;(r0&nbsp;AND&nbsp;L) for grant 1. AND it with L and you get
+L&nbsp;AND&nbsp;y&nbsp;=&nbsp;L&nbsp;AND&nbsp;NOT&nbsp;r0, the term the next L needs. So there is no
+inverter chip: the two NANDs and the flip-flop's <span class="ol">Q</span> output give every NOT the circuit needs.</p>
+{{truth_table}}
+
+<h2>Schematic 1: gates and the flip-flop</h2>
+<div class="fig-wrap">{{svg_logic}}</div>
+<p class="small muted">This is the main idea of digital design (picture 8 of the article): a combinational
+cloud of gates computes the outputs and the next state from the inputs and the current state, and a D
+flip-flop holds the state from one clock edge to the next. A dot joins two wires; wires that cross without a
+dot are not connected. Each wire has the same colour in all three diagrams.</p>
+
+<h2>Schematic 2: connections between the chips</h2>
+<div class="fig-wrap">{{svg_chips}}</div>
+<p class="small muted">Each chip is drawn from above with the notch on the left, the way it sits on the
+breadboard: pins 1–7 along the bottom, pins 8–14 along the top from right to left. The gates in use are
+labelled; the unused ones are faded. Every unused input is tied: on the gate chips to the nearest supply,
+on the unused flip-flop to GND, because its S and R inputs are active high.</p>
+{{pin_table}}
+
+<h2>Schematic 3: the breadboard</h2>
+<div class="fig-wrap">{{svg_breadboard}}</div>
+{{legend}}
+<p class="small muted">Columns are numbered from the power module end; rows a–e are the upper half and f–j
+the lower half, as in the drawing (some boards letter them the other way round). A hole name such as
+<b>26h</b> means column 26, row h. The five holes of one column in one half are connected, so a wire can
+go into any free hole of the right column. The wires are drawn flat with right angles so that you can
+follow them; real Dupont jumpers arch over the board and the chips, and that is fine.</p>
+
+<h2>Build it step by step</h2>
+<ol class="steps">
+<li><b>Power module.</b> Plug it onto the left end of the board (columns 1–6) with + into the + rails.
+Set both jumpers to 5&nbsp;V. Do not connect the cable yet.</li>
+<li><b>Chips.</b> Insert them across the gap, notch on the left: 4013 in columns 12–18, 4011 in
+22–28, 4081 in 32–38, 4071 in 42–48. Pin 1 of each chip is in row f of its first column: 12f, 22f, 32f,
+42f.</li>
+<li><b>Power wires, 8.</b> Pin 14 of each chip (row a of its first column) to the top + rail, pin 7
+(row j of its last column) to the bottom − rail.</li>
+<li><b>Tie-offs, 17.</b> Unused inputs of the gate chips: top row to the top + rail, bottom row to the
+bottom − rail. The four inputs of the unused flip-flop (4013 pins 8–11, columns 15–18, row a) go to the top
+<i>−</i> rail, over the + rail. Pin 6 of the 4013 (S of the flip-flop we use, 17j) goes to the bottom −
+rail.</li>
+<li><b>Check the power.</b> Connect the 9&nbsp;V USB-DC cable for a moment: the power module LED lights and
+no chip gets warm. Disconnect it again.</li>
+<li><b>Signal wires, 15.</b> Follow the checklist below and tick each wire off. Using the same colours as
+the drawing makes checking easier, but any colour works.</li>
+<li><b>LED module.</b> Its header goes into row g, columns 53–61, with GND in column 53; the board of the
+module lies over the breadboard. Connect 53j to the bottom − rail.</li>
+<li><b>Modules, 12 male-female jumpers.</b> Each module: + to the bottom + rail, − to the bottom − rail,
+OUT to its column: clock to 14j, reset to 19j (a short wire takes it on to pin 4 at 15i), request 0 to 23j,
+request 1 to 27j. Turn the potentiometer of the 555 module to about 1 tick per second.</li>
+<li><b>Power on</b> and run the tests.</li>
+</ol>
+
+<h2>Wiring checklist</h2>
+<p class="small"><span id="wcount"></span> · <button class="btn" id="wreset" type="button">Clear ticks</button>
+<span class="muted">Ticks are saved in this browser only.</span></p>
+{{wiring_table}}
+
+<h2>Test it</h2>
+<p>LED 1 shows grant g0, LED 2 grant g1 and LED 4 the flip-flop L.</p>
+<div class="tbl"><table>
+<tr><th>Do this</th><th>You should see</th></tr>
+<tr><td>Press and release <b>reset</b></td><td>LED 4 goes off: L&nbsp;=&nbsp;0, requester 0 had the last
+turn.</td></tr>
+<tr><td>Press no buttons</td><td>LEDs 1 and 2 stay off; LED 4 keeps its value through the clock ticks.</td></tr>
+<tr><td>Hold <b>request 0</b></td><td>LED 1 lights at once: the gates do not wait for the clock. LED 4 is
+off after the next tick.</td></tr>
+<tr><td>Hold <b>request 1</b></td><td>LED 2 lights at once; LED 4 turns on at the next tick.</td></tr>
+<tr><td>Press reset, then hold <b>both</b></td><td>LED 2 lights first (it is requester 1's turn). After
+that LEDs 1 and 2 take turns, one per clock tick, and LED 4 toggles on every tick. Never both at once:
+that is the round robin.</td></tr>
+<tr><td>Hold request 0 for a few ticks, then also press request 1</td><td>The grant moves to requester 1 at once, because
+requester 0 had the last turn. This arbiter decides again in every cycle.</td></tr>
+</table></div>
+
+<h2>If something does not work</h2>
+<ul>
+<li><b>Nothing lights:</b> check the power module LED, both jumpers at 5&nbsp;V and the 9&nbsp;V cable, as
+in the getting-started steps.</li>
+<li><b>LEDs flicker or change by themselves:</b> an input floats. Count the tie-offs (17) and check the −
+wire of every button module.</li>
+<li><b>LED 4 never changes:</b> look at the clock: wire 14j, the D wire 44j → 16j and the reset path
+19j → 19i → 15i. The reset button must give 0 when it is not pressed, and pin 6 (17j) must go to −.</li>
+<li><b>Both grants light at once:</b> x or y is wired wrong: compare 25g → 32g and 24j → 37j with the
+checklist.</li>
+<li><b>A chip gets hot:</b> it is in backwards. Unplug the power at once.</li>
+<li><b>Find a fault with a probe:</b> put the single 5V LED with its long leg into a column and its short
+leg into the − rail, and compare what it shows with the truth table.</li>
+</ul>
+
+<h2>Next: the same arbiter in SystemVerilog</h2>
+<p>An engineer writes this block in a few lines, and synthesis turns it back into gates like the ones on
+your board. The <code>if</code> chain below is the rule "grant 0: L becomes 0; grant 1: L becomes 1",
+before simplification.</p>
+<pre class="code">module round_robin_arbiter_2
+(
+    input              clk,
+    input              rst,
+    input        [1:0] req,
+    output logic [1:0] gnt
+);
+
+    logic last;  // 1: the last grant went to requester 1
+
+    assign gnt [0] = req [0] &amp; ~ (req [1] &amp; ~ last);
+    assign gnt [1] = req [1] &amp; ~ (req [0] &amp;   last);
+
+    always_ff @ (posedge clk or posedge rst)
+        if (rst)
+            last &lt;= 1'b0;
+        else if (gnt [0])
+            last &lt;= 1'b0;
+        else if (gnt [1])
+            last &lt;= 1'b1;
+
+endmodule</pre>
+<p>The reset is asynchronous, like the R input of the 4013. To run it on an FPGA board, use the
+<a href="https://github.com/verilog-meetup/basics-graphics-music">Basics-Graphics-Music</a> framework, which
+supports the same SystemVerilog module on dozens of boards: requests on two keys, grants on two LEDs.</p>
+
+<p class="small muted">Sources: <a href="{{habr}}">Habr, lesson 1.6</a>; <a href="{{doc}}">the Google doc</a>,
+pictures 6–8 and 16; pinouts from the TI datasheets for the
+<a href="https://www.ti.com/lit/ds/symlink/cd4011b.pdf">CD4011B</a>,
+<a href="https://www.ti.com/lit/ds/symlink/cd4081b.pdf">CD4081B</a>,
+<a href="https://www.ti.com/lit/ds/symlink/cd4071b.pdf">CD4071B</a> and
+<a href="https://www.ti.com/lit/ds/symlink/cd4013b.pdf">CD4013B</a>. The wiring on this page is checked by a
+pin-level simulation in <code>tools/arbiter.py</code>.</p>

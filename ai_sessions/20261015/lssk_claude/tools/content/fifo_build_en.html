@@ -1,0 +1,224 @@
+<p class="muted" style="margin:0">Kit 3 · build instructions · <a href="fifo_build_ru.html">По-русски</a></p>
+<h1>Build a FIFO adder</h1>
+<p class="lead">Two numbers arrive at different times, and the circuit adds them anyway. FIFO A and FIFO B hold
+the operands in the order they came, a 4008 adds the pair at their heads, and FIFO C collects the sums. When
+nobody takes sums out of C, it fills up and A and B wait: that is backpressure, the flow control used in every
+processor and network chip.</p>
+{{stats}}
+<div class="card">
+<b>Before you start</b>, do the <a href="getting_started_en.html">getting-started steps</a> and, if you can,
+the <a href="arbiter_build.html">round-robin arbiter</a>: this build uses the same breadboard conventions, the
+same modules and the same 4013 flip-flop. It is a group project for two or three students. You build it in two
+stages and test after each: <b>stage 1</b> is the 40105 FIFO demo with one queue, <b>stage 2</b> turns it into the
+adder.
+</div>
+
+<h2>What you need</h2>
+{{parts_table}}
+
+<h2>How it works</h2>
+<p><b>The FIFO.</b> A 40105 is a queue of 16 words, 4 bits each. A rising edge on <b>SI</b> (shift in) takes the
+word on D0–D3, if <b>DIR</b> (data-in ready) says there is room. The word ripples to the output end in about a
+microsecond; <b>DOR</b> (data-out ready) then says that a word sits on Q0–Q3. A falling edge on <b>SO</b> (shift
+out) drops that word, and the next one moves up. MR clears the queue. The operands here are 3 bits wide, with D3
+tied to 0, so the largest sum, 7&nbsp;+&nbsp;7&nbsp;=&nbsp;14, still fits into the 4 bits of FIFO C.</p>
+<p><b>Buttons in step with the clock.</b> A button bounces: one press makes several edges within a few
+milliseconds, and every rising edge on SI would load another copy of the number. So each of the push A, push B
+and pop C buttons goes into the D input of a flip-flop. The flip-flop looks at the button only at the rising
+edge of the clock, so one press gives one clean edge. Hold a button until its LED reacts, about half a second.</p>
+<p><b>The transfer.</b> A pair can move when A has data (DOR of A, <b>rA</b>), B has data (<b>rB</b>) and C has
+room (DIR of C, <b>fC</b>). A 4-input AND computes <b>go</b>, and a flip-flop turns it into the transfer pulse
+<b>t</b>:</p>
+<code class="eq">go&nbsp;=&nbsp;rA&nbsp;AND&nbsp;rB&nbsp;AND&nbsp;fC&nbsp;AND&nbsp;NOT&nbsp;t<br>
+t&nbsp;takes&nbsp;the&nbsp;value&nbsp;of&nbsp;go&nbsp;at&nbsp;every&nbsp;rising&nbsp;clock&nbsp;edge<br>
+t&nbsp;rises:&nbsp;SI&nbsp;of&nbsp;C&nbsp;rises,&nbsp;C&nbsp;takes&nbsp;A&nbsp;+&nbsp;B<br>
+t&nbsp;falls&nbsp;one&nbsp;clock&nbsp;later:&nbsp;SO&nbsp;of&nbsp;A&nbsp;and&nbsp;B&nbsp;fall,&nbsp;A&nbsp;and&nbsp;B&nbsp;drop&nbsp;the&nbsp;pair</code>
+<p>C takes the sum first and A and B let go of the pair a whole clock later, so the sum is stable when C
+stores it. The NOT&nbsp;t input brings t back to 0 after one tick, so every transfer is one clean pulse and a
+pair moves at most every second tick. Here is the first transfer, recorded from the simulation of this
+wiring:</p>
+{{ticks}}
+<div class="note"><b>Why not simply clock AND ready?</b> The Habr article suggests a pulse like
+shift_in&nbsp;=&nbsp;clock&nbsp;AND&nbsp;push. For the transfer that would be
+SI&nbsp;of&nbsp;C&nbsp;=&nbsp;SO&nbsp;of&nbsp;A&nbsp;and&nbsp;B&nbsp;=&nbsp;clk&nbsp;AND&nbsp;rA&nbsp;AND&nbsp;rB&nbsp;AND&nbsp;fC.
+But the 40105 answers within a microsecond, while the clock is still high: DIR of C drops for a moment after
+every load, and DOR of A and B drop and rise again with the next word. The pulse ends early, the pair is popped,
+the flags come back and the pulse starts again. In a simulation of that circuit, all the waiting pairs moved
+within a microsecond in one clock tick, and C caught sums before the 4008 had finished adding. The flip-flop
+keeps the decision fixed for a whole clock period. Chip designers follow the same rule: state changes only at
+clock edges.</div>
+
+<h2>Schematic 1: logic</h2>
+<div class="fig-wrap">{{svg_logic}}</div>
+<p class="small muted">The datapath carries the numbers: three FIFOs and the adder, with 3- and 4-bit buses
+(the slash and the digit give the number of wires). The flow control decides when the numbers move. The
+flip-flops on the left put the buttons in step with the clock. A dot joins two wires; wires that cross without a
+dot are not connected. Each signal has the same colour in all three diagrams.</p>
+
+<h2>Schematic 2: connections between the chips</h2>
+<div class="fig-wrap">{{svg_chips}}</div>
+<p class="small muted">The chips are drawn from above as they sit on the boards: the top board above, the
+bottom board below, notch on the left, pins 1 to 8 (or 1 to 7) along the bottom. Pin names are inside the
+chips; faded names are pins that are not used. A short stub at a pin stands for the breadboard column that the
+wires plug into. The eight LEDs of the module on C sit right on the pins of FIFO C.</p>
+{{pin_table}}
+
+<h2>Schematic 3: the breadboards</h2>
+<div class="fig-wrap">{{svg_breadboard}}</div>
+{{legend}}
+<p class="small muted">Columns are numbered from the power module end; rows a–e are the upper half of each
+board and f–j the lower half. A hole name such as <b>27j</b> means column 27, row j; the checklist always says
+which board. The five holes of one column in one half are connected. The wires are drawn flat with right angles
+so that you can follow them; real jumpers arch over the boards and the chips, and that is fine. The LED module on
+C lies over the top edge of the top board.</p>
+
+<h2>Stage 1: one FIFO</h2>
+<ol class="steps">
+<li><b>Boards.</b> Put the two boards one below the other and snap them together. The power module goes onto the
+left end of the <b>top</b> board, with both jumpers at 5&nbsp;V. Do not connect the cable yet.</li>
+<li><b>Rails, 4 wires.</b> The bottom board gets its power from the top one: wires 1–4 in the checklist, in
+columns {{rail_cols}} at the right end.</li>
+<li><b>Chips.</b> On the bottom board, notch on the left: 4013 #1 in columns {{cols_U1}} (pin 1 in {{p1_U1}})
+and 40105 A in columns {{cols_A}} (pin 1 in {{p1_A}}).</li>
+<li><b>The A/B LED module.</b> Its header goes into row g of the top board, columns {{la_cols}}, with GND in
+column {{la_g}}; its board lies over the upper rows.</li>
+<li><b>Power, tie-offs and the LED module ground</b>, as listed in stage 1 of the checklist. Then connect the
+9&nbsp;V cable for a moment: the power module LED lights and no chip gets warm. Disconnect it again.</li>
+<li><b>Signal wires</b> of stage 1, including the <b>temporary wire {{temp_id}}</b> from {{temp_a}} to
+{{temp_b}} on the bottom board. It lets the pop C button take words out of A for this test.</li>
+<li><b>Modules, {{n1mf}} male-female jumpers.</b> Each module: + to the bottom + rail of the bottom board,
+− to the bottom − rail, OUT to its column on the bottom board: pop C to {{mod_popC}}, clock to {{mod_clk}},
+reset to {{mod_rst}}, push A to {{mod_pushA}}, data d0, d1 and d2 to {{mod_d0}}, {{mod_d1}} and {{mod_d2}}.
+Turn the potentiometer of the 555 module to about 2 ticks per second.</li>
+</ol>
+<p>Test it. LED 1 of the A/B module shows DOR of A, "A has data"; LEDs 2, 3 and 4 show the word at the head of
+A, a2 a1 a0.</p>
+<div class="tbl"><table>
+<tr><th>Do this</th><th>You should see</th></tr>
+<tr><td>Press and release <b>reset</b></td><td>LED 1 is off: A is empty.</td></tr>
+<tr><td>Hold <b>d1</b> and press <b>push A</b> until LED 1 lights</td><td>LEDs 2–4 show 010, the number 2.</td></tr>
+<tr><td>Push 5 (d2 and d0) and then 7 (all three)</td><td>Nothing changes on the LEDs: the head of the queue is
+still 2. The new numbers wait behind it.</td></tr>
+<tr><td>Hold one push button for several ticks</td><td>Only one word goes in: SI must go low before the next
+one. Release and press again for the next word.</td></tr>
+<tr><td>Press <b>pop C</b></td><td>LEDs 2–4 show 5. Press again: 7. Press again: LED 1 goes off, A is empty.
+First in, first out.</td></tr>
+</table></div>
+
+<h2>Stage 2: the FIFO adder</h2>
+<ol class="steps" start="8">
+<li><b>Remove the temporary wire {{temp_id}}.</b></li>
+<li><b>Chips.</b> On the bottom board: 4013 #2 in columns {{cols_U2}} and 40105 B in columns {{cols_B}}. On
+the top board: 40105 C in columns {{cols_C}}, the 4082 in columns {{cols_AND}} and the 4008 in columns
+{{cols_ADD}}. Notch on the left, pin 1 in row f of the first column.</li>
+<li><b>The LED module on C.</b> Its header goes straight into row a of the top board over FIFO C, columns
+{{lc_cols}}, with GND in column {{lc_g}}; its board lies over the top edge of the breadboard. Its LEDs 1–8 now
+sit on pins 16 to 9 of C: VCC, SO, DOR, Q0, Q1, Q2, Q3 and MR.</li>
+<li><b>The yellow LED</b> on the top board: long leg in {{led_yellow}} (DIR of C, "C has room"), short leg
+in the bottom − rail. A 40105 output drives an LED easily. Do not hang LEDs on the outputs of the 4013s: they
+feed the 40105 and are much weaker, and an LED would pull their high level below what the 40105 needs.</li>
+<li><b>Power and tie-offs</b> of stage 2, then check the power again.</li>
+<li><b>Signal wires</b> of stage 2.</li>
+<li><b>The push B module</b>: OUT to {{mod_pushB}} on the bottom board, + and − to the bottom rails.</li>
+<li><b>Power on</b> and run the tests.</li>
+</ol>
+
+<h2>Wiring checklist</h2>
+<p class="small"><span id="wcount"></span> · <button class="btn" id="wreset" type="button">Clear ticks</button>
+<span class="muted">Ticks are saved in this browser only. Stage 1 ends with wire {{last1}}.</span></p>
+{{wiring_table}}
+
+<h2>Test the adder</h2>
+<p>On the module on C, LED 3 shows DOR, "C has data", and LEDs 4–7 show Q0–Q3, so the sum reads from right to
+left: LED 7 is the top bit. LED 1 is always on (it sits on VCC), LED 2 goes off while you pop and LED 8 lights
+while you hold reset. The yellow LED is "C has room".</p>
+<div class="tbl"><table>
+<tr><th>Do this</th><th>You should see</th></tr>
+<tr><td>Press and release <b>reset</b></td><td>The A/B LEDs are off, LED 3 on C is off, the yellow LED is on.</td></tr>
+<tr><td>Push 3 into A (d1 and d0, push A)</td><td>A/B LED 1 lights, LEDs 2–4 show 011. Nothing else happens: B is
+empty.</td></tr>
+<tr><td>Push 2 into B (d1, push B)</td><td>A/B LED 5 lights, LEDs 6–8 show 010. One tick later LED 3 on C
+lights and LEDs 7–4 show 0101, the sum 5. One more tick and the A/B LEDs go off: A and B have let go of the
+pair.</td></tr>
+<tr><td>Push 1, 4 and 7 into A, then 2, 3 and 0 into B</td><td>While B is empty, A only fills up: the numbers
+wait for their partners. Then every push into B makes one transfer: C collects 3, 7 and 7.</td></tr>
+<tr><td>Press <b>pop C</b> several times</td><td>C shows 5, 3, 7, 7, in the order the sums were made, then LED 3
+goes off.</td></tr>
+<tr><td>Backpressure: push 18 pairs and do not pop</td><td>After 16 sums the yellow LED goes off: C is full. The
+last two pairs stay in A and B, whose LEDs stay on. Pop C once: one pair moves into the free place and the
+yellow LED goes off again.</td></tr>
+</table></div>
+
+<h2>If something does not work</h2>
+<ul>
+<li><b>Nothing lights on the bottom board:</b> it gets power only through the four rail wires 1–4. Check them,
+and the power module as in the getting-started steps.</li>
+<li><b>One press puts a number in twice:</b> the push button reaches SI directly instead of through its
+flip-flop. SI of A must come from pin 1 of 4013 #1 (sA), SI of B from pin 1 of 4013 #2 (sB).</li>
+<li><b>Nothing goes into a FIFO:</b> check the clock (the LED on the 555 module blinks), MR on the reset wire
+and the reset button, which must give 0 when it is not pressed.</li>
+<li><b>Pairs never move into C:</b> check the 4082: rA on pin 5, rB on pin 4, fC on pin 3, NOT&nbsp;t on pin 2
+(from pin 12 of 4013 #2) and go from pin 1 to pin 9 of 4013 #2; t goes from pin 13 of 4013 #2 to SI of C
+and SO of A and B.</li>
+<li><b>Sums are wrong:</b> check the operand wires to the 4008 (a0, a1, a2 on pins 7, 5, 3; b0, b1, b2 on pins
+6, 4, 2) and its tie-offs: A4 (pin 1), B4 (pin 15) and CIN (pin 9) to GND.</li>
+<li><b>C shows a number but LED 3 is off:</b> that is normal. An empty 40105 keeps showing its last word;
+only DOR says whether it is valid.</li>
+<li><b>A chip gets hot:</b> it is in backwards. Unplug the power at once.</li>
+<li><b>Find a fault with a probe:</b> a single 5V LED with its long leg in a column and its short leg in the −
+rail shows the signal there; compare it with the tick table above. On the outputs of the 4013s the probe can
+pull the signal down, so take it out again after a look.</li>
+</ul>
+
+<h2>Next: the same adder in SystemVerilog</h2>
+<p>In SystemVerilog the FIFOs are synchronous: push and pop are sampled at the clock edge, together with
+everything else. So the transfer condition can go straight to push and pop, and a pair moves on every clock.
+The 40105 reacts to edges on SI and SO at any moment, which is why the breadboard needs the transfer flip-flop
+and moves a pair every second tick.</p>
+<pre class="code">module fifo_adder
+(
+    input              clk,
+    input              rst,
+
+    input        [2:0] in_data,
+    input              push_a,
+    input              push_b,
+    input              pop_c,
+
+    output       [3:0] c_head,
+    output             c_empty
+);
+
+    logic [2:0] a_head, b_head;
+    logic       a_empty, b_empty, c_full;
+
+    wire        move = ~ a_empty &amp; ~ b_empty &amp; ~ c_full;
+    wire  [3:0] sum  = a_head + b_head;
+
+    // sync_fifo: any synchronous FIFO with push, pop, empty and full
+    sync_fifo # (.width (3), .depth (16)) fifo_a (.clk, .rst,
+        .push (push_a), .write_data (in_data), .pop (move),
+        .read_data (a_head), .empty (a_empty), .full ());
+
+    sync_fifo # (.width (3), .depth (16)) fifo_b (.clk, .rst,
+        .push (push_b), .write_data (in_data), .pop (move),
+        .read_data (b_head), .empty (b_empty), .full ());
+
+    sync_fifo # (.width (4), .depth (16)) fifo_c (.clk, .rst,
+        .push (move), .write_data (sum), .pop (pop_c),
+        .read_data (c_head), .empty (c_empty), .full (c_full));
+
+endmodule</pre>
+<p>On an FPGA board the push buttons would also need synchronisers and a one-pulse-per-press circuit, just like
+here. The <a href="https://github.com/verilog-meetup/basics-graphics-music">Basics-Graphics-Music</a> framework
+has microarchitecture exercises with FIFOs and flow control that run on dozens of boards.</p>
+
+<p class="small muted">Sources: <a href="{{habr}}">Habr, lesson 1.5</a>; <a href="{{doc}}">the Google doc</a>,
+pictures 9 and 10; the TI datasheets for the
+<a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf">CD74HC40105</a> and
+<a href="https://www.ti.com/lit/ds/symlink/cd40105b.pdf">CD40105B</a> (pinout, SI, SO, DIR and DOR),
+<a href="https://www.ti.com/lit/ds/symlink/cd4013b.pdf">CD4013B</a> and
+<a href="https://www.ti.com/lit/ds/symlink/cd4082b.pdf">CD4082B</a>; the 4008 pinout from the Motorola MC14008B
+datasheet, a pin-for-pin equivalent. The wiring on this page is checked in <code>tools/fifo.py</code>: the netlist
+is rebuilt from the wires and simulated with behavioural models of the chips, with contact bounce and with fast,
+typical and slow propagation delays. The circuit has not yet been built on a real breadboard.</p>

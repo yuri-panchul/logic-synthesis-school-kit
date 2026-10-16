@@ -1,0 +1,20 @@
+<h2>One queue, six visible signals</h2>
+<p>This is the separate kit requested in the October 15 review: one FIFO, an assembled clock generator, PUSH and POP buttons, four self-locking touch switches for input data, and LEDs for the four output bits plus EMPTY and FULL.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Control / indicator</th><th scope="col">Assignment</th></tr></thead><tbody>
+<tr><td>Four TTP223 modules</td><td>Q outputs set D0, D1, D2 and D3. Supply them in toggle/self-locking mode so each touch changes and retains a bit.</td></tr>
+<tr><td>PUSH button</td><td>Offer the current four-bit word during clock cycles in which the FIFO has space.</td></tr>
+<tr><td>POP button</td><td>Request removal of the oldest word during clock cycles in which the FIFO has data.</td></tr>
+<tr><td>One assembled 555 generator</td><td>Approximately 0.5–1 Hz; provides the operating clock.</td></tr>
+<tr><td>LED bar channels 0–3</td><td>FIFO Q0–Q3, the oldest stored word.</td></tr>
+<tr><td>LED bar channel 4</td><td>EMPTY = NOT DOR.</td></tr>
+<tr><td>LED bar channel 5</td><td>FULL = NOT DIR.</td></tr>
+<tr><td>Reset jumper</td><td>MR high to initialize, then low during operation. No third operational button is needed.</td></tr>
+</tbody></table></div>
+<p>The kit allocates exactly two button modules. The supplier’s five-module lot is a purchasing unit, not five controls in the experiment. The four TTP223 modules are the <a href="https://www.aliexpress.us/item/3256805900856431.html">specific user-requested part</a>; they are additional to the original LSSK tab. Their $0.25/module price is a budgeting assumption because the listing price could not be retrieved. The four modules contribute $1.00 to this estimate.</p>
+<p>Use ready-assembled modules with header pins fitted and toggle mode already configured. At the chip level, TTP223 supports direct/toggle operation and output-polarity options; the board’s jumper labels must be checked against the supplied variant. The kit does not ask the student to assemble a touch-sensor circuit. <a href="https://www.tontek.com.tw/uploads/product/245/TTP223-HA6_V1.1_EN.pdf">Tontek mode-selection reference</a>.</p>
+<h3>Connection budget</h3>
+<p>One CD4081 provides four AND gates, budgeted for request/ready qualification and clock-command routing. One CD4069 provides the two status inversions, the negative-edge pop polarity and spare inverters. The working estimate is 40 M–M leads and 30 M–F leads: 12 for four touch modules, six for two buttons, nine for the LED bar and three for the clock. Kit jumper quantities include the stated 25% reserve and pack rounding.</p>
+<p>The CD74HC40105E pin map is VCC=16, GND=8, MR=9, /OE=1, DIR=2, SI=3, D0…D3=4…7, Q0…Q3=13,12,11,10, DOR=14 and SO=15. Tie /OE low for visible outputs. Clock-command routing must respect the FIFO’s pulse interface; the <a href="../issues_codex_is_confident_about.html#fifo-interface">confirmed edge/flag facts</a> and <a href="../otsebyatina_from_codex_possible_hallucinations.html#fifo-adapter">unverified adapter details</a> are documented separately. The Boolean gate budget is not a bench-tested netlist.</p>
+<h3>Try it</h3>
+<ol><li>Initialize with PUSH and POP released. EMPTY should be on and FULL off.</li><li>Set 0011, request one write cycle, then release PUSH. Change the switches to 1010 and request another write cycle.</li><li>Observe 0011 at the output. Request one read cycle; the next word becomes 1010.</li><li>Read the second word. EMPTY becomes active; the data LEDs have no valid-word meaning while empty.</li><li>Keep requesting writes until all sixteen word positions are occupied. FULL becomes active.</li><li>Request a read, then a later write. Space becomes available and the queue can accept another word.</li></ol>
+<p>Holding PUSH or POP across several eligible clock cycles requests several operations. The buttons express requests; the assembled module supplies the clock.</p>

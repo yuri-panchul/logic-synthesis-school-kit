@@ -1,0 +1,79 @@
+Section,Category,Part,Description,Qty,Unit price USD,Total USD,Used in exercises,Why this quantity / note,Supplier
+Core,IC,CD4081,Quad 2-input AND,2,0.55,1.10,"G1, B1, B2, M1, M2, M3, M5, M7, M9, P2, P4, P5, P6, P7","2 at once in M5, M7, M9, P6",Elexp (elexp.com)
+Core,IC,CD4071,Quad 2-input OR,2,0.25,0.50,"B1, B2, M2, M3, M9, M11, P2, P4, P6, P7",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4069,Hex inverter (NOT),2,0.30,0.60,"B1, B2, BB10, M6, M8, M10, M12, P5, P6, P7",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4070,Quad 2-input XOR,2,0.45,0.90,"B1, M1, M2, M3, P2",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4073,Triple 3-input AND,2,0.45,0.90,"B3, P6",2 at once in P6,Elexp (elexp.com)
+Core,IC,CD4082,Dual 4-input AND,2,0.35,0.70,"B3, P3, P6",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4011,Quad 2-input NAND,2,0.35,0.70,"B3, P4, P6",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4012,Dual 4-input NAND,2,0.30,0.60,B3,sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4023,Triple 3-input NAND,2,0.30,0.60,B3,sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4068,8-input AND/NAND,2,0.39,0.78,B3,sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4001,Quad 2-input NOR,2,0.30,0.60,"B3, P6, P7",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4002,Dual 4-input NOR,2,0.25,0.50,B3,sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4025,Triple 3-input NOR,2,0.35,0.70,B3,sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4078,8-input OR/NOR,2,0.32,0.64,"B3, M5",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4072,Dual 4-input OR,2,0.25,0.50,"B3, M7, M11, P6",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4075,Triple 3-input OR,2,0.25,0.50,"B3, P6",sheet quantity: spare for a damaged chip or a second group,Futurlec (futurlec.com)
+Core,IC,CD4077,Quad 2-input XNOR (the sheet says 3-input; the 4077 is 2-input),2,0.30,0.60,"B3, P7",sheet quantity: spare for a damaged chip or a second group,Futurlec (futurlec.com)
+Core,IC,CD4013,Dual D flip-flop with set/reset,2,0.35,0.70,"B4, BB8, P2, P3, P4, P5, P7",2 at once in P3,Elexp (elexp.com)
+Core,IC,CD40174,Hex D flip-flop with common clock and clear,2,0.58,1.16,"P5 (alt.), P6",sheet quantity: spare for a damaged chip or a second group,Elexp (elexp.com)
+Core,IC,CD4076,4-bit D register with 3-state outputs,2,0.19,0.38,"P5 (alt.), P6 (alt.)",sheet quantity,Jameco (jameco.com)
+Core,IC,CD4029,Presettable up/down binary/BCD counter,1,0.80,0.80,"B5, M12",,Elexp (elexp.com)
+Core,IC,CD4015,Dual 4-bit serial-in/parallel-out shift register,1,0.35,0.35,"B6, M10, M12, P1, P2",,Elexp (elexp.com)
+Core,IC,CD4014,8-stage parallel-in/serial-out shift register,2,0.19,0.38,"BB2, P1, P2","2 at once in P1, P2",Jameco (jameco.com)
+Core,IC,CD4017,Decade counter with 10 decoded outputs,1,0.40,0.40,"BB7, M11",,Elexp (elexp.com)
+Core,IC,CD4008,4-bit full adder,2,1.00,2.00,"B8, B9, M4, P3",2 at once in M4,https://leeselectronic.com/en/product/7192-7192ICCMOS40084BITADDER.html
+Core,IC,CD4032,Triple serial adder,1,0.31,0.31,P1,,https://store.comet.bg/en/Catalogue/Product/187/
+Core,IC,CD4063,4-bit magnitude comparator,1,0.30,0.30,"BB3, M12",,Futurlec (futurlec.com)
+Core,IC,CD4048,Multifunction expandable 8-input gate,1,0.55,0.55,BB1,,https://www.ti.com/product/CD4048B
+Core,IC,CD4051,8-channel analog multiplexer/demultiplexer,1,0.45,0.45,BB4,,Elexp (elexp.com)
+Core,IC,CD4052,Dual 4-channel analog multiplexer/demultiplexer,1,0.45,0.45,BB4,,Elexp (elexp.com)
+Core,IC,CD4053,Triple 2-channel analog multiplexer/demultiplexer,1,0.45,0.45,BB4,,Elexp (elexp.com)
+Core,IC,CD4019,Quad AND/OR select gate,1,0.40,0.40,"BB4, M9",,Elexp (elexp.com)
+Core,IC,CD4028,BCD-to-decimal decoder,1,0.35,0.35,"BB5, M5, M6",,Elexp (elexp.com)
+Core,IC,CD4555,Dual binary 1-of-4 decoder/demultiplexer,1,0.29,0.29,"M7, M8",,Jameco / Futurlec
+Core,IC,CD4086,Expandable 4-wide 2-input AND-OR-INVERT gate,2,0.70,1.40,"M6, M8","2 at once in M6, M8",Futurlec (futurlec.com)
+Core,IC,CD4532,8-to-3 priority encoder,1,0.60,0.60,BB6,,https://www.elexp.com/products/10cd4532logic-cmos-8-bit-priority-en
+Core,IC,CD74HC40105,4-bit x 16-word FIFO,3,1.74,5.22,"BB8, P3",3 at once in P3,https://www.ti.com/product/CD74HC40105/part-details/CD74HC40105E
+Core,IC,CD4511,BCD-to-7-segment latch/decoder/driver,3,0.65,1.95,"B7, B9, BB6, P1, P2","3 at once in B9, P1, P2",Elexp (elexp.com)
+Core,Display,"7-segment, green","Common-cathode single-digit 7-segment display, green",2,0.90,1.80,"B7, B9, BB6, P1, P2","up to 3 displays at once (B9, P1, P2)",https://www.elexp.com/products/08fndgrcc7-segment-display-c-c-green-c
+Core,Display,"7-segment, red","Common-cathode single-digit 7-segment display, red",1,0.90,0.90,"B9, P1, P2","up to 3 displays at once (B9, P1, P2)",https://www.elexp.com/products/08fnd5007-segment-display-c-c-red-char
+Core,Display,Resistor 560 Ω ½ W,Segment resistor for 7-segment displays (½ W leads fit breadboard holes best),30,0.04,1.20,"B7, B9, BB6, P1, P2",up to 22 at once (B9) + spares,https://www.elexp.com/products/13-55560res-1-2-w-5-560-ohm
+Core,LED,"5V LED, red","5V-tolerant LED with built-in current limiting, red",1,0.45,0.45,M4,,https://www.elexp.com/products/08li3330-hv5high-voltage-leds-5v-red
+Core,LED,"5V LED, green","5V-tolerant LED with built-in current limiting, green",1,0.45,0.45,"G1, B1, B3, BB1, M5, M6, P6",,https://www.elexp.com/products/08lg3330-hv5high-voltage-leds-5v-green
+Core,LED,"5V LED, yellow","5V-tolerant LED with built-in current limiting, yellow",1,0.45,0.45,P3,,https://www.elexp.com/products/08ly3330-hv5high-voltage-leds-5v-yellow
+Core,LED,"8-LED module, blue","8-LED bar module, common GND, no resistors needed (bulk of 20 price)",1,0.38,0.38,"G1, B2, B4, B5, B6, B8, BB2, BB4, BB5, BB6, BB7, BB8, BB9, BB10, M1, M2, M3, M4, M7, M8, M9, M10, P3, P4, P5, P6","up to 2 LED arrays at once (BB5, BB7, P3)",https://www.aliexpress.us/item/3256804380748521.html
+Core,LED,"8-LED module, red","8-LED bar module, common GND, no resistors needed (bulk of 20 price)",1,0.38,0.38,"BB5, BB7, P3","up to 2 LED arrays at once (BB5, BB7, P3)",https://www.aliexpress.us/item/3256804380748521.html
+Core,LED,Traffic-light LED module,"Red/yellow/green LED module, 5V version (not the 1V one)",1,0.40,0.40,"BB3, M11, M12, P7",,https://www.aliexpress.us/item/3256806333906622.html
+Core,Input,"Buttons, 5 pcs",5 button modules 12x12 mm with built-in pull-down resistor (VCC / OUT / GND),1,0.66,0.66,"G1, B1, B2, B3, B4, B5, B6, B7, B8, B9, BB1, BB2, BB3, BB4, BB5, BB6, BB7, BB8, BB9, BB10, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, P1, P2, P3, P4, P5, P6, P7","up to 9 buttons at once (BB10, P1, P2)",https://www.aliexpress.us/item/3256806475044826.html
+Core,Input,"Buttons, 5 pcs (2nd pack)",5 button modules 12x12 mm with built-in pull-down; needed for adder and comparator exercises,1,2.03,2.03,"B8, B9, BB3, BB6, BB8, BB9, BB10, M4, P1, P2, P3","up to 9 buttons at once (BB10, P1, P2)",https://www.aliexpress.us/item/3256803953260036.html
+Core,Clock,555 clock module,"Assembled 555 clock generator module, blue (set to ~0.5-1 Hz)",1,0.53,0.53,"B4, B5, B6, BB2, BB7, BB8, BB9, M10, M11, M12, P1, P2, P3, P4, P5, P6, P7",,https://www.aliexpress.us/item/3256809517040635.html
+Core,Power,Breadboard power module,MB102-style breadboard power supply module; set the jumpers to 5V,1,1.00,1.00,all,,https://www.aliexpress.us/item/2251832530395866.html
+Core,Power,USB-to-DC cable 9V,USB-to-DC barrel cable with 9V boost; the module regulates it to a stable 5V,1,1.17,1.17,all,,https://www.aliexpress.us/item/3256806703746727.html
+Core,Breadboard,Breadboard 830,"Solderless breadboard, 830 points (EL-CP-003)",1,3.00,3.00,all,"up to 3 large boards at once (P1, P2)",https://www.amazon.com/EL-CP-003-Breadboard-Solderless-Distribution-Connecting/dp/B01EV6LJ7G
+Core,Breadboard,Breadboard set 2+2,Breadboard set: 2 large (830) + 2 small,1,7.99,7.99,all,"up to 3 large boards at once (P1, P2)",https://www.amazon.com/dp/B08115P2T4
+Core,Wires,Dupont M-M x40,"40 male-male Dupont jumpers, 10 or 15 cm",1,1.30,1.30,"B9, BB8, P1, P2, P3","4 jumpers for the power rails between boards, plus long runs",https://www.aliexpress.us/item/3256805315188857.html
+Core,Wires,Dupont M-F x40,"40 male-female Dupont jumpers, 10 or 15 cm (button and clock modules)",1,1.30,1.30,"G1, B1, B2, B3, B4, B5, B6, B7, B8, B9, BB1, BB2, BB3, BB4, BB5, BB6, BB7, BB8, BB9, BB10, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, P1, P2, P3, P4, P5, P6, P7",largest build 30 M-F (3 per button or clock module),https://www.aliexpress.us/item/3256805315188857.html
+Core,Wires,Pre-cut jumper wires x350,"Jameco ValuePro 350-piece pre-formed 22 AWG wire jumpers, 14 lengths",1,11.95,11.95,"G1, B1, B2, B3, B4, B5, B6, B7, B8, B9, BB1, BB2, BB3, BB4, BB5, BB6, BB7, BB8, BB9, BB10, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, P1, P2, P3, P4, P5, P6, P7",largest build ≈110 wires on the board + 4 between boards + 25% spare,https://www.jameco.com/z/WJW-60P-R-Jameco-ValuePro-350-pc-Wire-Jumper-Refill-for-Part-Number-19290-14-Lengths-10-Colors-25-of-Each-Length_20080.html
+Core,Tool,IC extractor,IC extractor with insulated handle,1,1.20,1.20,all,,https://www.elexp.com/products/060404ic-extractor-insulated-handle
+Core,Tool,IC pin straightener,IC pin straightener,1,8.95,8.95,all,"teacher tool, as in the sheet",https://www.elexp.com/products/03ics-01ic-pin-straightener
+Optional,IC,CD40108,4x4 multiport register file (hard to find),1,28.84,28.84,,Only for BB9; hard to find,https://www.electronicplus.com/
+Optional,IC,CD40181,4-bit ALU (hard to find),1,19.78,19.78,,Only for BB10; hard to find,https://www.electronicplus.com/
+Optional,IC,HEX decoder,HEX-to-7-segment latch/decoder/driver (shows A-F too; Habr 1.2 suggests DM9368),3,2.29,6.87,,Shows 10-15 as A-F instead of a blank 4511 display,https://www.aliexpress.us/item/2255801090867335.html
+Optional,Input,4-button module with LEDs,4 buttons touch button module with hat and LED indicator (check output polarity),1,2.09,2.09,,Data entry for the FIFO exercises,https://www.aliexpress.us/item/3256810032908986.html
+Optional,Input,2x4 keypad,"2x4 keypad, 8 push buttons",1,0.96,0.96,,Alternative input,https://www.aliexpress.us/item/3256809059002407.html
+Optional,Input,8-button keyboard module,8-button keyboard module with LED indicator,1,1.19,1.19,,Alternative input,https://www.aliexpress.us/item/3256808344487487.html
+Optional,Power,9V battery clip to DC,"9V battery to DC plug adapter, for demos away from USB",1,0.59,0.59,,Battery power away from USB,https://www.amazon.com/dp/B09L858G5T
+Optional,Power,9V battery,"9V battery, for demos away from USB",1,0.67,0.67,,Battery power away from USB,
+
+Cost summary,,"Parts, core",,,,77.80,,,
+Cost summary,,Spares and breakage allowance (5%),,,,3.89,,,
+Cost summary,,Inbound shipping and duties (10%),,,,7.78,,,
+Cost summary,,"Packaging (box, anti-static foam, bags, label)",,,,6.00,,,
+Cost summary,,Printed quick-start card with QR links,,,,2.00,,,
+Cost summary,,Kitting labor (59 lines),,,,9.26,,,
+Cost summary,,Landed cost per kit,,,,106.73,,,
+Cost summary,,Suggested classroom / bulk price (1.6x landed),,,,170.99,,,
+Cost summary,,Suggested retail price (2.2x landed),,,,234.99,,,
+Cost summary,,"Optional add-ons, parts cost",,,,60.99,,,

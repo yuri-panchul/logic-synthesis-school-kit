@@ -1,0 +1,56 @@
+<p class="eyebrow">Start here / English / 45–60 minutes</p>
+<h1>Your first logic circuit.</h1>
+<p class="lead">Connect power, a pair of buttons and an XOR chip. See how the inputs determine the light. Then use an assembled clock generator to watch a D flip-flop remember one bit.</p>
+<p>Based on <a href="https://verilog-meetup.com/2026/07/23/a-prequel-to-fpga-and-asic-design-using-small-scale-integration-chips/">Yuri Panchul’s four illustrated starting sheets</a> and the <a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A1:Q76">LSSK parts list</a>. <a href="start_ru.html" lang="ru">Русская версия →</a></p>
+<div class="actions"><button onclick="window.print()">Print guide</button><a class="button secondary" href="kits/basics.html">Basics kit & CSV</a></div>
+<h2>1. Prepare the parts</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">Part</th><th scope="col">Quantity</th><th scope="col">LSSK row</th></tr></thead><tbody>
+<tr><td>Full-size breadboard</td><td>1</td><td>45</td></tr>
+<tr><td>Breadboard power module, set to 5 V</td><td>1</td><td>56</td></tr>
+<tr><td>USB-to-DC boost cable marked 9 V</td><td>1</td><td>57</td></tr>
+<tr><td>CD4070BE, quad XOR, DIP-14</td><td>1</td><td>2</td></tr>
+<tr><td>Button module with built-in pull resistor</td><td>2 individual modules</td><td>66</td></tr>
+<tr><td>5 V current-limited LED, or 5 V eight-LED module</td><td>1 single LED or 1 module</td><td>46 or 62</td></tr>
+<tr><td>M–M and M–F jumper leads</td><td>Have a 40-lead pack of each available; working estimate: 18 M–M and up to 15 M–F</td><td>70, 71</td></tr>
+<tr><td>IC extractor</td><td>1</td><td>53</td></tr>
+</tbody></table></div>
+<p>Use the kit’s special 5 V LEDs and resistor-equipped button modules. Their built-in components let you connect the circuit directly. The classroom supplies a USB power source; a teacher can check the rail voltage with a meter.</p>
+<h2>2. Understand the breadboard and connect power</h2>
+<figure><a href="assets/1.jpg"><img src="assets/1.jpg" alt="Yuri Panchul’s drawing of breadboard contacts and a 9 V cable feeding the 5 V power module" loading="lazy"></a><figcaption>Original sheet 1. Click any drawing to see it at full size. Yuri Panchul / Verilog Meetup, July 2026.</figcaption></figure>
+<ol class="steps">
+<li>Disconnect power while assembling. In the center area, each group of five holes is connected. The center trench separates the two sides. The long side rails distribute power; some are split halfway and need jumper bridges.</li>
+<li>Fit the power module with its + and GND pins aligned with the matching rails. Set the output selectors to <strong>5 V</strong>.</li>
+<li>Connect <strong>USB source → cable marked 9 V → barrel input of the power module → 5 V rails</strong>. The 9 V is the module’s input, not the voltage applied to the logic chips.</li>
+<li>Check the rail polarity and approximately 5 V output before inserting a chip. Turn power off again before wiring.</li>
+</ol>
+<div class="callout"><strong>Use the correct cable for this power path.</strong> A 5 V USB-to-barrel cable feeding this regulator can leave only about 3.5 V at its output. The source’s alternative direct barrel breakout (row 58) instead uses the 5 V cable (row 59), without that regulator. Keep those two arrangements distinct.</div>
+<h2>3. Try the special 5 V LED</h2>
+<figure><a href="assets/2.jpg"><img src="assets/2.jpg" alt="Drawing showing the long LED lead to positive supply and the short lead to ground" loading="lazy"></a><figcaption>Original sheet 2: the specified 5 V LED connects directly.</figcaption></figure>
+<p>Connect the long lead (anode) to +5 V and the short lead (cathode) to GND. Switch on: the LED should light. Switch off before moving it. If using the eight-LED module, connect its common cathode to GND and try one channel at +5 V. This experiment uses the source’s current-limited 5 V parts.</p>
+<h2>4. Insert the XOR chip</h2>
+<figure><a href="assets/3.jpg"><img src="assets/3.jpg" alt="DIP chip across the breadboard gap, with power on pin 14, ground on pin 7 and the first gate on pins 1, 2 and 3" loading="lazy"></a><figcaption>Original sheet 3: DIP placement and the first gate of CD4070, CD4081 or CD4071.</figcaption></figure>
+<p>Place CD4070 across the center trench, one row of pins on each side. Viewed from above with the notch at the top, pin 1 is top left. Count down the left side to 7 and up the right side from 8 to 14.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">CD4070 pin</th><th scope="col">Connection</th></tr></thead><tbody>
+<tr><td>14 — VDD</td><td>+5 V</td></tr><tr><td>7 — VSS</td><td>GND</td></tr><tr><td>1 — A</td><td>OUT of button A</td></tr><tr><td>2 — B</td><td>OUT of button B</td></tr><tr><td>3 — output</td><td>Directly to the LED anode or one LED-module channel</td></tr><tr><td>LED cathode / module common cathode</td><td>GND</td></tr><tr><td>Unused inputs 5, 6, 8, 9, 12, 13</td><td>GND</td></tr><tr><td>Unused outputs 4, 10, 11</td><td>Leave disconnected</td></tr>
+</tbody></table></div>
+<h2>5. Connect the buttons</h2>
+<figure><a href="assets/4.jpg"><img src="assets/4.jpg" alt="Two three-pin button modules with built-in pull resistors connected to the gate inputs" loading="lazy"></a><figcaption>Original sheet 4: use M–F jumpers and the pin labels on the button modules.</figcaption></figure>
+<p>Connect VCC on each button module to +5 V, GND to GND, and OUT to the chosen gate input. Follow the labels on the supplied module rather than assuming the order of its pins. With the specified active-high modules, released means 0 and pressed means 1.</p>
+<h2>6. Check every input combination</h2>
+<p>Predict the result, press the buttons, and record what happens. XOR lights the LED when exactly one input is 1.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">A</th><th scope="col">B</th><th scope="col">XOR · 4070</th><th scope="col">AND · 4081</th><th scope="col">OR · 4071</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+</tbody></table></div>
+<p>Turn power off and use the extractor to remove the chip evenly. Try CD4081 and CD4071 with the same first-gate connections. For CD4069, use input pin 1 and output pin 2; power remains on 14/7. Tie unused inputs 3, 5, 9, 11, 13 to GND. Its output should be the opposite of its input.</p>
+<p class="check"><strong>Checkpoint:</strong> explain all four XOR results and point out the chip’s two inputs, output, power and ground.</p>
+<h2>7. Add a clock and one bit of memory</h2>
+<p>For the next experiment use CD4013, the already assembled 555 clock module from LSSK row 54, two button modules (DATA and RESET), and the same LEDs. Set the generator to approximately 0.5–1 Hz. Connect its output directly to the clock input.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Connection</th><th scope="col">Destination</th></tr></thead><tbody>
+<tr><td>CD4013 pins 14 / 7</td><td>+5 V / GND</td></tr><tr><td>555 module VCC / GND</td><td>The same +5 V / GND</td></tr><tr><td>555 module OUT</td><td>CD4013 pin 3 — clock</td></tr><tr><td>DATA button OUT</td><td>CD4013 pin 5 — D</td></tr><tr><td>RESET button OUT</td><td>CD4013 pin 4 — active-high RESET</td></tr><tr><td>CD4013 pin 6 — SET</td><td>GND</td></tr><tr><td>CD4013 pin 1 — Q</td><td>Directly to a 5 V LED or LED-module channel</td></tr><tr><td>Unused second flip-flop</td><td>Inputs 8, 9, 10, 11 → GND; outputs 12, 13 left disconnected</td></tr>
+</tbody></table></div>
+<ol><li>Press RESET and release it. Q becomes 0.</li><li>Set DATA before a rising clock edge. At that edge, Q takes the value of DATA.</li><li>Change DATA between edges: Q holds its previous value until the next rising edge.</li><li>Press RESET between clock edges: Q clears immediately.</li></ol>
+<p class="source">Pin references: <a href="https://www.ti.com/lit/ds/symlink/cd4070b.pdf">CD4070B</a> and <a href="https://www.ti.com/lit/ds/symlink/cd4013b.pdf">CD4013B</a>.</p>
+<h2>If the result is unexpected</h2>
+<ul><li>Check that the rails have power and that any rail breaks are bridged.</li><li>Check chip orientation, pin numbers, LED polarity and button labels.</li><li>For the flip-flop, check common ground, SET at 0 and RESET released.</li><li>Power off before correcting a connection.</li></ul>
+<h2>Continue the course</h2>
+<p>Build a <a href="exercises.html#B08">counter</a>, <a href="exercises.html#B09">shift register</a> and <a href="exercises.html#B11">adder</a>. The later seven-segment lesson uses the source’s explicit exception: a 4511, a common-cathode display and seven 560 Ω resistors, one per segment. Then try the <a href="kits/arbiter.html">arbiter</a>, <a href="kits/fsm.html">FSM</a>, <a href="kits/single_fifo.html">single FIFO</a> and <a href="kits/fifo.html">automatic three-FIFO adder</a>.</p>
