@@ -11,8 +11,14 @@ def sheetrow(n):return SHEET+'?range='+quote(f'LSSK!A{n}:Q{n}',safe='!')
 def page(path,title,body,lang='en',script=''):
  prefix='../' if '/' in path else ''
  ru=lang=='ru'
- nav=[('index.html','Обзор' if ru else 'Overview'),('start_en.html','Start in English'),('start_ru.html','Начать по-русски'),('exercises.html','Упражнения' if ru else 'Exercises'),('sources.html','Источники и допущения' if ru else 'Sources & assumptions')]
+ nav=[('index.html','Обзор' if ru else 'Overview'),('start_ru.html' if ru else 'start_en.html','Начало работы' if ru else 'Getting started'),('exercises.html','Упражнения' if ru else 'Exercises'),('sources.html','Источники и допущения' if ru else 'Sources & assumptions')]
+ # A corresponding language edition is available for every authored page.
+ partner='start_en.html' if path=='start_ru.html' else 'start_ru.html' if path=='start_en.html' else Path(path).stem+'_ru.html'
+ switch=f'<a data-language-switch href="{partner}" lang="{"en" if ru else "ru"}">{"English version" if ru else "Русская версия"}</a>'
  html=f'''<!doctype html><html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Logic Synthesis School Kit: illustrated breadboard guides, exercise inventory and kit estimates."><title>{esc(title)} · LSSK</title><link rel="stylesheet" href="{prefix}assets/style.css"></head><body><a class="skip" href="#main">{'К содержанию' if ru else 'Skip to content'}</a><header><a class="brand" href="{prefix}index.html">LSSK / LOGIC SYNTHESIS SCHOOL KIT</a><nav aria-label="{'Навигация' if ru else 'Main navigation'}">{''.join(a(prefix+p,t) for p,t in nav)}</nav></header><main id="main">{body}</main><footer>{'Учебные материалы на основе программы Юрия Панчула' if ru else 'Teaching materials adapted from Yuri Panchul’s curriculum'} · {a('https://verilog-meetup.com/','Verilog Meetup')} · {DATE}. {'Расчётные комплектации; аппаратные схемы не проверены на макете.' if ru else 'Estimated inventories; hardware builds have not been bench-tested.'}</footer>{script}</body></html>'''
+ html=html.replace('</nav>',switch+'</nav>')
+ if ru:
+  html=html.replace('LSSK / LOGIC SYNTHESIS SCHOOL KIT','LSSK / ШКОЛЬНЫЙ НАБОР ПО СИНТЕЗУ ЛОГИЧЕСКИХ СХЕМ').replace('Logic Synthesis School Kit: illustrated breadboard guides, exercise inventory and kit estimates.','Logic Synthesis School Kit: иллюстрированные инструкции, каталог упражнений и расчёт комплектации наборов.')
  (ROOT/path).write_text(html,encoding='utf-8')
 def table(headers,rows):
  return '<div class="table-wrap"><table><thead><tr>'+''.join('<th scope="col">'+h+'</th>' for h in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+str(c)+'</td>' for c in r)+'</tr>' for r in rows)+'</tbody></table></div>'
@@ -95,6 +101,8 @@ def main():
   page(name+'.html',title,(ROOT/'data'/(name+'.html')).read_text())
  payload={'date':DATE,'price_snapshot_date':PRICE_DATE,'parts':parts,'exercises':E,'kits':KITS}
  (ROOT/'data/catalog.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2,default=str))
- print(f'Generated 14 HTML files, 6 CSVs and data/catalog.json; {len(E)} exercise entries.')
+ from translate_ru import generate as generate_russian
+ generate_russian()
+ print(f'Generated 26 teaching HTML files, 6 CSVs and data/catalog.json; {len(E)} exercise entries.')
  for key,k in KITS.items():print(key,'components',k['cost']['materials'],'loaded',k['cost']['loaded'],'retail',k['cost']['retail'])
 if __name__=='__main__':main()

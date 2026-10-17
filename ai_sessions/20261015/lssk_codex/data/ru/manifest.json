@@ -1,0 +1,34 @@
+{
+  "pages": {
+    "index.html": "index_ru.html",
+    "exercises.html": "exercises_ru.html",
+    "sources.html": "sources_ru.html",
+    "issues_codex_is_confident_about.html": "issues_codex_is_confident_about_ru.html",
+    "otsebyatina_from_codex_possible_hallucinations.html": "otsebyatina_from_codex_possible_hallucinations_ru.html",
+    "20261015_answers_to_all_questions_1.html": "20261015_answers_to_all_questions_1_ru.html",
+    "kits/basics.html": "kits/basics_ru.html",
+    "kits/comprehensive.html": "kits/comprehensive_ru.html",
+    "kits/fifo.html": "kits/fifo_ru.html",
+    "kits/arbiter.html": "kits/arbiter_ru.html",
+    "kits/fsm.html": "kits/fsm_ru.html",
+    "kits/single_fifo.html": "kits/single_fifo_ru.html",
+    "start_en.html": "start_ru.html",
+    "research/browser_check.html": "research/browser_check_ru.html"
+  },
+  "fragments": {
+    "data/20261015_answers_to_all_questions_1.html": "data/ru/20261015_answers_to_all_questions_1.html",
+    "data/arbiter_notes.html": "data/ru/arbiter_notes.html",
+    "data/fifo_notes.html": "data/ru/fifo_notes.html",
+    "data/fsm_notes.html": "data/ru/fsm_notes.html",
+    "data/issues_codex_is_confident_about.html": "data/ru/issues_codex_is_confident_about.html",
+    "data/otsebyatina_from_codex_possible_hallucinations.html": "data/ru/otsebyatina_from_codex_possible_hallucinations.html",
+    "data/single_fifo_notes.html": "data/ru/single_fifo_notes.html",
+    "data/sources.html": "data/ru/sources.html"
+  },
+  "existing_russian_fragment": "data/start_ru.html",
+  "archive_reading_editions": {
+    "research/prequel.html": "research/prequel_ru.html",
+    "research/improved.html": "research/improved_ru.html",
+    "research/course.html": "research/course_ru.html"
+  }
+}

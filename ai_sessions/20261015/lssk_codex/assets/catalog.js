@@ -9,7 +9,8 @@ function applyFilter() {
     card.hidden = !(card.textContent.toLocaleLowerCase().includes(query) && (!filter.value || card.dataset.kits.split(' ').includes(filter.value)));
     if (!card.hidden) count++;
   });
-  document.querySelector('#result-count').textContent = `${count} of ${cards.length} entries`;
+  document.querySelector('#result-count').textContent = document.documentElement?.lang === 'ru'
+    ? `Показано ${count} из ${cards.length} упражнений` : `${count} of ${cards.length} entries`;
 }
 search.addEventListener('input', applyFilter);
 filter.addEventListener('change', applyFilter);

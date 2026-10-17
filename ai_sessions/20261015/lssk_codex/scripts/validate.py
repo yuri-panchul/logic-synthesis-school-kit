@@ -44,14 +44,14 @@ class Document(HTMLParser):
   self.text.append(t)
   if self.cell is not None:self.cell.append(t)
 reviews=['issues_codex_is_confident_about.html','otsebyatina_from_codex_possible_hallucinations.html','20261015_answers_to_all_questions_1.html']
-paths=[ROOT/'index.html',ROOT/'start_en.html',ROOT/'start_ru.html',ROOT/'exercises.html',ROOT/'sources.html',*(ROOT/p for p in reviews),*(ROOT/'kits').glob('*.html')]
+paths=[*ROOT.glob('*.html'),*(ROOT/'kits').glob('*.html'),ROOT/'research/browser_check.html',*(ROOT/'research').glob('*_ru.html')]
 docs={}
 for p in paths:
  d=Document();d.feed(p.read_text());assert not d.stack,(p,d.stack)
- assert d.lang==('ru' if p.name=='start_ru.html' else 'en')
+ assert d.lang==('ru' if p.stem.endswith('_ru') else 'en')
  assert len(d.ids)==len(set(d.ids)),f'Duplicate IDs: {p}'
  docs[p.resolve()]=d
-assert len(paths)==14
+assert len(paths)==31
 for p,d in docs.items():
  for link in d.links:
   u=urlsplit(link)
@@ -78,12 +78,16 @@ for key,k in KITS.items():
  total=Decimal(0)
  html=docs[(ROOT/'kits'/f'{key}.html').resolve()]
  bomrows=next(t for t in html.tables if t[0][0]=='Component')
+ russian=docs[(ROOT/'kits'/f'{key}_ru.html').resolve()]
+ rubom=next(t for t in russian.tables if t[0][0]=='Компонент')
+ assert len(rubom)==len(bomrows)
  assert len(bomrows)-1==len(components)
- for r,hr in zip(components,bomrows[1:]):
+ for r,hr,rr in zip(components,bomrows[1:],rubom[1:]):
   q=int(r['quantity']);price=Decimal(r['unit_cost_usd']);line=Decimal(r['extended_cost_usd'])
   assert line==money(q*price),r
   assert hr[0]==r['description'] and hr[1].split()[0]==str(q),r
   assert hr[3]==f'${price:.4f}' and hr[4]==f'${line:.2f}',(r,hr)
+  assert rr[1].split()[0]==str(q) and rr[3:]==hr[3:],(key,r,rr)
   assert int(r['packs_to_buy'])==math.ceil(q/int(r['pack_size']))
   if r['item_id']!='button':assert q%int(r['pack_size'])==0
   total+=line
@@ -112,7 +116,7 @@ for id,counts in [('P03',{'40105':3,'button':3,'bar':3}),('C11',{'40105':1,'butt
  for p,q in counts.items():assert BY_ID[id]['bom'][p]==q,(id,p)
 assert '4013' not in BY_ID['P03']['bom']
 for p,d in docs.items():
- if p.name in reviews:continue
+ if p.name.replace('_ru.html','.html') in reviews or p.parent.name=='research':continue
  rendered=' '.join(d.text)
  assert not re.search(r'HCT14|HCT244|100\s*nF|10\s*[µμu]F|1\s*[µμu]F|2\.2\s*kΩ|100\s*kΩ|Schmitt|manual clock|ARM/TRANSFER|SAMPLE button|engineering addition',rendered,re.I),p
 for id in ['G13','M05','M02','P03','O01']:assert BY_ID[id]['note']
@@ -139,3 +143,27 @@ print('PASS arbiter truth table and 32 accepted grants with idle gaps')
 print(f'PASS {len(paths)} HTML documents; valid nesting, languages, local files, anchors and image alt text')
 print('PASS review requirements: six kits, source parts plus requested TTP223, direct assembled clocks, corrected controls')
 print('PASS 61 exercise inventories and six complete kit coverage mappings')
+# Every authored English page has a structurally equivalent Russian partner.
+manifest=json.loads((ROOT/'data/ru/manifest.json').read_text())
+for original,translation in manifest['pages'].items():
+ en=docs[(ROOT/original).resolve()];ru=docs[(ROOT/translation).resolve()]
+ assert ru.lang=='ru' and re.search('[А-Яа-яЁё]',' '.join(ru.text)),translation
+ if original not in ['start_en.html','research/browser_check.html']:
+  assert en.ids==ru.ids and en.images==ru.images,(original,'IDs or images changed')
+  # Amounts, precision and order must remain identical in both editions.
+  assert re.findall(r'\$[\d,.]+',' '.join(en.text))==re.findall(r'\$[\d,.]+',' '.join(ru.text)),original
+  assert len(en.tables)==len(ru.tables),original
+  for et,rt in zip(en.tables,ru.tables):
+   assert len(et)==len(rt) and all(len(er)==len(rr) for er,rr in zip(et,rt)),original
+for original,translation in manifest['fragments'].items():
+ assert (ROOT/original).exists() and (ROOT/translation).exists()
+for original,translation in manifest['archive_reading_editions'].items():
+ assert (ROOT/original).exists() and docs[(ROOT/translation).resolve()].lang=='ru'
+# Every original HTML file has a Russian counterpart, including body fragments,
+# browser helper and saved article reading editions; no original is overwritten.
+covered=set(manifest['pages'])|set(manifest['fragments'])|set(manifest['archive_reading_editions'])|{'data/start_en.html'}
+for path in ROOT.rglob('*.html'):
+ relative=str(path.relative_to(ROOT))
+ if '/ru/' in relative or path.stem.endswith('_ru'):continue
+ assert relative in covered,('HTML without Russian edition',relative)
+print('PASS Russian editions: page/fragment coverage, IDs, images, table dimensions, kit quantities and all USD amounts')
