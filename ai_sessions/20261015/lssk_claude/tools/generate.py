@@ -13,6 +13,7 @@ from math import ceil
 import arbiter
 import diagrams
 import fifo
+import fifo_sv
 from fsm_tasks import MODES, all_tasks, fits
 from lssk_data import (CATALOG, DOC_URL, EXERCISES, HABR_URL, JULY23_URL, JULY31_URL, KITS, PRICING,
                        SECTIONS, SHEET_URL)
@@ -952,6 +953,8 @@ def main():
     for lang in ("en", "ru"):
         ff = build_fifo_guide(lang)
     print(f"fifo_build_*.html {ff['mm']} M-M and {ff['mf']} M-F wires, pin-level check and simulation passed")
+    fifo_sv.write_sv(os.path.join(ROOT, "fifo_breadboard.sv"))
+    print("fifo_breadboard.sv written from the same wires")
     for kit in KITS:
         r = build_kit(kit)
         s = r["pricing"]
