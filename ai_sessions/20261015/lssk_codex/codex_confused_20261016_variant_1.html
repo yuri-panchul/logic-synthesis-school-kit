@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An illustation how GPT-6-Astra xhigh efforts can get confused in basic undegraduate-level microarchitecture with FIFO and SystemVerilog</title>
+<style>
+  :root { color-scheme: light; --ink: #172b3a; --muted: #536575; --accent: #006c78; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eef2f5; color: var(--ink); font: 17px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1240px; margin: auto; padding: 48px 52px 72px; background: white; }
+  h1 { margin: 12px 0 20px; font-size: clamp(28px, 3.5vw, 43px); line-height: 1.22; letter-spacing: -.025em; }
+  h2 { font-size: 26px; line-height: 1.35; margin: 0 0 24px; }
+  h3 { margin: 0 0 18px; font-size: 18px; }
+  p { margin: 16px 0; }
+  a { color: var(--accent); overflow-wrap: anywhere; }
+  .meta, .source { color: var(--muted); font-size: 14px; }
+  .subtitle { color: var(--muted); font-size: 20px; line-height: 1.5; }
+  nav { margin: 28px 0; padding: 16px 20px; background: #edf5f5; border-radius: 8px; }
+  nav a { display: inline-block; margin: 4px 22px 4px 0; }
+  section { margin-top: 42px; border-top: 3px solid var(--accent); padding-top: 24px; }
+  .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+  .language { min-width: 0; }
+  .language + .language { border-left: 1px solid #d8e2e8; padding-left: 28px; }
+  .label { text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--accent); }
+  blockquote { margin: 18px 0; padding: 2px 18px; border-left: 4px solid #b4c6d1; background: #f5f8fa; }
+  code { font: .88em/1.6 "DejaVu Sans Mono", Consolas, monospace; background: #edf2f5; padding: 2px 4px; border-radius: 3px; overflow-wrap: anywhere; }
+  pre { overflow-x: auto; padding: 16px; background: #142c3c; color: #f1f7fa; border-radius: 7px; }
+  pre code { background: none; color: inherit; padding: 0; overflow-wrap: normal; }
+  ul { padding-left: 24px; }
+  li { margin: 10px 0; }
+  .correction { margin-top: 24px; padding: 14px 18px; background: #eaf5f1; border-left: 4px solid #22765d; }
+  @media (max-width: 900px) {
+    main { padding: 28px 20px 48px; }
+    .pair { grid-template-columns: minmax(0, 1fr); }
+    .language + .language { border-left: 0; border-top: 1px solid #d8e2e8; padding: 24px 0 0; }
+  }
+  @media print {
+    body { background: white; font-size: 11pt; }
+    main { max-width: none; padding: 0; }
+    nav { display: none; }
+    .pair { display: block; }
+    .language + .language { border-left: 0; padding: 20px 0 0; }
+    h2, h3 { break-after: avoid; }
+    pre { white-space: pre-wrap; color: black; background: #f1f3f5; }
+  }
+</style>
+</head>
+<body>
+<main>
+<p class="meta">16 October 2026 · English / Русский</p>
+<h1>An illustation how GPT-6-Astra xhigh efforts can get confused in basic undegraduate-level microarchitecture with FIFO and SystemVerilog</h1>
+<p class="subtitle" lang="ru">Иллюстрация того, как GPT-6-Astra с уровнем рассуждений xhigh может запутаться в базовой микроархитектуре уровня бакалавриата с FIFO и SystemVerilog</p>
+<nav aria-label="Contents / Содержание">
+  <a href="#original">1. Original statement / Первоначальное утверждение</a>
+  <a href="#question">2. User’s question / Вопрос пользователя</a>
+  <a href="#response">3. Clarification / Разъяснение</a>
+</nav>
+
+<section id="original">
+<h2>1. Original mistaken statement by Codex / <span lang="ru">Первоначальное ошибочное утверждение Codex</span></h2>
+<div class="pair">
+<div class="language" lang="en">
+<p class="label">English</p>
+<p>Published under the heading <strong>“Issues Codex is confident about”</strong>, in the section <strong>“The automatic adder must also check result-queue capacity”</strong>:</p>
+<blockquote>
+<p>In your reference module, lines 74–79 combine both operand-valid signals with the result queue’s readiness. The wrapper, lines 28–34, turns valid/ready into push/pop. Therefore <code>pop_A = pop_B = push_SUM = !empty_A &amp; !empty_B &amp; !full_SUM</code>. If A/B were consumed while SUM was full, those operands would be lost without storing their result. This is a definite functional error in such an implementation, not evidence of a need for analog support components.</p>
+</blockquote>
+<p class="source">Source: <a href="../projects/logic-synthesis-school-kit/ai_sessions/20261015/lssk_codex/issues_codex_is_confident_about.html#fifo-space">original English report, 15 October 2026</a>.</p>
+</div>
+<div class="language" lang="ru">
+<p class="label">Русский</p>
+<p>Опубликовано под заголовком <strong>«Вопросы, в которых Codex уверен»</strong>, в разделе <strong>«Автоматический сумматор должен также проверять место в очереди результата»</strong>:</p>
+<blockquote>
+<p>В вашем эталонном модуле строки 74–79 объединяют признаки достоверности обоих операндов с готовностью очереди результата. Оболочка в строках 28–34 превращает valid/ready в push/pop. Поэтому <code>pop_A = pop_B = push_SUM = !empty_A &amp; !empty_B &amp; !full_SUM</code>. Если извлекать A/B при полной SUM, операнды будут потеряны без сохранения результата. В такой реализации это определённая функциональная ошибка, а не свидетельство необходимости аналоговых вспомогательных компонентов.</p>
+</blockquote>
+<p class="source">Источник: <a href="../projects/logic-synthesis-school-kit/ai_sessions/20261015/lssk_codex/issues_codex_is_confident_about_ru.html#fifo-space">исходный отчёт на русском языке от 15 октября 2026 года</a>.</p>
+</div>
+</div>
+</section>
+
+<section id="question">
+<h2>2. User’s question / <span lang="ru">Вопрос пользователя</span></h2>
+<div class="pair">
+<div class="language" lang="en">
+<p class="label">English — original wording</p>
+<blockquote>
+<p>Are you saying my implementation of <code>a_plus_b_using_wrapped_fifos.sv</code> is not functionally correct? In this case why does it passes <code>~/projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_9_a_plus_b_using_wrapped_fifos/tb.sv</code> testbench?</p>
+</blockquote>
+</div>
+<div class="language" lang="ru">
+<p class="label">Русский перевод</p>
+<blockquote>
+<p>Вы утверждаете, что моя реализация <code>a_plus_b_using_wrapped_fifos.sv</code> функционально некорректна? В таком случае почему она проходит проверку тестбенчем <code>~/projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_9_a_plus_b_using_wrapped_fifos/tb.sv</code>?</p>
+</blockquote>
+</div>
+</div>
+</section>
+
+<section id="response">
+<h2>3. Assistant’s clarification / <span lang="ru">Разъяснение ассистента</span></h2>
+<div class="pair">
+<div class="language" lang="en">
+<p class="label">English — response reproduced</p>
+<p><strong>No—your implementation correctly handles this condition. My report’s wording was misleading, and I’m sorry.</strong> I described a hypothetical error under an “Issues” heading, although your RTL already prevents it.</p>
+<p>In <a href="../projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_9_a_plus_b_using_wrapped_fifos/a_plus_b_using_wrapped_fifos.sv">your module, lines 74–79</a>, together with the FIFO wrappers:</p>
+<pre><code>pop_A = pop_B = push_SUM
+      = a_down_valid &amp; b_down_valid &amp; sum_up_ready</code></pre>
+<p>Therefore:</p>
+<ul>
+<li>Both operands are removed together, exactly when their sum is accepted.</li>
+<li>When the result FIFO is full, <code>sum_up_ready = 0</code>, so neither operand is removed.</li>
+</ul>
+<p><strong>Your testbench passes because this behavior is implemented correctly.</strong> It independently queues accepted A and B values, compares each accepted result against their oldest pair, and checks for leftover operands and mismatched transfer counts. It exercises independent inputs, backpressure, and randomized traffic.</p>
+<p>I ran your unchanged RTL and testbench with Icarus 12, adding an observation-only monitor:</p>
+<ul>
+<li><strong>100 results in 261 cycles</strong>, with no reported errors.</li>
+<li><strong>54 cycles</strong> with both operands available but the result FIFO full.</li>
+<li>No operand consumption during those blocked cycles; all three internal transfers remained synchronized.</li>
+</ul>
+<p class="correction">The report should have said: <strong>“Your RTL already implements the required output-capacity check. The proposed breadboard implementation must preserve that behavior.”</strong></p>
+</div>
+<div class="language" lang="ru">
+<p class="label">Русский перевод ответа</p>
+<p><strong>Нет — ваша реализация правильно обрабатывает эту ситуацию. Формулировка в моём отчёте вводила в заблуждение, и я приношу извинения.</strong> Я описал гипотетическую ошибку под заголовком «Вопросы, в которых Codex уверен», хотя ваш RTL уже предотвращает её.</p>
+<p>В <a href="../projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_9_a_plus_b_using_wrapped_fifos/a_plus_b_using_wrapped_fifos.sv">вашем модуле, строки 74–79</a>, вместе с оболочками FIFO:</p>
+<pre><code>pop_A = pop_B = push_SUM
+      = a_down_valid &amp; b_down_valid &amp; sum_up_ready</code></pre>
+<p>Следовательно:</p>
+<ul>
+<li>Оба операнда извлекаются одновременно, именно тогда, когда принимается их сумма.</li>
+<li>Когда FIFO результатов заполнена, <code>sum_up_ready = 0</code>, поэтому ни один из операндов не извлекается.</li>
+</ul>
+<p><strong>Ваш тестбенч проходит, потому что это поведение реализовано правильно.</strong> Он независимо помещает принятые значения A и B в очереди, сравнивает каждый принятый результат с суммой самой старой пары операндов и проверяет, не остались ли операнды в очередях и совпадают ли количества передач. Он проверяет независимую подачу входных данных, обратное давление (backpressure) и случайные последовательности передач.</p>
+<p>Я запустил ваш неизменённый RTL и тестбенч в Icarus 12, добавив монитор, который только наблюдает за сигналами:</p>
+<ul>
+<li><strong>100 результатов за 261 такт</strong>, без сообщений об ошибках.</li>
+<li><strong>54 такта</strong>, в течение которых оба операнда были доступны, но FIFO результатов была заполнена.</li>
+<li>В эти заблокированные такты операнды не извлекались; все три внутренние передачи оставались синхронизированными.</li>
+</ul>
+<p class="correction">В отчёте следовало написать: <strong>«Ваш RTL уже реализует необходимую проверку наличия места в выходной очереди. Предлагаемая реализация на макетной плате должна сохранять это поведение».</strong></p>
+</div>
+</div>
+</section>
+</main>
+</body>
+</html>
