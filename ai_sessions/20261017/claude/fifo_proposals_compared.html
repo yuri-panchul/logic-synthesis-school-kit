@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIFO Proposals Compared</title>
+<style>
+:root{--bg:#f7f6f2;--fg:#1c2329;--muted:#5d6872;--card:#ffffff;--line:#dfe3e6;--accent:#0b6e4f;
+--accent-bg:#e5f2ec;--warn:#9a4d00;--warn-bg:#fdf1e3;--code:#eef1f3;--th:#f0f2f1;--cx:#2f5fb3;--cx-bg:#e7eefa;--bad:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;
+--card:#1b2126;--line:#2d363d;--accent:#55c79a;--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;
+--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;--card:#1b2126;--line:#2d363d;--accent:#55c79a;
+--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+nav.top{background:var(--card);border-bottom:1px solid var(--line);font-size:14px}
+nav.top div{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 16px}
+nav.top a{color:var(--muted);text-decoration:none}nav.top a:hover{color:var(--accent)}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px;text-wrap:balance}h2{font-size:22px;margin:36px 0 10px;text-wrap:balance}
+h3{font-size:18px;margin:0 0 6px}
+p.lead{font-size:18px;color:var(--muted);margin:0 0 18px;max-width:820px}
+p,li{max-width:860px}
+a{color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:22px;line-height:1.2}.stat span{color:var(--muted);font-size:13px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--th);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;white-space:nowrap}
+tr.grp td{background:var(--th);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+table.cmp td:first-child{font-weight:600;min-width:150px}
+table.cmp td:nth-child(2),table.cmp td:nth-child(3){min-width:240px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--accent-bg);
+color:var(--accent);margin:2px 4px 2px 0;white-space:nowrap;font-weight:600}
+.tag.cx{background:var(--cx-bg);color:var(--cx)}
+.tag.eq{background:var(--th);color:var(--muted)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.muted{color:var(--muted)}.small{font-size:13px}
+.note{background:var(--warn-bg);border-radius:10px;padding:12px 16px;margin:14px 0;max-width:900px}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:90%}
+p code,li code,td code{overflow-wrap:anywhere}
+pre.code{background:var(--code);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.5;margin:8px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px 22px}
+.cols>div{min-width:0}
+.ol{text-decoration:overline}
+.ok{color:var(--accent);font-weight:600}.bad{color:var(--bad);font-weight:600}
+ul.tight li{margin:4px 0}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav class="top"><div><a href="fifo_sync_proposal.html">My proposal</a><a href="kit3b_fifo_sync.html">FIFO kit B</a><a href="kit3_fifo.html">FIFO kit A</a><a href="../lssk_codex/fifo_40105_proposal.html">Codex's proposal</a><a href="#check">How this was checked</a></div></nav>
+<main>
+
+<h1>Two 40105 FIFO proposals, compared</h1>
+<p class="lead">On 16 October you asked Codex and me for the same thing: a breadboard functional equivalent of
+<code>flip_flop_fifo_empty_full_optimized_and_debug_2</code> built around the 40105. This page compares
+Codex's <a href="../lssk_codex/fifo_40105_proposal.html">fifo_40105_proposal.html</a> (its 4 × 16 version,
+saved 17 October at 23:41) with my <a href="fifo_sync_proposal.html">fifo_sync_proposal.html</a>
+(variant B of BB8 and P3).</p>
+
+<div class="note"><b>I wrote one of the two proposals.</b> To keep this fair, I re-ran every number below
+today, including Codex's own testbench. I also copied Codex's netlist pin for pin into my chip-level testbench,
+changing only D3, which is tied low because my test has three data buttons. Wherever Codex is ahead, the page says so.</div>
+
+<div class="grid">
+<div class="stat"><b>Same core circuit</b><span>Both sample at the rising edge and strobe the 40105 in the low half: SI = NOR (clk, <span class="ol">W</span>)</span></div>
+<div class="stat"><b>4 chips vs 5</b><span>Single FIFO: Codex uses one chip fewer ($2.92 vs $3.32 of ICs)</span></div>
+<div class="stat"><b>50 wires, laid out</b><span>Codex has a hole-by-hole schedule on one board; mine is an estimate</span></div>
+<div class="stat"><b>4 of 5 corners</b><span>Codex's netlist in my chip-level test: a push and pop on an empty FIFO fails in one corner</span></div>
+<div class="stat"><b>P3 only in mine</b><span>Only my proposal redesigns the FIFO adder for one pair per clock</span></div>
+</div>
+
+<h2>Verdict</h2>
+<ul class="tight">
+<li><b>The circuits are almost the same.</b> We reached the same core independently. The only behavioural
+difference is one gate: mine lets pop through only when the FIFO is not empty, as <code>lab_top</code> does
+with <code>pop = ~empty &amp; key[0]</code>. Without that gate, pressing push and pop together on an empty FIFO
+starts a race between a 4069 inverter and the 40105's ripple-through, and the datasheets don't say who wins.</li>
+<li><span class="tag cx">Codex ahead</span> on build documents: a logic drawing, every chip pin, a one-board
+layout, a 50-wire schedule checked for shorts and missing connections, a timing diagram of your six-cycle
+scenario, and a Russian edition. Its circuit also uses one chip fewer.</li>
+<li><span class="tag">Mine ahead</span> on scope and checking: the FIFO adder (P3), a priced kit, and a
+simulation of every chip with timing corners, contact bounce, illegal requests and deliberate faults.</li>
+<li><b>Best of both:</b> Codex's four chips plus my pop gating fit with no extra chip. The gating uses Codex's
+two spare inverters and the NOR gate that made <code>empty</code>. This hybrid passes all five corners of my
+test (see <a href="#hybrid">below</a>).</li>
+</ul>
+
+<h2>How each got here</h2>
+<div class="tbl"><table>
+<tr><th>Time (PDT)</th><th>Codex</th><th>Mine</th></tr>
+<tr><td>16 Oct 23:11–23:15</td><td>Your request, without the scenario sentence</td><td>Your request, plus "I want three
+push happening under this scenario". It was a reply to my answer that in kit A a held button pushes one word, so
+the requirement was explicit for me</td></tr>
+<tr><td>16 Oct 23:52</td><td></td><td>Proposal delivered: one word per clock, BB8 (5 chips) and P3 (10 chips).
+Not revised since</td></tr>
+<tr><td>17 Oct 06:47</td><td>First version: a CD4017 ten-phase sequencer and a CD4029 occupancy counter for depth 10;
+12 ICs for 8 × 10 or 6 for 4 × 16, and ten oscillator periods per transaction</td><td></td></tr>
+<tr><td>17 Oct 06:53</td><td></td><td>FIFO kits A and B, on your request</td></tr>
+<tr><td>17 Oct 17:46</td><td>You rejected the phases and the counter: "I need to do pushes back to back every clock cycle"</td><td></td></tr>
+<tr><td>17 Oct 18:02–19:14</td><td>Second version: the direct clock, 8 × 16, seven ICs; then three drawings and a
+92-wire schedule on two boards</td><td></td></tr>
+<tr><td>17 Oct 21:23–23:41</td><td>You asked for 4 × 16. Third version: four ICs and 50 wires on one board</td><td></td></tr>
+</table></div>
+<p class="small muted">Codex's first version read "functional equivalent" to include the RTL's default depth of 10,
+which is a defensible reading. Both of us later settled on the 40105's native depth of 16.</p>
+
+<h2>The circuit both arrived at</h2>
+<div class="cols">
+<div><h3>Codex, 4 × 16</h3>
+<pre class="code">on clk ↑:  {D_hold, W, R} ← {write_data, push, pop}
+           (40174, all six flip-flops)
+SI    = NOR (clk, W̄)        4001; W̄ from a 4069
+SO    = NOT NOR (clk, R̄)    4001, then a 4069
+full  = NOT DIR             4001 as an inverter
+empty = NOT DOR             4001 as an inverter</pre></div>
+<div><h3>Mine, BB8 variant B</h3>
+<pre class="code">on clk ↑:  push_r ← push            (4013)
+           pop_r  ← pop AND DOR     (4082, 4013)
+           D2..D0 ← data buttons    (40174)
+SI    = NOR (clk, Q̄ of push_r)      4001
+SO    = NOT NOR (clk, Q̄ of pop_r)   4001, third NOR
+LEDs  = DOR (not empty), DIR (not full)</pre></div>
+</div>
+<p>Both proposals argue each of these points the same way:</p>
+<ul class="tight">
+<li>The clock drives the NOR input directly, so at the rising edge the clock masks the strobe before the newly
+captured bit can change. Both reject an inverted clock ANDed with the request, for the same glitch reason.</li>
+<li>A 40174 captures the data at the rising edge, so each word is what the inputs showed at that edge.</li>
+<li>A push into a full FIFO on the same edge as a pop is taken, because SI is still high when the place frees up.
+Both cite TI's functional description for this.</li>
+<li>The request flip-flops are cleared by the same reset as MR, so SI stays low during a reset.</li>
+<li>Depth is 16, and the RTL is instantiated at width 4 and depth 16 for the comparison.</li>
+</ul>
+
+<h2>Side by side</h2>
+<div class="tbl"><table class="cmp">
+<tr><th></th><th>Codex (4 × 16)</th><th>Mine (variant B)</th></tr>
+<tr class="grp"><td colspan="3">Behaviour</td></tr>
+<tr><td>Push held for 3 clocks</td><td>3 words <span class="tag eq">same</span></td><td>3 words</td></tr>
+<tr><td>Your six-cycle scenario</td><td>Matches the RTL <span class="tag eq">same</span></td><td>Matches the RTL (run <a href="#six">below</a>)</td></tr>
+<tr><td>Push + pop on an empty FIFO</td><td>"Outside the equivalence claim". The result depends on gate and FIFO timing <span class="tag">mine ahead</span></td><td>Pop is sampled AND DOR, so the pushed word stays, as with <code>lab_top</code></td></tr>
+<tr><td>Push into a full FIFO, no pop</td><td>Ignored by the 40105. Outside its claim and not in its own tests; it passes in my testbench</td><td>Ignored by the 40105. Tested 1,669 times</td></tr>
+<tr><td>Push + pop on a full FIFO</td><td>Supported <span class="tag eq">same</span></td><td>Supported</td></tr>
+<tr><td>empty, full outputs</td><td>Same polarity as the RTL, from two NOR gates <span class="tag cx">Codex ahead</span></td><td>LEDs on DOR and DIR: lit means not empty, not full</td></tr>
+<tr><td>Data in</td><td>4 bits from external inputs</td><td>3 bits from momentary data buttons, D3 tied low</td></tr>
+<tr class="grp"><td colspan="3">Hardware</td></tr>
+<tr><td>Chips, one FIFO</td><td>4: 40105, 40174, 4001, 4069 ($2.92) <span class="tag cx">Codex ahead</span></td><td>5: 40105, 4013, 4001, 4082, 40174 ($3.32)</td></tr>
+<tr><td>Breadboard</td><td>One 830-point board, 50 wires counted from the layout <span class="tag cx">Codex ahead</span></td><td>Not laid out; about 50 wires, estimated</td></tr>
+<tr><td>FIFO adder (P3)</td><td>Not covered. Its three-FIFO kit budgets 4081 and 4069 gates but no flip-flops, so it cannot build this clocked circuit</td><td>10 chips, one pair per clock; about 113 wires, estimated <span class="tag">mine ahead</span></td></tr>
+<tr><td>Kit list and price</td><td>Not updated: its single-FIFO kit lists 40105, 4081 and 4069, without the 40174 and 4001</td><td>FIFO kit B: $37.80 of parts, $81.99 classroom, $112.99 retail, on the site <span class="tag">mine ahead</span></td></tr>
+<tr class="grp"><td colspan="3">Documents</td></tr>
+<tr><td>Drawings</td><td>Logic, every pin, breadboard placement (SVG and PNG), six-cycle timing diagram <span class="tag cx">Codex ahead</span></td><td>Two schematics and two simulated waveforms</td></tr>
+<tr><td>Languages</td><td>English and Russian <span class="tag cx">Codex ahead</span></td><td>English</td></tr>
+<tr><td>Timing</td><td>Inequalities for the high and low half-periods, with TI's minimum pulse widths</td><td>0.5 µs worst ripple against a 250 ms half period at 2 Hz</td></tr>
+<tr class="grp"><td colspan="3">Checking</td></tr>
+<tr><td>What is simulated</td><td>A behavioural model: ideal registers, the glue logic as two delays, and a 40105 without ripple-through</td><td>The chip netlist, with a model for every chip, transport delays and setup, hold, data-hold and floating-input checks <span class="tag">mine ahead</span></td></tr>
+<tr><td>Drawn circuit = simulated circuit</td><td>No. The drawings are checked statically (pins, shorts, rails, gate truth tables)</td><td>Yes, but there is no layout to check</td></tr>
+<tr><td>Timing variation</td><td>Three orders of the SI and SO delays</td><td>Five corners, two of them mixed (slow glue with a fast FIFO, and the reverse)</td></tr>
+<tr><td>Stimulus</td><td>2,128 synchronous cycles per run; illegal requests are a fatal error</td><td>11,351 BB8 edges (and 13,884 for P3), with illegal requests, presses at any moment with contact bounce, and resets mid-transfer</td></tr>
+<tr><td>Deliberate faults</td><td>None</td><td>4, all caught</td></tr>
+<tr><td>Icarus 14 (oss-cad-suite)</td><td>Compiles and passes <span class="tag cx">Codex ahead</span></td><td>Does not compile: signals are declared after use. Runs on Icarus 12</td></tr>
+<tr><td>Built on hardware</td><td>No <span class="tag eq">same</span></td><td>No</td></tr>
+</table></div>
+<p class="small muted">Both datasheet figures are correct. At 4.5 V, TI gives a 500 ns maximum ripple time
+(SO to DIR) at 25 °C, which I quoted as 0.5 µs, and 750 ns over −55 to 125 °C, which Codex quoted.</p>
+
+<h2 id="empty">The one real difference: push and pop on an empty FIFO</h2>
+<p>When the FIFO is empty and push and pop arrive on the same edge, SI rises and SO falls in the same low
+half-period. In Codex's circuit, SO falls one 4069 delay after SI rises. The new word then ripples through 16
+places to the output:</p>
+<ul class="tight">
+<li>If the word reaches the output (DOR high) before SO falls, the 40105 pops it at once, and the word is lost.</li>
+<li>If SO falls first, the 40105 ignores it, and the word stays.</li>
+</ul>
+<p>TI gives only a maximum ripple time (SI to DOR, 400 ns at 4.5 V and 25 °C), so the datasheets don't
+decide the race. On a breadboard with buttons, a student will press push and pop together on an empty FIFO, so
+this case can't be left to "the caller must obey the rules".</p>
+<div class="tbl"><table>
+<tr><th>Test</th><th>Result</th></tr>
+<tr><td>Codex's own model, its default delays (SI 40 ns, SO 80 ns)</td><td><span class="bad">Word lost:</span> the FIFO is empty after the cycle. The RTL with <code>lab_top</code>'s gating holds the word</td></tr>
+<tr><td>Codex's own model, SO first (120 / 40 ns) or both together (40 / 40 ns)</td><td><span class="ok">Word kept</span></td></tr>
+<tr><td>Codex's netlist in my chip-level testbench: typical, fast, slow, and fast glue with a slow FIFO</td><td><span class="ok">0 mismatches</span> in each corner</td></tr>
+<tr><td>The same, slow glue (250 ns NOR, 110 ns inverter) with a fast FIFO (6 ns per place)</td><td><span class="bad">First mismatch at 186.25 s</span> (simulated): a push and pop on an empty FIFO lost the word. That put the queues out of step, so the run counted 2,076 mismatches in total</td></tr>
+<tr><td>My circuit, all five corners</td><td><span class="ok">0 mismatches</span>; this case occurred 410 times</td></tr>
+<tr><td>My circuit with the AND gate removed (my fault 1)</td><td><span class="bad">Caught</span> in the same corner</td></tr>
+</table></div>
+<p class="small muted">The corners are my assumptions about the extremes, because the 40105 datasheet gives no
+minimum delays. What matters is that the result depends on chip timing at all.</p>
+
+<h2 id="six">Same scenario, both circuits</h2>
+<p>This is the six-cycle scenario you gave Codex: push A, B and C, then push D and E while popping, then pop.
+I ran it on my BB8 netlist, Codex's model and the unchanged RTL together, with words A to E = 1 to 5. The
+table shows the head after each cycle has settled.</p>
+<div class="tbl"><table>
+<tr><th>Cycle</th><th>push</th><th>pop</th><th>Word</th><th>RTL</th><th>Mine</th><th>Codex</th></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>A</td><td>A</td><td>A</td><td>A</td></tr>
+<tr><td>2</td><td>1</td><td>0</td><td>B</td><td>A</td><td>A</td><td>A</td></tr>
+<tr><td>3</td><td>1</td><td>0</td><td>C</td><td>A</td><td>A</td><td>A</td></tr>
+<tr><td>4</td><td>1</td><td>1</td><td>D</td><td>B</td><td>B</td><td>B</td></tr>
+<tr><td>5</td><td>1</td><td>1</td><td>E</td><td>C</td><td>C</td><td>C</td></tr>
+<tr><td>6</td><td>0</td><td>1</td><td></td><td>D</td><td>D</td><td>D</td></tr>
+<tr><td>Then pop, pop</td><td>0</td><td>1</td><td></td><td>E, then empty</td><td>E, then empty</td><td>E, then empty</td></tr>
+</table></div>
+
+<h2 id="hybrid">Best of both: four chips with the empty-pop gate</h2>
+<p>Codex's 4 × 16 circuit leaves two 4069 inverters unused. Making <code>empty</code> with an inverter instead of
+a NOR frees a NOR, and the three gates together make pop AND DOR:</p>
+<pre class="code">U4.E  (11 → 10)     empty  = NOT DOR              was: input tied to GND
+U4.F  (13 → 12)     pop_n  = NOT pop              was: input tied to GND
+U3.D  (12, 13 → 11) pop_ok = NOR (pop_n, empty)   was: empty = NOR (DOR, DOR)
+U2 pin 14 (D6)      pop_ok instead of pop</pre>
+<p>That uses all six inverters and all four NOR gates, and keeps <code>empty</code> and <code>full</code> in RTL
+polarity. In my chip-level testbench the hybrid has <span class="ok">0 mismatches in all five corners</span>,
+including the slow-glue, fast-FIFO corner where Codex's circuit fails. It is simulated only: neither drawn nor
+laid out.</p>
+
+<h2>What each could take from the other</h2>
+<div class="cols">
+<div class="card"><h3>For Codex's proposal</h3><ul class="tight">
+<li>The empty-pop gate above, at no chip cost.</li>
+<li>The FIFO adder: its three-FIFO kit has no flip-flops for the clocked circuit.</li>
+<li>Kit lists that match the proposal's chips.</li>
+<li>Tests with illegal requests, presses at any moment and deliberate faults.</li>
+<li>A simulation of the netlist it draws, not a separate behavioural model.</li>
+</ul></div>
+<div class="card"><h3>For mine</h3><ul class="tight">
+<li>A layout of variant B, with a hole-by-hole schedule and a static wiring check like Codex's.</li>
+<li>Push and pop in the 40174's spare flip-flops (the hybrid), saving a chip.</li>
+<li>empty and full in RTL polarity.</li>
+<li>A Russian edition and a timing diagram of your six-cycle scenario.</li>
+<li>A testbench that also compiles with Icarus 14.</li>
+</ul></div>
+</div>
+
+<h2 id="check">How this was checked</h2>
+<p>Every result on this page comes from one script, which runs in about a minute:</p>
+<pre class="code">fifo_compare/run.sh</pre>
+<ul class="tight">
+<li><b>Codex's testbench:</b> its own testbench (<code>research/fifo_40105_proposal/testbench.sv</code> and
+<code>proposal_model.sv</code>) with its three delay orders. All three pass, as Codex reports.</li>
+<li><b>Push and pop on an empty FIFO:</b> <code>tb_empty.sv</code> runs that case on Codex's model.</li>
+<li><b>Six-cycle scenario:</b> <code>tb_six.sv</code> runs it on my netlist, Codex's model and the RTL.</li>
+<li><b>Chip-level testbench:</b> my testbench from <code>fifo_sync_proposal.sv</code>, with the BB8 netlist
+swapped for <code>codex_bb8.sv</code> (Codex's four chips, plus a CD4069UB model at 0.44 × the 4001 delay) or
+<code>hybrid_bb8.sv</code>.</li>
+</ul>
+<p class="small muted">Codex's files were read as saved on 17 October 2026 at 23:41 PDT, and they may change
+later. I didn't run Codex's own check script, because it rewrites <code>validation.json</code> in Codex's
+folder. Its testbench was compiled into a temporary folder instead. Neither circuit has been built on real
+hardware.</p>
+
+<footer>Logic Synthesis School Kit · Verilog Meetup · comparison written 17 October 2026.</footer>
+</main>
+</body>
+</html>

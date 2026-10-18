@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1440" viewBox="0 0 1800 1440" role="img" aria-labelledby="fifo-logic-title fifo-logic-desc">
+<title id="fifo-logic-title">1 · 40105 FIFO logic schematic</title><desc id="fifo-logic-desc">Capture on clk ↑; SI ↑ / SO ↓ on clk ↓. Net names match all three drawings.</desc>
+<style>text{font-family:DejaVu Sans,sans-serif}path,line,polyline{stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="0" y="0" width="1800" height="1440" rx="10" fill="#f5f8fa" stroke="none" stroke-width="1.5"/>
+<text x="40" y="56" font-size="31" fill="#183247" text-anchor="start" font-weight="bold" >1 · 40105 FIFO logic schematic</text>
+<text x="40" y="94" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >Capture on clk ↑; SI ↑ / SO ↓ on clk ↓. Net names match all three drawings.</text>
+<rect x="40" y="130" width="1720" height="520" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="164" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Data path and captured requests</text>
+<rect x="320" y="215" width="260" height="340" rx="10" fill="#edf7f3" stroke="#08795b" stroke-width="1.5"/>
+<text x="450" y="250" font-size="23" fill="#183247" text-anchor="middle" font-weight="bold" >U3 + U4</text>
+<text x="450" y="280" font-size="18" fill="#183247" text-anchor="middle" font-weight="normal" >2 × CD40174B</text>
+<text x="450" y="316" font-size="17" fill="#183247" text-anchor="middle" font-weight="normal" >8 data + W + R</text>
+<text x="335" y="370" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >D[7:0]</text>
+<text x="565" y="370" font-size="18" fill="#183247" text-anchor="end" font-weight="normal" >Q[7:0]</text>
+<text x="80" y="350" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[7:0]</text>
+<path d="M80,365 L320,365" stroke="#08795b" stroke-width="4" fill="none" />
+<path d="M230,355 L244,375" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="248" y="349" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >8</text>
+<path d="M580,365 L665,365" stroke="#08795b" stroke-width="4" fill="none" />
+<path d="M665,260 L665,485" stroke="#08795b" stroke-width="4" fill="none" />
+<circle cx="665" cy="365" r="5" fill="#08795b"/>
+<text x="592" y="344" font-size="16" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold</text>
+<text x="210" y="398" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >push</text>
+<path d="M210,405 L320,405" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="410" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >push</text>
+<text x="210" y="428" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >pop</text>
+<path d="M210,435 L320,435" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="440" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >pop</text>
+<text x="210" y="468" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M210,475 L320,475" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="338" y="480" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >CLK</text>
+<text x="210" y="508" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M210,515 L320,515" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="520" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M320,466 L330,475 L320,484" stroke="#b36a00" stroke-width="2" fill="none" />
+<circle cx="315" cy="515" r="5" stroke="#183247" fill="white"/>
+<path d="M395,555 L395,600" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="395" y="625" font-size="20" fill="#763aa5" text-anchor="middle" font-weight="normal" >W</text>
+<path d="M505,555 L505,600" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="505" y="625" font-size="20" fill="#763aa5" text-anchor="middle" font-weight="normal" >R</text>
+<rect x="855" y="200" width="310" height="195" rx="10" fill="#edf4fb" stroke="#2464ad" stroke-width="1.5"/>
+<text x="1010" y="231" font-size="19" fill="#183247" text-anchor="middle" font-weight="bold" >U1 · CD74HC40105E</text>
+<text x="1010" y="255" font-size="17" fill="#183247" text-anchor="middle" font-weight="normal" >4 × 16</text>
+<path d="M665,260 L855,260" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="687" y="250" font-size="16" fill="#08795b" text-anchor="start" font-weight="normal" >[3:0]</text>
+<text x="868" y="287" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >D[3:0]</text>
+<path d="M1165,260 L1580,260" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="1365" y="247" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[3:0]</text>
+<text x="1150" y="287" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >Q[3:0]</text>
+<text x="750" y="298" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M750,305 L855,305" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="310" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<text x="750" y="330" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<path d="M750,337 L855,337" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="342" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >SO</text>
+<text x="750" y="362" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<path d="M750,369 L855,369" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="374" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >MR</text>
+<text x="1150" y="317" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >DIR</text>
+<path d="M1165,312 L1305,312" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="317" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_L</text>
+<text x="1150" y="357" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1165,352 L1305,352" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="357" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_L</text>
+<rect x="855" y="425" width="310" height="195" rx="10" fill="#edf4fb" stroke="#2464ad" stroke-width="1.5"/>
+<text x="1010" y="456" font-size="19" fill="#183247" text-anchor="middle" font-weight="bold" >U2 · CD74HC40105E</text>
+<text x="1010" y="480" font-size="17" fill="#183247" text-anchor="middle" font-weight="normal" >4 × 16</text>
+<path d="M665,485 L855,485" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="687" y="475" font-size="16" fill="#08795b" text-anchor="start" font-weight="normal" >[7:4]</text>
+<text x="868" y="512" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >D[3:0]</text>
+<path d="M1165,485 L1580,485" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="1365" y="472" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[7:4]</text>
+<text x="1150" y="512" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >Q[3:0]</text>
+<text x="750" y="523" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M750,530 L855,530" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="535" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<text x="750" y="555" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<path d="M750,562 L855,562" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="567" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >SO</text>
+<text x="750" y="587" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<path d="M750,594 L855,594" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="870" y="599" font-size="16" fill="#183247" text-anchor="start" font-weight="normal" >MR</text>
+<text x="1150" y="542" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >DIR</text>
+<path d="M1165,537 L1305,537" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="542" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_H</text>
+<text x="1150" y="582" font-size="16" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1165,577 L1305,577" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="582" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_H</text>
+<rect x="40" y="685" width="930" height="630" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="719" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Strobes: clk connects directly to both NOR gates</text>
+<text x="80" y="805" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >W</text>
+<path d="M80,815 L190,815" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,790 L190,840 L236,815 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="815" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="775" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U6.B</text>
+<path d="M248,815 L480,815" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="310" y="803" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >W_n</text>
+<path d="M480,798 Q522,794 560,832 Q522,870 480,866 Q504,832 480,798 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M480,815 L489,815" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M480,849 L489,849" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="566" cy="832" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="520" y="782" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U5.A</text>
+<text x="320" y="876" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M320,849 L480,849" stroke="#b36a00" stroke-width="2" fill="none" />
+<path d="M572,832 L855,832" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="821" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >SI</text>
+<text x="80" y="920" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >SI = NOR(clk, W_n)</text>
+<text x="80" y="1000" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >R</text>
+<path d="M80,1010 L190,1010" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,985 L190,1035 L236,1010 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="1010" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="970" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U6.C</text>
+<path d="M248,1010 L480,1010" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="310" y="998" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >R_n</text>
+<path d="M480,993 Q522,989 560,1027 Q522,1065 480,1061 Q504,1027 480,993 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M480,1010 L489,1010" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M480,1044 L489,1044" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="566" cy="1027" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="520" y="977" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U5.B</text>
+<text x="320" y="1071" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M320,1044 L480,1044" stroke="#b36a00" stroke-width="2" fill="none" />
+<path d="M572,1027 L715,1027" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="620" y="1016" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >P</text>
+<path d="M715,1002 L715,1052 L761,1027 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="767" cy="1027" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="740" y="987" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U6.D</text>
+<path d="M773,1027 L885,1027" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="835" y="1016" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="80" y="1115" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >SO = NOT(NOR(clk, R_n))</text>
+<text x="80" y="1225" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<path d="M80,1235 L190,1235" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,1210 L190,1260 L236,1235 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="1235" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="1195" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U6.A</text>
+<path d="M248,1235 L440,1235" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="320" y="1224" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >CLR_n</text>
+<text x="510" y="1232" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >rst → both FIFO MR inputs</text>
+<rect x="1000" y="685" width="760" height="630" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="1024" y="719" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Flags from both nibbles</text>
+<text x="1030" y="816" font-size="17" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_L</text>
+<path d="M1125,823 L1225,823" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1030" y="850" font-size="17" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_H</text>
+<path d="M1125,857 L1225,857" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1225,806 L1260,806 C1317,806 1317,874 1260,874 L1225,874 Z" stroke="#183247" stroke-width="2" fill="white" />
+<text x="1265" y="790" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U7.A</text>
+<path d="M1303,840 L1405,840" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="825" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_ALL</text>
+<circle cx="1405" cy="840" r="4" fill="#763aa5"/>
+<path d="M1405,823 V857" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1405,823 L1460,823" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1405,857 L1460,857" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1460,806 Q1502,802 1540,840 Q1502,878 1460,874 Q1484,840 1460,806 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M1460,823 L1469,823" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M1460,857 L1469,857" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="1546" cy="840" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="1500" y="790" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U5.C</text>
+<path d="M1552,840 L1715,840" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1630" y="828" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >full</text>
+<text x="1030" y="940" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >full = NOT(DIR_L AND DIR_H)</text>
+<text x="1030" y="1056" font-size="17" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_L</text>
+<path d="M1125,1063 L1225,1063" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1030" y="1090" font-size="17" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_H</text>
+<path d="M1125,1097 L1225,1097" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1225,1046 L1260,1046 C1317,1046 1317,1114 1260,1114 L1225,1114 Z" stroke="#183247" stroke-width="2" fill="white" />
+<text x="1265" y="1030" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U7.B</text>
+<path d="M1303,1080 L1405,1080" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1320" y="1065" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_ALL</text>
+<circle cx="1405" cy="1080" r="4" fill="#763aa5"/>
+<path d="M1405,1063 V1097" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1405,1063 L1460,1063" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1405,1097 L1460,1097" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1460,1046 Q1502,1042 1540,1080 Q1502,1118 1460,1114 Q1484,1080 1460,1046 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M1460,1063 L1469,1063" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M1460,1097 L1469,1097" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="1546" cy="1080" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="1500" y="1030" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U5.D</text>
+<path d="M1552,1080 L1715,1080" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1630" y="1068" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >empty</text>
+<text x="1030" y="1180" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >empty = NOT(DOR_L AND DOR_H)</text>
+<text x="1030" y="1245" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >Both inputs of U5.C / U5.D are tied together.</text>
+<text x="40" y="1360" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >Same net label = electrical connection. Dots join wires. TS = GND on both FIFOs. Power and unused gates: drawing 2.</text>
+<text x="40" y="1415" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >8 bits × 16 words · +5 V · one external clock · proposal, hardware not assembled</text>
+</svg>

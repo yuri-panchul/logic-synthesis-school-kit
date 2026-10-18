@@ -1,0 +1,492 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1510" viewBox="0 0 1800 1510" role="img" aria-labelledby="fifo-pinout-title fifo-pinout-desc">
+<title id="fifo-pinout-title">2 · Выводы и соединения микросхем</title><desc id="fifo-pinout-desc">DIP, вид сверху; выемка сверху. Все выводы показаны. Одинаковое имя цепи означает соединение.</desc>
+<style>text{font-family:DejaVu Sans,sans-serif}path,line,polyline{stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="0" y="0" width="1800" height="1510" rx="10" fill="#f5f8fa" stroke="none" stroke-width="1.5"/>
+<text x="40" y="56" font-size="31" fill="#183247" text-anchor="start" font-weight="bold" >2 · Выводы и соединения микросхем</text>
+<text x="40" y="94" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >DIP, вид сверху; выемка сверху. Все выводы показаны. Одинаковое имя цепи означает соединение.</text>
+<rect x="40" y="135" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="169" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U3 · CD40174B</text>
+<text x="64" y="199" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >Захват data[5:0]</text>
+<rect x="240" y="223" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M302,223 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="247" y="252" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="271" y="252" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M220,247 L240,247" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="252" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >CLR_n</text>
+<text x="247" y="282" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="271" y="282" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q1</text>
+<path d="M220,277 L240,277" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="282" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[0]</text>
+<text x="247" y="312" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="271" y="312" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M220,307 L240,307" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="312" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[0]</text>
+<text x="247" y="342" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="271" y="342" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M220,337 L240,337" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="342" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[1]</text>
+<text x="247" y="372" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="271" y="372" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q2</text>
+<path d="M220,367 L240,367" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="372" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[1]</text>
+<text x="247" y="402" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="271" y="402" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M220,397 L240,397" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="402" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[2]</text>
+<text x="247" y="432" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="271" y="432" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q3</text>
+<path d="M220,427 L240,427" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="432" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[2]</text>
+<text x="247" y="462" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="271" y="462" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M220,457 L240,457" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="210" y="462" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="393" y="462" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="369" y="462" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CLK</text>
+<path d="M400,457 L430,457" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="441" y="462" font-size="15" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<text x="393" y="432" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="369" y="432" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q4</text>
+<path d="M400,427 L430,427" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="432" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold[3]</text>
+<text x="393" y="402" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="369" y="402" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D4</text>
+<path d="M400,397 L430,397" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="402" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[3]</text>
+<text x="393" y="372" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="369" y="372" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q5</text>
+<path d="M400,367 L430,367" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="372" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold[4]</text>
+<text x="393" y="342" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="369" y="342" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D5</text>
+<path d="M400,337 L430,337" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="342" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[4]</text>
+<text x="393" y="312" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="369" y="312" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D6</text>
+<path d="M400,307 L430,307" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="312" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[5]</text>
+<text x="393" y="282" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="369" y="282" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q6</text>
+<path d="M400,277 L430,277" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="282" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold[5]</text>
+<text x="393" y="252" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="369" y="252" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M400,247 L430,247" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="441" y="252" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="64" y="512" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата A · e4 / f4 · вывод 1: A.e4</text>
+<rect x="620" y="135" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="644" y="169" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U4 · CD40174B</text>
+<text x="644" y="199" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >Захват data[7:6], push, pop</text>
+<rect x="820" y="223" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M882,223 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="827" y="252" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="851" y="252" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M800,247 L820,247" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="252" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >CLR_n</text>
+<text x="827" y="282" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="851" y="282" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q1</text>
+<path d="M800,277 L820,277" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="790" y="282" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[6]</text>
+<text x="827" y="312" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="851" y="312" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M800,307 L820,307" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="790" y="312" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[6]</text>
+<text x="827" y="342" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="851" y="342" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M800,337 L820,337" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="790" y="342" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[7]</text>
+<text x="827" y="372" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="851" y="372" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q2</text>
+<path d="M800,367 L820,367" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="790" y="372" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[7]</text>
+<text x="827" y="402" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="851" y="402" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M800,397 L820,397" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="402" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >push</text>
+<text x="827" y="432" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="851" y="432" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q3</text>
+<path d="M800,427 L820,427" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="432" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W</text>
+<text x="827" y="462" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="851" y="462" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M800,457 L820,457" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="790" y="462" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="973" y="462" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="949" y="462" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CLK</text>
+<path d="M980,457 L1010,457" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="1021" y="462" font-size="15" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<text x="973" y="432" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="949" y="432" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q4</text>
+<path d="M980,427 L1010,427" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="432" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >R</text>
+<text x="973" y="402" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="949" y="402" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D4</text>
+<path d="M980,397 L1010,397" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="402" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >pop</text>
+<text x="973" y="372" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="949" y="372" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q5</text>
+<path d="M980,367 L1010,367" stroke="#526677" stroke-width="2" fill="none" />
+<text x="1021" y="372" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M1006,363 l8,8 M1006,371 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="973" y="342" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="949" y="342" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D5</text>
+<path d="M980,337 L1010,337" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1021" y="342" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="973" y="312" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="949" y="312" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D6</text>
+<path d="M980,307 L1010,307" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1021" y="312" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="973" y="282" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="949" y="282" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q6</text>
+<path d="M980,277 L1010,277" stroke="#526677" stroke-width="2" fill="none" />
+<text x="1021" y="282" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M1006,273 l8,8 M1006,281 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="973" y="252" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="949" y="252" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M980,247 L1010,247" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1021" y="252" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="644" y="512" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата A · e16 / f16 · вывод 1: A.e16</text>
+<rect x="1200" y="135" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="1224" y="169" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U1 · CD74HC40105E</text>
+<text x="1224" y="199" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >FIFO младшей тетрады</text>
+<rect x="1400" y="223" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M1462,223 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="1407" y="252" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="1431" y="252" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >TS</text>
+<path d="M1380,247 L1400,247" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1370" y="252" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="1407" y="282" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="1431" y="282" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >DIR</text>
+<path d="M1380,277 L1400,277" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1370" y="282" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR_L</text>
+<text x="1407" y="312" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="1431" y="312" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M1380,307 L1400,307" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1370" y="312" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >SI</text>
+<text x="1407" y="342" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="1431" y="342" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D0</text>
+<path d="M1380,337 L1400,337" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="342" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[0]</text>
+<text x="1407" y="372" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="1431" y="372" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M1380,367 L1400,367" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="372" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[1]</text>
+<text x="1407" y="402" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="1431" y="402" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M1380,397 L1400,397" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="402" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[2]</text>
+<text x="1407" y="432" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="1431" y="432" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M1380,427 L1400,427" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="432" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[3]</text>
+<text x="1407" y="462" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="1431" y="462" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M1380,457 L1400,457" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1370" y="462" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="1553" y="462" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="1529" y="462" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >MR</text>
+<path d="M1560,457 L1590,457" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="462" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<text x="1553" y="432" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="1529" y="432" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q3</text>
+<path d="M1560,427 L1590,427" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="432" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[3]</text>
+<text x="1553" y="402" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="1529" y="402" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q2</text>
+<path d="M1560,397 L1590,397" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="402" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[2]</text>
+<text x="1553" y="372" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="1529" y="372" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q1</text>
+<path d="M1560,367 L1590,367" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="372" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[1]</text>
+<text x="1553" y="342" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="1529" y="342" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q0</text>
+<path d="M1560,337 L1590,337" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="342" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[0]</text>
+<text x="1553" y="312" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="1529" y="312" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1560,307 L1590,307" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="312" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_L</text>
+<text x="1553" y="282" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="1529" y="282" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >SO</text>
+<path d="M1560,277 L1590,277" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="282" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="1553" y="252" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="1529" y="252" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M1560,247 L1590,247" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1601" y="252" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="1224" y="512" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата B · e4 / f4 · вывод 1: B.e4</text>
+<rect x="40" y="565" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="599" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U6 · CD4069UB</text>
+<text x="64" y="629" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >НЕ: сброс, запросы, SO</text>
+<rect x="240" y="653" width="160" height="224" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M302,653 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="247" y="682" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="271" y="682" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A</text>
+<path d="M220,677 L240,677" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="682" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >rst</text>
+<text x="247" y="712" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="271" y="712" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >AY</text>
+<path d="M220,707 L240,707" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="712" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >CLR_n</text>
+<text x="247" y="742" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="271" y="742" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B</text>
+<path d="M220,737 L240,737" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="742" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W</text>
+<text x="247" y="772" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="271" y="772" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >BY</text>
+<path d="M220,767 L240,767" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="772" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W_n</text>
+<text x="247" y="802" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="271" y="802" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >C</text>
+<path d="M220,797 L240,797" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="802" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R</text>
+<text x="247" y="832" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="271" y="832" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >CY</text>
+<path d="M220,827 L240,827" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="832" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R_n</text>
+<text x="247" y="862" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="271" y="862" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M220,857 L240,857" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="210" y="862" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="393" y="862" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="369" y="862" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DY</text>
+<path d="M400,857 L430,857" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="862" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="393" y="832" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="369" y="832" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D</text>
+<path d="M400,827 L430,827" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="832" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >P</text>
+<text x="393" y="802" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="369" y="802" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >EY</text>
+<path d="M400,797 L430,797" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="802" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,793 l8,8 M426,801 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="772" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="369" y="772" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >E</text>
+<path d="M400,767 L430,767" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="772" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="742" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="369" y="742" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >FY</text>
+<path d="M400,737 L430,737" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="742" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,733 l8,8 M426,741 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="712" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="369" y="712" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >F</text>
+<path d="M400,707 L430,707" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="712" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="682" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="369" y="682" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M400,677 L430,677" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="441" y="682" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="64" y="942" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата A · e43 / f43 · вывод 1: A.e43</text>
+<rect x="620" y="565" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="644" y="599" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U5 · CD4001B</text>
+<text x="644" y="629" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >ИЛИ-НЕ: импульсы и флаги</text>
+<rect x="820" y="653" width="160" height="224" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M882,653 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="827" y="682" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="851" y="682" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A1</text>
+<path d="M800,677 L820,677" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="790" y="682" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >clk</text>
+<text x="827" y="712" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="851" y="712" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A2</text>
+<path d="M800,707 L820,707" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="712" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W_n</text>
+<text x="827" y="742" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="851" y="742" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >AY</text>
+<path d="M800,737 L820,737" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="742" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >SI</text>
+<text x="827" y="772" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="851" y="772" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >BY</text>
+<path d="M800,767 L820,767" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="772" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >P</text>
+<text x="827" y="802" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="851" y="802" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B1</text>
+<path d="M800,797 L820,797" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="790" y="802" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >clk</text>
+<text x="827" y="832" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="851" y="832" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B2</text>
+<path d="M800,827 L820,827" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="832" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R_n</text>
+<text x="827" y="862" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="851" y="862" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M800,857 L820,857" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="790" y="862" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="973" y="862" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="949" y="862" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C1</text>
+<path d="M980,857 L1010,857" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="862" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_ALL</text>
+<text x="973" y="832" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="949" y="832" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C2</text>
+<path d="M980,827 L1010,827" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="832" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR_ALL</text>
+<text x="973" y="802" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="949" y="802" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CY</text>
+<path d="M980,797 L1010,797" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="802" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >full</text>
+<text x="973" y="772" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="949" y="772" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DY</text>
+<path d="M980,767 L1010,767" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="772" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >empty</text>
+<text x="973" y="742" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="949" y="742" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D1</text>
+<path d="M980,737 L1010,737" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="742" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_ALL</text>
+<text x="973" y="712" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="949" y="712" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D2</text>
+<path d="M980,707 L1010,707" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1021" y="712" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_ALL</text>
+<text x="973" y="682" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="949" y="682" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M980,677 L1010,677" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1021" y="682" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="644" y="942" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата A · e30 / f30 · вывод 1: A.e30</text>
+<rect x="1200" y="565" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="1224" y="599" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U2 · CD74HC40105E</text>
+<text x="1224" y="629" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >FIFO старшей тетрады</text>
+<rect x="1400" y="653" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M1462,653 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="1407" y="682" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="1431" y="682" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >TS</text>
+<path d="M1380,677 L1400,677" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1370" y="682" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="1407" y="712" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="1431" y="712" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >DIR</text>
+<path d="M1380,707 L1400,707" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1370" y="712" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR_H</text>
+<text x="1407" y="742" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="1431" y="742" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M1380,737 L1400,737" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1370" y="742" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >SI</text>
+<text x="1407" y="772" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="1431" y="772" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D0</text>
+<path d="M1380,767 L1400,767" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="772" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[4]</text>
+<text x="1407" y="802" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="1431" y="802" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M1380,797 L1400,797" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="802" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[5]</text>
+<text x="1407" y="832" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="1431" y="832" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M1380,827 L1400,827" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="832" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[6]</text>
+<text x="1407" y="862" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="1431" y="862" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M1380,857 L1400,857" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1370" y="862" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[7]</text>
+<text x="1407" y="892" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="1431" y="892" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M1380,887 L1400,887" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="1370" y="892" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="1553" y="892" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="1529" y="892" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >MR</text>
+<path d="M1560,887 L1590,887" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="892" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<text x="1553" y="862" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="1529" y="862" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q3</text>
+<path d="M1560,857 L1590,857" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="862" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[7]</text>
+<text x="1553" y="832" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="1529" y="832" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q2</text>
+<path d="M1560,827 L1590,827" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="832" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[6]</text>
+<text x="1553" y="802" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="1529" y="802" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q1</text>
+<path d="M1560,797 L1590,797" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="802" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[5]</text>
+<text x="1553" y="772" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="1529" y="772" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q0</text>
+<path d="M1560,767 L1590,767" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1601" y="772" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[4]</text>
+<text x="1553" y="742" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="1529" y="742" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1560,737 L1590,737" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="742" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR_H</text>
+<text x="1553" y="712" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="1529" y="712" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >SO</text>
+<path d="M1560,707 L1590,707" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1601" y="712" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="1553" y="682" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="1529" y="682" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M1560,677 L1590,677" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1601" y="682" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="1224" y="942" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата B · e16 / f16 · вывод 1: B.e16</text>
+<rect x="40" y="995" width="560" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="1029" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U7 · CD4081B</text>
+<text x="64" y="1059" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >И: общая готовность</text>
+<rect x="240" y="1083" width="160" height="224" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M302,1083 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="247" y="1112" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="271" y="1112" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A1</text>
+<path d="M220,1107 L240,1107" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1112" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR_L</text>
+<text x="247" y="1142" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="271" y="1142" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A2</text>
+<path d="M220,1137 L240,1137" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1142" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR_H</text>
+<text x="247" y="1172" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="271" y="1172" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >AY</text>
+<path d="M220,1167 L240,1167" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1172" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR_ALL</text>
+<text x="247" y="1202" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="271" y="1202" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >BY</text>
+<path d="M220,1197 L240,1197" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1202" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DOR_ALL</text>
+<text x="247" y="1232" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="271" y="1232" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B1</text>
+<path d="M220,1227 L240,1227" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1232" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DOR_L</text>
+<text x="247" y="1262" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="271" y="1262" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B2</text>
+<path d="M220,1257 L240,1257" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="1262" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DOR_H</text>
+<text x="247" y="1292" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="271" y="1292" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M220,1287 L240,1287" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="210" y="1292" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="393" y="1292" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="369" y="1292" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C1</text>
+<path d="M400,1287 L430,1287" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="1292" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="1262" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="369" y="1262" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C2</text>
+<path d="M400,1257 L430,1257" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="1262" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="1232" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="369" y="1232" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CY</text>
+<path d="M400,1227 L430,1227" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="1232" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,1223 l8,8 M426,1231 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="1202" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="369" y="1202" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DY</text>
+<path d="M400,1197 L430,1197" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="1202" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,1193 l8,8 M426,1201 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="1172" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="369" y="1172" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D1</text>
+<path d="M400,1167 L430,1167" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="1172" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="1142" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="369" y="1142" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D2</text>
+<path d="M400,1137 L430,1137" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="1142" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="1112" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="369" y="1112" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M400,1107 L430,1107" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="441" y="1112" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="64" y="1372" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >Плата B · e30 / f30 · вывод 1: B.e30</text>
+<rect x="620" y="995" width="1140" height="402" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="644" y="1029" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Как читать соединения</text>
+<text x="650" y="1080" font-size="19" fill="#763aa5" text-anchor="start" font-weight="normal" >U4.7 — W — U6.3</text>
+<text x="1200" y="1080" font-size="19" fill="#763aa5" text-anchor="start" font-weight="normal" >U6.4 — W_n — U5.2</text>
+<text x="650" y="1122" font-size="19" fill="#763aa5" text-anchor="start" font-weight="normal" >U5.3 — SI — U1.3 — U2.3</text>
+<text x="1200" y="1122" font-size="19" fill="#763aa5" text-anchor="start" font-weight="normal" >U6.8 — SO — U1.15 — U2.15</text>
+<text x="650" y="1180" font-size="19" fill="#183247" text-anchor="start" font-weight="normal" >NC = оставить свободным. Все неиспользуемые входы соединены с GND.</text>
+<text x="650" y="1225" font-size="19" fill="#183247" text-anchor="start" font-weight="normal" >TS = управление третьим состоянием; GND разрешает выходы FIFO.</text>
+<text x="650" y="1270" font-size="19" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n активен нулём. rst / MR активен единицей. CLK фиксирует по ↑.</text>
+<text x="650" y="1315" font-size="19" fill="#183247" text-anchor="start" font-weight="normal" >Один и тот же clk: U3.9, U4.9, U5.1 и U5.5.</text>
+<text x="650" y="1360" font-size="18" fill="#526677" text-anchor="start" font-weight="normal" >Обозначения выводов — по документации TI, ссылки в HTML.</text>
+<text x="40" y="1445" font-size="19" fill="#183247" text-anchor="start" font-weight="normal" >Входы: clk, rst, push, pop, write_data[7:0]     Выходы: read_data[7:0], full, empty     Питание: +5V, GND</text>
+<text x="40" y="1485" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >8 бит × 16 слов · +5 В · один внешний такт · проект, макет не собран</text>
+</svg>
