@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40105 FIFO implementations — Codex versus Claude</title>
+<style>
+:root{color-scheme:light;--ink:#182d3b;--muted:#506575;--line:#d3dfe5;--blue:#18568b;--teal:#096b62;--paper:#fff;--bg:#eff4f6;--amber:#8c480b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1140px;margin:auto;padding:32px 28px 64px}header{padding:24px 0 18px}h1{font-size:clamp(2rem,4vw,3.1rem);line-height:1.15;letter-spacing:-.035em;margin:12px 0 18px;max-width:900px}h2{font-size:1.45rem;line-height:1.25;margin:0 0 18px}h3{font-size:1.1rem;margin:24px 0 8px}p{margin:12px 0}a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--teal)}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:750;color:var(--teal)}.meta,.small{font-size:.88rem;color:var(--muted)}.lead{font-size:1.2rem;max-width:980px}nav{display:flex;gap:9px 20px;flex-wrap:wrap;font-size:.9rem;padding:14px 0;border-top:1px solid var(--line)}section{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin:20px 0;padding:26px;scroll-margin-top:15px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}.card strong{display:block;font-size:1.6rem;color:var(--blue);line-height:1.2}.card span{display:block;font-size:.91rem;margin-top:8px}.note{border-left:4px solid var(--teal);background:#edf8f5;padding:14px 18px;margin:18px 0}.caution{border-color:#c47728;background:#fff5e7}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.93rem}caption{text-align:left;font-weight:650;margin:0 0 12px}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line)}thead th{background:#edf3f7;color:#24485e}tbody th{width:22%;font-weight:650}tr:last-child td,tr:last-child th{border-bottom:0}code{font: .9em ui-monospace,SFMono-Regular,Consolas,monospace;background:#edf2f5;padding:.08em .25em;border-radius:3px;overflow-wrap:anywhere}pre{background:#142d3d;color:#f0f6fa;border-radius:8px;padding:18px;overflow:auto;line-height:1.55;font-size:.87rem}pre code{background:transparent;padding:0;color:inherit}.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}.sequence{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.sequence div{border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:7px;padding:15px}.sequence b{display:block}.sequence span{font-size:.9rem;display:block;margin-top:6px}ul,ol{padding-left:24px}li{margin:8px 0}details{border-top:1px solid var(--line);margin-top:20px;padding-top:15px}summary{cursor:pointer;font-weight:650}footer{font-size:.85rem;color:var(--muted);padding:12px 4px}.badge{display:inline-block;border-radius:4px;padding:1px 6px;background:#edf8f5;color:#145d42;white-space:nowrap}.bad{background:#fff0df;color:var(--amber)}.sources li{overflow-wrap:anywhere}.nowrap{white-space:nowrap}
+@media(max-width:760px){main{padding:18px 14px 35px}section{padding:18px}.cards,.two,.sequence{grid-template-columns:1fr}table{min-width:620px}.cards{gap:8px}.card strong{font-size:1.35rem}h1{font-size:2.1rem}}
+@media print{body{background:#fff;font-size:10pt}main{max-width:none;padding:0}nav{display:none}section{border:0;border-top:1px solid #aaa;border-radius:0;padding:18px 0;margin:12px 0}.cards,.two,.sequence{break-inside:avoid}h1{font-size:25pt}h2,h3{break-after:avoid}tr{break-inside:avoid}.table-wrap{overflow:visible}table{font-size:9pt;min-width:0}pre{white-space:pre-wrap;color:#182d3b;background:#eee}a{color:#182d3b}details{display:block}footer{border-top:1px solid #aaa}}
+</style>
+</head>
+<body><main>
+<header>
+<div class="eyebrow">Logic Synthesis School Kit · engineering comparison</div>
+<h1>40105 FIFO implementations:<br>Codex versus Claude</h1>
+<p class="meta">Reviewed 18 October 2026 · Authored by Codex · Local design files, source inspection and rerun simulations</p>
+<p class="lead"><strong>Codex’s current single-FIFO design uses fewer chips and has more complete assembly documents. Claude’s synchronous proposal has stronger simulation coverage, handles empty-FIFO button requests more predictably, and includes a working simulation of the three-FIFO adder.</strong></p>
+<p>Both now use the same basic clocking scheme and can process requests in consecutive clock periods. Neither has been demonstrated on physical hardware. This compares the actual saved designs, including my shortcomings, rather than making a general claim about either AI system.</p>
+<nav aria-label="Contents"><a href="#single">Single FIFO</a><a href="#contract">RTL contract</a><a href="#tests">Reproduced results</a><a href="#adder">FIFO adder</a><a href="#cost">Cost and build documents</a><a href="#recommendation">Recommended next design</a><a href="#sources">Evidence</a></nav>
+</header>
+<div class="cards">
+<div class="card"><strong>4 versus 5 ICs</strong><span>Codex versus Claude, for the current synchronous single FIFO. Historical IC costs: $2.92 versus $3.32.</span></div>
+<div class="card"><strong>One request per clock</strong><span>Both capture on the rising edge and operate the FIFO in the following low half-period. Neither needs an external occupancy counter.</span></div>
+<div class="card"><strong>One confirmed weakness</strong><span>My unqualified pop can discard a newly pushed word when both buttons are asserted on an empty FIFO.</span></div>
+</div>
+
+<section id="single">
+<h2>The current single-FIFO designs</h2>
+<p>The main comparison is <a href="fifo_40105_proposal.html">Codex’s 4 × 16 proposal</a> against <a href="../lssk_claude/fifo_sync_proposal.html">Claude’s synchronous BB8 proposal, variant B</a>. “4 × 16” means four bits per word and sixteen words.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Property</th><th scope="col">Codex</th><th scope="col">Claude, variant B</th></tr></thead>
+<tbody>
+<tr><th scope="row">Storage and exposed data</th><td>One 40105; all four input bits are captured and used.</td><td>One 40105; the published interface uses three data buttons and ties D3 low. Storage is physically four bits wide, but the supplied circuit accepts values 0–7.</td></tr>
+<tr><th scope="row">IC allocation</th><td>40105 + 40174 + 4001 + 4069. The six flip-flops in the 40174 capture four data bits, push and pop.</td><td>40105 + 4013 + 40174 + 4001 + 4082. The 4013 captures requests; the 40174 captures three data bits.</td></tr>
+<tr><th scope="row">Held push / pop</th><td>One operation for every eligible rising edge, with the physical transfer in the low half-period.</td><td>The same, with empty pops suppressed before capture.</td></tr>
+<tr><th scope="row">Empty and full</th><td>Explicit active-high <code>empty = !DOR</code> and <code>full = !DIR</code>.</td><td>Exposes DOR and DIR: active-high “data available” and “space available.” Their polarity is opposite to empty/full.</td></tr>
+<tr><th scope="row">Full + push + pop</th><td>Supported in the model, including either strobe ordering.</td><td>Supported in the model. Its reference wrapper explicitly permits a full replacement.</td></tr>
+<tr><th scope="row">Empty + push + pop</th><td>Result depends on relative timing. Excluded from my original equivalence test.</td><td>Captures <code>pop &amp; DOR</code>; rejects the empty pop and keeps the incoming word.</td></tr>
+<tr><th scope="row">Assembly instructions</th><td>Logic diagram, chip-pin diagram, one-board placement and a complete 50-jumper schedule; English/Russian, SVG/PNG.</td><td>Synchronous schematic and waveforms; estimated wiring counts. The existing routed build guide describes the older variant A.</td></tr>
+</tbody></table></div>
+<p class="small">Claude can use an unused 40174 flip-flop to add D3 without another register package, but that is a modification, not the four-bit interface currently published. Status polarity and routing would also need explicit treatment.</p>
+<div class="sequence" aria-label="Clocking shared by both synchronous designs">
+<div><b>Rising edge n</b><span>Capture input data and requests. The old head is available to a synchronous consumer.</span></div>
+<div><b>Falling edge n</b><span>Assert SI and/or lower SO using the captured requests. Allow internal transfer and flag settling.</span></div>
+<div><b>Rising edge n + 1</b><span>The updated queue is observable. Capture the next requests; no idle period is required.</span></div>
+</div>
+<p>Thus both meet the back-to-back throughput requirement under their timing assumptions. Neither reproduces the RTL’s continuous output waveforms: after a rising edge, the RTL updates first and the breadboard proposal updates about half a period later. A slow clock makes that difference visible on LEDs.</p>
+<pre><code>Codex: on clk ↑, {held_data, W, R} ← {write_data, push, pop}
+Claude: on clk ↑, held_data ← switches; W ← push; R ← pop &amp; DOR
+
+Both:  SI = !(clk | !W)
+       SO =  (clk | !R)</code></pre>
+</section>
+
+<section id="contract">
+<h2>“Equivalent to the RTL” needs a precise boundary</h2>
+<p>The <a href="research/fifo_40105_proposal/flip_flop_fifo_empty_full_optimized_and_debug_2.sv">requested RTL module</a> increments its write pointer whenever push is high and its read pointer whenever pop is high. It does <strong>not</strong> internally reject requests using empty/full. My original tests therefore restrict stimulus to valid queue operations: no pop while empty, and no push while full unless accompanied by a pop.</p>
+<p>Claude’s tests compile that same module unchanged, but drive it through an additional request filter:</p>
+<pre><code>accepted_pop  = pop  &amp; !empty;
+accepted_push = push &amp; (!full | accepted_pop);</code></pre>
+<p>This defines a useful protected interface for student buttons. It is <strong>not unconditional equivalence to the raw module for the same push/pop inputs</strong>. It also differs from the lab’s default <code>push &amp; !full</code> wiring, which rejects a full push even when pop is asserted. The lab comments describe permitting replacement as an alternative.</p>
+<div class="table-wrap"><table>
+<caption>Boundary behavior, after the cycle settles</caption>
+<thead><tr><th scope="col">Starting condition and request</th><th scope="col">Raw RTL</th><th scope="col">Codex current circuit</th><th scope="col">Claude synchronous circuit</th></tr></thead>
+<tbody>
+<tr><th scope="row">Empty, push + pop</th><td>Both pointers advance; empty remains asserted. The new word is not retained as a valid queued item.</td><td>The word may be retained or removed, depending on timing.</td><td>Retains the word; only the push is accepted.</td></tr>
+<tr><th scope="row">Empty, pop only</th><td>The read pointer advances and empty becomes false. The caller has broken the queue contract.</td><td>The FIFO stays empty.</td><td>The FIFO stays empty.</td></tr>
+<tr><th scope="row">Full, push only</th><td>The write pointer advances and full becomes false; stored contents are overwritten.</td><td>The write is ignored; the FIFO stays full.</td><td>The write is ignored; the FIFO stays full.</td></tr>
+<tr><th scope="row">Full, push + pop</th><td>Old head is consumed, new tail is stored, full remains true.</td><td>Matches for the tested valid transaction.</td><td>Matches for the tested valid transaction.</td></tr>
+</tbody></table></div>
+<p>These distinctions were reproduced in a new <a href="research/fifo_comparison/contract_probe.sv">directed test</a> with both raw and guarded RTL references; see its <a href="research/fifo_comparison/contract.log">log</a>. An invalid empty pop is not evidence that the raw RTL is defective. Conversely, calling it invalid does not make my unguarded circuit a good unrestricted button interface.</p>
+<div class="note caution"><strong>Claude’s criticism of my empty push/pop behavior is valid.</strong> The important correction to its comparison is how that finding is described: it exposes a robustness gap against a protected interface, rather than disproving the narrower valid-transaction contract I tested. My original tests did not cover this practical button-use case.</div>
+<p>In the models, SI can load the new word before SO removes it. Which action reaches the output first determines whether the word survives. The TI description confirms independent SI/SO operation and that a write held at full can be accepted after unloading creates space. It does not establish a safe timing order for this unguarded empty push/pop sequence. <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf#page=2">TI CD74HC40105 functional description</a>.</p>
+</section>
+
+<section id="tests">
+<h2>What I reproduced</h2>
+<p>I reran Claude’s comparison script and added the independent contract test above. The original design files were left unchanged. Sources used in this review are frozen with <a href="research/fifo_comparison/source_manifest.json">SHA-256 fingerprints</a>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">What it establishes</th></tr></thead>
+<tbody>
+<tr><th scope="row">Codex’s original tests</th><td><span class="badge">3 / 3 pass</span><br>2,128 cycles per run; 6,384 total. Each run includes 92 full replacements and three resets.</td><td>Valid transactions match the original RTL with SI before SO, SO before SI and equal modeled delays.</td></tr>
+<tr><th scope="row">Your six-cycle scenario</th><td><span class="badge">Both pass</span><br>Push A, B, C; push D + pop; push E + pop; pop.</td><td>Consumes A, B, C and leaves D, E. The common test encodes A–E as 1–5 to fit Claude’s three input bits.</td></tr>
+<tr><th scope="row">Codex netlist in Claude’s chip models</th><td><span class="badge bad">4 / 5 corners pass</span><br>2,076 reported mismatches in the slow-glue / fast-FIFO run.</td><td>The empty simultaneous request can lose a word and then cause many later mismatches. These are not 2,076 independent circuit defects.</td></tr>
+<tr><th scope="row">Claude’s synchronous netlists</th><td><span class="badge">5 / 5 corners pass</span><br>11,351 BB8 edges and 13,884 P3 edges; 3,868 pairs transferred in P3.</td><td>Matches its guarded reference over the tested traces and chosen timing values.</td></tr>
+<tr><th scope="row">Claude’s four-chip hybrid</th><td><span class="badge">5 / 5 corners pass</span></td><td>Adding the empty-pop gate to Codex’s package allocation fixes this failure in the same test harness.</td></tr>
+<tr><th scope="row">Deliberate faults</th><td>Claude’s four fault cases are detected: missing empty-pop gating, missing data capture, direct clock/request gating, and missing reset of the P3 transfer register.</td><td>The tests detect several meaningful implementation errors. This is stronger evidence than passing a nominal trace alone.</td></tr>
+<tr><th scope="row">Simulator compatibility</th><td>Both run with installed Icarus 12. Codex’s original bench compiles with the installed Icarus 14; Claude’s fails elaboration there.</td><td>The Icarus 14 messages identify coverage variables used before declaration. This is a testbench portability issue, not a hardware behavior result.</td></tr>
+</tbody></table></div>
+<p class="small">Evidence: <a href="research/fifo_comparison/claude_comparison_rerun.log">six-stage comparison rerun</a>, <a href="research/fifo_comparison/claude.log">full Claude BB8/P3 baseline</a>, fault logs <a href="research/fifo_comparison/fault1.log">1</a>, <a href="research/fifo_comparison/fault2.log">2</a>, <a href="research/fifo_comparison/fault3.log">3</a>, <a href="research/fifo_comparison/fault6.log">6</a>, and <a href="research/fifo_comparison/compiler14.log">compiler check</a>.</p>
+<h3>Simulation strengths and limits</h3>
+<p>My model uses ideal input registers, two aggregate strobe delays and an abstract queue. The wiring is checked separately for connectivity and Boolean behavior. That does not simulate the timing of the drawn chip netlist.</p>
+<p>Claude models individual packages and the FIFO’s internal ripple, checks stored contents as well as head/flags, and exercises bounce, resets, boundary requests and deliberately faulty circuits. Its copied Codex netlist is a useful additional check, but ties D3 low. The shared cross-comparison therefore does not test all sixteen possible input words.</p>
+<p>Both sets of chip models are handwritten, not vendor-certified. Claude’s five corners are selected delay assumptions, not an exhaustive sweep of manufacturing, voltage, temperature and loading. Bounce simulation also does not model analog metastability. Statements such as “cannot glitch whatever the delays” or “hold time met by construction” still need actual timing bounds.</p>
+<p>For example, Claude’s P3 relies on the sum remaining valid long enough after C’s SI edge, while A/B begin to pop through another gate. That is a minimum-delay/hold-time question; making the overall clock slower does not prove it. At 4.5 V, TI lists SO-to-DIR maximum ripple delays of 500 ns at 25°C and 750 ns across −55…125°C. Those figures are compatible, but neither is a complete breadboard frequency guarantee. <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf#page=8">TI switching specifications</a>; <a href="https://www.ti.com/lit/ds/symlink/cd4001b.pdf">NOR specifications</a>; <a href="https://www.ti.com/lit/ds/symlink/cd40174b.pdf">register specifications</a>.</p>
+</section>
+
+<section id="adder">
+<h2>The three-FIFO adder: Claude is further along</h2>
+<p>My <a href="kits/fifo.html">three-FIFO kit</a> describes A + B → SUM and verifies the supplied valid/ready RTL, but its 40105 adapter is explicitly a preliminary gate budget. It is not a completed synchronous chip implementation. Claude supplies a ten-chip P3 netlist and exercises it against a reference.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Property</th><th scope="col">Codex adder kit / reference</th><th scope="col">Claude synchronous P3</th></tr></thead>
+<tbody>
+<tr><th scope="row">Physical circuit</th><td>Nine-IC budget: three FIFOs, one adder, three AND packages and two inverter packages. Missing the capture registers and fully specified strobes needed for this approach.</td><td>Ten ICs: three FIFOs, one adder, two 4013s, two 4001s, one 4082 and one 40174. Chip-level simulation; layout still pending.</td></tr>
+<tr><th scope="row">Operand input</th><td>Independent four-bit A and B values; four-bit result wraps modulo 16.</td><td>One shared three-bit switch bank feeds A and B. They can receive different values on different cycles; simultaneous input captures receive the same value. Sums span 0–14.</td></tr>
+<tr><th scope="row">Transfer condition</th><td><code>!empty_A &amp; !empty_B &amp; !full_SUM</code>, specified and tested in RTL.</td><td>The same condition is sampled in a flip-flop; one pair can transfer per period.</td></tr>
+<tr><th scope="row">Full input queue + simultaneous transfer</th><td>The valid/ready wrapper rejects a new input when its ready flag was low before the edge.</td><td>The reference permits a new input when the same edge removes a pair, and the modeled 40105 accepts it.</td></tr>
+<tr><th scope="row">Full result queue + pop</th><td>No same-cycle join; resume after space becomes visible.</td><td>The same: go requires DIR of C before the edge.</td></tr>
+</tbody></table></div>
+<p>Claude has the stronger deliverable for teaching a synchronous FIFO adder today. However, its shared three-bit input and full-input acceptance policy are material differences from my independent four-bit valid/ready exercise. Neither “P3” label nor a common FIFO chip makes the two interfaces identical.</p>
+</section>
+
+<section id="cost">
+<h2>Cost and readiness to assemble</h2>
+<p>The common October 14 component-price snapshot gives <strong>$2.92</strong> for Codex’s four single-FIFO ICs and <strong>$3.32</strong> for Claude’s five. The difference is <strong>$0.40</strong>, about 12% of Claude’s IC subtotal. These are historical planning figures, not current supplier quotes or complete-kit prices.</p>
+<div class="two">
+<div><h3>Codex’s advantage</h3><p>One 830-contact breadboard; 50 specified on-board jumpers: 33 signals, 11 IC power connections and six rail links. External module and supply leads are additional. The placement picture shows power wires and signal labels; the schedule supplies every signal connection.</p><p>Static checks cover all 60 DIP pins, net separation, unique hole use, power continuity and gate logic. The drawings and timing diagram are available in both languages and both image formats.</p></div>
+<div><h3>Claude’s advantage</h3><p>Its synchronous kit B includes the parts for BB8 and P3: $37.80 component subtotal, $50.91 landed estimate, $81.99 classroom and $112.99 suggested retail. These are the saved proposal’s prices, covering a broader kit than a single FIFO.</p><p>Synchronous wiring remains estimated at about 50 jumpers for BB8 and 113 for P3. The older, routed variant A cannot be used unchanged to build variant B.</p></div>
+</div>
+<div class="note caution"><strong>My kit inventory is inconsistent with my newer proposal.</strong> The single-FIFO CSV still lists 40105 + 4081 + 4069, omitting the 40174 and 4001 used by the four-chip circuit. Its $18.58 component total is therefore not a priced BOM for that circuit. Use the proposal’s <a href="research/fifo_40105_proposal/components.csv">four-IC list</a> for comparison; do not present the older kit as ready to purchase for this implementation.</div>
+<p class="small">Price and inventory evidence: <a href="kits/single_fifo.csv">Codex single-FIFO CSV</a>, <a href="kits/fifo.csv">Codex adder CSV</a>, <a href="../lssk_claude/kit3b_fifo_sync.csv">Claude kit B CSV</a>. The comparison does not change these inventories.</p>
+</section>
+
+<section id="history">
+<h2>Earlier versions should not be confused with the current ones</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Version</th><th scope="col">What it provided</th><th scope="col">Fit to your final requirement</th></tr></thead>
+<tbody>
+<tr><th scope="row">Codex’s first proposal</th><td>CD4017 phase sequencing, with a CD4029 occupancy counter in the depth-10 design; 12 ICs for 8 × 10 and a six-IC 4 × 16 option.</td><td>Did not meet one operation per external clock. You rejected the phases and counter. It was superseded.</td></tr>
+<tr><th scope="row">Codex’s intermediate 8 × 16</th><td>Direct-clock capture/strobes; seven ICs, two boards, 92 jumpers.</td><td>Corrected throughput, but wider than your later four-bit requirement. Superseded by the current four-chip design.</td></tr>
+<tr><th scope="row">Claude’s original variant A</th><td>Two chips for the single FIFO; seven for P3. Routed build guide.</td><td>A held button yields one operation per sampled press, not one per clock. P3 moves a pair at most every second clock.</td></tr>
+<tr><th scope="row">Current synchronous versions</th><td>Codex four-chip 4 × 16 and Claude five-chip BB8 / ten-chip P3.</td><td>Both support consecutive clock periods under the stated interface and timing assumptions.</td></tr>
+</tbody></table></div>
+<p class="small">Historical Codex information comes from the explicitly superseded entries in <a href="research/validation.md">the validation record</a>; Claude’s version history and limits are stated in its proposal. Earlier tests are not evidence that the current wiring was physically built.</p>
+</section>
+
+<section id="recommendation">
+<h2>The strongest next single-FIFO design combines both</h2>
+<p>For a four-bit student FIFO, use Codex’s compact package allocation and assembly documentation, with <strong>Claude’s proposed empty-pop guard</strong>. Claude already demonstrated this combination in its <a href="../lssk_claude/fifo_compare/hybrid_bb8.sv">hybrid netlist</a>; I reproduced its five-corner pass. The idea and gate reassignment below are Claude’s contribution.</p>
+<pre><code>U4.E:  pin 11 ← DOR;  pin 10 → empty = !DOR
+U4.F:  pin 13 ← pop;  pin 12 → pop_n = !pop
+U3.D:  pins 12,13 ← pop_n, empty; pin 11 → pop_ok
+U2:    pin 14 (D6) ← pop_ok, replacing raw pop
+
+pop_ok = NOR(pop_n, empty) = pop &amp; DOR</code></pre>
+<p>This reuses the two spare 4069 inverters and the NOR previously used to make empty, so the IC count stays four and the historical IC subtotal stays $2.92. It intentionally adopts the protected request semantics described above. The input setup budget must include the new pop-qualification path.</p>
+<p><strong>This is a recommended revision, not the present breadboard wiring.</strong> Its pin diagram, jumper schedule and kit BOM must be updated, and its comparison should be extended to all four input bits. The existing 50-jumper total is not a count for the hybrid. Physical timing and indicator loading still need checking on a prototype.</p>
+<p>For the three-FIFO adder, Claude’s synchronous P3 is the better starting point. First choose whether to retain its shared three-bit controls or implement independent four-bit operands, and whether full input queues should accept a replacement. That interface choice determines the comparison reference.</p>
+</section>
+
+<section id="sources">
+<h2>Evidence and reproduction</h2>
+<p>The conclusions concern the files captured on this review date. Claude’s files were read and compiled without editing its directory; my existing circuit, BOM and diagrams were also left unchanged.</p>
+<ol class="sources">
+<li><a href="fifo_40105_proposal.html">Codex current proposal</a>, <a href="research/fifo_40105_proposal/proposal_model.sv">behavioral model</a>, <a href="research/fifo_40105_proposal/testbench.sv">original testbench</a>, <a href="research/fifo_40105_proposal/schematic_netlist.json">drawing netlist</a> and <a href="research/fifo_40105_proposal/schematic_validation.json">static-check record</a>.</li>
+<li><a href="../lssk_claude/fifo_sync_proposal.html">Claude synchronous proposal</a>, <a href="../lssk_claude/fifo_sync_proposal.sv">synchronous netlists and harness</a>, <a href="../lssk_claude/fifo_breadboard.sv">chip models and older circuit</a>, and <a href="../lssk_claude/fifo_proposals_compared.html">Claude’s own comparison</a>.</li>
+<li><a href="research/fifo_comparison/source_manifest.json">Source manifest</a> links the reviewed originals to local snapshots and hashes. Snapshot HTML preserves its original relative links; use the navigation above to open the live proposals. The <a href="research/fifo_comparison/validation.json">validation summary</a> records the checked totals and limits.</li>
+<li><a href="research/fifo_comparison/reproduce.py">Reproduction script</a> uses the frozen Verilog sources. It checks explicit output text: some Claude benches print FAIL while returning exit status zero. The failure in the unguarded Codex corner is an expected review result.</li>
+<li>Primary component references: <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf">TI CD74HC40105</a>, <a href="https://www.ti.com/lit/ds/symlink/cd40174b.pdf">TI CD40174B</a>, <a href="https://www.ti.com/lit/ds/symlink/cd4001b.pdf">TI CD4001B</a>, <a href="https://www.ti.com/lit/ds/symlink/cd4069ub.pdf">TI CD4069UB</a>.</li>
+</ol>
+<pre><code>python3 research/fifo_comparison/reproduce.py
+
+# Short, independent check of the reference-contract distinction:
+python3 research/fifo_comparison/reproduce.py --only contract</code></pre>
+</section>
+<footer>Prepared by Codex for Yuri Panchul · 18 October 2026 · Simulation evidence and design review; no physical-build result is claimed.</footer>
+</main></body></html>
