@@ -15,7 +15,6 @@ import sys
 import tempfile
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
-from copy import deepcopy
 from html import escape
 
 import arbiter
@@ -572,28 +571,10 @@ def svg_p3():
 # Kit prices with the proposed parts
 # ----------------------------------------------------------------------------
 
-NEW_PARTS = {"BB8": ({"4001": 1, "4082": 1, "40174": 1}, 50), "P3": ({"4001": 2, "40174": 1}, 113)}
-
-
 def kit_prices():
-    rows = []
-    saved = {k: deepcopy(generate.EX[k]) for k in NEW_PARTS}
-    try:
-        before = {k["id"]: generate.compute_kit(k)["pricing"] for k in KITS}
-        for eid, (add, w) in NEW_PARTS.items():
-            for part, q in add.items():
-                generate.EX[eid]["parts"][part] = generate.EX[eid]["parts"].get(part, 0) + q
-            generate.EX[eid]["w"] = w
-        after = {k["id"]: generate.compute_kit(k)["pricing"] for k in KITS}
-    finally:
-        for k, v in saved.items():
-            generate.EX[k].clear()
-            generate.EX[k].update(v)
-    for k in KITS:
-        b, a = before[k["id"]], after[k["id"]]
-        if (b["parts"], b["retail"]) != (a["parts"], a["retail"]):
-            rows.append((k["name"], b, a))
-    return rows
+    """FIFO kit A builds the current circuit, FIFO kit B this proposal (its `variants` in lssk_data.py)."""
+    return [(k["name"], generate.compute_kit(k)["pricing"])
+            for k in KITS if k["id"] in ("kit3_fifo", "kit3b_fifo_sync")]
 
 
 # ----------------------------------------------------------------------------
@@ -676,9 +657,8 @@ def build(checks, waves):
         fault_rows.append((str(c["fault"]), escape(FAULTS[c["fault"]]),
                            '<span class="ok">caught</span> in ' + " and ".join(tests) + ", "
                            + ("all five corners" if len(where) == 5 else escape(", ".join(where)))))
-    price_rows = [(escape(n), generate.money(b["parts"]), generate.money(a["parts"]), generate.money(b["classroom"]),
-                   generate.money(a["classroom"]), generate.money(b["retail"]), generate.money(a["retail"]))
-                  for n, b, a in prices]
+    price_rows = [(escape(n), generate.money(p["parts"]), generate.money(p["landed"]), generate.money(p["classroom"]),
+                   generate.money(p["retail"])) for n, p in prices]
 
     run = (f"BGM={BGM}\nRTL=$BGM/labs/4_microarchitecture/4_2_fifo/4_2_5_optimized_ff_fifo_view_2_data_layout\n"
            "iverilog -g2012 -s tb_sync_proposal -I $BGM/labs/common -I $BGM/peripherals \\\n"
@@ -691,7 +671,8 @@ def build(checks, waves):
 rising clock edge, so holding push for three clock cycles pushes three words. The breadboard FIFO in the current
 build guide pushes one word per press, however long you hold the button. This proposal changes the glue logic
 around the 40105 so that exercises BB8 and P3 become functional equivalents of the RTL FIFO (depth 16, width 4).
-The guides, kits and the published pages are unchanged until you decide.</p>
+The build guides are unchanged until you decide; <a href="kit3b_fifo_sync.html">FIFO kit B</a> lists the parts
+for this circuit.</p>
 
 <div class="grid">
 <div class="stat"><b>{n3[1]} words</b><span>after push is held for three clock periods (the RTL: {n3[2]})</span></div>
@@ -828,14 +809,16 @@ hardware.</div>
 <p>The extra chips fit on the same two boards: the bottom board has columns 45–63 free and the top board 50–63.
 The jumper counts are my estimate until the router has laid the wires out. The kit's wire set (350 pieces) covers
 them, so only the chips change the kit prices: 4001 {cat("4001")}, 40174 {cat("40174")}.</p>
-{table(["Kit", "Parts now", "Parts", "Classroom now", "Classroom", "Retail now", "Retail"], price_rows, num=(1, 2, 3, 4, 5, 6))}
+{table(["Kit", "Parts", "Landed cost", "Classroom", "Retail"], price_rows, num=(1, 2, 3, 4))}
+<p class="small muted">FIFO kit A has the parts of the current circuit, <a href="kit3b_fifo_sync.html">FIFO kit B</a>
+those of this proposal. The comprehensive kit already has the extra chips.</p>
 <p>If you approve, I would:</p>
 <ol class="steps">
 <li>re-route both stages on the breadboard and regenerate the wiring checklist and the three diagrams;</li>
 <li>rewrite the "Buttons in step with the clock", transfer and test sections of both guides (EN and RU);</li>
 <li>regenerate <code>fifo_breadboard.sv</code> from the new wires, with this lockstep check against your RTL as its
 testbench;</li>
-<li>update the BB8 and P3 entries, the kit CSV and HTML files and their prices.</li>
+<li>replace the estimated wire counts of FIFO kit B with the counted ones.</li>
 </ol>
 <p>Nothing would be published until you have checked it. One layout caveat stays: the LED module plugged over C has
 an LED on pin 15 (SO), now driven by a 4001. The new layout should keep LEDs off 4000-series outputs.</p>

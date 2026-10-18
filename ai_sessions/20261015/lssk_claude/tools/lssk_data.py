@@ -447,9 +447,9 @@ KITS = [
              "Three single 5V-tolerant LEDs (red, green, yellow) for the getting-started notes and the "
              "FIFO status outputs.",
          ]),
-    dict(id="kit3_fifo", n=3, name="FIFO kit",
+    dict(id="kit3_fifo", n=3, variant="A", name="FIFO kit A",
          tagline="A 40105 FIFO demo, then the FIFO adder: three FIFOs, a 4008 and flow control with "
-                 "backpressure.",
+                 "backpressure. Each press of push or pop moves one word, however long the button is held.",
          exercises=["G1", "BB8", "P3"],
          optional=[("touch4", 1, "4-bit data entry with LED indicators, as in the sheet's FIFO column"),
                    ("4511", 2, "Show FIFO data in decimal"), ("disp_g", 2, "Show FIFO data in decimal"),
@@ -460,9 +460,45 @@ KITS = [
          sheet_diff=[
              "The sheet's 'FIFO' column has no 40105, no 4008, no clock module and no M-F jumpers for the "
              "buttons; this kit adds all of them.",
-             "Two 4013s and a 4082 replace the second 4081: the build guide synchronises the push and pop "
-             "buttons with flip-flops and makes the transfer pulse with a flip-flop, because a clock-gated "
-             "AND of the ready flags moves several pairs in one clock tick.",
+             "Two 4013s and a 4082 replace the second 4081: flip-flops synchronise the push and pop buttons "
+             "and make the transfer pulse, because a clock-gated AND of the ready flags moves several pairs "
+             "in one clock tick.",
+             "The sheet's 2 x 4511 and the 4-button LED module are listed as optional here: LED modules and "
+             "button modules are enough for the exercises.",
+         ]),
+    # Variant B: the same exercises with glue logic that makes the 40105 behave like the RTL FIFO of
+    # basics-graphics-music lab 4_2_5 (see fifo_sync_proposal.sv).  `variants` adds parts to an exercise
+    # and replaces its other fields for this kit only.
+    dict(id="kit3b_fifo_sync", n=3, variant="B", name="FIFO kit B",
+         tagline="The same two FIFO exercises, clocked like the SystemVerilog FIFO of the FPGA labs: while "
+                 "push or pop is held, one word moves on every clock edge. Three more chips: two 4001s and "
+                 "a 40174.",
+         exercises=["G1", "BB8", "P3"],
+         variants={
+             "BB8": dict(add={"4001": 1, "4082": 1, "40174": 1}, w=50, guide=None,
+                         wb="estimate, not laid out yet: BB8 of FIFO kit A (19) plus about 31 for the 4001, "
+                            "4082 and 40174",
+                         note="While push or pop is held, one word moves on every rising clock edge, as in the "
+                              "SystemVerilog FIFO of lab 4_2_5. A 40174 samples the data switches at the edge, "
+                              "and the 4082 lets pop through only when the FIFO is not empty."),
+             "P3": dict(add={"4001": 2, "40174": 1}, w=113, guide=None,
+                        wb="estimate, not laid out yet: P3 of FIFO kit A (74) plus about 39 for two 4001s and "
+                           "the 40174",
+                        note="All three FIFOs are clocked like the RTL, and a pair moves from A and B into C on "
+                             "every clock while A and B have data and C has room."),
+         },
+         optional=[("touch4", 1, "4-bit data entry with LED indicators, as in the sheet's FIFO column"),
+                   ("4511", 2, "Show FIFO data in decimal"), ("disp_g", 2, "Show FIFO data in decimal"),
+                   ("res", 14, "For the two optional displays"),
+                   ("pin_straightener", 1, "Teacher tool")],
+         packaging=2.50, docs=1.00,
+         sheet_column="Quality FIFO",
+         sheet_diff=[
+             "The sheet's 'FIFO' column has no 40105, no 4008, no clock module and no M-F jumpers for the "
+             "buttons; this kit adds all of them.",
+             "Two 4013s, a 4082, two 4001s and a 40174 replace the second 4081: flip-flops sample push, pop, "
+             "the data switches and the transfer condition at the rising clock edge, and NOR gates turn each "
+             "sampled 1 into one SI or SO pulse in the low half of the clock period.",
              "The sheet's 2 x 4511 and the 4-button LED module are listed as optional here: LED modules and "
              "button modules are enough for the exercises.",
          ]),

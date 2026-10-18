@@ -20,6 +20,9 @@ from lssk_data import (CATALOG, DOC_URL, EXERCISES, HABR_URL, JULY23_URL, JULY31
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EX = {e["id"]: e for e in EXERCISES}
+N_KITS = len({k["n"] for k in KITS})
+RTL_FIFO_URL = ("https://github.com/yuri-panchul/basics-graphics-music/tree/main/labs/4_microarchitecture/"
+                "4_2_fifo/4_2_5_optimized_ff_fifo_view_2_data_layout")
 
 GENERIC = {"btn", "ledmod", "disp", "res", "clk", "bb", "traffic", "led_r", "led_g", "led_y"}
 RARE_CHIPS = {"40108", "40181"}
@@ -58,8 +61,24 @@ def plural(n, word):
     return f"{n} {word}" + ("" if n == 1 else "s")
 
 
+def kit_ex(kit, eid):
+    """Exercise eid as this kit builds it: the kit's `variants` add parts and replace other fields."""
+    e = EX[eid]
+    v = kit.get("variants", {}).get(eid)
+    if not v:
+        return e
+    parts = dict(e["parts"])
+    for k, q in v["add"].items():
+        parts[k] = parts.get(k, 0) + q
+    return dict(e, parts=parts, **{k: x for k, x in v.items() if k not in ("add", "note")})
+
+
+def kit_label(k):
+    return f"Kit {k['n']}: {k['name']}"
+
+
 def compute_kit(kit):
-    exs = [EX[i] for i in kit["exercises"]]
+    exs = [kit_ex(kit, i) for i in kit["exercises"]]
     need = defaultdict(int)
     origin = defaultdict(list)
     for e in exs:
@@ -407,7 +426,7 @@ def build_exercises():
                 f'<td class=n>≈{e["w"]}</td><td class=n>{e["mf"] or ""}</td><td class=n>{e["mm"] or ""}</td>'
                 f'<td class=n>{p.get("bb", 1)}</td></tr>')
             src = "".join(f'<span class="tag">{escape(s)}</span>' for s in e["sources"])
-            kit_tags = "".join(f'<a class="tag" href="{k["id"]}.html">Kit {k["n"]}: {escape(k["name"])}</a>'
+            kit_tags = "".join(f'<a class="tag" href="{k["id"]}.html">{escape(kit_label(k))}</a>'
                                for k in kits_for(e["id"]))
             rare = '<span class="tag warn">rare, expensive chip</span>' if e.get("rare") else ""
             one = '<p class="small muted">The listed chips are used one at a time; the wire count is for the largest one.</p>' if e.get("one_at_a_time") else ""
@@ -415,6 +434,12 @@ def build_exercises():
             if e.get("guide"):
                 alts += (f'<p><a href="{e["guide"]}"><b>Build instructions</b></a> with a logic diagram, '
                          'chip connections, a breadboard layout and a wiring checklist.</p>')
+            for k in kits_for(e["id"]):
+                v = k.get("variants", {}).get(e["id"])
+                if v:
+                    alts += (f'<p class="small"><b>Variant {k["variant"]}</b> (<a href="{k["id"]}.html">'
+                             f'{escape(k["name"])}</a>): + {escape(", ".join(part_label(c, q) for c, q in v["add"].items()))}, '
+                             f'≈{v["w"]} wires. {escape(v["note"])}</p>')
             cards.append(f"""<div class="card" id="{e['id']}" data-kits="{kit_ids}">
 <div class="ex-head"><span class="ex-id">{e['id']}</span><h3>{escape(e['title'])}</h3></div>
 <div>{src}{rare}</div>
@@ -431,7 +456,7 @@ def build_exercises():
 </div>
 <div style="margin-top:8px">{kit_tags}</div>
 </div>""")
-    filt = "".join(f'<button data-kit="{k["id"]}">Kit {k["n"]}: {escape(k["name"])}</button>' for k in KITS)
+    filt = "".join(f'<button data-kit="{k["id"]}">{escape(kit_label(k))}</button>' for k in KITS)
     body = f"""
 <h1>Breadboard exercises</h1>
 <p class="lead">All {len(EXERCISES)} small-scale-integration breadboard exercises from the
@@ -659,11 +684,88 @@ document.getElementById('t_go').addEventListener('click', () => {{
 </script>"""
 
 
+def fifo_variants(kit):
+    """Compare the two FIFO kit variants; variant B also explains its circuit, which has no build guide yet."""
+    a, b = (next(k for k in KITS if k["n"] == kit["n"] and k["variant"] == v) for v in "AB")
+    pa, pb = compute_kit(a)["pricing"], compute_kit(b)["pricing"]
+    chips = lambda k, i: sum(q for c, q in kit_ex(k, i)["parts"].items() if c not in GENERIC)
+    wires = lambda k, i: kit_ex(k, i)["w"]
+    rows = [
+        ("Push held for three clock periods", "1 word: one word per press", "3 words, as in the RTL FIFO"),
+        ("Pop held for three clock periods", "1 word", "3 words, as long as the FIFO has data"),
+        ("Data switches", "read when SI rises, just after the clock edge",
+         "sampled at the rising edge by a 40174, like <code>write_data</code> in the RTL"),
+        ("P3: pairs moved from A and B into C", "at most one every second clock",
+         "one on every clock while A and B have data and C has room"),
+        ("LEDs change", "just after a rising clock edge", "at the falling edge, half a period after the RTL's outputs"),
+        ("Behaves like the RTL FIFO", "no", "yes, checked against the RTL in a chip-level simulation"),
+        ("Chips in BB8 / P3", f"{chips(a, 'BB8')} / {chips(a, 'P3')}", f"{chips(b, 'BB8')} / {chips(b, 'P3')}"),
+        ("Wires on the boards in BB8 / P3", f"{wires(a, 'BB8')} / {wires(a, 'P3')}, laid out and checked",
+         f"≈{wires(b, 'BB8')} / ≈{wires(b, 'P3')}, estimated"),
+        ("Build guide", f'<a href="{EX["P3"]["guide"]}">step by step</a>, with a wiring checklist',
+         f'not yet; see <a href="{b["id"]}.html#how">how it works</a>'),
+        ("Parts / retail price", f"{money(pa['parts'])} / {money(pa['retail'])}",
+         f"{money(pb['parts'])} / {money(pb['retail'])}"),
+    ]
+    th = "".join(f'<th>{escape(k["name"])}</th>' if k is kit else f'<th><a href="{k["id"]}.html">{escape(k["name"])}</a></th>'
+                 for k in (a, b))
+    out = f"""
+<h2>Variant A or B</h2>
+<p>Both variants build BB8 and P3 with the same buttons, LEDs, clock module and boards. They differ in what happens
+while a button is held. In variant A, each press gives one clean edge on SI or SO through a 4013 flip-flop, so one
+word moves per press. Variant B adds glue logic that makes the 40105 behave like the clocked SystemVerilog FIFO
+that students write next on the FPGA (<a href="{RTL_FIFO_URL}">lab 4_2_5 of basics-graphics-music</a>), so the
+breadboard and the RTL can be compared clock by clock.</p>
+<div class="tbl"><table><tr><th></th>{th}</tr>
+{"".join(f"<tr><td>{escape(n)}</td><td>{x}</td><td>{y}</td></tr>" for n, x, y in rows)}
+</table></div>"""
+    if kit is not b:
+        return out
+    roles = [
+        ("CD74HC40105", "the FIFO", "FIFOs A, B and C"),
+        ("CD4013", "flip-flops for push, and for pop AND DOR",
+         "two chips: flip-flops for push A, push B, pop C AND DOR<sub>C</sub>, and go"),
+        ("CD4001", "SI = NOR (clk, Q̄<sub>push</sub>); SO = NOT NOR (clk, Q̄<sub>pop</sub>), the third NOR as the inverter",
+         "two chips: SI of A, B and C; SO of A and B = NOT SI<sub>C</sub>, so C takes the sum one gate delay before "
+         "A and B let it go; SO of C"),
+        ("CD4082", "pop AND DOR: pop only when the FIFO is not empty",
+         "go = DOR<sub>A</sub> · DOR<sub>B</sub> · DIR<sub>C</sub>, the RTL's <code>~empty_A &amp; ~empty_B &amp; "
+         "~full_C</code>; pop C AND DOR<sub>C</sub>"),
+        ("CD40174", "samples the data switches d0–d2 at the rising edge", "the same, for the words going into A and B"),
+        ("CD4008", "", "adds the heads of A and B"),
+    ]
+    return out + f"""
+<h2 id="how">How variant B works</h2>
+<p>The 40105 is an asynchronous FIFO: it loads a word on a rising edge of SI and drops one on a falling edge of SO,
+without a clock. Variant B turns it into a clocked FIFO. Flip-flops sample every input at the rising clock edge, as
+the <code>always_ff</code> blocks of the RTL do, and NOR gates turn each sampled 1 into exactly one pulse in the low
+half of that clock period:</p>
+<p><code>SI = NOR (clk, Q̄<sub>push</sub>)</code> &nbsp; <code>SO = NOT NOR (clk, Q̄<sub>pop</sub>)</code></p>
+<p>When the clock rises, the clock input alone forces SI low before the flip-flop output can change, so SI cannot
+glitch. The 40105 needs at most 0.5&nbsp;µs to move a word through all 16 places, far less than half a clock period,
+so at every rising edge Q0–Q3, DOR and DIR equal <code>read_data</code>, <code>~empty</code> and <code>~full</code>
+of the RTL FIFO. The flip-flops are reset together with the FIFOs, so SI is low during a reset.</p>
+<div class="tbl"><table><tr><th>Chip</th><th>BB8</th><th>P3</th></tr>
+{"".join(f"<tr><td><b>{c}</b></td><td>{x}</td><td>{y}</td></tr>" for c, x, y in roles)}
+</table></div>
+<p>Two details differ from the lab's <code>lab_top</code>: a push into a full FIFO is accepted when a pop comes on
+the same edge (the FIFO module allows this; <code>lab_top</code> uses <code>push = ~full &amp; key[1]</code>), and
+the LEDs change at the falling edge, half a period after the FPGA's.</p>
+<div class="note"><b>Status.</b> Variant B is checked in a chip-level simulation: models of every chip with
+datasheet delays, run in lockstep with the RTL FIFO in five timing corners, with contact bounce and resets at
+random moments. It has not been built on a real breadboard yet. There is no step-by-step wiring guide for it yet,
+and its wire counts are estimates.</div>"""
+
+
 def build_kit(kit):
     r = compute_kit(kit)
     write_csv(kit, r)
     s = r["pricing"]
-    ex_list = "".join(f'<li><a href="exercises.html#{i}">{i}</a> {escape(EX[i]["title"])}</li>'
+    variants = kit.get("variants", {})
+    ex_list = "".join(f'<li><a href="exercises.html#{i}">{i}</a> {escape(EX[i]["title"])}'
+                      + (f' <span class="tag">variant {kit["variant"]}: + '
+                         f'{escape(", ".join(part_label(c, q) for c, q in variants[i]["add"].items()))}</span>'
+                         if i in variants else "") + '</li>'
                       for i in kit["exercises"])
     also = ("<p>Also possible with the parts in this kit: " +
             ", ".join(f'<a href="exercises.html#{i}">{i}</a> <span class="muted">{escape(EX[i]["title"])}</span>'
@@ -678,7 +780,7 @@ def build_kit(kit):
         diff = (f"<h2>Compared with the sheet</h2><p>The LSSK sheet has a <i>{escape(kit['sheet_column'])}</i> "
                 "column for this kit. Differences:</p><ul>" +
                 "".join(f"<li>{escape(d)}</li>" for d in kit["sheet_diff"]) + "</ul>")
-    wex = [EX[i] for i in kit["exercises"]]
+    wex = [kit_ex(kit, i) for i in kit["exercises"]]
     wrows = "".join(f'<tr><td><a href="exercises.html#{e["id"]}">{e["id"]}</a></td><td>{escape(e["title"])}</td>'
                     f'<td class=n>≈{e["w"]}</td><td class=n>{e["mf"]}</td><td class=n>{e["mm"]}</td>'
                     f'<td class=n>{e["parts"].get("btn", 0)}</td></tr>' for e in wex)
@@ -686,16 +788,16 @@ def build_kit(kit):
         f"{next(l['qty'] for l in r['lines'] if l['key'] == 'mm40')} × 40 Dupont M-M jumpers"
     p = PRICING
     by_guide = {}
-    for i in kit["exercises"]:
-        if EX[i].get("guide"):
-            by_guide.setdefault(EX[i]["guide"], []).append(i)
+    for e in wex:
+        if e.get("guide"):
+            by_guide.setdefault(e["guide"], []).append(e["id"])
     guides = "".join(
         f'<div class="card"><b>Build instructions:</b> <a href="{g}">{escape(EX[ids[-1]]["title"])}</a>'
         + (f' (also {", ".join(ids[:-1])}: {escape(EX[ids[0]]["title"])})' if len(ids) > 1 else "")
         + ', with a logic diagram, chip connections, a breadboard layout and a wiring checklist.</div>'
         for g, ids in by_guide.items())
     body = f"""
-<p class="muted" style="margin:0">Kit {kit['n']} of {len(KITS)}</p>
+<p class="muted" style="margin:0">Kit {kit['n']} of {N_KITS}{f", variant {kit['variant']}" if kit.get("variant") else ""}</p>
 <h1>{escape(kit['name'])}</h1>
 <p class="lead">{escape(kit['tagline'])}</p>
 <div class="grid">
@@ -708,6 +810,7 @@ def build_kit(kit):
 
 <h2>Exercises</h2>
 {ex_block}
+{fifo_variants(kit) if kit.get("variant") else ""}
 
 <h2>Parts</h2>
 {lines_table(r['lines'])}

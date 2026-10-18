@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LSSK FIFO kit</title>
+<title>LSSK FIFO kit A</title>
 <style>
 :root{--bg:#f7f6f2;--fg:#1c2329;--muted:#5d6872;--card:#ffffff;--line:#dfe3e6;--accent:#0b6e4f;
 --accent-bg:#e5f2ec;--warn:#9a4d00;--warn-bg:#fdf1e3;--code:#eef1f3;--th:#f0f2f1;}
@@ -58,12 +58,12 @@ b.tp{color:#d64541}b.tn{color:#2f6fd0}
 </style>
 </head>
 <body>
-<nav class="top"><div><b>LSSK</b><a href="getting_started_en.html">Getting started (EN)</a><a href="getting_started_ru.html">Как начать (RU)</a><a href="exercises.html">Exercises</a><a href="kit1_basics.html">Basics kit</a><a href="kit2_comprehensive.html">Comprehensive kit</a><a href="kit3_fifo.html" class=cur>FIFO kit</a><a href="kit4_arbiter.html">Round-robin arbiter kit</a><a href="kit5_fsm.html">FSM kit</a><a href="fifo_build.html">FIFO build guide</a><a href="fifo_build_ru.html">Сборка FIFO (RU)</a><a href="arbiter_build.html">Arbiter build guide</a><a href="arbiter_build_ru.html">Сборка арбитра (RU)</a></div></nav>
+<nav class="top"><div><b>LSSK</b><a href="getting_started_en.html">Getting started (EN)</a><a href="getting_started_ru.html">Как начать (RU)</a><a href="exercises.html">Exercises</a><a href="kit1_basics.html">Basics kit</a><a href="kit2_comprehensive.html">Comprehensive kit</a><a href="kit3_fifo.html" class=cur>FIFO kit A</a><a href="kit3b_fifo_sync.html">FIFO kit B</a><a href="kit4_arbiter.html">Round-robin arbiter kit</a><a href="kit5_fsm.html">FSM kit</a><a href="fifo_build.html">FIFO build guide</a><a href="fifo_build_ru.html">Сборка FIFO (RU)</a><a href="arbiter_build.html">Arbiter build guide</a><a href="arbiter_build_ru.html">Сборка арбитра (RU)</a></div></nav>
 <main>
 
-<p class="muted" style="margin:0">Kit 3 of 5</p>
-<h1>FIFO kit</h1>
-<p class="lead">A 40105 FIFO demo, then the FIFO adder: three FIFOs, a 4008 and flow control with backpressure.</p>
+<p class="muted" style="margin:0">Kit 3 of 5, variant A</p>
+<h1>FIFO kit A</h1>
+<p class="lead">A 40105 FIFO demo, then the FIFO adder: three FIFOs, a 4008 and flow control with backpressure. Each press of push or pop moves one word, however long the button is held.</p>
 <div class="grid">
 <div class="stat"><b>$36.62</b><span>parts (19 lines)</span></div>
 <div class="stat"><b>$49.27</b><span>landed cost per kit</span></div>
@@ -74,6 +74,16 @@ b.tp{color:#d64541}b.tn{color:#2f6fd0}
 
 <h2>Exercises</h2>
 <ul><li><a href="exercises.html#G1">G1</a> Getting started: breadboard, power, 5V LEDs, a gate chip and buttons</li><li><a href="exercises.html#BB8">BB8</a> 40105 FIFO demo</li><li><a href="exercises.html#P3">P3</a> FIFO adder: three 40105 FIFOs and a 4008 with backpressure</li></ul><p>Also possible with the parts in this kit: <a href="exercises.html#B4">B4</a> <span class="muted">4013 D flip-flop with asynchronous reset</span>, <a href="exercises.html#B8">B8</a> <span class="muted">4008 4-bit adder with buttons and the LED array</span>.</p>
+
+<h2>Variant A or B</h2>
+<p>Both variants build BB8 and P3 with the same buttons, LEDs, clock module and boards. They differ in what happens
+while a button is held. In variant A, each press gives one clean edge on SI or SO through a 4013 flip-flop, so one
+word moves per press. Variant B adds glue logic that makes the 40105 behave like the clocked SystemVerilog FIFO
+that students write next on the FPGA (<a href="https://github.com/yuri-panchul/basics-graphics-music/tree/main/labs/4_microarchitecture/4_2_fifo/4_2_5_optimized_ff_fifo_view_2_data_layout">lab 4_2_5 of basics-graphics-music</a>), so the
+breadboard and the RTL can be compared clock by clock.</p>
+<div class="tbl"><table><tr><th></th><th>FIFO kit A</th><th><a href="kit3b_fifo_sync.html">FIFO kit B</a></th></tr>
+<tr><td>Push held for three clock periods</td><td>1 word: one word per press</td><td>3 words, as in the RTL FIFO</td></tr><tr><td>Pop held for three clock periods</td><td>1 word</td><td>3 words, as long as the FIFO has data</td></tr><tr><td>Data switches</td><td>read when SI rises, just after the clock edge</td><td>sampled at the rising edge by a 40174, like <code>write_data</code> in the RTL</td></tr><tr><td>P3: pairs moved from A and B into C</td><td>at most one every second clock</td><td>one on every clock while A and B have data and C has room</td></tr><tr><td>LEDs change</td><td>just after a rising clock edge</td><td>at the falling edge, half a period after the RTL's outputs</td></tr><tr><td>Behaves like the RTL FIFO</td><td>no</td><td>yes, checked against the RTL in a chip-level simulation</td></tr><tr><td>Chips in BB8 / P3</td><td>2 / 7</td><td>5 / 10</td></tr><tr><td>Wires on the boards in BB8 / P3</td><td>19 / 74, laid out and checked</td><td>≈50 / ≈113, estimated</td></tr><tr><td>Build guide</td><td><a href="fifo_build.html">step by step</a>, with a wiring checklist</td><td>not yet; see <a href="kit3b_fifo_sync.html#how">how it works</a></td></tr><tr><td>Parts / retail price</td><td>$36.62 / $108.99</td><td>$37.80 / $112.99</td></tr>
+</table></div>
 
 <h2>Parts</h2>
 <div class="tbl"><table><tr><th>Part</th><th>Description</th><th class=n>Qty</th><th class=n>Unit</th><th class=n>Total</th><th>Used in</th><th>Why / note</th><th>Supplier</th></tr>
@@ -178,7 +188,7 @@ not included.</p>
   upd();
 })();
 </script>
-<h2>Compared with the sheet</h2><p>The LSSK sheet has a <i>Quality FIFO</i> column for this kit. Differences:</p><ul><li>The sheet&#x27;s &#x27;FIFO&#x27; column has no 40105, no 4008, no clock module and no M-F jumpers for the buttons; this kit adds all of them.</li><li>Two 4013s and a 4082 replace the second 4081: the build guide synchronises the push and pop buttons with flip-flops and makes the transfer pulse with a flip-flop, because a clock-gated AND of the ready flags moves several pairs in one clock tick.</li><li>The sheet&#x27;s 2 x 4511 and the 4-button LED module are listed as optional here: LED modules and button modules are enough for the exercises.</li></ul>
+<h2>Compared with the sheet</h2><p>The LSSK sheet has a <i>Quality FIFO</i> column for this kit. Differences:</p><ul><li>The sheet&#x27;s &#x27;FIFO&#x27; column has no 40105, no 4008, no clock module and no M-F jumpers for the buttons; this kit adds all of them.</li><li>Two 4013s and a 4082 replace the second 4081: flip-flops synchronise the push and pop buttons and make the transfer pulse, because a clock-gated AND of the ready flags moves several pairs in one clock tick.</li><li>The sheet&#x27;s 2 x 4511 and the 4-button LED module are listed as optional here: LED modules and button modules are enough for the exercises.</li></ul>
 
 
 <footer>Logic Synthesis School Kit · Verilog Meetup · generated from <code>tools/lssk_data.py</code>

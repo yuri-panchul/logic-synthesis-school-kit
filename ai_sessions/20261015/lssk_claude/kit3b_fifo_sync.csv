@@ -1,0 +1,38 @@
+Section,Category,Part,Description,Qty,Unit price USD,Total USD,Used in exercises,Why this quantity / note,Supplier
+Core,IC,CD4081,Quad 2-input AND,1,0.55,0.55,G1,,Elexp (elexp.com)
+Core,IC,CD4082,Dual 4-input AND,1,0.35,0.35,"BB8, P3",,Elexp (elexp.com)
+Core,IC,CD4001,Quad 2-input NOR,2,0.30,0.60,"BB8, P3",2 at once in P3,Elexp (elexp.com)
+Core,IC,CD4013,Dual D flip-flop with set/reset,2,0.35,0.70,"BB8, P3",2 at once in P3,Elexp (elexp.com)
+Core,IC,CD40174,Hex D flip-flop with common clock and clear,1,0.58,0.58,"BB8, P3",,Elexp (elexp.com)
+Core,IC,CD4008,4-bit full adder,1,1.00,1.00,P3,,https://leeselectronic.com/en/product/7192-7192ICCMOS40084BITADDER.html
+Core,IC,CD74HC40105,4-bit x 16-word FIFO,3,1.74,5.22,"BB8, P3",3 at once in P3,https://www.ti.com/product/CD74HC40105/part-details/CD74HC40105E
+Core,LED,"5V LED, green","5V-tolerant LED with built-in current limiting, green",1,0.45,0.45,G1,,https://www.elexp.com/products/08lg3330-hv5high-voltage-leds-5v-green
+Core,LED,"5V LED, yellow","5V-tolerant LED with built-in current limiting, yellow",1,0.45,0.45,P3,,https://www.elexp.com/products/08ly3330-hv5high-voltage-leds-5v-yellow
+Core,LED,"8-LED module, blue","8-LED bar module, common GND, no resistors needed (bulk of 20 price)",1,0.38,0.38,"G1, BB8, P3",up to 2 LED arrays at once (P3),https://www.aliexpress.us/item/3256804380748521.html
+Core,LED,"8-LED module, red","8-LED bar module, common GND, no resistors needed (bulk of 20 price)",1,0.38,0.38,P3,up to 2 LED arrays at once (P3),https://www.aliexpress.us/item/3256804380748521.html
+Core,Input,"Buttons, 5 pcs",5 button modules 12x12 mm with built-in pull-down resistor (VCC / OUT / GND),1,0.66,0.66,"G1, BB8, P3",up to 7 buttons at once (P3),https://www.aliexpress.us/item/3256806475044826.html
+Core,Input,"Buttons, 5 pcs (2nd pack)",5 button modules 12x12 mm with built-in pull-down; needed for adder and comparator exercises,1,2.03,2.03,"BB8, P3",up to 7 buttons at once (P3),https://www.aliexpress.us/item/3256803953260036.html
+Core,Clock,555 clock module,"Assembled 555 clock generator module, blue (set to ~0.5-1 Hz)",1,0.53,0.53,"BB8, P3",,https://www.aliexpress.us/item/3256809517040635.html
+Core,Power,Breadboard power module,MB102-style breadboard power supply module; set the jumpers to 5V,1,1.00,1.00,all,,https://www.aliexpress.us/item/2251832530395866.html
+Core,Power,USB-to-DC cable 9V,USB-to-DC barrel cable with 9V boost; the module regulates it to a stable 5V,1,1.17,1.17,all,,https://www.aliexpress.us/item/3256806703746727.html
+Core,Breadboard,Breadboard 830,"Solderless breadboard, 830 points (EL-CP-003)",2,3.00,6.00,all,"up to 2 large boards at once (BB8, P3)",https://www.amazon.com/EL-CP-003-Breadboard-Solderless-Distribution-Connecting/dp/B01EV6LJ7G
+Core,Wires,Dupont M-M x40,"40 male-male Dupont jumpers, 10 or 15 cm",1,1.30,1.30,"BB8, P3","4 jumpers for the power rails between boards, plus long runs",https://www.aliexpress.us/item/3256805315188857.html
+Core,Wires,Dupont M-F x40,"40 male-female Dupont jumpers, 10 or 15 cm (button and clock modules)",1,1.30,1.30,"G1, BB8, P3",largest build 24 M-F (3 per button or clock module),https://www.aliexpress.us/item/3256805315188857.html
+Core,Wires,Pre-cut jumper wires x350,"Jameco ValuePro 350-piece pre-formed 22 AWG wire jumpers, 14 lengths",1,11.95,11.95,"G1, BB8, P3",largest build ≈113 wires on the board + 4 between boards + 25% spare,https://www.jameco.com/z/WJW-60P-R-Jameco-ValuePro-350-pc-Wire-Jumper-Refill-for-Part-Number-19290-14-Lengths-10-Colors-25-of-Each-Length_20080.html
+Core,Tool,IC extractor,IC extractor with insulated handle,1,1.20,1.20,all,,https://www.elexp.com/products/060404ic-extractor-insulated-handle
+Optional,IC,CD4511,BCD-to-7-segment latch/decoder/driver,2,0.65,1.30,,Show FIFO data in decimal,Elexp (elexp.com)
+Optional,Display,"7-segment, green","Common-cathode single-digit 7-segment display, green",2,0.90,1.80,,Show FIFO data in decimal,https://www.elexp.com/products/08fndgrcc7-segment-display-c-c-green-c
+Optional,Display,Resistor 560 Ω ½ W,Segment resistor for 7-segment displays (½ W leads fit breadboard holes best),14,0.04,0.56,,For the two optional displays,https://www.elexp.com/products/13-55560res-1-2-w-5-560-ohm
+Optional,Input,4-button module with LEDs,4 buttons touch button module with hat and LED indicator (check output polarity),1,2.09,2.09,,"4-bit data entry with LED indicators, as in the sheet's FIFO column",https://www.aliexpress.us/item/3256810032908986.html
+Optional,Tool,IC pin straightener,IC pin straightener,1,8.95,8.95,,Teacher tool,https://www.elexp.com/products/03ics-01ic-pin-straightener
+
+Cost summary,,"Parts, core",,,,37.80,,,
+Cost summary,,Spares and breakage allowance (5%),,,,1.89,,,
+Cost summary,,Inbound shipping and duties (10%),,,,3.78,,,
+Cost summary,,"Packaging (box, anti-static foam, bags, label)",,,,2.50,,,
+Cost summary,,Printed quick-start card with QR links,,,,1.00,,,
+Cost summary,,Kitting labor (21 lines),,,,3.94,,,
+Cost summary,,Landed cost per kit,,,,50.91,,,
+Cost summary,,Suggested classroom / bulk price (1.6x landed),,,,81.99,,,
+Cost summary,,Suggested retail price (2.2x landed),,,,112.99,,,
+Cost summary,,"Optional add-ons, parts cost",,,,14.70,,,

@@ -110,7 +110,7 @@ p code,li code{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
-<nav class="top"><div><b>LSSK</b><a href="getting_started_en.html">Getting started (EN)</a><a href="getting_started_ru.html">Как начать (RU)</a><a href="exercises.html">Exercises</a><a href="kit1_basics.html">Basics kit</a><a href="kit2_comprehensive.html">Comprehensive kit</a><a href="kit3_fifo.html">FIFO kit</a><a href="kit4_arbiter.html">Round-robin arbiter kit</a><a href="kit5_fsm.html">FSM kit</a><a href="fifo_build.html">FIFO build guide</a><a href="fifo_build_ru.html">Сборка FIFO (RU)</a><a href="arbiter_build.html">Arbiter build guide</a><a href="arbiter_build_ru.html">Сборка арбитра (RU)</a></div></nav>
+<nav class="top"><div><b>LSSK</b><a href="getting_started_en.html">Getting started (EN)</a><a href="getting_started_ru.html">Как начать (RU)</a><a href="exercises.html">Exercises</a><a href="kit1_basics.html">Basics kit</a><a href="kit2_comprehensive.html">Comprehensive kit</a><a href="kit3_fifo.html">FIFO kit A</a><a href="kit3b_fifo_sync.html">FIFO kit B</a><a href="kit4_arbiter.html">Round-robin arbiter kit</a><a href="kit5_fsm.html">FSM kit</a><a href="fifo_build.html">FIFO build guide</a><a href="fifo_build_ru.html">Сборка FIFO (RU)</a><a href="arbiter_build.html">Arbiter build guide</a><a href="arbiter_build_ru.html">Сборка арбитра (RU)</a></div></nav>
 <main>
 
 <h1>Proposal: breadboard FIFOs that behave like the RTL FIFO</h1>
@@ -118,7 +118,8 @@ p code,li code{overflow-wrap:anywhere}
 rising clock edge, so holding push for three clock cycles pushes three words. The breadboard FIFO in the current
 build guide pushes one word per press, however long you hold the button. This proposal changes the glue logic
 around the 40105 so that exercises BB8 and P3 become functional equivalents of the RTL FIFO (depth 16, width 4).
-The guides, kits and the published pages are unchanged until you decide.</p>
+The build guides are unchanged until you decide; <a href="kit3b_fifo_sync.html">FIFO kit B</a> lists the parts
+for this circuit.</p>
 
 <div class="grid">
 <div class="stat"><b>3 words</b><span>after push is held for three clock periods (the RTL: 3)</span></div>
@@ -257,14 +258,16 @@ hardware.</div>
 <p>The extra chips fit on the same two boards: the bottom board has columns 45–63 free and the top board 50–63.
 The jumper counts are my estimate until the router has laid the wires out. The kit's wire set (350 pieces) covers
 them, so only the chips change the kit prices: 4001 $0.30, 40174 $0.58.</p>
-<div class="tbl"><table><tr><th>Kit</th><th class=n>Parts now</th><th class=n>Parts</th><th class=n>Classroom now</th><th class=n>Classroom</th><th class=n>Retail now</th><th class=n>Retail</th></tr><tr><td>FIFO kit</td><td class=n>$36.62</td><td class=n>$37.80</td><td class=n>$78.99</td><td class=n>$81.99</td><td class=n>$108.99</td><td class=n>$112.99</td></tr></table></div>
+<div class="tbl"><table><tr><th>Kit</th><th class=n>Parts</th><th class=n>Landed cost</th><th class=n>Classroom</th><th class=n>Retail</th></tr><tr><td>FIFO kit A</td><td class=n>$36.62</td><td class=n>$49.27</td><td class=n>$78.99</td><td class=n>$108.99</td></tr><tr><td>FIFO kit B</td><td class=n>$37.80</td><td class=n>$50.91</td><td class=n>$81.99</td><td class=n>$112.99</td></tr></table></div>
+<p class="small muted">FIFO kit A has the parts of the current circuit, <a href="kit3b_fifo_sync.html">FIFO kit B</a>
+those of this proposal. The comprehensive kit already has the extra chips.</p>
 <p>If you approve, I would:</p>
 <ol class="steps">
 <li>re-route both stages on the breadboard and regenerate the wiring checklist and the three diagrams;</li>
 <li>rewrite the "Buttons in step with the clock", transfer and test sections of both guides (EN and RU);</li>
 <li>regenerate <code>fifo_breadboard.sv</code> from the new wires, with this lockstep check against your RTL as its
 testbench;</li>
-<li>update the BB8 and P3 entries, the kit CSV and HTML files and their prices.</li>
+<li>replace the estimated wire counts of FIFO kit B with the counted ones.</li>
 </ol>
 <p>Nothing would be published until you have checked it. One layout caveat stays: the LED module plugged over C has
 an LED on pin 15 (SO), now driven by a 4001. The new layout should keep LEDs off 4000-series outputs.</p>
