@@ -8,6 +8,7 @@ Revised **15 October 2026** according to [20261015_review1.txt](20261015_review1
 
 ## Deliverables
 
+- Separate [40105 FIFO circuit proposal](fifo_40105_proposal.html) and [Russian edition](fifo_40105_proposal_ru.html): the requested RTL at 8 bits × 10 words, plus a compact 4 × 16 alternative. Includes the shared phase-clock requirement, exact IC allocation and connections, and reproducible logical comparison with the original RTL. Equivalence is limited to valid transactions observed at the documented times; no physical prototype has been tested.
 - [English starting guide](start_en.html) and [Russian starting guide](start_ru.html), using the four original illustrated sheets, direct connections to the specified 5 V indicators and an assembled 555 clock.
 - [Exercise catalogue](exercises.html): 61 entries, with component, board, button, display, LED and M–M/M–F jumper counts, search and kit filters.
 - Six kit inventories, each in HTML and spreadsheet-compatible UTF-8 CSV:
@@ -35,7 +36,7 @@ All component prices come from LSSK column J except the explicitly requested TTP
 
 CSV records distinguish `component`, `allowance` and `summary`; summary rows repeat calculated totals and should not be added to component rows. Loaded cost includes materials, 15% inbound allowance, 5% replacements, packaging and labor. Proposed retail targets 40% contribution after a 3% payment fee and rounds up to $5. Classroom USB supplies and meters, outgoing delivery and tax are excluded. Rare CD40108, CD40181 and DM9368 availability is unverified.
 
-No circuit was assembled in this workspace. The transaction model is checked against the actual RTL at width=4, depth=16; the pin-level 40105 pulse adapter remains unverified. Gate quantities for that adapter are preliminary estimates. Its open details are in the separate uncertainty file.
+No circuit was assembled in this workspace. The earlier kit transaction model is checked against its actual RTL at width=4, depth=16; those kit adapter quantities remain preliminary. The separate October 17 proposal specifies a new phased adapter and checks its logical behavior at both 8 × 10 and 4 × 16. This does not establish electrical timing or validate the earlier kit inventories as a physical implementation of the new circuit.
 
 ## Rebuild and validate
 
@@ -45,6 +46,7 @@ Python 3.9+ is sufficient for generation and inventory validation. The RTL check
 python3 scripts/build.py
 python3 scripts/validate.py
 python3 scripts/check_fifo_reference.py
+python3 scripts/check_40105_proposal.py
 ```
 
 If Node.js is available:
@@ -64,7 +66,8 @@ The FIFO regression uses unchanged RTL snapshots in `research/reference/`, with 
 - `research/lssk_rows.json`: recorded source spreadsheet values.
 - `data/*.html`: guide, lesson and review body fragments.
 - `assets/style.css`, `assets/catalog.js`, `assets/fsm.js`: offline presentation and interactions.
-- `scripts/build.py`: generates 26 teaching HTML pages, six CSVs and `data/catalog.json`, including Russian editions through `scripts/translate_ru.py`. Edit the sources, then regenerate.
+- `scripts/build.py`: generates 28 teaching HTML pages, six CSVs and `data/catalog.json`, including Russian editions through `scripts/translate_ru.py`. Edit the sources, then regenerate.
+- `scripts/build_fifo_40105_proposal.py`: shared circuit data and English/Russian prose for the separate FIFO proposal; also called by the main build. Its reference snapshot, behavioral model, testbench and validation record are in `research/fifo_40105_proposal/`.
 - `data/ru/translations.json`: Russian translations of complete text nodes and accessible labels. A missing translation stops the build. `technical_strings.json` explicitly preserves signal names, formulas and identifiers. `manifest.json` maps every authored page and body fragment to its Russian counterpart. Original external article snapshots in `research/` remain archival sources; separate `*_ru.html` reading editions reproduce their saved article text in Russian. The source-register page links to all three.
 - `research/browser_check_ru.html`: Russian browser-check helper for both language editions.
 - `data/ru/article_translations.json`: translations for the two English source articles and English reference titles in the already Russian Habr text; the three reading editions are also generated during the build.

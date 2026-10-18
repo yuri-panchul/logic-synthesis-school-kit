@@ -23,6 +23,8 @@ PAGES = ['index.html', 'exercises.html', 'sources.html',
 PAIRS = {p: p[:-5]+'_ru.html' for p in PAGES}
 PAIRS['start_en.html'] = 'start_ru.html'
 PAIRS['research/browser_check.html'] = 'research/browser_check_ru.html'
+# This separate proposal has a shared bilingual generator and circuit tables.
+PAIRS['fifo_40105_proposal.html'] = 'fifo_40105_proposal_ru.html'
 TRANSLATIONS = json.loads((RU/'translations.json').read_text())
 TECHNICAL = set(json.loads((RU/'technical_strings.json').read_text()))
 

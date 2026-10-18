@@ -101,8 +101,10 @@ def main():
   page(name+'.html',title,(ROOT/'data'/(name+'.html')).read_text())
  payload={'date':DATE,'price_snapshot_date':PRICE_DATE,'parts':parts,'exercises':E,'kits':KITS}
  (ROOT/'data/catalog.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2,default=str))
+ from build_fifo_40105_proposal import generate as generate_fifo_proposal
+ generate_fifo_proposal()
  from translate_ru import generate as generate_russian
  generate_russian()
- print(f'Generated 26 teaching HTML files, 6 CSVs and data/catalog.json; {len(E)} exercise entries.')
+ print(f'Generated 28 teaching HTML files, 6 CSVs and data/catalog.json; {len(E)} exercise entries.')
  for key,k in KITS.items():print(key,'components',k['cost']['materials'],'loaded',k['cost']['loaded'],'retail',k['cost']['retail'])
 if __name__=='__main__':main()

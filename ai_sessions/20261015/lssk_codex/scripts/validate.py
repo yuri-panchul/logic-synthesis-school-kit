@@ -51,7 +51,7 @@ for p in paths:
  assert d.lang==('ru' if p.stem.endswith('_ru') else 'en')
  assert len(d.ids)==len(set(d.ids)),f'Duplicate IDs: {p}'
  docs[p.resolve()]=d
-assert len(paths)==31
+assert len(paths)==33
 for p,d in docs.items():
  for link in d.links:
   u=urlsplit(link)

@@ -13,7 +13,8 @@
     "kits/fsm.html": "kits/fsm_ru.html",
     "kits/single_fifo.html": "kits/single_fifo_ru.html",
     "start_en.html": "start_ru.html",
-    "research/browser_check.html": "research/browser_check_ru.html"
+    "research/browser_check.html": "research/browser_check_ru.html",
+    "fifo_40105_proposal.html": "fifo_40105_proposal_ru.html"
   },
   "fragments": {
     "data/20261015_answers_to_all_questions_1.html": "data/ru/20261015_answers_to_all_questions_1.html",
