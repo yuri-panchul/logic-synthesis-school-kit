@@ -28,5 +28,16 @@ https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_sync_proposal.html
 https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_build.html
 https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_proposals_compared.html
 
+UPD: other files I want Maya to look at for her analysis:
+
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_sync_proposal_ru.html
+
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_breadboard.sv
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_sync_proposal.sv
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_compare/codex_bb8.sv
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_compare/hybrid_bb8.sv
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_compare/tb_six.sv
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_compare/tb_empty.sv
+
 Thank you,
 Yuri Panchul
