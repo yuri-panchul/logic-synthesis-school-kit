@@ -33,6 +33,8 @@ During the meetup we got four new participants and discussed new projects, speci
 
 15. Camera examples (a separate discussion - Tang Nano 9K with OV2640 and Altera boards with OV7670 - Ivan was interested in it.
 
+16. Re-implement Questa support and implement Verilator support in BGM scripting.
+
 Timofei and Philip might be interested in colorlight boards.
 
 I would like to propose Philip to take of Sipeed Tang Console 60K/138K, but I need to sit with him and walk through what has to be done
