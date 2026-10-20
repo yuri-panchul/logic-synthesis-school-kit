@@ -1,6 +1,6 @@
 More details on Project 3: create a 40105-based FIFO that closely matches SystemVerilog FIFO in BGM
 
-For Maya Grigoryeva
+For Mayya Grigoryeva
 
 From the main plan (2026.10.19):
 
