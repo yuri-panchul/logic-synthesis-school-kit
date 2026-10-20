@@ -1,0 +1,32 @@
+More details on Project 3: create a 40105-based FIFO that closely matches SystemVerilog FIFO in BGM
+
+For Maya Grigoryeva
+
+From the main plan (2026.10.19):
+
+3. Review of AI-generated (Claude Code and GPT-6-Astra Codex) solutions to a question "how to create a FIFO design using CMOS 40105 MSI chip that must be functionally equivalent to the SystemVerilog FIFO in BGM repository". The task is not trivial since 40105 FIFO is controlled by pulses while FIFO in BGM repo samples Push and Pop on posedge clock. In addition, in 40105 does not allow to combinationally derive Pop from ~Empty signal - something wrong was going on there when Maya tried to do this. AI created several solutions, some of them are kind of stupid (like using 4017 to do a single FIFO push in 6 clock cycles), but I want Maya investigate all variants of AI-generated solutions and come up (with my help) with a good solution (it might be tricky, for example it may involve negedge D-flip-flops). This is a task for Maya.
+
+I would like Maya to review the following files by either cloning the following repository:
+
+https://github.com/yuri-panchul/logic-synthesis-school-kit
+
+Or reviewing the following variants of AI-generated FIFO implementations
+directly by link. Note that some implementations are very stupid!
+
+https://panchul.com/lssk/ai_sessions/20261017/codex/1/fifo_40105_proposal_ru.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/1/fifo_40105_proposal.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/2/fifo_40105_proposal_ru.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/2/fifo_40105_proposal.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/3/fifo_codex_vs_claude.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/3/fifo_40105_proposal_ru.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/3/fifo_40105_proposal.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/4/fifo_codex_vs_claude.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/4/fifo_40105_proposal_ru.html
+https://panchul.com/lssk/ai_sessions/20261017/codex/4/fifo_40105_proposal.html
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_build_ru.html
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_sync_proposal.html
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_build.html
+https://panchul.com/lssk/ai_sessions/20261017/claude/fifo_proposals_compared.html
+
+Thank you,
+Yuri Panchul
