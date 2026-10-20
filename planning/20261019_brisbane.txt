@@ -1,8 +1,5 @@
 Brisbane BRS-100 board support. This board can be an alternative to Tang Nano 9K board, we can contact the company and potentially do some activities together. Jason Yang volunteered to do this.
 
-Jason Yang
-hyang175@ucsc.edu
-
 Right now the board is working if you connect TM1638 to it, but I did not connect LCD. I expect Jason to connect both Claude and Codex version with LCD, determine what works and what does not, and think about convenience: which pins are easier to work with.
 
 What I did:
