@@ -1,0 +1,73 @@
+Brisbane BRS-100 board support. This board can be an alternative to Tang Nano 9K board, we can contact the company and potentially do some activities together. Jason Yang volunteered to do this.
+
+Jason Yang
+hyang175@ucsc.edu
+
+Right now the board is working if you connect TM1638 to it, but I did not connect LCD. I expect Jason to connect both Claude and Codex version with LCD, determine what works and what does not, and think about convenience: which pins are easier to work with.
+
+What I did:
+
+1. I run the following prompt to both Claude Code and Codex:
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/claude_brisbane_brs_100/boards/brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_claude/claude_prompt.txt
+
+Create a branch from main claude_brisbane_brs_100 to implement a new set of board support packages for brisbane_brs_100 (BRS-100-GW1NR9) board.
+It should have the equivalent fiunctionality to tang_nano_9k. Since brs_100 does not have LCD or HDMI you can use PMOD-RGDLCD adapter
+for the graphics. Or PMOD-HDMI expansion board. If you don't have enough GPIO pins for sound output or microphone, leave them.
+Or create a special brisbane_brs_100_tm1638_no_graphics_but_sound_by_claude configuration that has no graphics but supports microphone and sound DAC the way tang_nano_9k supports.
+You also need to create configurations with and without tm1638. Before you do all the variant I want to create the first, with lcd and tm1638:
+brisbane_brs_100_tm1638_pmod_rgblcd_by_claude. Generate a SVG and PNG files showing how to connect the pins with jumpers, as well as README.md
+instruction inside the board directory. Copy this prompt into the generated repository as claude_prompt.txt
+
+2. Both Claude and Codex did the very same mistake many people do when start working with BRS support: they started to change board_specific.cst file instead of doing all the pin mapping inside board_specific.sv
+
+So I had to add to the prompt:
+
+Rename this configuration as brisbane_brs_100_tm1638_pmod_rgblcd_by_claude as brisbane_brs_100_tm1638_pmod_rgblcd_by_claude_alt
+commit the rename.
+Then create another brisbane_brs_100_tm1638_pmod_rgblcd_by_claude directory where the board_specific.cst file is from the board manufacturing, listing GPIO pins as GPIO pins.
+They should be inouts in board_specific_top.sv. The actual mapping to LCD, MIcrophone and DAC should occur in board_specific_top.sv.
+This is the general philosophy of this repository: we stick to the manufacturer's .cst, .xdc, .qsf file as much as possible,
+and do most of pin mapping in board_specific_top.sv. Also generate an html file with a discussion about pros and cons of this approach.
+
+3. So Claude and Codex created the following 8 configurations in 2 branches:
+
+Branch claude_brisbane_brs_100
+
+brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_claude
+brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_claude_alt
+brisbane_brs_100_tm1638_pmod_rgblcd_800_480_by_claude
+brisbane_brs_100_tm1638_pmod_rgblcd_800_480_by_claude_alt
+
+Branch codex_brisbane_brs_100
+
+brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_codex
+brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_codex_alt
+brisbane_brs_100_tm1638_pmod_rgblcd_800_480_by_codex
+brisbane_brs_100_tm1638_pmod_rgblcd_800_480_by_codex_alt
+
+Also note brisbane_brs_100_pin_mapping.html in boards repository
+
+I also copied it into
+https://panchul.com/bgm_board_support/20261010_brisbane/codex_brisbane_brs_100_pin_mapping.html
+
+3. Then I asked Claude and Codex to criticize each other. You can see the following files:
+
+https://panchul.com/bgm_board_support/20261010_brisbane/claude_brisbane_brs_100_compare_1.html
+
+https://panchul.com/bgm_board_support/20261010_brisbane/codex_brisbane_compare_1.html
+
+4. You should also inspect:
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/claude_brisbane_brs_100/boards/brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_claude/README.md
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/codex_brisbane_brs_100/boards/brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_codex/README.md
+
+and .md in other board directories, such as:
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/codex_brisbane_brs_100/boards/brisbane_brs_100_tm1638_pmod_rgblcd_480_272_by_codex/validation.md
+
+5. Right now the board is working if you connect TM1638 to it, but I did not connect LCD. I expect Jason to connect both Claude and Codex version with LCD, determine what works and what does not, and think about convenience: which pins are easier to work with.
+
+Thank you,
+Yuri Panchul

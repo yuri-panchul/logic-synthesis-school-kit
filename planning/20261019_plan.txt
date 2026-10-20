@@ -1,0 +1,38 @@
+We just started meetups at the new location:
+3200 Patrick Henry Dr, Suite 250, Santa Clara
+
+During the meetup we got four new participants and discussed new projects, specifically:
+
+1. I discussed the idea to split two activities: education (paid classes) and developing the educational materials and training the teachers and tutors (free). We are going to do profit sharing between me, teachers and Hacker Dojo (will be a separate email).
+
+2. Brisbane BRS-100 board support. This board can be an alternative to Tang Nano 9K board, we can contact the company and potentially do some activities together. Jason Tang volunteered to do this.
+
+3. Review of AI-generated (Claude Code and GPT-6-Astra Codex) solutions to a question "how to create a FIFO design using CMOS 40105 MSI chip that must be functionally equivalent to the SystemVerilog FIFO in BGM repository". The task is not trivial since 40105 FIFO is controlled by pulses while FIFO in BGM repo samples Push and Pop on posedge clock. In addition, in 40105 does not allow to combinationally derive Pop from ~Empty signal - something wrong was going on there when Maya tried to do this. AI created several solutions, some of them are kind of stupid (like using 4017 to do a single FIFO push in 6 clock cycles), but I want Maya investigate all variants of AI-generated solutions and come up (with my help) with a good solution (it might be tricky, for example it may involve negedge D-flip-flops). This is a task for Maya.
+
+4. Reviewing Claude and Codex-generated instruction for all SSI and FPGA exercises by building a demo for each of them. This is something new participants can do. I want to finish this by New Year to offer paid classes afterwards.
+
+5. New board support. High priority is RealDigital Boolean Board and Sipeed Tang Console 60K/138K. First is a reasonably-priced and convenient Xilinx FPGA board and second is a reasonably priced high-capacity Gowin board suitable for large projects, such as CPU cores with MMU capable of running Linux.
+
+6. I want to create a demo for BGM colorlight75b_ecp5_tm1638_yosys and colorlightI5_ecp5_tm1638_yosys configurations. This is a low-cost and capable board with very unusual pinout - just 1 (one) input pin and many output pins. It is possible to use this board together with TM1638 and HDMA to cover most of BGM examples. Even a microphone can be connected to this 1 input pin with a mux and some glue logic in FPGA.
+
+7. I have a plan for more direct path breadboard -> FPGA -> ASIC by adopting TanyTapeout top module as an alternative option for a user module in BGM (alongside with lab_top and hackaton_top), and creating a library of CMOS 4000 - derived Verilog modules. We will discuss this during the next meetups. This can be an interesting R&D project for teenagers.
+
+8. There is a need to create multiple RISC-V CPU examples for APS and YRV cores within BGM. Creating such examples should not be outsourced to AI since AI has poor taste in making example sets (copies old boring examples from other sources).
+
+9. I need to adopt two original RISC-V cores from H&H textbook to BGM (right now BGM carries schoolRISCV, YRV and APS) and enhance picoRV32 support (unfinished).
+
+10. A small project: add microphone and DAC to cmod_s7.
+
+11. A small project: assemble and bring up a Olimex iCE40HX8K-EVB board demo with OSS CAD Suite / Yosys and JTAG controller.
+
+12. A small project: assemble and bring up orangepi_msoc demo.
+
+13. A small but low priority project: assemble and bring up orangecrab_ecp5_yosys.
+
+14. Other lower priority boards: TEC0117 (Gowin 9K), EPM11 (Gowin 9K), KIWI 1P5 (Gowin, a subset of examples), Tang Nano 1K (Gowin, a subset of examples), iCESugar.
+
+15. Camera examples (a separate discussion - Tang Nano 9K with OV2640 and Altera boards with OV7670 - Ivan was interested in it.
+
+Timofei and Philip might be interested in colorlight boards.
+
+I would like to propose Philip to take of Sipeed Tang Console 60K/138K, but I need to sit with him and walk through what has to be done
