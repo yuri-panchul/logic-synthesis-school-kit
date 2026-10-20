@@ -1,0 +1,1877 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FIFO 4 × 16: одна операция за такт · LSSK</title><link rel="stylesheet" href="assets/style.css"><style>.timing,.schematic{overflow-x:auto}.timing svg,.schematic svg{display:block;width:100%;height:auto;min-width:1000px}.schematic svg{min-width:1200px}details{margin:1rem 0}summary{cursor:pointer;font-weight:600}.source-path{white-space:pre-wrap;overflow-wrap:anywhere}@media print{.timing svg,.schematic svg{min-width:0}}</style></head><body><a class="skip" href="#main">К содержанию</a><header><a class="brand" href="index_ru.html">LSSK / 40105 FIFO</a><nav aria-label="Навигация"><a href="index_ru.html">Учебные материалы</a><a data-language-switch href="fifo_40105_proposal.html" lang="en">English version</a></nav></header><main id="main"><p class="eyebrow">LSSK / Исправленное предложение · 17 октября 2026</p><h1>FIFO 4 × 16: одна операция за такт</h1><p class="lead">Используйте внешний такт напрямую. Запросы и данные фиксируются по каждому положительному фронту; следующий спад запускает импульсы 40105. Последовательные записи выполняются в последовательных периодах, а push и pop могут быть активны одновременно.</p><div class="callout"><strong>Без делителя такта, счётчика фаз и счётчика заполнения.</strong> Прежняя схема с CD4017/CD4029 заменена. Сигналы для <code>empty</code> и <code>full</code> формирует сама 40105.</div><p><strong>Ёмкость:</strong> одна CD74HC40105E хранит 16 четырёхбитных слов: <code>width=4, depth=16</code>. Полная схема содержит четыре микросхемы на одной макетной плате. Исходный RTL запускается с width=4 и depth=16; сам исходник не изменён.</p><p><strong>Временные условия:</strong> схема воспроизводит операции FIFO, наблюдаемые синхронной логикой по положительным фронтам. Внутренняя операция выполняется по спаду, поэтому данные и флаги устанавливаются в низкой половине того же периода. Их непрерывные диаграммы не совпадают с RTL сразу после положительного фронта. Используйте <code>empty</code>, <code>full</code> и <code>read_data</code> по положительным фронтам после установления; на исходных выходах готовности возможны короткие переходные импульсы.</p><nav aria-label="На этой странице"><a href="#interface">Интерфейс</a> · <a href="#circuit">Схема</a> · <a href="#schematics">Три чертежа</a> · <a href="#breadboard-wiring">Перемычки</a> · <a href="#six-cycle-scenario">Шесть циклов</a> · <a href="#connections">Соединения</a> · <a href="#parts">Компоненты</a> · <a href="#verification">Проверка</a></nav><h2 id="interface">Интерфейс и допустимые запросы</h2><pre>inputs:  clk, rst, push, pop, write_data[3:0]
+outputs: empty, full, read_data[3:0]</pre><p>Отладочного интерфейса и дополнительных внешних сигналов обмена нет. Сброс асинхронный, активен высоким уровнем. При непустой очереди <code>read_data</code> показывает старейшее слово. Потребитель считывает это прежнее слово по положительному фронту, на котором запрашивает pop.</p><pre>pop  → !empty
+push → (!full || pop)</pre><p>Вызывающая схема должна соблюдать эти правила допустимой работы FIFO. Исходный RTL продвигает указатели даже при недопустимых запросах; 40105 не воспроизводит такое поведение. Чтение пустой очереди, включая push+pop при empty, не входит в условия эквивалентности. При empty значение <code>read_data</code> не определено. Одновременные push+pop при full поддерживаются.</p><pre class="source-path">/home/verilog/projects/basics-graphics-music/labs/4_microarchitecture/4_2_fifo/4_2_5_optimized_ff_fifo_view_2_data_layout/flip_flop_fifo_empty_full_optimized_and_debug_2.sv</pre><p><a href="research/fifo_40105_proposal/flip_flop_fifo_empty_full_optimized_and_debug_2.sv">Исходный RTL без изменений</a> · <a href="research/fifo_40105_proposal/provenance.json">Исходный путь и SHA-256</a></p><h2 id="circuit">Один внешний период на операцию</h2><div class="table-wrap"><table><thead><tr><th scope="col">Событие такта</th><th scope="col">Действие</th></tr></thead><tbody><tr><td>clk ↑</td><td>Потребитель считывает прежнюю голову и флаги. Входные регистры фиксируют push, pop и write_data. SI возвращается в 0, SO — в 1, подготавливая входы FIFO.</td></tr><tr><td>clk = 1</td><td>Захваченные запросы и данные устанавливаются; новая операция FIFO не запускается.</td></tr><tr><td>clk ↓</td><td>SI повышается при захваченном push; SO понижается при захваченном pop. Обе операции могут выполняться в этом периоде.</td></tr><tr><td>clk = 0</td><td>Внутренние переносы и флаги готовности завершают установление до следующего положительного фронта.</td></tr><tr><td>Следующий clk ↑</td><td>Следующий запрос принимается сразу, в том числе очередной push. Пустой такт не вставляется.</td></tr></tbody></table></div><pre>on clk ↑: {D_hold, W, R} ← {write_data, push, pop}
+rst = 1: {D_hold, W, R} ← 0
+
+W_n = !W
+R_n = !R
+SI  = NOR(clk, W_n)       // LOW during clk HIGH
+P   = NOR(clk, R_n)
+SO  = !P                 // HIGH during clk HIGH
+
+full  = !DIR
+empty = !DOR</pre><p>Сигнал <strong>clk подаётся непосредственно на входы ИЛИ-НЕ</strong>. По положительному фронту высокий clk блокирует импульсы до распространения новых W/R. К моменту спада W/R уже стабильны полпериода. Не заменяйте это отдельной задержанной инверсной ветвью такта и вентилями И без анализа её перекрытия с обновлением регистров.</p><p>Захваченные данные не меняются всю низкую половину периода. Изменение внешних запросов или данных после окна setup/hold положительного фронта не создаёт дополнительных операций. Если push остаётся высоким на нескольких положительных фронтах, в каждой следующей низкой половине периода происходит одна запись.</p><p><strong>При full и push=pop=1:</strong> SI остаётся высоким в низкой половине периода. Если SI приходит раньше SO, FIFO ждёт свободного места; после его появления захваченная запись выполняется. Если SO приходит первым, последующий SI записывает в освободившееся место. Данные должны оставаться стабильными до завершения внутреннего переноса. Поэтому схема не предполагает узкого импульса на фронте.</p><p>DIR и DOR восстанавливаются после внутренних переносов даже при сохраняющемся высоком SI или низком SO. Они не являются простой инверсией этих импульсов. Такая работа и запись при удерживаемом SI после освобождения места описаны в <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf">документации TI, функциональное описание и рисунок 13</a>.</p><h2 id="schematics">Три чертежа схемы 4 бита × 16 слов</h2><p>Все чертежи показывают одну схему из четырёх микросхем: U1 CD74HC40105E, U2 CD40174B, U3 CD4001B и U4 CD4069UB. SVG — редактируемая векторная графика; PNG получены из этих SVG.</p><h3 id="schematic-logic">1. Логические вентили и тракт данных FIFO</h3><figure class="schematic"><svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1370" viewBox="0 0 1800 1370" role="img" aria-labelledby="fifo-logic-title fifo-logic-desc">
+<title id="fifo-logic-title">1 · FIFO 4 × 16: логическая схема</title><desc id="fifo-logic-desc">Одна FIFO и три микросхемы логики. Фиксация по clk ↑; SI ↑ / SO ↓ по clk ↓.</desc>
+<style>text{font-family:DejaVu Sans,sans-serif}path,line,polyline{stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="0" y="0" width="1800" height="1370" rx="10" fill="#f5f8fa" stroke="none" stroke-width="1.5"/>
+<text x="40" y="56" font-size="31" fill="#183247" text-anchor="start" font-weight="bold" >1 · FIFO 4 × 16: логическая схема</text>
+<text x="40" y="94" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >Одна FIFO и три микросхемы логики. Фиксация по clk ↑; SI ↑ / SO ↓ по clk ↓.</text>
+<rect x="40" y="130" width="1720" height="450" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="164" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >4-битный тракт данных и захваченные запросы</text>
+<rect x="320" y="205" width="270" height="295" rx="10" fill="#edf7f3" stroke="#08795b" stroke-width="1.5"/>
+<text x="455" y="240" font-size="22" fill="#183247" text-anchor="middle" font-weight="bold" >U2 · CD40174B</text>
+<text x="455" y="274" font-size="18" fill="#183247" text-anchor="middle" font-weight="normal" >4 бита данных + W + R</text>
+<text x="80" y="304" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[3:0]</text>
+<path d="M80,320 L320,320" stroke="#08795b" stroke-width="4" fill="none" />
+<path d="M230,310 L244,330" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="248" y="304" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >4</text>
+<text x="335" y="325" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >D[3:0]</text>
+<text x="575" y="325" font-size="18" fill="#183247" text-anchor="end" font-weight="normal" >Q[3:0]</text>
+<path d="M590,320 L900,320" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="650" y="304" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold[3:0]</text>
+<text x="210" y="353" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >push</text>
+<path d="M210,360 L320,360" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="365" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >push</text>
+<text x="210" y="388" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >pop</text>
+<path d="M210,395 L320,395" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="400" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >pop</text>
+<text x="210" y="428" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M210,435 L320,435" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="338" y="440" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >clk</text>
+<text x="210" y="468" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M210,475 L320,475" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="338" y="480" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M320,426 L330,435 L320,444" stroke="#b36a00" stroke-width="2" fill="none" />
+<circle cx="315" cy="475" r="5" stroke="#183247" fill="white"/>
+<path d="M395,500 L395,530" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="395" y="556" font-size="20" fill="#763aa5" text-anchor="middle" font-weight="normal" >W</text>
+<path d="M505,500 L505,530" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="505" y="556" font-size="20" fill="#763aa5" text-anchor="middle" font-weight="normal" >R</text>
+<rect x="900" y="205" width="350" height="295" rx="10" fill="#edf4fb" stroke="#2464ad" stroke-width="1.5"/>
+<text x="1075" y="240" font-size="23" fill="#183247" text-anchor="middle" font-weight="bold" >U1 · CD74HC40105E</text>
+<text x="1075" y="277" font-size="20" fill="#183247" text-anchor="middle" font-weight="normal" >4 × 16</text>
+<text x="915" y="325" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >D[3:0]</text>
+<text x="1235" y="325" font-size="18" fill="#183247" text-anchor="end" font-weight="normal" >Q[3:0]</text>
+<path d="M1250,320 L1690,320" stroke="#08795b" stroke-width="4" fill="none" />
+<text x="1400" y="304" font-size="18" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[3:0]</text>
+<text x="770" y="363" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M770,370 L900,370" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="915" y="375" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<text x="770" y="408" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<path d="M770,415 L900,415" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="915" y="420" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >SO</text>
+<text x="770" y="458" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<path d="M770,465 L900,465" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="915" y="470" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >MR</text>
+<text x="1235" y="390" font-size="18" fill="#183247" text-anchor="end" font-weight="normal" >DIR</text>
+<path d="M1250,385 L1470,385" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1490" y="390" font-size="20" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR</text>
+<text x="1235" y="450" font-size="18" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1250,445 L1470,445" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1490" y="450" font-size="20" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR</text>
+<text x="900" y="548" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >TS (вывод 1) = GND; выходы данных разрешены.</text>
+<rect x="40" y="615" width="930" height="630" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="649" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Импульсы, блокируемые тактом</text>
+<text x="80" y="735" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >W</text>
+<path d="M80,745 L190,745" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,720 L190,770 L236,745 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="745" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="705" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U4.B</text>
+<path d="M248,745 L480,745" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="310" y="733" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >W_n</text>
+<path d="M480,728 Q522,724 560,762 Q522,800 480,796 Q504,762 480,728 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M480,745 L489,745" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M480,779 L489,779" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="566" cy="762" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="520" y="712" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U3.A</text>
+<text x="320" y="806" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M320,779 L480,779" stroke="#b36a00" stroke-width="2" fill="none" />
+<path d="M572,762 L855,762" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="790" y="751" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >SI</text>
+<text x="80" y="850" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >SI = NOR(clk, W_n)</text>
+<text x="80" y="930" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >R</text>
+<path d="M80,940 L190,940" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,915 L190,965 L236,940 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="940" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="900" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U4.C</text>
+<path d="M248,940 L480,940" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="310" y="928" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >R_n</text>
+<path d="M480,923 Q522,919 560,957 Q522,995 480,991 Q504,957 480,923 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M480,940 L489,940" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M480,974 L489,974" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="566" cy="957" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="520" y="907" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U3.B</text>
+<text x="320" y="1001" font-size="18" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<path d="M320,974 L480,974" stroke="#b36a00" stroke-width="2" fill="none" />
+<path d="M572,957 L715,957" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="620" y="946" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >P</text>
+<path d="M715,932 L715,982 L761,957 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="767" cy="957" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="740" y="917" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U4.D</text>
+<path d="M773,957 L885,957" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="835" y="946" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="80" y="1045" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >SO = NOT(NOR(clk, R_n))</text>
+<text x="80" y="1155" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<path d="M80,1165 L190,1165" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M190,1140 L190,1190 L236,1165 Z" stroke="#183247" stroke-width="2" fill="white" />
+<circle cx="242" cy="1165" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="215" y="1125" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U4.A</text>
+<path d="M248,1165 L440,1165" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="320" y="1154" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >CLR_n</text>
+<text x="510" y="1162" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >rst → U1.MR</text>
+<rect x="1000" y="615" width="760" height="630" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="1024" y="649" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Флаги непосредственно от одной FIFO</text>
+<text x="1050" y="768" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR</text>
+<path d="M1050,780 L1280,780" stroke="#763aa5" stroke-width="2" fill="none" />
+<circle cx="1280" cy="780" r="4" fill="#763aa5"/>
+<path d="M1280,763 V797" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1280,763 L1370,763" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1280,797 L1370,797" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1370,746 Q1412,742 1450,780 Q1412,818 1370,814 Q1394,780 1370,746 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M1370,763 L1379,763" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M1370,797 L1379,797" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="1456" cy="780" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="1410" y="730" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U3.C</text>
+<path d="M1462,780 L1680,780" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1590" y="768" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >full</text>
+<text x="1050" y="865" font-size="20" fill="#183247" text-anchor="start" font-weight="normal" >full = NOT(DIR)</text>
+<text x="1050" y="1008" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR</text>
+<path d="M1050,1020 L1280,1020" stroke="#763aa5" stroke-width="2" fill="none" />
+<circle cx="1280" cy="1020" r="4" fill="#763aa5"/>
+<path d="M1280,1003 V1037" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1280,1003 L1370,1003" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1280,1037 L1370,1037" stroke="#763aa5" stroke-width="2" fill="none" />
+<path d="M1370,986 Q1412,982 1450,1020 Q1412,1058 1370,1054 Q1394,1020 1370,986 Z" stroke="#183247" stroke-width="2" fill="white" />
+<path d="M1370,1003 L1379,1003" stroke="#183247" stroke-width="2" fill="none" />
+<path d="M1370,1037 L1379,1037" stroke="#183247" stroke-width="2" fill="none" />
+<circle cx="1456" cy="1020" r="6" fill="white" stroke="#183247" stroke-width="2"/>
+<text x="1410" y="970" font-size="16" fill="#183247" text-anchor="middle" font-weight="normal" >U3.D</text>
+<path d="M1462,1020 L1680,1020" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1590" y="1008" font-size="22" fill="#763aa5" text-anchor="start" font-weight="normal" >empty</text>
+<text x="1050" y="1105" font-size="20" fill="#183247" text-anchor="start" font-weight="normal" >empty = NOT(DOR)</text>
+<text x="1030" y="1175" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >Оба входа каждого ИЛИ-НЕ флага соединены.</text>
+<text x="40" y="1290" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >Одинаковые имена = одна цепь. Точки соединяют провода. Питание и свободные выводы инверторов: схема 2.</text>
+<text x="40" y="1345" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >4 бита × 16 слов · +5 В · один внешний такт · проект, макет не собран</text>
+</svg><figcaption>Вентили НЕ и ИЛИ-НЕ формируют импульсы и флаги. U2 фиксирует четыре бита данных, push и pop; U1 хранит 16 четырёхбитных слов. full = !DIR; empty = !DOR.</figcaption></figure><p><a href="assets/fifo_40105_logic_ru.svg">Открыть / скачать SVG</a> · <a href="assets/fifo_40105_logic_ru.png">Открыть / скачать PNG</a></p><h3 id="schematic-pinout">2. Все выводы микросхем и их соединения</h3><figure class="schematic"><svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1255" viewBox="0 0 1240 1255" role="img" aria-labelledby="fifo-pinout-title fifo-pinout-desc">
+<title id="fifo-pinout-title">2 · FIFO 4 × 16: выводы микросхем</title><desc id="fifo-pinout-desc">DIP, вид сверху, выемка сверху. Одинаковые имена цепей означают соединение.</desc>
+<style>text{font-family:DejaVu Sans,sans-serif}path,line,polyline{stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="0" y="0" width="1240" height="1255" rx="10" fill="#f5f8fa" stroke="none" stroke-width="1.5"/>
+<text x="40" y="56" font-size="31" fill="#183247" text-anchor="start" font-weight="bold" >2 · FIFO 4 × 16: выводы микросхем</text>
+<text x="40" y="94" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >DIP, вид сверху, выемка сверху. Одинаковые имена цепей означают соединение.</text>
+<rect x="40" y="130" width="560" height="400" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="164" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U2 · CD40174B</text>
+<text x="64" y="194" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >Захват data[3:0], push и pop</text>
+<rect x="240" y="218" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M302,218 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="247" y="247" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="271" y="247" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >CLR_n</text>
+<path d="M220,242 L240,242" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="247" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >CLR_n</text>
+<text x="247" y="277" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="271" y="277" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q1</text>
+<path d="M220,272 L240,272" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="277" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[0]</text>
+<text x="247" y="307" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="271" y="307" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M220,302 L240,302" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="307" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[0]</text>
+<text x="247" y="337" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="271" y="337" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M220,332 L240,332" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="337" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[1]</text>
+<text x="247" y="367" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="271" y="367" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q2</text>
+<path d="M220,362 L240,362" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="367" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[1]</text>
+<text x="247" y="397" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="271" y="397" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M220,392 L240,392" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="397" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[2]</text>
+<text x="247" y="427" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="271" y="427" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >Q3</text>
+<path d="M220,422 L240,422" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="210" y="427" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[2]</text>
+<text x="247" y="457" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="271" y="457" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M220,452 L240,452" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="210" y="457" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="393" y="457" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="369" y="457" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CLK</text>
+<path d="M400,452 L430,452" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="441" y="457" font-size="15" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<text x="393" y="427" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="369" y="427" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q4</text>
+<path d="M400,422 L430,422" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="427" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >D_hold[3]</text>
+<text x="393" y="397" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="369" y="397" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D4</text>
+<path d="M400,392 L430,392" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="441" y="397" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >write_data[3]</text>
+<text x="393" y="367" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="369" y="367" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q5</text>
+<path d="M400,362 L430,362" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="367" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >W</text>
+<text x="393" y="337" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="369" y="337" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D5</text>
+<path d="M400,332 L430,332" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="337" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >push</text>
+<text x="393" y="307" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="369" y="307" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D6</text>
+<path d="M400,302 L430,302" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="307" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >pop</text>
+<text x="393" y="277" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="369" y="277" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q6</text>
+<path d="M400,272 L430,272" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="277" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >R</text>
+<text x="393" y="247" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="369" y="247" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M400,242 L430,242" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="441" y="247" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="64" y="507" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >Вывод 1: A.e16</text>
+<rect x="640" y="130" width="560" height="400" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="664" y="164" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U1 · CD74HC40105E</text>
+<text x="664" y="194" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >FIFO 4 бита × 16 слов</text>
+<rect x="840" y="218" width="160" height="254" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M902,218 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="847" y="247" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="871" y="247" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >TS</text>
+<path d="M820,242 L840,242" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="810" y="247" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="847" y="277" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="871" y="277" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >DIR</text>
+<path d="M820,272 L840,272" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="277" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >DIR</text>
+<text x="847" y="307" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="871" y="307" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >SI</text>
+<path d="M820,302 L840,302" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="307" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >SI</text>
+<text x="847" y="337" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="871" y="337" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D0</text>
+<path d="M820,332 L840,332" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="810" y="337" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[0]</text>
+<text x="847" y="367" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="871" y="367" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D1</text>
+<path d="M820,362 L840,362" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="810" y="367" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[1]</text>
+<text x="847" y="397" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="871" y="397" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D2</text>
+<path d="M820,392 L840,392" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="810" y="397" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[2]</text>
+<text x="847" y="427" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="871" y="427" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >D3</text>
+<path d="M820,422 L840,422" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="810" y="427" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >D_hold[3]</text>
+<text x="847" y="457" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="871" y="457" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M820,452 L840,452" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="810" y="457" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="993" y="457" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="969" y="457" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >MR</text>
+<path d="M1000,452 L1030,452" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="457" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<text x="993" y="427" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="969" y="427" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q3</text>
+<path d="M1000,422 L1030,422" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1041" y="427" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[3]</text>
+<text x="993" y="397" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="969" y="397" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q2</text>
+<path d="M1000,392 L1030,392" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1041" y="397" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[2]</text>
+<text x="993" y="367" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="969" y="367" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q1</text>
+<path d="M1000,362 L1030,362" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1041" y="367" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[1]</text>
+<text x="993" y="337" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="969" y="337" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >Q0</text>
+<path d="M1000,332 L1030,332" stroke="#08795b" stroke-width="2" fill="none" />
+<text x="1041" y="337" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[0]</text>
+<text x="993" y="307" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="969" y="307" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DOR</text>
+<path d="M1000,302 L1030,302" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="307" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR</text>
+<text x="993" y="277" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >15</text>
+<text x="969" y="277" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >SO</text>
+<path d="M1000,272 L1030,272" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="277" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="993" y="247" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >16</text>
+<text x="969" y="247" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M1000,242 L1030,242" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1041" y="247" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="664" y="507" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >Вывод 1: A.e4</text>
+<rect x="40" y="550" width="560" height="400" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="584" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U4 · CD4069UB</text>
+<text x="64" y="614" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >НЕ: сброс, запросы и SO</text>
+<rect x="240" y="638" width="160" height="224" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M302,638 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="247" y="667" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="271" y="667" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A</text>
+<path d="M220,662 L240,662" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="667" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >rst</text>
+<text x="247" y="697" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="271" y="697" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >AY</text>
+<path d="M220,692 L240,692" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="697" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >CLR_n</text>
+<text x="247" y="727" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="271" y="727" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B</text>
+<path d="M220,722 L240,722" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="727" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W</text>
+<text x="247" y="757" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="271" y="757" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >BY</text>
+<path d="M220,752 L240,752" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="757" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W_n</text>
+<text x="247" y="787" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="271" y="787" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >C</text>
+<path d="M220,782 L240,782" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="787" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R</text>
+<text x="247" y="817" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="271" y="817" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >CY</text>
+<path d="M220,812 L240,812" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="210" y="817" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R_n</text>
+<text x="247" y="847" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="271" y="847" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M220,842 L240,842" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="210" y="847" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="393" y="847" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="369" y="847" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DY</text>
+<path d="M400,842 L430,842" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="847" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >SO</text>
+<text x="393" y="817" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="369" y="817" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D</text>
+<path d="M400,812 L430,812" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="441" y="817" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >P</text>
+<text x="393" y="787" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="369" y="787" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >EY</text>
+<path d="M400,782 L430,782" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="787" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,778 l8,8 M426,786 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="757" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="369" y="757" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >E</text>
+<path d="M400,752 L430,752" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="757" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="727" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="369" y="727" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >FY</text>
+<path d="M400,722 L430,722" stroke="#526677" stroke-width="2" fill="none" />
+<text x="441" y="727" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >NC</text>
+<path d="M426,718 l8,8 M426,726 l8,-8" stroke="#526677" stroke-width="2" fill="none" />
+<text x="393" y="697" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="369" y="697" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >F</text>
+<path d="M400,692 L430,692" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="441" y="697" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >GND</text>
+<text x="393" y="667" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="369" y="667" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M400,662 L430,662" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="441" y="667" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="64" y="927" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >Вывод 1: A.e42</text>
+<rect x="640" y="550" width="560" height="400" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="664" y="584" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >U3 · CD4001B</text>
+<text x="664" y="614" font-size="17" fill="#526677" text-anchor="start" font-weight="normal" >ИЛИ-НЕ: импульсы и флаги</text>
+<rect x="840" y="638" width="160" height="224" rx="3" fill="#f1f5f8" stroke="#183247" stroke-width="1.5"/>
+<path d="M902,638 a18,12 0 0 0 36,0" stroke="#183247" stroke-width="2" fill="none" />
+<text x="847" y="667" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >1</text>
+<text x="871" y="667" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A1</text>
+<path d="M820,662 L840,662" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="810" y="667" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >clk</text>
+<text x="847" y="697" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >2</text>
+<text x="871" y="697" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >A2</text>
+<path d="M820,692 L840,692" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="697" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >W_n</text>
+<text x="847" y="727" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >3</text>
+<text x="871" y="727" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >AY</text>
+<path d="M820,722 L840,722" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="727" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >SI</text>
+<text x="847" y="757" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >4</text>
+<text x="871" y="757" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >BY</text>
+<path d="M820,752 L840,752" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="757" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >P</text>
+<text x="847" y="787" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >5</text>
+<text x="871" y="787" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B1</text>
+<path d="M820,782 L840,782" stroke="#b36a00" stroke-width="2" fill="none" />
+<text x="810" y="787" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >clk</text>
+<text x="847" y="817" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >6</text>
+<text x="871" y="817" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >B2</text>
+<path d="M820,812 L840,812" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="810" y="817" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >R_n</text>
+<text x="847" y="847" font-size="14" fill="#183247" text-anchor="start" font-weight="normal" >7</text>
+<text x="871" y="847" font-size="12" fill="#183247" text-anchor="start" font-weight="normal" >VSS</text>
+<path d="M820,842 L840,842" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="810" y="847" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >GND</text>
+<text x="993" y="847" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="969" y="847" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C1</text>
+<path d="M1000,842 L1030,842" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="847" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR</text>
+<text x="993" y="817" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >9</text>
+<text x="969" y="817" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >C2</text>
+<path d="M1000,812 L1030,812" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="817" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DIR</text>
+<text x="993" y="787" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >10</text>
+<text x="969" y="787" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >CY</text>
+<path d="M1000,782 L1030,782" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="787" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >full</text>
+<text x="993" y="757" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >11</text>
+<text x="969" y="757" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >DY</text>
+<path d="M1000,752 L1030,752" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="757" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >empty</text>
+<text x="993" y="727" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >12</text>
+<text x="969" y="727" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D1</text>
+<path d="M1000,722 L1030,722" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="727" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR</text>
+<text x="993" y="697" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >13</text>
+<text x="969" y="697" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >D2</text>
+<path d="M1000,692 L1030,692" stroke="#763aa5" stroke-width="2" fill="none" />
+<text x="1041" y="697" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >DOR</text>
+<text x="993" y="667" font-size="14" fill="#183247" text-anchor="end" font-weight="normal" >14</text>
+<text x="969" y="667" font-size="12" fill="#183247" text-anchor="end" font-weight="normal" >VDD</text>
+<path d="M1000,662 L1030,662" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="1041" y="667" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >+5V</text>
+<text x="664" y="927" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >Вывод 1: A.e30</text>
+<rect x="40" y="970" width="1160" height="220" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="1004" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Примеры соединений и свободные выводы</text>
+<text x="65" y="1045" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >U2.12 — W — U4.3   |   U4.4 — W_n — U3.2</text>
+<text x="65" y="1085" font-size="18" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.3 — SI — U1.3   |   U4.8 — SO — U1.15</text>
+<text x="65" y="1125" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >clk: U2.9, U3.1, U3.5.  CLR_n: U4.2 → U2.1.  rst: U4.1, U1.9.</text>
+<text x="65" y="1165" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >Входы 11, 13 U4 = GND; выходы 10, 12 = NC (свободны). Задействованы все шесть триггеров U2.</text>
+<text x="40" y="1230" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >4 бита × 16 слов · +5 В · один внешний такт · проект, макет не собран</text>
+</svg><figcaption>DIP показаны сверху, выемка направлена вверх. Одинаковые имена цепей означают электрическое соединение, в том числе между разными корпусами. Выходы NC свободны; неиспользуемые входы явно соединены с GND.</figcaption></figure><p><a href="assets/fifo_40105_pinout_ru.svg">Открыть / скачать SVG</a> · <a href="assets/fifo_40105_pinout_ru.png">Открыть / скачать PNG</a></p><h3 id="schematic-breadboard">3. Размещение на макетных платах и питание</h3><figure class="schematic"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1950" viewBox="0 0 1080 1950" role="img" aria-labelledby="fifo-breadboard-title fifo-breadboard-desc">
+<title id="fifo-breadboard-title">3 · FIFO 4 × 16: одна макетная плата</title><desc id="fifo-breadboard-desc">Одна плата на 830 контактов. Все четыре DIP стоят поперёк центрального паза.</desc>
+<style>text{font-family:DejaVu Sans,sans-serif}path,line,polyline{stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="0" y="0" width="1080" height="1950" rx="10" fill="#f5f8fa" stroke="none" stroke-width="1.5"/>
+<text x="40" y="56" font-size="31" fill="#183247" text-anchor="start" font-weight="bold" >3 · FIFO 4 × 16: одна макетная плата</text>
+<text x="40" y="94" font-size="18" fill="#183247" text-anchor="start" font-weight="normal" >Одна плата на 830 контактов. Все четыре DIP стоят поперёк центрального паза.</text>
+<text x="40" y="133" font-size="20" fill="#183247" text-anchor="start" font-weight="normal" >Показано питание; сигнальные перемычки перечислены по отверстиям в HTML / CSV.</text>
+<rect x="40" y="155" width="1000" height="1480" rx="10" fill="white" stroke="#c7d4dc" stroke-width="1.5"/>
+<text x="64" y="189" font-size="21" fill="#183247" text-anchor="start" font-weight="bold" >Плата A · выемки сверху</text>
+<rect x="280" y="210" width="470" height="1360" rx="12" fill="#e9eef0" stroke="#b3c0c9" stroke-width="1.5"/>
+<rect x="470" y="220" width="42" height="1330" rx="2" fill="#ccd5da" stroke="none" stroke-width="1.5"/>
+<path d="M304,273 L304,876" stroke="#bf263c" stroke-width="2" fill="none" />
+<path d="M304,906 L304,1509" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="310" y="230" font-size="13" fill="#bf263c" text-anchor="middle" font-weight="normal" >LP</text>
+<circle cx="310" cy="282" r="2.8" fill="#798791"/>
+<text x="316" y="278" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >01</text>
+<circle cx="310" cy="303" r="2.8" fill="#798791"/>
+<circle cx="310" cy="324" r="2.8" fill="#798791"/>
+<circle cx="310" cy="345" r="2.8" fill="#798791"/>
+<circle cx="310" cy="366" r="2.8" fill="#798791"/>
+<circle cx="310" cy="408" r="2.8" fill="#798791"/>
+<circle cx="310" cy="429" r="2.8" fill="#798791"/>
+<circle cx="310" cy="450" r="2.8" fill="#798791"/>
+<circle cx="310" cy="471" r="2.8" fill="#798791"/>
+<circle cx="310" cy="492" r="2.8" fill="#798791"/>
+<circle cx="310" cy="534" r="2.8" fill="#798791"/>
+<circle cx="310" cy="555" r="2.8" fill="#798791"/>
+<circle cx="310" cy="576" r="2.8" fill="#798791"/>
+<circle cx="310" cy="597" r="2.8" fill="#798791"/>
+<circle cx="310" cy="618" r="2.8" fill="#798791"/>
+<circle cx="310" cy="660" r="2.8" fill="#798791"/>
+<circle cx="310" cy="681" r="2.8" fill="#798791"/>
+<circle cx="310" cy="702" r="2.8" fill="#798791"/>
+<circle cx="310" cy="723" r="2.8" fill="#798791"/>
+<circle cx="310" cy="744" r="2.8" fill="#798791"/>
+<circle cx="310" cy="786" r="2.8" fill="#798791"/>
+<circle cx="310" cy="807" r="2.8" fill="#798791"/>
+<circle cx="310" cy="828" r="2.8" fill="#798791"/>
+<circle cx="310" cy="849" r="2.8" fill="#798791"/>
+<circle cx="310" cy="870" r="2.8" fill="#798791"/>
+<text x="316" y="866" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >25</text>
+<circle cx="310" cy="912" r="2.8" fill="#798791"/>
+<text x="316" y="908" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >26</text>
+<circle cx="310" cy="933" r="2.8" fill="#798791"/>
+<circle cx="310" cy="954" r="2.8" fill="#798791"/>
+<circle cx="310" cy="975" r="2.8" fill="#798791"/>
+<circle cx="310" cy="996" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1038" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1059" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1080" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1101" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1122" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1164" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1185" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1206" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1227" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1248" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1290" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1311" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1332" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1353" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1374" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1416" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1437" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1458" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1479" r="2.8" fill="#798791"/>
+<circle cx="310" cy="1500" r="2.8" fill="#798791"/>
+<text x="316" y="1496" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >50</text>
+<path d="M328,273 L328,876" stroke="#2464ad" stroke-width="2" fill="none" />
+<path d="M328,906 L328,1509" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="334" y="230" font-size="13" fill="#2464ad" text-anchor="middle" font-weight="normal" >LM</text>
+<circle cx="334" cy="282" r="2.8" fill="#798791"/>
+<text x="340" y="278" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >01</text>
+<circle cx="334" cy="303" r="2.8" fill="#798791"/>
+<circle cx="334" cy="324" r="2.8" fill="#798791"/>
+<circle cx="334" cy="345" r="2.8" fill="#798791"/>
+<circle cx="334" cy="366" r="2.8" fill="#798791"/>
+<circle cx="334" cy="408" r="2.8" fill="#798791"/>
+<circle cx="334" cy="429" r="2.8" fill="#798791"/>
+<circle cx="334" cy="450" r="2.8" fill="#798791"/>
+<circle cx="334" cy="471" r="2.8" fill="#798791"/>
+<circle cx="334" cy="492" r="2.8" fill="#798791"/>
+<circle cx="334" cy="534" r="2.8" fill="#798791"/>
+<circle cx="334" cy="555" r="2.8" fill="#798791"/>
+<circle cx="334" cy="576" r="2.8" fill="#798791"/>
+<circle cx="334" cy="597" r="2.8" fill="#798791"/>
+<circle cx="334" cy="618" r="2.8" fill="#798791"/>
+<circle cx="334" cy="660" r="2.8" fill="#798791"/>
+<circle cx="334" cy="681" r="2.8" fill="#798791"/>
+<circle cx="334" cy="702" r="2.8" fill="#798791"/>
+<circle cx="334" cy="723" r="2.8" fill="#798791"/>
+<circle cx="334" cy="744" r="2.8" fill="#798791"/>
+<circle cx="334" cy="786" r="2.8" fill="#798791"/>
+<circle cx="334" cy="807" r="2.8" fill="#798791"/>
+<circle cx="334" cy="828" r="2.8" fill="#798791"/>
+<circle cx="334" cy="849" r="2.8" fill="#798791"/>
+<circle cx="334" cy="870" r="2.8" fill="#798791"/>
+<text x="340" y="866" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >25</text>
+<circle cx="334" cy="912" r="2.8" fill="#798791"/>
+<text x="340" y="908" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >26</text>
+<circle cx="334" cy="933" r="2.8" fill="#798791"/>
+<circle cx="334" cy="954" r="2.8" fill="#798791"/>
+<circle cx="334" cy="975" r="2.8" fill="#798791"/>
+<circle cx="334" cy="996" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1038" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1059" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1080" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1101" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1122" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1164" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1185" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1206" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1227" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1248" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1290" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1311" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1332" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1353" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1374" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1416" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1437" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1458" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1479" r="2.8" fill="#798791"/>
+<circle cx="334" cy="1500" r="2.8" fill="#798791"/>
+<text x="340" y="1496" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >50</text>
+<path d="M672,273 L672,876" stroke="#bf263c" stroke-width="2" fill="none" />
+<path d="M672,906 L672,1509" stroke="#bf263c" stroke-width="2" fill="none" />
+<text x="678" y="230" font-size="13" fill="#bf263c" text-anchor="middle" font-weight="normal" >RP</text>
+<circle cx="678" cy="282" r="2.8" fill="#798791"/>
+<text x="684" y="278" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >01</text>
+<circle cx="678" cy="303" r="2.8" fill="#798791"/>
+<circle cx="678" cy="324" r="2.8" fill="#798791"/>
+<circle cx="678" cy="345" r="2.8" fill="#798791"/>
+<circle cx="678" cy="366" r="2.8" fill="#798791"/>
+<circle cx="678" cy="408" r="2.8" fill="#798791"/>
+<circle cx="678" cy="429" r="2.8" fill="#798791"/>
+<circle cx="678" cy="450" r="2.8" fill="#798791"/>
+<circle cx="678" cy="471" r="2.8" fill="#798791"/>
+<circle cx="678" cy="492" r="2.8" fill="#798791"/>
+<circle cx="678" cy="534" r="2.8" fill="#798791"/>
+<circle cx="678" cy="555" r="2.8" fill="#798791"/>
+<circle cx="678" cy="576" r="2.8" fill="#798791"/>
+<circle cx="678" cy="597" r="2.8" fill="#798791"/>
+<circle cx="678" cy="618" r="2.8" fill="#798791"/>
+<circle cx="678" cy="660" r="2.8" fill="#798791"/>
+<circle cx="678" cy="681" r="2.8" fill="#798791"/>
+<circle cx="678" cy="702" r="2.8" fill="#798791"/>
+<circle cx="678" cy="723" r="2.8" fill="#798791"/>
+<circle cx="678" cy="744" r="2.8" fill="#798791"/>
+<circle cx="678" cy="786" r="2.8" fill="#798791"/>
+<circle cx="678" cy="807" r="2.8" fill="#798791"/>
+<circle cx="678" cy="828" r="2.8" fill="#798791"/>
+<circle cx="678" cy="849" r="2.8" fill="#798791"/>
+<circle cx="678" cy="870" r="2.8" fill="#798791"/>
+<text x="684" y="866" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >25</text>
+<circle cx="678" cy="912" r="2.8" fill="#798791"/>
+<text x="684" y="908" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >26</text>
+<circle cx="678" cy="933" r="2.8" fill="#798791"/>
+<circle cx="678" cy="954" r="2.8" fill="#798791"/>
+<circle cx="678" cy="975" r="2.8" fill="#798791"/>
+<circle cx="678" cy="996" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1038" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1059" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1080" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1101" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1122" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1164" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1185" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1206" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1227" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1248" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1290" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1311" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1332" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1353" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1374" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1416" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1437" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1458" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1479" r="2.8" fill="#798791"/>
+<circle cx="678" cy="1500" r="2.8" fill="#798791"/>
+<text x="684" y="1496" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >50</text>
+<path d="M696,273 L696,876" stroke="#2464ad" stroke-width="2" fill="none" />
+<path d="M696,906 L696,1509" stroke="#2464ad" stroke-width="2" fill="none" />
+<text x="702" y="230" font-size="13" fill="#2464ad" text-anchor="middle" font-weight="normal" >RM</text>
+<circle cx="702" cy="282" r="2.8" fill="#798791"/>
+<text x="708" y="278" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >01</text>
+<circle cx="702" cy="303" r="2.8" fill="#798791"/>
+<circle cx="702" cy="324" r="2.8" fill="#798791"/>
+<circle cx="702" cy="345" r="2.8" fill="#798791"/>
+<circle cx="702" cy="366" r="2.8" fill="#798791"/>
+<circle cx="702" cy="408" r="2.8" fill="#798791"/>
+<circle cx="702" cy="429" r="2.8" fill="#798791"/>
+<circle cx="702" cy="450" r="2.8" fill="#798791"/>
+<circle cx="702" cy="471" r="2.8" fill="#798791"/>
+<circle cx="702" cy="492" r="2.8" fill="#798791"/>
+<circle cx="702" cy="534" r="2.8" fill="#798791"/>
+<circle cx="702" cy="555" r="2.8" fill="#798791"/>
+<circle cx="702" cy="576" r="2.8" fill="#798791"/>
+<circle cx="702" cy="597" r="2.8" fill="#798791"/>
+<circle cx="702" cy="618" r="2.8" fill="#798791"/>
+<circle cx="702" cy="660" r="2.8" fill="#798791"/>
+<circle cx="702" cy="681" r="2.8" fill="#798791"/>
+<circle cx="702" cy="702" r="2.8" fill="#798791"/>
+<circle cx="702" cy="723" r="2.8" fill="#798791"/>
+<circle cx="702" cy="744" r="2.8" fill="#798791"/>
+<circle cx="702" cy="786" r="2.8" fill="#798791"/>
+<circle cx="702" cy="807" r="2.8" fill="#798791"/>
+<circle cx="702" cy="828" r="2.8" fill="#798791"/>
+<circle cx="702" cy="849" r="2.8" fill="#798791"/>
+<circle cx="702" cy="870" r="2.8" fill="#798791"/>
+<text x="708" y="866" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >25</text>
+<circle cx="702" cy="912" r="2.8" fill="#798791"/>
+<text x="708" y="908" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >26</text>
+<circle cx="702" cy="933" r="2.8" fill="#798791"/>
+<circle cx="702" cy="954" r="2.8" fill="#798791"/>
+<circle cx="702" cy="975" r="2.8" fill="#798791"/>
+<circle cx="702" cy="996" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1038" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1059" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1080" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1101" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1122" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1164" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1185" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1206" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1227" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1248" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1290" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1311" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1332" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1353" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1374" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1416" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1437" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1458" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1479" r="2.8" fill="#798791"/>
+<circle cx="702" cy="1500" r="2.8" fill="#798791"/>
+<text x="708" y="1496" font-size="9" fill="#526677" text-anchor="start" font-weight="normal" >50</text>
+<text x="370" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >a</text>
+<text x="392" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >b</text>
+<text x="414" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >c</text>
+<text x="436" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >d</text>
+<text x="458" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >e</text>
+<text x="524" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >f</text>
+<text x="546" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >g</text>
+<text x="568" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >h</text>
+<text x="590" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >i</text>
+<text x="612" y="225" font-size="15" fill="#183247" text-anchor="middle" font-weight="normal" >j</text>
+<path d="M370,240 L458,240" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,240 L612,240" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="240" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="240" r="2.7" fill="#75838d"/>
+<text x="351" y="244" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >1</text>
+<text x="633" y="244" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >1</text>
+<path d="M370,261 L458,261" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,261 L612,261" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="261" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="261" r="2.7" fill="#75838d"/>
+<text x="351" y="265" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >2</text>
+<text x="633" y="265" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >2</text>
+<path d="M370,282 L458,282" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,282 L612,282" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="282" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="282" r="2.7" fill="#75838d"/>
+<text x="351" y="286" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >3</text>
+<text x="633" y="286" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >3</text>
+<path d="M370,303 L458,303" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,303 L612,303" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="303" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="303" r="2.7" fill="#75838d"/>
+<text x="351" y="307" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >4</text>
+<text x="633" y="307" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >4</text>
+<path d="M370,324 L458,324" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,324 L612,324" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="324" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="324" r="2.7" fill="#75838d"/>
+<text x="351" y="328" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >5</text>
+<text x="633" y="328" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >5</text>
+<path d="M370,345 L458,345" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,345 L612,345" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="345" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="345" r="2.7" fill="#75838d"/>
+<text x="351" y="349" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >6</text>
+<text x="633" y="349" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >6</text>
+<path d="M370,366 L458,366" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,366 L612,366" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="366" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="366" r="2.7" fill="#75838d"/>
+<text x="351" y="370" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >7</text>
+<text x="633" y="370" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >7</text>
+<path d="M370,387 L458,387" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,387 L612,387" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="387" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="387" r="2.7" fill="#75838d"/>
+<text x="351" y="391" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >8</text>
+<text x="633" y="391" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >8</text>
+<path d="M370,408 L458,408" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,408 L612,408" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="408" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="408" r="2.7" fill="#75838d"/>
+<text x="351" y="412" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >9</text>
+<text x="633" y="412" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >9</text>
+<path d="M370,429 L458,429" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,429 L612,429" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="429" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="429" r="2.7" fill="#75838d"/>
+<text x="351" y="433" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >10</text>
+<text x="633" y="433" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >10</text>
+<path d="M370,450 L458,450" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,450 L612,450" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="450" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="450" r="2.7" fill="#75838d"/>
+<text x="351" y="454" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >11</text>
+<text x="633" y="454" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >11</text>
+<path d="M370,471 L458,471" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,471 L612,471" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="471" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="471" r="2.7" fill="#75838d"/>
+<text x="351" y="475" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >12</text>
+<text x="633" y="475" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >12</text>
+<path d="M370,492 L458,492" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,492 L612,492" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="492" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="492" r="2.7" fill="#75838d"/>
+<text x="351" y="496" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >13</text>
+<text x="633" y="496" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >13</text>
+<path d="M370,513 L458,513" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,513 L612,513" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="513" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="513" r="2.7" fill="#75838d"/>
+<text x="351" y="517" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >14</text>
+<text x="633" y="517" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >14</text>
+<path d="M370,534 L458,534" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,534 L612,534" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="534" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="534" r="2.7" fill="#75838d"/>
+<text x="351" y="538" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >15</text>
+<text x="633" y="538" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >15</text>
+<path d="M370,555 L458,555" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,555 L612,555" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="555" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="555" r="2.7" fill="#75838d"/>
+<text x="351" y="559" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >16</text>
+<text x="633" y="559" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >16</text>
+<path d="M370,576 L458,576" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,576 L612,576" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="576" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="576" r="2.7" fill="#75838d"/>
+<text x="351" y="580" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >17</text>
+<text x="633" y="580" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >17</text>
+<path d="M370,597 L458,597" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,597 L612,597" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="597" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="597" r="2.7" fill="#75838d"/>
+<text x="351" y="601" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >18</text>
+<text x="633" y="601" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >18</text>
+<path d="M370,618 L458,618" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,618 L612,618" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="618" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="618" r="2.7" fill="#75838d"/>
+<text x="351" y="622" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >19</text>
+<text x="633" y="622" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >19</text>
+<path d="M370,639 L458,639" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,639 L612,639" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="639" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="639" r="2.7" fill="#75838d"/>
+<text x="351" y="643" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >20</text>
+<text x="633" y="643" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >20</text>
+<path d="M370,660 L458,660" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,660 L612,660" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="660" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="660" r="2.7" fill="#75838d"/>
+<text x="351" y="664" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >21</text>
+<text x="633" y="664" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >21</text>
+<path d="M370,681 L458,681" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,681 L612,681" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="681" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="681" r="2.7" fill="#75838d"/>
+<text x="351" y="685" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >22</text>
+<text x="633" y="685" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >22</text>
+<path d="M370,702 L458,702" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,702 L612,702" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="702" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="702" r="2.7" fill="#75838d"/>
+<text x="351" y="706" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >23</text>
+<text x="633" y="706" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >23</text>
+<path d="M370,723 L458,723" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,723 L612,723" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="723" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="723" r="2.7" fill="#75838d"/>
+<text x="351" y="727" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >24</text>
+<text x="633" y="727" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >24</text>
+<path d="M370,744 L458,744" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,744 L612,744" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="744" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="744" r="2.7" fill="#75838d"/>
+<text x="351" y="748" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >25</text>
+<text x="633" y="748" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >25</text>
+<path d="M370,765 L458,765" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,765 L612,765" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="765" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="765" r="2.7" fill="#75838d"/>
+<text x="351" y="769" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >26</text>
+<text x="633" y="769" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >26</text>
+<path d="M370,786 L458,786" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,786 L612,786" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="786" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="786" r="2.7" fill="#75838d"/>
+<text x="351" y="790" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >27</text>
+<text x="633" y="790" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >27</text>
+<path d="M370,807 L458,807" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,807 L612,807" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="807" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="807" r="2.7" fill="#75838d"/>
+<text x="351" y="811" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >28</text>
+<text x="633" y="811" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >28</text>
+<path d="M370,828 L458,828" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,828 L612,828" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="828" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="828" r="2.7" fill="#75838d"/>
+<text x="351" y="832" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >29</text>
+<text x="633" y="832" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >29</text>
+<path d="M370,849 L458,849" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,849 L612,849" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="849" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="849" r="2.7" fill="#75838d"/>
+<text x="351" y="853" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >30</text>
+<text x="633" y="853" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >30</text>
+<path d="M370,870 L458,870" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,870 L612,870" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="870" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="870" r="2.7" fill="#75838d"/>
+<text x="351" y="874" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >31</text>
+<text x="633" y="874" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >31</text>
+<path d="M370,891 L458,891" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,891 L612,891" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="891" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="891" r="2.7" fill="#75838d"/>
+<text x="351" y="895" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >32</text>
+<text x="633" y="895" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >32</text>
+<path d="M370,912 L458,912" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,912 L612,912" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="912" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="912" r="2.7" fill="#75838d"/>
+<text x="351" y="916" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >33</text>
+<text x="633" y="916" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >33</text>
+<path d="M370,933 L458,933" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,933 L612,933" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="933" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="933" r="2.7" fill="#75838d"/>
+<text x="351" y="937" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >34</text>
+<text x="633" y="937" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >34</text>
+<path d="M370,954 L458,954" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,954 L612,954" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="954" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="954" r="2.7" fill="#75838d"/>
+<text x="351" y="958" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >35</text>
+<text x="633" y="958" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >35</text>
+<path d="M370,975 L458,975" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,975 L612,975" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="975" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="975" r="2.7" fill="#75838d"/>
+<text x="351" y="979" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >36</text>
+<text x="633" y="979" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >36</text>
+<path d="M370,996 L458,996" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,996 L612,996" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="996" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="996" r="2.7" fill="#75838d"/>
+<text x="351" y="1000" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >37</text>
+<text x="633" y="1000" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >37</text>
+<path d="M370,1017 L458,1017" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1017 L612,1017" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1017" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1017" r="2.7" fill="#75838d"/>
+<text x="351" y="1021" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >38</text>
+<text x="633" y="1021" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >38</text>
+<path d="M370,1038 L458,1038" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1038 L612,1038" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1038" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1038" r="2.7" fill="#75838d"/>
+<text x="351" y="1042" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >39</text>
+<text x="633" y="1042" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >39</text>
+<path d="M370,1059 L458,1059" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1059 L612,1059" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1059" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1059" r="2.7" fill="#75838d"/>
+<text x="351" y="1063" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >40</text>
+<text x="633" y="1063" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >40</text>
+<path d="M370,1080 L458,1080" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1080 L612,1080" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1080" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1080" r="2.7" fill="#75838d"/>
+<text x="351" y="1084" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >41</text>
+<text x="633" y="1084" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >41</text>
+<path d="M370,1101 L458,1101" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1101 L612,1101" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1101" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1101" r="2.7" fill="#75838d"/>
+<text x="351" y="1105" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >42</text>
+<text x="633" y="1105" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >42</text>
+<path d="M370,1122 L458,1122" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1122 L612,1122" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1122" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1122" r="2.7" fill="#75838d"/>
+<text x="351" y="1126" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >43</text>
+<text x="633" y="1126" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >43</text>
+<path d="M370,1143 L458,1143" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1143 L612,1143" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1143" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1143" r="2.7" fill="#75838d"/>
+<text x="351" y="1147" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >44</text>
+<text x="633" y="1147" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >44</text>
+<path d="M370,1164 L458,1164" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1164 L612,1164" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1164" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1164" r="2.7" fill="#75838d"/>
+<text x="351" y="1168" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >45</text>
+<text x="633" y="1168" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >45</text>
+<path d="M370,1185 L458,1185" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1185 L612,1185" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1185" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1185" r="2.7" fill="#75838d"/>
+<text x="351" y="1189" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >46</text>
+<text x="633" y="1189" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >46</text>
+<path d="M370,1206 L458,1206" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1206 L612,1206" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1206" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1206" r="2.7" fill="#75838d"/>
+<text x="351" y="1210" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >47</text>
+<text x="633" y="1210" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >47</text>
+<path d="M370,1227 L458,1227" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1227 L612,1227" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1227" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1227" r="2.7" fill="#75838d"/>
+<text x="351" y="1231" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >48</text>
+<text x="633" y="1231" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >48</text>
+<path d="M370,1248 L458,1248" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1248 L612,1248" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1248" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1248" r="2.7" fill="#75838d"/>
+<text x="351" y="1252" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >49</text>
+<text x="633" y="1252" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >49</text>
+<path d="M370,1269 L458,1269" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1269 L612,1269" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1269" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1269" r="2.7" fill="#75838d"/>
+<text x="351" y="1273" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >50</text>
+<text x="633" y="1273" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >50</text>
+<path d="M370,1290 L458,1290" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1290 L612,1290" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1290" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1290" r="2.7" fill="#75838d"/>
+<text x="351" y="1294" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >51</text>
+<text x="633" y="1294" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >51</text>
+<path d="M370,1311 L458,1311" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1311 L612,1311" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1311" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1311" r="2.7" fill="#75838d"/>
+<text x="351" y="1315" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >52</text>
+<text x="633" y="1315" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >52</text>
+<path d="M370,1332 L458,1332" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1332 L612,1332" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1332" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1332" r="2.7" fill="#75838d"/>
+<text x="351" y="1336" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >53</text>
+<text x="633" y="1336" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >53</text>
+<path d="M370,1353 L458,1353" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1353 L612,1353" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1353" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1353" r="2.7" fill="#75838d"/>
+<text x="351" y="1357" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >54</text>
+<text x="633" y="1357" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >54</text>
+<path d="M370,1374 L458,1374" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1374 L612,1374" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1374" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1374" r="2.7" fill="#75838d"/>
+<text x="351" y="1378" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >55</text>
+<text x="633" y="1378" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >55</text>
+<path d="M370,1395 L458,1395" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1395 L612,1395" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1395" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1395" r="2.7" fill="#75838d"/>
+<text x="351" y="1399" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >56</text>
+<text x="633" y="1399" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >56</text>
+<path d="M370,1416 L458,1416" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1416 L612,1416" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1416" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1416" r="2.7" fill="#75838d"/>
+<text x="351" y="1420" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >57</text>
+<text x="633" y="1420" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >57</text>
+<path d="M370,1437 L458,1437" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1437 L612,1437" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1437" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1437" r="2.7" fill="#75838d"/>
+<text x="351" y="1441" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >58</text>
+<text x="633" y="1441" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >58</text>
+<path d="M370,1458 L458,1458" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1458 L612,1458" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1458" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1458" r="2.7" fill="#75838d"/>
+<text x="351" y="1462" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >59</text>
+<text x="633" y="1462" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >59</text>
+<path d="M370,1479 L458,1479" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1479 L612,1479" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1479" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1479" r="2.7" fill="#75838d"/>
+<text x="351" y="1483" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >60</text>
+<text x="633" y="1483" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >60</text>
+<path d="M370,1500 L458,1500" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1500 L612,1500" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1500" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1500" r="2.7" fill="#75838d"/>
+<text x="351" y="1504" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >61</text>
+<text x="633" y="1504" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >61</text>
+<path d="M370,1521 L458,1521" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1521 L612,1521" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1521" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1521" r="2.7" fill="#75838d"/>
+<text x="351" y="1525" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >62</text>
+<text x="633" y="1525" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >62</text>
+<path d="M370,1542 L458,1542" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<path d="M524,1542 L612,1542" stroke="#c3ccd1" stroke-width="3" fill="none" />
+<circle cx="370" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="392" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="414" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="436" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="458" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="524" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="546" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="568" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="590" cy="1542" r="2.7" fill="#75838d"/>
+<circle cx="612" cy="1542" r="2.7" fill="#75838d"/>
+<text x="351" y="1546" font-size="11" fill="#526677" text-anchor="end" font-weight="normal" >63</text>
+<text x="633" y="1546" font-size="11" fill="#526677" text-anchor="start" font-weight="normal" >63</text>
+<text x="295" y="1604" font-size="17" fill="#183247" text-anchor="start" font-weight="normal" >LP / RP: +5V     LM / RM: GND</text>
+<path d="M310,870 L296,870 L296,912 L310,912" stroke="white" stroke-width="6" fill="none" />
+<path d="M310,870 L296,870 L296,912 L310,912" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="310" cy="870" r="4" fill="#bf263c"/>
+<circle cx="310" cy="912" r="4" fill="#bf263c"/>
+<path d="M678,870 L692,870 L692,912 L678,912" stroke="white" stroke-width="6" fill="none" />
+<path d="M678,870 L692,870 L692,912 L678,912" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="678" cy="870" r="4" fill="#bf263c"/>
+<circle cx="678" cy="912" r="4" fill="#bf263c"/>
+<path d="M334,870 L320,870 L320,912 L334,912" stroke="white" stroke-width="6" fill="none" />
+<path d="M334,870 L320,870 L320,912 L334,912" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="334" cy="870" r="4" fill="#2464ad"/>
+<circle cx="334" cy="912" r="4" fill="#2464ad"/>
+<path d="M702,870 L716,870 L716,912 L702,912" stroke="white" stroke-width="6" fill="none" />
+<path d="M702,870 L716,870 L716,912 L702,912" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="702" cy="870" r="4" fill="#2464ad"/>
+<circle cx="702" cy="912" r="4" fill="#2464ad"/>
+<path d="M310,282 H274 V195 H714 V282 H678" stroke="white" stroke-width="6" fill="none" />
+<path d="M310,282 H274 V195 H714 V282 H678" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="310" cy="282" r="4" fill="#bf263c"/>
+<circle cx="678" cy="282" r="4" fill="#bf263c"/>
+<path d="M334,282 H298 V205 H738 V282 H702" stroke="white" stroke-width="6" fill="none" />
+<path d="M334,282 H298 V205 H738 V282 H702" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="334" cy="282" r="4" fill="#2464ad"/>
+<circle cx="702" cy="282" r="4" fill="#2464ad"/>
+<path d="M612,303 L678,303 L678,345" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,303 L678,303 L678,345" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="612" cy="303" r="4" fill="#bf263c"/>
+<circle cx="678" cy="345" r="4" fill="#bf263c"/>
+<path d="M612,555 L678,555 L678,555" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,555 L678,555 L678,555" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="612" cy="555" r="4" fill="#bf263c"/>
+<circle cx="678" cy="555" r="4" fill="#bf263c"/>
+<path d="M612,849 L678,849 L678,849" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,849 L678,849 L678,849" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="612" cy="849" r="4" fill="#bf263c"/>
+<circle cx="678" cy="849" r="4" fill="#bf263c"/>
+<path d="M612,1101 L678,1101 L678,1101" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,1101 L678,1101 L678,1101" stroke="#bf263c" stroke-width="3" fill="none" />
+<circle cx="612" cy="1101" r="4" fill="#bf263c"/>
+<circle cx="678" cy="1101" r="4" fill="#bf263c"/>
+<path d="M370,303 L334,303 L334,345" stroke="white" stroke-width="6" fill="none" />
+<path d="M370,303 L334,303 L334,345" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="370" cy="303" r="4" fill="#2464ad"/>
+<circle cx="334" cy="345" r="4" fill="#2464ad"/>
+<path d="M370,450 L334,450 L334,450" stroke="white" stroke-width="6" fill="none" />
+<path d="M370,450 L334,450 L334,450" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="370" cy="450" r="4" fill="#2464ad"/>
+<circle cx="334" cy="450" r="4" fill="#2464ad"/>
+<path d="M370,702 L334,702 L334,702" stroke="white" stroke-width="6" fill="none" />
+<path d="M370,702 L334,702 L334,702" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="370" cy="702" r="4" fill="#2464ad"/>
+<circle cx="334" cy="702" r="4" fill="#2464ad"/>
+<path d="M370,975 L334,975 L334,975" stroke="white" stroke-width="6" fill="none" />
+<path d="M370,975 L334,975 L334,975" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="370" cy="975" r="4" fill="#2464ad"/>
+<circle cx="334" cy="975" r="4" fill="#2464ad"/>
+<path d="M370,1227 L334,1227 L334,1227" stroke="white" stroke-width="6" fill="none" />
+<path d="M370,1227 L334,1227 L334,1227" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="370" cy="1227" r="4" fill="#2464ad"/>
+<circle cx="334" cy="1227" r="4" fill="#2464ad"/>
+<path d="M612,1164 L702,1164 L702,1164" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,1164 L702,1164 L702,1164" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="612" cy="1164" r="4" fill="#2464ad"/>
+<circle cx="702" cy="1164" r="4" fill="#2464ad"/>
+<path d="M612,1122 L702,1122 L702,1122" stroke="white" stroke-width="6" fill="none" />
+<path d="M612,1122 L702,1122 L702,1122" stroke="#2464ad" stroke-width="3" fill="none" />
+<circle cx="612" cy="1122" r="4" fill="#2464ad"/>
+<circle cx="702" cy="1122" r="4" fill="#2464ad"/>
+<rect x="465" y="293" width="52" height="167" rx="4" fill="#283844" stroke="#142632" stroke-width="1.5"/>
+<path d="M479,293 a12,10 0 0 0 24,0" stroke="#aab9c3" stroke-width="2" fill="none" />
+<circle cx="473" cy="308" r="3" fill="#f6df75"/>
+<text x="483" y="376.5" font-size="16" fill="white" text-anchor="middle" font-weight="bold" transform="rotate(-90 483 376.5)">U1</text>
+<text x="502" y="376.5" font-size="11" fill="#e3ecf2" text-anchor="middle" font-weight="normal" transform="rotate(-90 502 376.5)">74HC40105</text>
+<path d="M458,303 L465,303" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="307" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >1</text>
+<text x="264" y="308" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >U1.1  GND</text>
+<path d="M458,324 L465,324" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="328" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >2</text>
+<text x="264" y="329" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U1.2  DIR</text>
+<path d="M458,345 L465,345" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="349" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >3</text>
+<text x="264" y="350" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U1.3  SI</text>
+<path d="M458,450 L465,450" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="454" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="264" y="455" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >U1.8  GND</text>
+<path d="M524,450 L517,450" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="454" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >9</text>
+<text x="766" y="455" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U1.9  rst</text>
+<path d="M524,345 L517,345" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="349" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >14</text>
+<text x="766" y="350" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U1.14  DOR</text>
+<path d="M524,324 L517,324" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="328" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >15</text>
+<text x="766" y="329" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U1.15  SO</text>
+<path d="M524,303 L517,303" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="307" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >16</text>
+<text x="766" y="308" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >U1.16  +5V</text>
+<path d="M458,366 L465,366" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="370" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >4</text>
+<text x="264" y="371" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U1.4  D_hold[0]</text>
+<path d="M524,366 L517,366" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="370" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >13</text>
+<text x="766" y="371" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U1.13  read_data[0]</text>
+<path d="M458,387 L465,387" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="391" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >5</text>
+<text x="264" y="392" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U1.5  D_hold[1]</text>
+<path d="M524,387 L517,387" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="391" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >12</text>
+<text x="766" y="392" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U1.12  read_data[1]</text>
+<path d="M458,408 L465,408" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="412" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >6</text>
+<text x="264" y="413" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U1.6  D_hold[2]</text>
+<path d="M524,408 L517,408" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="412" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >11</text>
+<text x="766" y="413" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U1.11  read_data[2]</text>
+<path d="M458,429 L465,429" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="433" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >7</text>
+<text x="264" y="434" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U1.7  D_hold[3]</text>
+<path d="M524,429 L517,429" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="433" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >10</text>
+<text x="766" y="434" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U1.10  read_data[3]</text>
+<rect x="465" y="545" width="52" height="167" rx="4" fill="#283844" stroke="#142632" stroke-width="1.5"/>
+<path d="M479,545 a12,10 0 0 0 24,0" stroke="#aab9c3" stroke-width="2" fill="none" />
+<circle cx="473" cy="560" r="3" fill="#f6df75"/>
+<text x="483" y="628.5" font-size="16" fill="white" text-anchor="middle" font-weight="bold" transform="rotate(-90 483 628.5)">U2</text>
+<text x="502" y="628.5" font-size="11" fill="#e3ecf2" text-anchor="middle" font-weight="normal" transform="rotate(-90 502 628.5)">40174B</text>
+<path d="M458,555 L465,555" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="559" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >1</text>
+<text x="264" y="560" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U2.1  CLR_n</text>
+<path d="M524,702 L517,702" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="706" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >9</text>
+<text x="766" y="707" font-size="15" fill="#b36a00" text-anchor="start" font-weight="normal" >U2.9  clk</text>
+<path d="M458,702 L465,702" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="706" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >8</text>
+<text x="264" y="707" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >U2.8  GND</text>
+<path d="M524,555 L517,555" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="559" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >16</text>
+<text x="766" y="560" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >U2.16  +5V</text>
+<path d="M458,597 L465,597" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="601" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >3</text>
+<text x="264" y="602" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.3  write_data[0]</text>
+<path d="M458,576 L465,576" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="580" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >2</text>
+<text x="264" y="581" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.2  D_hold[0]</text>
+<path d="M458,618 L465,618" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="622" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >4</text>
+<text x="264" y="623" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.4  write_data[1]</text>
+<path d="M458,639 L465,639" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="643" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >5</text>
+<text x="264" y="644" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.5  D_hold[1]</text>
+<path d="M458,660 L465,660" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="664" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >6</text>
+<text x="264" y="665" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.6  write_data[2]</text>
+<path d="M458,681 L465,681" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="685" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >7</text>
+<text x="264" y="686" font-size="15" fill="#08795b" text-anchor="end" font-weight="normal" >U2.7  D_hold[2]</text>
+<path d="M524,660 L517,660" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="664" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >11</text>
+<text x="766" y="665" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U2.11  write_data[3]</text>
+<path d="M524,681 L517,681" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="685" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >10</text>
+<text x="766" y="686" font-size="15" fill="#08795b" text-anchor="start" font-weight="normal" >U2.10  D_hold[3]</text>
+<path d="M524,618 L517,618" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="622" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >13</text>
+<text x="766" y="623" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U2.13  push</text>
+<path d="M524,639 L517,639" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="643" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >12</text>
+<text x="766" y="644" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U2.12  W</text>
+<path d="M524,597 L517,597" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="601" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >14</text>
+<text x="766" y="602" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U2.14  pop</text>
+<path d="M524,576 L517,576" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="580" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >15</text>
+<text x="766" y="581" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U2.15  R</text>
+<rect x="465" y="839" width="52" height="146" rx="4" fill="#283844" stroke="#142632" stroke-width="1.5"/>
+<path d="M479,839 a12,10 0 0 0 24,0" stroke="#aab9c3" stroke-width="2" fill="none" />
+<circle cx="473" cy="854" r="3" fill="#f6df75"/>
+<text x="483" y="912.0" font-size="16" fill="white" text-anchor="middle" font-weight="bold" transform="rotate(-90 483 912.0)">U3</text>
+<text x="502" y="912.0" font-size="11" fill="#e3ecf2" text-anchor="middle" font-weight="normal" transform="rotate(-90 502 912.0)">4001B</text>
+<path d="M524,849 L517,849" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="853" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >14</text>
+<text x="766" y="854" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >U3.14  +5V</text>
+<path d="M458,975 L465,975" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="979" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >7</text>
+<text x="264" y="980" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >U3.7  GND</text>
+<path d="M458,849 L465,849" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="853" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >1</text>
+<text x="264" y="854" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >U3.1  clk</text>
+<path d="M458,870 L465,870" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="874" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >2</text>
+<text x="264" y="875" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U3.2  W_n</text>
+<path d="M458,891 L465,891" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="895" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >3</text>
+<text x="264" y="896" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U3.3  SI</text>
+<path d="M458,933 L465,933" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="937" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >5</text>
+<text x="264" y="938" font-size="15" fill="#b36a00" text-anchor="end" font-weight="normal" >U3.5  clk</text>
+<path d="M458,954 L465,954" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="958" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >6</text>
+<text x="264" y="959" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U3.6  R_n</text>
+<path d="M458,912 L465,912" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="916" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >4</text>
+<text x="264" y="917" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U3.4  P</text>
+<path d="M524,975 L517,975" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="979" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="766" y="980" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.8  DIR</text>
+<path d="M524,954 L517,954" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="958" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >9</text>
+<text x="766" y="959" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.9  DIR</text>
+<path d="M524,933 L517,933" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="937" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >10</text>
+<text x="766" y="938" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.10  full</text>
+<path d="M524,891 L517,891" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="895" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >12</text>
+<text x="766" y="896" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.12  DOR</text>
+<path d="M524,870 L517,870" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="874" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >13</text>
+<text x="766" y="875" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.13  DOR</text>
+<path d="M524,912 L517,912" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="916" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >11</text>
+<text x="766" y="917" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U3.11  empty</text>
+<rect x="465" y="1091" width="52" height="146" rx="4" fill="#283844" stroke="#142632" stroke-width="1.5"/>
+<path d="M479,1091 a12,10 0 0 0 24,0" stroke="#aab9c3" stroke-width="2" fill="none" />
+<circle cx="473" cy="1106" r="3" fill="#f6df75"/>
+<text x="483" y="1164.0" font-size="16" fill="white" text-anchor="middle" font-weight="bold" transform="rotate(-90 483 1164.0)">U4</text>
+<text x="502" y="1164.0" font-size="11" fill="#e3ecf2" text-anchor="middle" font-weight="normal" transform="rotate(-90 502 1164.0)">4069UB</text>
+<path d="M524,1101 L517,1101" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1105" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >14</text>
+<text x="766" y="1106" font-size="15" fill="#bf263c" text-anchor="start" font-weight="normal" >U4.14  +5V</text>
+<path d="M458,1227 L465,1227" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1231" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >7</text>
+<text x="264" y="1232" font-size="15" fill="#2464ad" text-anchor="end" font-weight="normal" >U4.7  GND</text>
+<path d="M458,1101 L465,1101" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1105" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >1</text>
+<text x="264" y="1106" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.1  rst</text>
+<path d="M458,1122 L465,1122" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1126" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >2</text>
+<text x="264" y="1127" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.2  CLR_n</text>
+<path d="M458,1143 L465,1143" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1147" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >3</text>
+<text x="264" y="1148" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.3  W</text>
+<path d="M458,1164 L465,1164" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1168" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >4</text>
+<text x="264" y="1169" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.4  W_n</text>
+<path d="M458,1185 L465,1185" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1189" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >5</text>
+<text x="264" y="1190" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.5  R</text>
+<path d="M458,1206 L465,1206" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="450" y="1210" font-size="10" fill="#183247" text-anchor="end" font-weight="normal" >6</text>
+<text x="264" y="1211" font-size="15" fill="#763aa5" text-anchor="end" font-weight="normal" >U4.6  R_n</text>
+<path d="M524,1206 L517,1206" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1210" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >9</text>
+<text x="766" y="1211" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U4.9  P</text>
+<path d="M524,1227 L517,1227" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1231" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >8</text>
+<text x="766" y="1232" font-size="15" fill="#763aa5" text-anchor="start" font-weight="normal" >U4.8  SO</text>
+<path d="M524,1164 L517,1164" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1168" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >11</text>
+<text x="766" y="1169" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >U4.11  GND</text>
+<path d="M524,1185 L517,1185" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1189" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >10</text>
+<text x="766" y="1190" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >U4.10  NC</text>
+<path d="M524,1122 L517,1122" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1126" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >13</text>
+<text x="766" y="1127" font-size="15" fill="#2464ad" text-anchor="start" font-weight="normal" >U4.13  GND</text>
+<path d="M524,1143 L517,1143" stroke="#b7c4ca" stroke-width="5" fill="none" />
+<text x="532" y="1147" font-size="10" fill="#183247" text-anchor="start" font-weight="normal" >12</text>
+<text x="766" y="1148" font-size="15" fill="#526677" text-anchor="start" font-weight="normal" >U4.12  NC</text>
+<circle cx="414" cy="1311" r="5" fill="#08795b"/>
+<text x="264" y="1316" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[0]</text>
+<circle cx="414" cy="1332" r="5" fill="#08795b"/>
+<text x="264" y="1337" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[1]</text>
+<circle cx="414" cy="1353" r="5" fill="#08795b"/>
+<text x="264" y="1358" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[2]</text>
+<circle cx="414" cy="1374" r="5" fill="#08795b"/>
+<text x="264" y="1379" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >write_data[3]</text>
+<circle cx="568" cy="1311" r="5" fill="#763aa5"/>
+<text x="766" y="1316" font-size="16" fill="#763aa5" text-anchor="start" font-weight="normal" >push</text>
+<circle cx="568" cy="1332" r="5" fill="#763aa5"/>
+<text x="766" y="1337" font-size="16" fill="#763aa5" text-anchor="start" font-weight="normal" >pop</text>
+<circle cx="568" cy="1353" r="5" fill="#b36a00"/>
+<text x="766" y="1358" font-size="16" fill="#b36a00" text-anchor="start" font-weight="normal" >clk</text>
+<circle cx="568" cy="1374" r="5" fill="#763aa5"/>
+<text x="766" y="1379" font-size="16" fill="#763aa5" text-anchor="start" font-weight="normal" >rst</text>
+<circle cx="414" cy="1437" r="5" fill="#08795b"/>
+<text x="264" y="1442" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >read_data[0]</text>
+<circle cx="414" cy="1458" r="5" fill="#08795b"/>
+<text x="264" y="1463" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >read_data[1]</text>
+<circle cx="414" cy="1479" r="5" fill="#08795b"/>
+<text x="264" y="1484" font-size="16" fill="#08795b" text-anchor="end" font-weight="normal" >read_data[2]</text>
+<circle cx="568" cy="1437" r="5" fill="#08795b"/>
+<text x="766" y="1442" font-size="16" fill="#08795b" text-anchor="start" font-weight="normal" >read_data[3]</text>
+<circle cx="568" cy="1458" r="5" fill="#763aa5"/>
+<text x="766" y="1463" font-size="16" fill="#763aa5" text-anchor="start" font-weight="normal" >full</text>
+<circle cx="568" cy="1479" r="5" fill="#763aa5"/>
+<text x="766" y="1484" font-size="16" fill="#763aa5" text-anchor="start" font-weight="normal" >empty</text>
+<circle cx="310" cy="324" r="6" fill="#bf263c"/>
+<circle cx="334" cy="324" r="6" fill="#2464ad"/>
+<text x="40" y="1690" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >A.a4 = плата A, столбец a, ряд 4. Выводы стоят в e/f; перемычки — в свободных отверстиях полосы.</text>
+<text x="40" y="1726" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >В ряду a–e соединены; f–j соединены отдельно. Все четыре разрыва шин 25/26 соединены.</text>
+<text x="40" y="1762" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >LP / RP = левая / правая шина «+». LM / RM = земля. Отверстия шин 01–50 считаются сверху.</text>
+<text x="40" y="1798" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >Входы: A.c52–55 / A.h52–55. Выходы: A.c58–60 / A.h58–60. Цветные точки — внешние провода.</text>
+<text x="40" y="1834" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >Питание: A.LP03 (+5V), A.LM03 (GND). Сигнал готового такта → A.h54; его земля → общая GND.</text>
+<text x="40" y="1870" font-size="15" fill="#183247" text-anchor="start" font-weight="normal" >Сверьте устройство шин со своей платой. Ряды NC свободны; пересечения без точек не соединены.</text>
+<text x="40" y="1925" font-size="16" fill="#526677" text-anchor="start" font-weight="normal" >4 бита × 16 слов · +5 В · один внешний такт · проект, макет не собран</text>
+</svg><figcaption>Одна плата на 830 контактов вмещает все четыре корпуса. Рисунок показывает все перемычки питания и подписывает каждый сигнальный вывод; сигнальные перемычки установите по полной таблице отверстий ниже. Нумерация отверстий шин задана на рисунке. Сверьте расположение шин со своими платами.</figcaption></figure><p><a href="assets/fifo_40105_breadboard_ru.svg">Открыть / скачать SVG</a> · <a href="assets/fifo_40105_breadboard_ru.png">Открыть / скачать PNG</a></p><h2 id="breadboard-wiring">Размещение и полный список перемычек</h2><p>Каждый DIP устанавливается поперёк центрального паза, вывод 1 находится сверху слева. В каждом пронумерованном ряду a–e соединены между собой; f–j соединены отдельно. В таблице <code>U3.1</code> означает вывод 1 U3, а <code>A.a4</code> — плату A, столбец a, ряд 4. Выводы занимают e/f; перемычки подключаются к свободным отверстиям тех же контактных полос.</p><div class="table-wrap"><table><thead><tr><th scope="col">Микросхема</th><th scope="col">Тип</th><th scope="col">Плата</th><th scope="col">Ряды</th><th scope="col">Вывод 1</th><th scope="col">Верхний правый вывод</th></tr></thead><tbody><tr><td>U1</td><td>CD74HC40105E</td><td>A</td><td>4–11</td><td>A.e4</td><td>16: A.f4</td></tr><tr><td>U2</td><td>CD40174B</td><td>A</td><td>16–23</td><td>A.e16</td><td>16: A.f16</td></tr><tr><td>U3</td><td>CD4001B</td><td>A</td><td>30–36</td><td>A.e30</td><td>14: A.f30</td></tr><tr><td>U4</td><td>CD4069UB</td><td>A</td><td>42–48</td><td>A.e42</td><td>14: A.f42</td></tr></tbody></table></div><p>Подключите провода источника 5 В к <code>A.LP03</code> (+5 В) и <code>A.LM03</code> (GND). LP/RP — левая/правая положительные шины; LM/RM — левая/правая шины земли. В каждой шине 50 отверстий, отсчитываемых сверху, с предполагаемым разрывом после отверстия 25. Таблица включает перемычки всех четырёх разрывов и соединение левых/правых шин. Также заземляются TS FIFO и оба неиспользуемых входа инверторов.</p><p><strong>50 перемычек на плате:</strong> 33 сигнальных, 11 от выводов питания/входов к шинам и 6 между участками шин. Это точное число для данного размещения, без запаса. Провода внешних входных/выходных модулей и два провода источника питания учитываются отдельно. Прежние таблицы стоимости наборов не пересчитывались.</p><p>Сигнал готового тактового модуля подключите к <code>A.h54</code> (clk), землю модуля — к общей GND. В контактных рядах ниже для каждого внешнего сигнального провода выделено отдельное отверстие; дополнительный разъём не требуется. На всех входных сигналах должны быть определённые логические уровни с соблюдением setup/hold интерфейса.</p><details><summary>Контакты внешних сигналов (14)</summary><div class="table-wrap"><table><thead><tr><th scope="col">Сигнал</th><th scope="col">Направление относительно FIFO</th><th scope="col">Отверстие внешнего провода</th></tr></thead><tbody><tr><td>write_data[0]</td><td>Вход</td><td>A.c52</td></tr><tr><td>write_data[1]</td><td>Вход</td><td>A.c53</td></tr><tr><td>write_data[2]</td><td>Вход</td><td>A.c54</td></tr><tr><td>write_data[3]</td><td>Вход</td><td>A.c55</td></tr><tr><td>push</td><td>Вход</td><td>A.h52</td></tr><tr><td>pop</td><td>Вход</td><td>A.h53</td></tr><tr><td>clk</td><td>Вход</td><td>A.h54</td></tr><tr><td>rst</td><td>Вход</td><td>A.h55</td></tr><tr><td>read_data[0]</td><td>Выход</td><td>A.c58</td></tr><tr><td>read_data[1]</td><td>Выход</td><td>A.c59</td></tr><tr><td>read_data[2]</td><td>Выход</td><td>A.c60</td></tr><tr><td>read_data[3]</td><td>Выход</td><td>A.h58</td></tr><tr><td>full</td><td>Выход</td><td>A.h59</td></tr><tr><td>empty</td><td>Выход</td><td>A.h60</td></tr></tbody></table></div></details><p><a href="research/fifo_40105_proposal/breadboard_jumpers.csv">CSV</a> · <a href="research/fifo_40105_proposal/schematic_netlist.json">Список цепей JSON</a> · <a href="research/fifo_40105_proposal/schematic_validation.json">Проверка соединений</a></p><details><summary>Полный пронумерованный список перемычек (50 проводов)</summary><div class="table-wrap"><table><thead><tr><th scope="col">Перемычка</th><th scope="col">Цепь</th><th scope="col">Из отверстия</th><th scope="col">В отверстие</th><th scope="col">Соединяет</th></tr></thead><tbody><tr><td>J001</td><td>+5V</td><td>A.LP25</td><td>A.LP26</td><td>верх шины → низ шины</td></tr><tr><td>J002</td><td>+5V</td><td>A.RP25</td><td>A.RP26</td><td>верх шины → низ шины</td></tr><tr><td>J003</td><td>GND</td><td>A.LM25</td><td>A.LM26</td><td>верх шины → низ шины</td></tr><tr><td>J004</td><td>GND</td><td>A.RM25</td><td>A.RM26</td><td>верх шины → низ шины</td></tr><tr><td>J005</td><td>+5V</td><td>A.LP01</td><td>A.RP01</td><td>левая шина → правая шина</td></tr><tr><td>J006</td><td>GND</td><td>A.LM01</td><td>A.RM01</td><td>левая шина → правая шина</td></tr><tr><td>J007</td><td>+5V</td><td>A.j4</td><td>A.RP04</td><td>U1.16 → шина питания</td></tr><tr><td>J008</td><td>+5V</td><td>A.j16</td><td>A.RP12</td><td>U2.16 → шина питания</td></tr><tr><td>J009</td><td>+5V</td><td>A.j30</td><td>A.RP24</td><td>U3.14 → шина питания</td></tr><tr><td>J010</td><td>+5V</td><td>A.j42</td><td>A.RP34</td><td>U4.14 → шина питания</td></tr><tr><td>J011</td><td>GND</td><td>A.a4</td><td>A.LM04</td><td>U1.1 → шина питания</td></tr><tr><td>J012</td><td>GND</td><td>A.a11</td><td>A.LM08</td><td>U1.8 → шина питания</td></tr><tr><td>J013</td><td>GND</td><td>A.a23</td><td>A.LM18</td><td>U2.8 → шина питания</td></tr><tr><td>J014</td><td>GND</td><td>A.a36</td><td>A.LM29</td><td>U3.7 → шина питания</td></tr><tr><td>J015</td><td>GND</td><td>A.a48</td><td>A.LM39</td><td>U4.7 → шина питания</td></tr><tr><td>J016</td><td>GND</td><td>A.j45</td><td>A.RM36</td><td>U4.11 → шина питания</td></tr><tr><td>J017</td><td>GND</td><td>A.j43</td><td>A.RM35</td><td>U4.13 → шина питания</td></tr><tr><td>J018</td><td>CLR_n</td><td>A.a43</td><td>A.a16</td><td>U4.2 → U2.1</td></tr><tr><td>J019</td><td>DIR</td><td>A.a5</td><td>A.j35</td><td>U1.2 → U3.9</td></tr><tr><td>J020</td><td>DIR</td><td>A.i35</td><td>A.j36</td><td>U3.9 → U3.8</td></tr><tr><td>J021</td><td>DOR</td><td>A.j6</td><td>A.j31</td><td>U1.14 → U3.13</td></tr><tr><td>J022</td><td>DOR</td><td>A.i31</td><td>A.j32</td><td>U3.13 → U3.12</td></tr><tr><td>J023</td><td>D_hold[0]</td><td>A.a17</td><td>A.a7</td><td>U2.2 → U1.4</td></tr><tr><td>J024</td><td>D_hold[1]</td><td>A.a20</td><td>A.a8</td><td>U2.5 → U1.5</td></tr><tr><td>J025</td><td>D_hold[2]</td><td>A.a22</td><td>A.a9</td><td>U2.7 → U1.6</td></tr><tr><td>J026</td><td>D_hold[3]</td><td>A.j22</td><td>A.a10</td><td>U2.10 → U1.7</td></tr><tr><td>J027</td><td>P</td><td>A.a33</td><td>A.j47</td><td>U3.4 → U4.9</td></tr><tr><td>J028</td><td>R</td><td>A.j17</td><td>A.a46</td><td>U2.15 → U4.5</td></tr><tr><td>J029</td><td>R_n</td><td>A.a47</td><td>A.a35</td><td>U4.6 → U3.6</td></tr><tr><td>J030</td><td>SI</td><td>A.a32</td><td>A.a6</td><td>U3.3 → U1.3</td></tr><tr><td>J031</td><td>SO</td><td>A.j48</td><td>A.j5</td><td>U4.8 → U1.15</td></tr><tr><td>J032</td><td>W</td><td>A.j20</td><td>A.a44</td><td>U2.12 → U4.3</td></tr><tr><td>J033</td><td>W_n</td><td>A.a45</td><td>A.a31</td><td>U4.4 → U3.2</td></tr><tr><td>J034</td><td>clk</td><td>A.j54</td><td>A.a30</td><td>внешний clk → U3.1</td></tr><tr><td>J035</td><td>clk</td><td>A.b30</td><td>A.a34</td><td>U3.1 → U3.5</td></tr><tr><td>J036</td><td>clk</td><td>A.b34</td><td>A.j23</td><td>U3.5 → U2.9</td></tr><tr><td>J037</td><td>empty</td><td>A.j33</td><td>A.j60</td><td>U3.11 → внешний empty</td></tr><tr><td>J038</td><td>full</td><td>A.j34</td><td>A.j59</td><td>U3.10 → внешний full</td></tr><tr><td>J039</td><td>pop</td><td>A.j53</td><td>A.j18</td><td>внешний pop → U2.14</td></tr><tr><td>J040</td><td>push</td><td>A.j52</td><td>A.j19</td><td>внешний push → U2.13</td></tr><tr><td>J041</td><td>read_data[0]</td><td>A.j7</td><td>A.a58</td><td>U1.13 → внешний read_data[0]</td></tr><tr><td>J042</td><td>read_data[1]</td><td>A.j8</td><td>A.a59</td><td>U1.12 → внешний read_data[1]</td></tr><tr><td>J043</td><td>read_data[2]</td><td>A.j9</td><td>A.a60</td><td>U1.11 → внешний read_data[2]</td></tr><tr><td>J044</td><td>read_data[3]</td><td>A.j10</td><td>A.j58</td><td>U1.10 → внешний read_data[3]</td></tr><tr><td>J045</td><td>rst</td><td>A.j55</td><td>A.a42</td><td>внешний rst → U4.1</td></tr><tr><td>J046</td><td>rst</td><td>A.b42</td><td>A.j11</td><td>U4.1 → U1.9</td></tr><tr><td>J047</td><td>write_data[0]</td><td>A.a52</td><td>A.a18</td><td>внешний write_data[0] → U2.3</td></tr><tr><td>J048</td><td>write_data[1]</td><td>A.a53</td><td>A.a19</td><td>внешний write_data[1] → U2.4</td></tr><tr><td>J049</td><td>write_data[2]</td><td>A.a54</td><td>A.a21</td><td>внешний write_data[2] → U2.6</td></tr><tr><td>J050</td><td>write_data[3]</td><td>A.a55</td><td>A.j21</td><td>внешний write_data[3] → U2.11</td></tr></tbody></table></div></details><p>Статическая проверка охватывает все 60 выводов DIP, соединение всех сигнальных цепей через контактные полосы, изоляцию NC, целостность питания, отсутствие замкнутых между собой цепей и повторно занятых отверстий, 64 комбинации входов вентилей и 64 комбинации захвата данных/запросов. Проверены чертёж и список перемычек; это не измерение временных параметров и не демонстрация работающего физического макета.</p><h2 id="six-cycle-scenario">Ваши шесть последовательных тактов</h2><p>Вначале очередь пуста. Записываем A, B, C, затем D со считыванием A, E со считыванием B и, наконец, считываем C. В конце очередь D → E. Каждый столбец ниже — ровно один период внешнего такта.</p><figure class="timing"><svg xmlns="http://www.w3.org/2000/svg" width="1580" height="1050" viewBox="0 0 1580 1050" role="img" aria-labelledby="six-title six-desc"><title id="six-title">Временная диаграмма FIFO: три записи, два чтения с записью, одно чтение</title><desc id="six-desc">Шесть последовательных периодов внешнего такта. Входы фиксируются по фронту; следующий спад запускает чтение/запись. Делителя и счётчика нет. Считаны A, B, C; остаются D, E.</desc><rect width="1580" height="1050" fill="#f8faf9"/><text x="28" y="37" font-family="DejaVu Sans, sans-serif" font-size="26" text-anchor="start" fill="#163344" font-weight="bold">FIFO 4 × 16 · шесть заданных циклов</text><text x="28" y="66" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">4 бита × 16 слов · один внешний такт на операцию · без делителя и счётчика заполнения</text><rect x="235" y="88" width="215" height="790" fill="#edf4f1"/><text x="342.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 1</text><text x="342.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">push</text><path d="M235.0,174 L235.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="239.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M342.5,174 L342.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="346.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><text x="557.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 2</text><text x="557.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">push</text><path d="M450.0,174 L450.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="454.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M557.5,174 L557.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="561.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><rect x="665" y="88" width="215" height="790" fill="#edf4f1"/><text x="772.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 3</text><text x="772.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">push</text><path d="M665.0,174 L665.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="669.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M772.5,174 L772.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="776.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><text x="987.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 4</text><text x="987.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">push + pop</text><path d="M880.0,174 L880.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="884.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M987.5,174 L987.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="991.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><rect x="1095" y="88" width="215" height="790" fill="#edf4f1"/><text x="1202.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 5</text><text x="1202.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">push + pop</text><path d="M1095.0,174 L1095.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="1099.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M1202.5,174 L1202.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="1206.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><text x="1417.5" y="114" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle" fill="#163344" font-weight="bold">Цикл 6</text><text x="1417.5" y="140" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="middle" fill="#087c79">pop</text><path d="M1310.0,174 L1310.0,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="5 4"/><text x="1314.0" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↑</text><path d="M1417.5,174 L1417.5,792" fill="none" stroke="#c7d7d3" stroke-width="1" stroke-dasharray="2 5"/><text x="1421.5" y="166" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#526775">↓</text><path d="M1525,174 L1525,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="28" y="166" font-family="DejaVu Sans, sans-serif" font-size="13" text-anchor="start" fill="#526775">Фронты внешнего такта</text><text x="28" y="212" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">clk</text><path d="M 222 217 H 235 V 193 H 256.5 V 193 H 278.0 V 193 H 299.5 V 193 H 321.0 V 193 H 342.5 V 217 H 364.0 V 217 H 385.5 V 217 H 407.0 V 217 H 428.5 V 217 H 450.0 V 193 H 471.5 V 193 H 493.0 V 193 H 514.5 V 193 H 536.0 V 193 H 557.5 V 217 H 579.0 V 217 H 600.5 V 217 H 622.0 V 217 H 643.5 V 217 H 665.0 V 193 H 686.5 V 193 H 708.0 V 193 H 729.5 V 193 H 751.0 V 193 H 772.5 V 217 H 794.0 V 217 H 815.5 V 217 H 837.0 V 217 H 858.5 V 217 H 880.0 V 193 H 901.5 V 193 H 923.0 V 193 H 944.5 V 193 H 966.0 V 193 H 987.5 V 217 H 1009.0 V 217 H 1030.5 V 217 H 1052.0 V 217 H 1073.5 V 217 H 1095.0 V 193 H 1116.5 V 193 H 1138.0 V 193 H 1159.5 V 193 H 1181.0 V 193 H 1202.5 V 217 H 1224.0 V 217 H 1245.5 V 217 H 1267.0 V 217 H 1288.5 V 217 H 1310.0 V 193 H 1331.5 V 193 H 1353.0 V 193 H 1374.5 V 193 H 1396.0 V 193 H 1417.5 V 217 H 1439.0 V 217 H 1460.5 V 217 H 1482.0 V 217 H 1503.5 V 217 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="262" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">push / регистр W</text><path d="M 222 267 H 235 V 243 H 256.5 V 243 H 278.0 V 243 H 299.5 V 243 H 321.0 V 243 H 342.5 V 243 H 364.0 V 243 H 385.5 V 243 H 407.0 V 243 H 428.5 V 243 H 450.0 V 243 H 471.5 V 243 H 493.0 V 243 H 514.5 V 243 H 536.0 V 243 H 557.5 V 243 H 579.0 V 243 H 600.5 V 243 H 622.0 V 243 H 643.5 V 243 H 665.0 V 243 H 686.5 V 243 H 708.0 V 243 H 729.5 V 243 H 751.0 V 243 H 772.5 V 243 H 794.0 V 243 H 815.5 V 243 H 837.0 V 243 H 858.5 V 243 H 880.0 V 243 H 901.5 V 243 H 923.0 V 243 H 944.5 V 243 H 966.0 V 243 H 987.5 V 243 H 1009.0 V 243 H 1030.5 V 243 H 1052.0 V 243 H 1073.5 V 243 H 1095.0 V 243 H 1116.5 V 243 H 1138.0 V 243 H 1159.5 V 243 H 1181.0 V 243 H 1202.5 V 243 H 1224.0 V 243 H 1245.5 V 243 H 1267.0 V 243 H 1288.5 V 243 H 1310.0 V 267 H 1331.5 V 267 H 1353.0 V 267 H 1374.5 V 267 H 1396.0 V 267 H 1417.5 V 267 H 1439.0 V 267 H 1460.5 V 267 H 1482.0 V 267 H 1503.5 V 267 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="312" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">pop / регистр R</text><path d="M 222 317 H 235 V 317 H 256.5 V 317 H 278.0 V 317 H 299.5 V 317 H 321.0 V 317 H 342.5 V 317 H 364.0 V 317 H 385.5 V 317 H 407.0 V 317 H 428.5 V 317 H 450.0 V 317 H 471.5 V 317 H 493.0 V 317 H 514.5 V 317 H 536.0 V 317 H 557.5 V 317 H 579.0 V 317 H 600.5 V 317 H 622.0 V 317 H 643.5 V 317 H 665.0 V 317 H 686.5 V 317 H 708.0 V 317 H 729.5 V 317 H 751.0 V 317 H 772.5 V 317 H 794.0 V 317 H 815.5 V 317 H 837.0 V 317 H 858.5 V 317 H 880.0 V 293 H 901.5 V 293 H 923.0 V 293 H 944.5 V 293 H 966.0 V 293 H 987.5 V 293 H 1009.0 V 293 H 1030.5 V 293 H 1052.0 V 293 H 1073.5 V 293 H 1095.0 V 293 H 1116.5 V 293 H 1138.0 V 293 H 1159.5 V 293 H 1181.0 V 293 H 1202.5 V 293 H 1224.0 V 293 H 1245.5 V 293 H 1267.0 V 293 H 1288.5 V 293 H 1310.0 V 293 H 1331.5 V 293 H 1353.0 V 293 H 1374.5 V 293 H 1396.0 V 293 H 1417.5 V 293 H 1439.0 V 293 H 1460.5 V 293 H 1482.0 V 293 H 1503.5 V 293 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="362" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">регистр write_data</text><path d="M235.0,357 L240.0,343 H445.0 L450.0,357 L445.0,371 H240.0 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="342.5" y="363" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">A</text><path d="M450.0,357 L455.0,343 H660.0 L665.0,357 L660.0,371 H455.0 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="557.5" y="363" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">B</text><path d="M665.0,357 L670.0,343 H875.0 L880.0,357 L875.0,371 H670.0 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="772.5" y="363" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">C</text><path d="M880.0,357 L885.0,343 H1090.0 L1095.0,357 L1090.0,371 H885.0 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="987.5" y="363" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">D</text><path d="M1095.0,357 L1100.0,343 H1520.0 L1525.0,357 L1520.0,371 H1100.0 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="1310.0" y="363" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">E</text><text x="28" y="412" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">SI  ↑</text><path d="M 222 417 H 235 V 417 H 256.5 V 417 H 278.0 V 417 H 299.5 V 417 H 321.0 V 417 H 342.5 V 393 H 364.0 V 393 H 385.5 V 393 H 407.0 V 393 H 428.5 V 393 H 450.0 V 417 H 471.5 V 417 H 493.0 V 417 H 514.5 V 417 H 536.0 V 417 H 557.5 V 393 H 579.0 V 393 H 600.5 V 393 H 622.0 V 393 H 643.5 V 393 H 665.0 V 417 H 686.5 V 417 H 708.0 V 417 H 729.5 V 417 H 751.0 V 417 H 772.5 V 393 H 794.0 V 393 H 815.5 V 393 H 837.0 V 393 H 858.5 V 393 H 880.0 V 417 H 901.5 V 417 H 923.0 V 417 H 944.5 V 417 H 966.0 V 417 H 987.5 V 393 H 1009.0 V 393 H 1030.5 V 393 H 1052.0 V 393 H 1073.5 V 393 H 1095.0 V 417 H 1116.5 V 417 H 1138.0 V 417 H 1159.5 V 417 H 1181.0 V 417 H 1202.5 V 393 H 1224.0 V 393 H 1245.5 V 393 H 1267.0 V 393 H 1288.5 V 393 H 1310.0 V 417 H 1331.5 V 417 H 1353.0 V 417 H 1374.5 V 417 H 1396.0 V 417 H 1417.5 V 417 H 1439.0 V 417 H 1460.5 V 417 H 1482.0 V 417 H 1503.5 V 417 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="462" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">SO  ↓</text><path d="M 222 443 H 235 V 443 H 256.5 V 443 H 278.0 V 443 H 299.5 V 443 H 321.0 V 443 H 342.5 V 443 H 364.0 V 443 H 385.5 V 443 H 407.0 V 443 H 428.5 V 443 H 450.0 V 443 H 471.5 V 443 H 493.0 V 443 H 514.5 V 443 H 536.0 V 443 H 557.5 V 443 H 579.0 V 443 H 600.5 V 443 H 622.0 V 443 H 643.5 V 443 H 665.0 V 443 H 686.5 V 443 H 708.0 V 443 H 729.5 V 443 H 751.0 V 443 H 772.5 V 443 H 794.0 V 443 H 815.5 V 443 H 837.0 V 443 H 858.5 V 443 H 880.0 V 443 H 901.5 V 443 H 923.0 V 443 H 944.5 V 443 H 966.0 V 443 H 987.5 V 467 H 1009.0 V 467 H 1030.5 V 467 H 1052.0 V 467 H 1073.5 V 467 H 1095.0 V 443 H 1116.5 V 443 H 1138.0 V 443 H 1159.5 V 443 H 1181.0 V 443 H 1202.5 V 467 H 1224.0 V 467 H 1245.5 V 467 H 1267.0 V 467 H 1288.5 V 467 H 1310.0 V 443 H 1331.5 V 443 H 1353.0 V 443 H 1374.5 V 443 H 1396.0 V 443 H 1417.5 V 467 H 1439.0 V 467 H 1460.5 V 467 H 1482.0 V 467 H 1503.5 V 467 H 1525.0" fill="none" stroke="#ad501f" stroke-width="2.5"/><text x="28" y="531" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">read_data · RTL</text><path d="M235.0,526 L240.0,512 H875.0 L880.0,526 L875.0,540 H240.0 Z" fill="#f5e9df" stroke="#ad501f" stroke-width="1.5"/><text x="557.5" y="532" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#ad501f" font-weight="bold">A</text><path d="M880.0,526 L885.0,512 H1090.0 L1095.0,526 L1090.0,540 H885.0 Z" fill="#f5e9df" stroke="#ad501f" stroke-width="1.5"/><text x="987.5" y="532" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#ad501f" font-weight="bold">B</text><path d="M1095.0,526 L1100.0,512 H1305.0 L1310.0,526 L1305.0,540 H1100.0 Z" fill="#f5e9df" stroke="#ad501f" stroke-width="1.5"/><text x="1202.5" y="532" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#ad501f" font-weight="bold">C</text><path d="M1310.0,526 L1315.0,512 H1520.0 L1525.0,526 L1520.0,540 H1315.0 Z" fill="#f5e9df" stroke="#ad501f" stroke-width="1.5"/><text x="1417.5" y="532" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#ad501f" font-weight="bold">D</text><text x="28" y="586" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344" font-weight="bold">read_data · 40105</text><path d="M235.0,581 L240.0,567 H337.5 L342.5,581 L337.5,595 H240.0 Z" fill="#e8eceb" stroke="#526775" stroke-width="1.5"/><text x="288.75" y="587" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#526775" font-weight="bold">X</text><path d="M342.5,581 L347.5,567 H982.5 L987.5,581 L982.5,595 H347.5 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="665.0" y="587" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">A</text><path d="M987.5,581 L992.5,567 H1197.5 L1202.5,581 L1197.5,595 H992.5 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="1095.0" y="587" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">B</text><path d="M1202.5,581 L1207.5,567 H1412.5 L1417.5,581 L1412.5,595 H1207.5 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="1310.0" y="587" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">C</text><path d="M1417.5,581 L1422.5,567 H1520.0 L1525.0,581 L1520.0,595 H1422.5 Z" fill="#e3f0eb" stroke="#087c79" stroke-width="1.5"/><text x="1471.25" y="587" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#087c79" font-weight="bold">D</text><text x="28" y="641" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">empty · 40105</text><path d="M 222 622 H 235 V 622 H 256.5 V 622 H 278.0 V 622 H 299.5 V 622 H 321.0 V 622 H 342.5 V 646 H 364.0 V 646 H 385.5 V 646 H 407.0 V 646 H 428.5 V 646 H 450.0 V 646 H 471.5 V 646 H 493.0 V 646 H 514.5 V 646 H 536.0 V 646 H 557.5 V 646 H 579.0 V 646 H 600.5 V 646 H 622.0 V 646 H 643.5 V 646 H 665.0 V 646 H 686.5 V 646 H 708.0 V 646 H 729.5 V 646 H 751.0 V 646 H 772.5 V 646 H 794.0 V 646 H 815.5 V 646 H 837.0 V 646 H 858.5 V 646 H 880.0 V 646 H 901.5 V 646 H 923.0 V 646 H 944.5 V 646 H 966.0 V 646 H 987.5 V 646 H 1009.0 V 646 H 1030.5 V 646 H 1052.0 V 646 H 1073.5 V 646 H 1095.0 V 646 H 1116.5 V 646 H 1138.0 V 646 H 1159.5 V 646 H 1181.0 V 646 H 1202.5 V 646 H 1224.0 V 646 H 1245.5 V 646 H 1267.0 V 646 H 1288.5 V 646 H 1310.0 V 646 H 1331.5 V 646 H 1353.0 V 646 H 1374.5 V 646 H 1396.0 V 646 H 1417.5 V 646 H 1439.0 V 646 H 1460.5 V 646 H 1482.0 V 646 H 1503.5 V 646 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="691" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">full · 40105</text><path d="M 222 696 H 235 V 696 H 256.5 V 696 H 278.0 V 696 H 299.5 V 696 H 321.0 V 696 H 342.5 V 696 H 364.0 V 696 H 385.5 V 696 H 407.0 V 696 H 428.5 V 696 H 450.0 V 696 H 471.5 V 696 H 493.0 V 696 H 514.5 V 696 H 536.0 V 696 H 557.5 V 696 H 579.0 V 696 H 600.5 V 696 H 622.0 V 696 H 643.5 V 696 H 665.0 V 696 H 686.5 V 696 H 708.0 V 696 H 729.5 V 696 H 751.0 V 696 H 772.5 V 696 H 794.0 V 696 H 815.5 V 696 H 837.0 V 696 H 858.5 V 696 H 880.0 V 696 H 901.5 V 696 H 923.0 V 696 H 944.5 V 696 H 966.0 V 696 H 987.5 V 696 H 1009.0 V 696 H 1030.5 V 696 H 1052.0 V 696 H 1073.5 V 696 H 1095.0 V 696 H 1116.5 V 696 H 1138.0 V 696 H 1159.5 V 696 H 1181.0 V 696 H 1202.5 V 696 H 1224.0 V 696 H 1245.5 V 696 H 1267.0 V 696 H 1288.5 V 696 H 1310.0 V 696 H 1331.5 V 696 H 1353.0 V 696 H 1374.5 V 696 H 1396.0 V 696 H 1417.5 V 696 H 1439.0 V 696 H 1460.5 V 696 H 1482.0 V 696 H 1503.5 V 696 H 1525.0" fill="none" stroke="#087c79" stroke-width="2.5"/><text x="28" y="737" font-family="DejaVu Sans, sans-serif" font-size="17" text-anchor="start" fill="#163344" font-weight="bold">В начале пуста</text><text x="243" y="737" font-family="DejaVu Sans, sans-serif" font-size="15" text-anchor="start" fill="#526775">Показаны установившиеся флаги, без кратких переходных импульсов.  X = нет допустимой головы.</text><text x="28" y="783" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344" font-weight="bold">Считано по clk ↑</text><text x="249" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#526775">—</text><text x="464" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#526775">—</text><text x="679" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#526775">—</text><path d="M880,754 L880,792" fill="none" stroke="#ad501f" stroke-width="2"/><text x="894" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#ad501f" font-weight="bold">A</text><path d="M1095,754 L1095,792" fill="none" stroke="#ad501f" stroke-width="2"/><text x="1109" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#ad501f" font-weight="bold">B</text><path d="M1310,754 L1310,792" fill="none" stroke="#ad501f" stroke-width="2"/><text x="1324" y="783" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="start" fill="#ad501f" font-weight="bold">C</text><text x="28" y="835" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344" font-weight="bold">Очередь после цикла</text><text x="28" y="860" font-family="DejaVu Sans, sans-serif" font-size="14" text-anchor="start" fill="#526775">голова → хвост</text><path d="M235,803 L235,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="342.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">A</text><path d="M450,803 L450,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="557.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">A → B</text><path d="M665,803 L665,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="772.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">A → B → C</text><path d="M880,803 L880,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="987.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">B → C → D</text><path d="M1095,803 L1095,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="1202.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">C → D → E</text><path d="M1310,803 L1310,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="1417.5" y="847" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle" fill="#163344" font-weight="bold">D → E</text><path d="M235,803 L1525,803" fill="none" stroke="#dbe5e4" stroke-width="1"/><path d="M235,878 L1525,878" fill="none" stroke="#dbe5e4" stroke-width="1"/><text x="28" y="918" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">clk ↑: захват запросов и данных; чтение прежней головы.   clk ↓: запуск SI/SO; установление до следующего clk ↑.</text><text x="28" y="951" font-family="DejaVu Sans, sans-serif" font-size="16" text-anchor="start" fill="#163344">SI/SO возвращаются в покой по следующему фронту. При push = 1 слово записывается в КАЖДОМ периоде.</text><text x="28" y="991" font-family="DejaVu Sans, sans-serif" font-size="15" text-anchor="start" fill="#526775">Логическая диаграмма без задержек. empty/full считываются по фронту; асинхронные краткие импульсы возможны.</text><text x="28" y="1025" font-family="DejaVu Sans, sans-serif" font-size="15" text-anchor="start" fill="#526775">Последняя E на шине записи игнорируется (push = 0). После цикла 6 на выходе D; в очереди D, E.</text></svg><figcaption>Установившиеся логические уровни; короткие задержки и переходные импульсы готовности опущены. Запросы показаны после захвата.</figcaption></figure><p><a href="assets/fifo_40105_six_cycles_ru.svg">SVG</a> · <a href="assets/fifo_40105_six_cycles_ru.png">PNG</a> · <a href="research/fifo_40105_proposal/six_cycle_trace.json">Записанные значения моделирования</a></p><div class="table-wrap"><table><thead><tr><th scope="col">Цикл</th><th scope="col">push</th><th scope="col">pop</th><th scope="col">Записано</th><th scope="col">Считано по clk ↑</th><th scope="col">Очередь после установления</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>0</td><td>A</td><td>—</td><td>A</td></tr><tr><td>2</td><td>1</td><td>0</td><td>B</td><td>—</td><td>A → B</td></tr><tr><td>3</td><td>1</td><td>0</td><td>C</td><td>—</td><td>A → B → C</td></tr><tr><td>4</td><td>1</td><td>1</td><td>D</td><td>A</td><td>B → C → D</td></tr><tr><td>5</td><td>1</td><td>1</td><td>E</td><td>B</td><td>C → D → E</td></tr><tr><td>6</td><td>0</td><td>1</td><td>—</td><td>C</td><td>D → E</td></tr></tbody></table></div><h2 id="connections">Соединения для 4 бит × 16 слов</h2><p>Все четыре микросхемы имеют общее питание 5 В и землю. DIP показаны сверху, выемкой вверх. clk поступает прямо от готового тактового модуля. U1 — единственная FIFO; все шесть триггеров U2 используются.</p><h3>U1 — CD74HC40105E</h3><div class="table-wrap"><table><thead><tr><th scope="col">Вывод</th><th scope="col">Функция</th><th scope="col">Цепь</th></tr></thead><tbody><tr><td>1</td><td>TS</td><td>GND</td></tr><tr><td>2</td><td>DIR</td><td>DIR</td></tr><tr><td>3</td><td>SI</td><td>SI</td></tr><tr><td>4</td><td>D0</td><td>D_hold[0]</td></tr><tr><td>5</td><td>D1</td><td>D_hold[1]</td></tr><tr><td>6</td><td>D2</td><td>D_hold[2]</td></tr><tr><td>7</td><td>D3</td><td>D_hold[3]</td></tr><tr><td>8</td><td>VSS</td><td>GND</td></tr><tr><td>9</td><td>MR</td><td>rst</td></tr><tr><td>10</td><td>Q3</td><td>read_data[3]</td></tr><tr><td>11</td><td>Q2</td><td>read_data[2]</td></tr><tr><td>12</td><td>Q1</td><td>read_data[1]</td></tr><tr><td>13</td><td>Q0</td><td>read_data[0]</td></tr><tr><td>14</td><td>DOR</td><td>DOR</td></tr><tr><td>15</td><td>SO</td><td>SO</td></tr><tr><td>16</td><td>VDD</td><td>+5V</td></tr></tbody></table></div><p>Вывод 1 постоянно соединён с GND, разрешая выходы данных. Выбранная деталь LSSK — CD74HC40105E; временные параметры старой CD40105B к ней не относятся.</p><h3>U2 — CD40174B</h3><p>Вывод 9 = clk; вывод 1 = CLR_n от U4.2; выводы 16/8 = +5 В/GND. Четыре бита данных и два запроса захватываются по каждому положительному фронту.</p><div class="table-wrap"><table><thead><tr><th scope="col">Вывод D → вывод Q</th><th scope="col">Вход → сохранённый сигнал</th></tr></thead><tbody><tr><td>3 → 2</td><td>write_data[0] → D_hold[0]</td></tr><tr><td>4 → 5</td><td>write_data[1] → D_hold[1]</td></tr><tr><td>6 → 7</td><td>write_data[2] → D_hold[2]</td></tr><tr><td>11 → 10</td><td>write_data[3] → D_hold[3]</td></tr><tr><td>13 → 12</td><td>push → W</td></tr><tr><td>14 → 15</td><td>pop → R</td></tr></tbody></table></div><h3>U3 / U4 — распределение вентилей</h3><div class="table-wrap"><table><thead><tr><th scope="col">Вентиль</th><th scope="col">Выводы входов → выход</th><th scope="col">Функция</th></tr></thead><tbody><tr><td>U3.A CD4001</td><td>1, 2 → 3</td><td>NOR(clk, W_n) → SI</td></tr><tr><td>U3.B CD4001</td><td>5, 6 → 4</td><td>NOR(clk, R_n) → P</td></tr><tr><td>U3.C CD4001</td><td>8, 9 → 10</td><td>NOR(DIR, DIR) → full</td></tr><tr><td>U3.D CD4001</td><td>12, 13 → 11</td><td>NOR(DOR, DOR) → empty</td></tr><tr><td>U4.A CD4069</td><td>1 → 2</td><td>!rst → CLR_n</td></tr><tr><td>U4.B CD4069</td><td>3 → 4</td><td>!W → W_n</td></tr><tr><td>U4.C CD4069</td><td>5 → 6</td><td>!R → R_n</td></tr><tr><td>U4.D CD4069</td><td>9 → 8</td><td>!P → SO</td></tr></tbody></table></div><p>U3/U4: вывод 14 = +5 В, вывод 7 = GND. Входы 11 и 13 U4 = GND; выходы 10 и 12 свободны (NC). Оба входа U3.C подключены к DIR U1, оба входа U3.D — к DOR U1.</p><p>Сброс очищает входные регистры и аннулирует содержимое FIFO. При W=R=0 получаются SI=0 и SO=1 при любом уровне clk. Удерживайте сброс до установления этих уровней, затем снимайте с соблюдением времени восстановления регистра.</p><h2 id="timing">Временные ограничения однотактного интерфейса</h2><pre>T_HIGH > register clk→Q + request inversion + FIFO data setup
+T_LOW  > strobe logic + FIFO settling + downstream logic + receiver setup</pre><p>Также соблюдайте минимальные длительности высокого и низкого уровней SI/SO, удержание данных, перекос такта и параметры сброса. При одновременном чтении/записи полной FIFO низкой половины периода должно хватать на распространение свободного места ко входу и завершение записи до изменения D_hold по следующему положительному фронту. Это временной путь в половину такта, а не многотактная операция.</p><p>Для выбранной HC FIFO при 4,5 В TI указывает во всём температурном диапазоне минимальные высокий/низкий уровни SI по 24 нс, SO по 36 нс и удержание данных 38 нс; распространение SO→DIR может занимать 750 нс. Это параметры отдельной микросхемы, а не предельная частота всей макетной платы. Используйте медленную настройку готового тактового модуля, пока полные временные пути не проверены на реальном макете.</p><h2 id="parts">Четыре микросхемы для полной схемы 4 × 16</h2><div class="table-wrap"><table><thead><tr><th scope="col">Поз.</th><th scope="col">Деталь</th><th scope="col">Кол-во</th><th scope="col">Назначение</th><th scope="col">Строка LSSK</th><th scope="col">USD / шт.</th></tr></thead><tbody><tr><td>U1</td><td>CD74HC40105E</td><td>1</td><td>Память FIFO</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A36:Q36">36</a></td><td>$1.74</td></tr><tr><td>U2</td><td>CD40174B</td><td>1</td><td>Захват четырёх битов данных, push и pop</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A26:Q26">26</a></td><td>$0.58</td></tr><tr><td>U3</td><td>CD4001B</td><td>1</td><td>Импульсы и инверсия флагов</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A16:Q16">16</a></td><td>$0.30</td></tr><tr><td>U4</td><td>CD4069UB</td><td>1</td><td>Полярности сброса, запросов и SO</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A24:Q24">24</a></td><td>$0.30</td></tr></tbody></table></div><p><strong>Четыре корпуса; историческая стоимость только микросхем $2.92.</strong> Цены взяты из снимка таблицы от 14 октября. Размещение требует одну плату на 830 контактов и 50 перемычек на ней. Готовый такт, питание, входные модули, четыре индикатора данных и два флагов, а также внешние провода учитываются отдельно. Это не полная смета набора.</p><p><a href="research/fifo_40105_proposal/components.csv">Скачать список четырёх микросхем (CSV)</a></p><h2 id="verification">Проверка и её границы</h2><pre>PASS width=4 depth=16 SI_delay=40 SO_delay=80 cycles=2128 resets=3 full_pop_push=92
+PASS width=4 depth=16 SI_delay=120 SO_delay=40 cycles=2128 resets=3 full_pop_push=92
+PASS width=4 depth=16 SI_delay=40 SO_delay=40 cycles=2128 resets=3 full_pop_push=92</pre><p>Неизменённый исходный RTL запускается с width=4, depth=16 и неподключёнными отладочными выходами. Каждый положительный фронт и установившийся результат после спада сравниваются с независимой очередью. Проверены последовательные операции без пустых тактов, заданные шесть циклов, заполнение/опустошение, одновременная операция при одном слове, замена при full, изменение входов после захвата, сброс во время работы и 2000 случайных допустимых циклов на конфигурацию. В трёх 4-битных запусках меняется порядок SI/SO.</p><p>Это поведенческая проверка, а не реальная сборка и не временная модель производителя. Новая модель учитывает восстановление готовности независимо от удерживаемого импульса и ожидающую запись при full. Прежняя модель связывала готовность со всей длительностью импульса; такая консервативная модель не подходила для проверки адаптера прямого такта и заменена. Электрический перекос, пути минимальной задержки и все временные запасы ещё нужно проверить на макете.</p><pre>python3 scripts/check_40105_proposal.py
+python3 scripts/draw_fifo_scenario.py
+python3 scripts/draw_fifo_schematics.py --png
+python3 scripts/build_fifo_40105_proposal.py</pre><p><a href="research/fifo_40105_proposal/proposal_model.sv">Модель схемы</a> · <a href="research/fifo_40105_proposal/testbench.sv">Тестовое окружение</a> · <a href="research/fifo_40105_proposal/validation.json">Результаты проверки</a></p><p>Документация производителей: <a href="https://www.ti.com/lit/ds/symlink/cd74hc40105.pdf">CD74HC40105</a>, <a href="https://www.ti.com/lit/ds/symlink/cd40174b.pdf">CD40174B</a>, <a href="https://www.ti.com/lit/ds/symlink/cd4001b.pdf">CD4001B</a>, <a href="https://www.ti.com/lit/ds/symlink/cd4069ub.pdf">CD4069UB</a>.</p></main><footer>Исправленная однотактная схема · Поведенческие проверки пройдены; макет не собран.</footer></body></html>
