@@ -1,0 +1,1024 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Светофор Тимофея · LSSK</title><link rel="stylesheet" href="../style.css"><script src="../demo.js" defer></script></head><body><header><div class="topbar"><a href="../index_ru.html">← Упражнения на макетной плате</a><a href="index.html">English</a></div><div class="eyebrow">BB-FSM-01 · Logic Synthesis School Kit</div><h1>Светофор Тимофея</h1><p class="intro">Соберите автомат с десятью состояниями на трёх микросхемах CMOS. Затем опишите то же поведение на SystemVerilog и запустите его в симуляторе, на ПЛИС и через оболочку Tiny Tapeout.</p><div class="stats"><span><strong>4 / 2 / 4</strong>такта: красный / жёлтый / зелёный</span><span><strong>3</strong>микросхемы CMOS</span><span><strong>10</strong>состояний в цикле</span></div></header><div class="layout"><nav class="toc" aria-label="Разделы урока"><strong>В этом уроке</strong><a href="#s01">1. Упражнение BB-FSM-01 · Светофор Тимофея</a><a href="#s02">2. Автомат состояний и логика ИЛИ</a><a href="#s03">3. Необходимые компоненты</a><a href="#s04">4. Микросхемы CMOS: функции, выводы и полярность</a><a href="#s05">5. Схема 1 · Логические элементы</a><a href="#s06">6. Схема 2 · Соединения микросхем</a><a href="#s07">7. Схема 3 · Сборка на макетной плате</a><a href="#s08">8. Синтезируемая схема на SystemVerilog</a><a href="#s09">9. Модели микросхем CMOS на SystemVerilog</a><a href="#s10">10. SystemVerilog: соединения микросхем</a><a href="#s11">11. Тестбенчи и запуск симуляторов</a><a href="#s12">12. Подключение к BGM lab_top</a><a href="#s13">13. Подключение к BGM hackathon_top</a><a href="#s14">14. Подключение к Tiny Tapeout project.v</a><a href="#s15">15. Первый запуск, задания и источники</a></nav><main class="content"><section id="s01"><h2>1. Упражнение BB-FSM-01 · Светофор Тимофея</h2><p>Светофор — удобный первый <strong>конечный автомат</strong>: выходы зависят от сохранённого состояния, а каждый фронт такта переводит автомат в следующее состояние. Здесь повторяется последовательность красный → жёлтый → зелёный → красный. Красному отведены четыре состояния, жёлтому два, зелёному четыре.</p><p>Это реализация идеи Тимофея Никифорова из <a href="https://habr.com/en/articles/1071736/">курса Юрия Панчула</a>. Та же структура «регистр состояния + дешифрация выходов» встречается в контроллерах периферии, автоматах протоколов и управляющей логике процессоров. Упражнение связывает схему на макетной плате с синтезируемым RTL.</p><p><strong>Что нужно знать:</strong> шины питания макетной платы, нумерацию выводов DIP, функцию ИЛИ и фронты такта. Здесь изучается заданная последовательность; согласование перекрёстка и входы пешеходов в упражнение не входят.</p><p class="download"><a href="traffic_light.zip">Скачать полный комплект упражнения (ZIP)</a></p></section><section id="s02"><h2>2. Автомат состояний и логика ИЛИ</h2><figure class="normal"><a href="images/fsm_ru.svg"><img src="images/fsm_ru.svg" alt="Граф автомата Мура. Каждая стрелка означает переход за один период; выходы вершин — {red, yellow, green}." loading="lazy"></a><figcaption>Граф автомата Мура. Каждая стрелка означает переход за один период; выходы вершин — {red, yellow, green}. · <a href="images/fsm_ru.svg" download>SVG</a> · <a href="images/fsm_ru.png" download>PNG</a></figcaption></figure><p>Десять окружностей — десять разных состояний, даже если несколько включают один огонь. Например, S0 и S3 дают красный, но переходят в разные следующие состояния. Сброс выбирает S0 из любого состояния и удерживает его при высоком rst. Условия обычных переходов предполагают rst=0.</p><pre><code>S0 → S1 → S2 → S3 → S4 → S5 → S6 → S7 → S8 → S9 → S0
+
+red    = S0 | S1 | S2 | S3
+yellow = S4 | S5
+green  = S6 | S7 | S8 | S9</code></pre><p>S0–S9 — имена состояний и дешифрированных сигналов, <strong>а не номера выводов микросхемы</strong>. В установившемся состоянии ровно один сигнал S равен 1. В источнике «выходы 1–4, 5–6, 7–10» перечислены с единицы; здесь последовательно используются обозначения Q0–Q9 из даташита.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Состояние</th><th scope="col">Выход U1 / вывод</th><th scope="col">red</th><th scope="col">yellow</th><th scope="col">green</th><th scope="col">Следующее по clk ↑</th></tr></thead><tbody><tr><td>S0</td><td>Q0 / 3</td><td>1</td><td>0</td><td>0</td><td>S1</td></tr><tr><td>S1</td><td>Q1 / 2</td><td>1</td><td>0</td><td>0</td><td>S2</td></tr><tr><td>S2</td><td>Q2 / 4</td><td>1</td><td>0</td><td>0</td><td>S3</td></tr><tr><td>S3</td><td>Q3 / 7</td><td>1</td><td>0</td><td>0</td><td>S4</td></tr><tr><td>S4</td><td>Q4 / 10</td><td>0</td><td>1</td><td>0</td><td>S5</td></tr><tr><td>S5</td><td>Q5 / 1</td><td>0</td><td>1</td><td>0</td><td>S6</td></tr><tr><td>S6</td><td>Q6 / 5</td><td>0</td><td>0</td><td>1</td><td>S7</td></tr><tr><td>S7</td><td>Q7 / 6</td><td>0</td><td>0</td><td>1</td><td>S8</td></tr><tr><td>S8</td><td>Q8 / 9</td><td>0</td><td>0</td><td>1</td><td>S9</td></tr><tr><td>S9</td><td>Q9 / 11</td><td>0</td><td>0</td><td>1</td><td>S0</td></tr></tbody></table></div><p>Двухвходовый ИЛИ даёт 1, когда хотя бы один вход равен 1:</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">A</th><th scope="col">B</th><th scope="col">A | B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div><p>Для четырёхвходового ИЛИ комбинация 0000 даёт 0, а остальные пятнадцать комбинаций дают 1. Сброс асинхронный, активный высокий: он сразу выбирает S0, в том числе между фронтами. Обычный счёт идёт только по положительным фронтам такта.</p><figure class="normal"><a href="images/timing_ru.svg"><img src="images/timing_ru.svg" alt="Временная диаграмма: четыре красных интервала, два жёлтых, четыре зелёных." loading="lazy"></a><figcaption>Временная диаграмма: четыре красных интервала, два жёлтых, четыре зелёных. · <a href="images/timing_ru.svg" download>SVG</a> · <a href="images/timing_ru.png" download>PNG</a></figcaption></figure><p>При частоте f длительности равны 4/f, 2/f и 4/f секунды. На диаграмме сброс задан при t=0, первый счётный фронт — при t=1 с. Если отпустить реальный асинхронный сброс в произвольный момент, первый красный интервал может быть короче; последующие полные циклы сохраняют отношение 4/2/4.</p><div class="demo" data-traffic-demo><h3>Попробуйте последовательность состояний</h3><div class="lamps"><div class="lamp red"><span class="bulb" aria-hidden="true"></span>Красный: <strong class="level">0</strong></div><div class="lamp yellow"><span class="bulb" aria-hidden="true"></span>Жёлтый: <strong class="level">0</strong></div><div class="lamp green"><span class="bulb" aria-hidden="true"></span>Зелёный: <strong class="level">0</strong></div></div><div class="state-strip" data-states></div><p data-label aria-live="polite"></p><div class="controls"><button type="button" data-step>Один положительный фронт</button><button type="button" data-run aria-pressed="false">Пуск · 1 Гц</button><button type="button" class="secondary" data-reset>Сброс → S0</button></div><p class="small">Анимация показывает логические состояния; это не HDL-симулятор и не электрическая модель.</p><noscript>Включите JavaScript для кнопок; таблицы и схемы работают без него.</noscript></div></section><section id="s03"><h2>3. Необходимые компоненты</h2><div class="table-wrap"><table class=""><thead><tr><th scope="col">Поз.</th><th scope="col">Компонент</th><th scope="col">Кол.</th><th scope="col">Назначение</th><th scope="col">Строка LSSK</th></tr></thead><tbody><tr><td>U1</td><td>CD4017BE · DIP-16</td><td>1</td><td>Десятичный счётчик, десять дешифрированных выходов</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A37:Q37">37</a></td></tr><tr><td>U2</td><td>CD4072BE · DIP-14</td><td>1</td><td>Два элемента 4ИЛИ: красный и зелёный</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A21:Q21">21</a></td></tr><tr><td>U3</td><td>CD4071BE · DIP-14</td><td>1</td><td>Один элемент 2ИЛИ для жёлтого; три не используются</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A20:Q20">20</a></td></tr><tr><td>LED-R</td><td>Светодиод на 5 В</td><td>1</td><td>Красный, со встроенным ограничением тока</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A46:Q46">46</a></td></tr><tr><td>LED-Y</td><td>Светодиод на 5 В</td><td>1</td><td>Жёлтый, со встроенным ограничением тока</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A48:Q48">48</a></td></tr><tr><td>LED-G</td><td>Светодиод на 5 В</td><td>1</td><td>Зелёный, со встроенным ограничением тока</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A47:Q47">47</a></td></tr><tr><td>CLK</td><td>Тактовый модуль 555</td><td>1</td><td>Готовый модуль; настроить примерно на 1 Гц</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A54:Q54">54</a></td></tr><tr><td>RESET</td><td>Кнопочный модуль</td><td>1</td><td>Модуль на 5 В: OUT=0 отпущена, OUT=1 нажата; встроенная подтяжка к земле</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A65:Q65">65</a></td></tr><tr><td>BB</td><td>Макетная плата на 830 контактов</td><td>1</td><td>Одна плата, центральный разрыв и четыре шины питания</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A45:Q45">45</a></td></tr><tr><td>PSU</td><td>Модуль стабилизированного питания 5 В</td><td>1</td><td>Выбрать 5 В; использовать поддерживаемый USB-вход или источник 9 В из таблицы</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A56:Q56">56</a></td></tr><tr><td>W</td><td>Провода M–M</td><td>39</td><td>37 перемычек платы и два провода питания; взять упаковку 40 шт.</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A70:Q70">70</a></td></tr><tr><td>M</td><td>Провода M–F</td><td>6</td><td>По три для CLK и RESET с установленными штырьками</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A71:Q71">71</a></td></tr></tbody></table></div><p>Номера строк относятся к локальному снимку LSSK от 14 октября 2026 года. Во время обновления Google-таблица не открывалась. Указано число реально используемых компонентов; закупочная упаковка кнопок содержит пять штук. Для модуля питания нужен совместимый входной кабель и источник; они не входят в 39 проводов M–M. Вместо модуля можно взять готовый лабораторный источник 5 В.</p><div class="note">Используйте указанные индикаторы на 5 В со встроенным ограничением тока и <em>модуль</em> кнопки с определённым нулём на отпущенном выходе. Обычный светодиод или кнопка без модуля не являются прямой заменой. Проверьте реальные надписи выводов. Нагрузочная способность CMOS ограничена; индикаторы должны подходить для прямого подключения к выходам серии 4000.</div><p><a href="parts.csv">Компоненты CSV</a> · <a href="research/lssk_parts_snapshot.json">Исходные строки таблицы</a></p></section><section id="s04"><h2>4. Микросхемы CMOS: функции, выводы и полярность</h2><p><strong>U1 CD4017BE:</strong> циклически выбирает Q0…Q9. CLOCK, вывод 14, продвигает счёт по положительному фронту при нуле на INHIBIT, выводе 13. RESET, вывод 15, активен единицей и имеет приоритет над счётом. Перенос на выводе 12 равен 1 в S0…S4 и 0 в S5…S9; здесь он не используется.</p><p>У второго тактового входа есть особенность: спад INHIBIT при высоком CLOCK тоже продвигает счёт. В нашей схеме INHIBIT постоянно соединён с GND. Модель и тест микросхемы проверяют это поведение; внешнему интерфейсу упражнения нужны только clk и rst. <a href="https://www.ti.com/lit/ds/symlink/cd4017b.pdf">Даташит TI</a>; <a href="https://assets.nexperia.com/documents/data-sheet/HEF4017B.pdf">Таблица тактирования семейства 4017</a>.</p><p><strong>U2 CD4072BE:</strong> два четырёхвходовых ИЛИ. Входы 2,3,4,5 → выход 1 (красный); входы 9,10,11,12 → выход 13 (зелёный). <strong>U3 CD4071BE:</strong> четыре двухвходовых ИЛИ. Входы 1,2 → выход 3 (жёлтый). Используемые логические выходы активны единицей. <a href="https://www.ti.com/lit/ds/symlink/cd4071b.pdf">Даташит TI на ИЛИ</a>.</p><figure class="normal"><a href="images/pinouts_ru.svg"><img src="images/pinouts_ru.svg" alt="Все три корпуса DIP, вид сверху." loading="lazy"></a><figcaption>Все три корпуса DIP, вид сверху. · <a href="images/pinouts_ru.svg" download>SVG</a> · <a href="images/pinouts_ru.png" download>PNG</a></figcaption></figure><h3>U1 · CD4017BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Вывод</th><th scope="col">Сигнал микросхемы</th><th scope="col">В этой схеме</th></tr></thead><tbody><tr><td>1</td><td>Q5</td><td>S5</td></tr><tr><td>2</td><td>Q1</td><td>S1</td></tr><tr><td>3</td><td>Q0</td><td>S0</td></tr><tr><td>4</td><td>Q2</td><td>S2</td></tr><tr><td>5</td><td>Q6</td><td>S6</td></tr><tr><td>6</td><td>Q7</td><td>S7</td></tr><tr><td>7</td><td>Q3</td><td>S3</td></tr><tr><td>8</td><td>VSS</td><td>Соединить с 0 В</td></tr><tr><td>9</td><td>Q8</td><td>S8</td></tr><tr><td>10</td><td>Q4</td><td>S4</td></tr><tr><td>11</td><td>Q9</td><td>S9</td></tr><tr><td>12</td><td>CARRY</td><td>Не подключать</td></tr><tr><td>13</td><td>INHIBIT</td><td>Соединить с 0 В</td></tr><tr><td>14</td><td>CLOCK</td><td>clk</td></tr><tr><td>15</td><td>RESET</td><td>rst</td></tr><tr><td>16</td><td>VDD</td><td>Питание +5 В</td></tr></tbody></table></div><h3>U2 · CD4072BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Вывод</th><th scope="col">Сигнал микросхемы</th><th scope="col">В этой схеме</th></tr></thead><tbody><tr><td>1</td><td>J</td><td>red</td></tr><tr><td>2</td><td>A</td><td>S0</td></tr><tr><td>3</td><td>B</td><td>S1</td></tr><tr><td>4</td><td>C</td><td>S2</td></tr><tr><td>5</td><td>D</td><td>S3</td></tr><tr><td>6</td><td>NC</td><td>Не подключать</td></tr><tr><td>7</td><td>VSS</td><td>Соединить с 0 В</td></tr><tr><td>8</td><td>NC</td><td>Не подключать</td></tr><tr><td>9</td><td>E</td><td>S6</td></tr><tr><td>10</td><td>F</td><td>S7</td></tr><tr><td>11</td><td>G</td><td>S8</td></tr><tr><td>12</td><td>H</td><td>S9</td></tr><tr><td>13</td><td>K</td><td>green</td></tr><tr><td>14</td><td>VDD</td><td>Питание +5 В</td></tr></tbody></table></div><h3>U3 · CD4071BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Вывод</th><th scope="col">Сигнал микросхемы</th><th scope="col">В этой схеме</th></tr></thead><tbody><tr><td>1</td><td>A</td><td>S4</td></tr><tr><td>2</td><td>B</td><td>S5</td></tr><tr><td>3</td><td>J</td><td>yellow</td></tr><tr><td>4</td><td>K</td><td>Не подключать</td></tr><tr><td>5</td><td>C</td><td>Соединить с 0 В</td></tr><tr><td>6</td><td>D</td><td>Соединить с 0 В</td></tr><tr><td>7</td><td>VSS</td><td>Соединить с 0 В</td></tr><tr><td>8</td><td>E</td><td>Соединить с 0 В</td></tr><tr><td>9</td><td>F</td><td>Соединить с 0 В</td></tr><tr><td>10</td><td>L</td><td>Не подключать</td></tr><tr><td>11</td><td>M</td><td>Не подключать</td></tr><tr><td>12</td><td>G</td><td>Соединить с 0 В</td></tr><tr><td>13</td><td>H</td><td>Соединить с 0 В</td></tr><tr><td>14</td><td>VDD</td><td>Питание +5 В</td></tr></tbody></table></div><p>Неиспользуемые <em>логические входы</em> U3 (5,6,8,9,12,13) соединены с GND. Неиспользуемые выходы (4,10,11) свободны. Выводы 6 и 8 U2 имеют обозначение NC и остаются свободными. Не соединяйте выходы друг с другом вместо элемента ИЛИ.</p></section><section id="s05"><h2>5. Схема 1 · Логические элементы</h2><figure class="normal"><a href="images/logic_ru.svg"><img src="images/logic_ru.svg" alt="Циклический блок состояний подаёт сигналы на три функции ИЛИ." loading="lazy"></a><figcaption>Циклический блок состояний подаёт сигналы на три функции ИЛИ. · <a href="images/logic_ru.svg" download>SVG</a> · <a href="images/logic_ru.png" download>PNG</a></figcaption></figure><p>Каждый переход задан <a href="#s02">графом в разделе 2</a>. Эту поведенческую структуру реализует <code>traffic_light.sv</code>. Блок состояний задаёт последовательность из десяти состояний, а не конкретное внутреннее кодирование.</p></section><section id="s06"><h2>6. Схема 2 · Соединения микросхем</h2><figure class="normal"><a href="images/connections_ru.svg"><img src="images/connections_ru.svg" alt="Каждый сигнал состояния соединён с указанным выводом микросхемы." loading="lazy"></a><figcaption>Каждый сигнал состояния соединён с указанным выводом микросхемы. · <a href="images/connections_ru.svg" download>SVG</a> · <a href="images/connections_ru.png" download>PNG</a></figcaption></figure><p>red — U2.1, yellow — U3.3, green — U2.13. Соедините каждый выход с анодом соответствующего индикатора с ограничением тока; катоды — с общей GND. Тактовый модуль, сброс и источник питания имеют общую землю.</p></section><section id="s07"><h2>7. Схема 3 · Сборка на макетной плате</h2><figure class="tall"><a href="images/breadboard_ru.svg"><img src="images/breadboard_ru.svg" alt="Размещение на плате и все 37 перемычек. Для увеличения откройте SVG." loading="lazy"></a><figcaption>Размещение на плате и все 37 перемычек. Для увеличения откройте SVG. · <a href="images/breadboard_ru.svg" download>SVG</a> · <a href="images/breadboard_ru.png" download>PNG</a></figcaption></figure><p>Установите все DIP-корпуса поперёк центрального разрыва, выемкой вверх: U1 в строках 8–15, U2 в 22–28, U3 в 35–41. Вывод 1 находится в столбце e первой строки; противоположный верхний вывод — в f. В каждой строке соединены a–e и отдельно f–j; эти половины не соединены друг с другом.</p><p>LP/LM — левая положительная шина и земля; RP/RM — правые. Отверстия шин нумеруются 01–50 сверху вниз независимо от 63 строк контактных полей. На рисунке принят разрыв между отверстиями шин 25 и 26; все четыре разрыва замкнуты. Перед использованием этой нумерации проверьте соединения своей платы.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Внешнее соединение</th><th scope="col">Отверстия платы</th></tr></thead><tbody><tr><td>CLK: OUT / + / −</td><td>h47 / LP05 / LM05</td></tr><tr><td>RESET: OUT / + / −</td><td>h50 / LP06 / LM06</td></tr><tr><td>Питание +5 В / GND</td><td>LP01 / LM01</td></tr><tr><td>Красный LED анод / катод</td><td>b48 / b49</td></tr><tr><td>Жёлтый LED анод / катод</td><td>b52 / b53</td></tr><tr><td>Зелёный LED анод / катод</td><td>b56 / b57</td></tr></tbody></table></div><div class="note">Всего 15 сигнальных + 16 питания/земли + 6 шинных перемычек = 37. Ещё нужны шесть проводов модулей и два провода питания. Не вставляйте перемычку в отверстие, уже занятое ножкой микросхемы, LED или проводом модуля. В CSV выделены отдельные отверстия на той же контактной полоске.</div><details><summary>Полная таблица соединений по отверстиям (37 перемычек)</summary><div class="table-wrap"><table class=""><thead><tr><th scope="col">Провод</th><th scope="col">Цепь</th><th scope="col">Откуда</th><th scope="col">Куда</th></tr></thead><tbody><tr><td>W01</td><td>+5V</td><td>LP25</td><td>LP26</td></tr><tr><td>W02</td><td>GND</td><td>LM25</td><td>LM26</td></tr><tr><td>W03</td><td>+5V</td><td>RP25</td><td>RP26</td></tr><tr><td>W04</td><td>GND</td><td>RM25</td><td>RM26</td></tr><tr><td>W05</td><td>+5V</td><td>LP02</td><td>RP02</td></tr><tr><td>W06</td><td>GND</td><td>LM02</td><td>RM02</td></tr><tr><td>W07</td><td>S0</td><td>a10</td><td>a23</td></tr><tr><td>W08</td><td>S1</td><td>a09</td><td>a24</td></tr><tr><td>W09</td><td>S2</td><td>a11</td><td>a25</td></tr><tr><td>W10</td><td>S3</td><td>a14</td><td>a26</td></tr><tr><td>W11</td><td>S4</td><td>j14</td><td>a35</td></tr><tr><td>W12</td><td>S5</td><td>a08</td><td>a36</td></tr><tr><td>W13</td><td>S6</td><td>a12</td><td>j27</td></tr><tr><td>W14</td><td>S7</td><td>a13</td><td>j26</td></tr><tr><td>W15</td><td>S8</td><td>j15</td><td>j25</td></tr><tr><td>W16</td><td>S9</td><td>j13</td><td>j24</td></tr><tr><td>W17</td><td>GND</td><td>a15</td><td>LM08</td></tr><tr><td>W18</td><td>GND</td><td>j11</td><td>RM08</td></tr><tr><td>W19</td><td>GND</td><td>a28</td><td>LM09</td></tr><tr><td>W20</td><td>GND</td><td>a39</td><td>LM10</td></tr><tr><td>W21</td><td>GND</td><td>a40</td><td>LM11</td></tr><tr><td>W22</td><td>GND</td><td>a41</td><td>LM12</td></tr><tr><td>W23</td><td>GND</td><td>j41</td><td>RM09</td></tr><tr><td>W24</td><td>GND</td><td>j40</td><td>RM10</td></tr><tr><td>W25</td><td>GND</td><td>j37</td><td>RM11</td></tr><tr><td>W26</td><td>GND</td><td>j36</td><td>RM12</td></tr><tr><td>W27</td><td>GND</td><td>a49</td><td>LM13</td></tr><tr><td>W28</td><td>GND</td><td>a53</td><td>LM14</td></tr><tr><td>W29</td><td>GND</td><td>a57</td><td>LM15</td></tr><tr><td>W30</td><td>clk</td><td>j10</td><td>j47</td></tr><tr><td>W31</td><td>rst</td><td>j09</td><td>j50</td></tr><tr><td>W32</td><td>+5V</td><td>j08</td><td>RP08</td></tr><tr><td>W33</td><td>+5V</td><td>j22</td><td>RP09</td></tr><tr><td>W34</td><td>+5V</td><td>j35</td><td>RP10</td></tr><tr><td>W35</td><td>red</td><td>a22</td><td>a48</td></tr><tr><td>W36</td><td>green</td><td>j23</td><td>a56</td></tr><tr><td>W37</td><td>yellow</td><td>a37</td><td>a52</td></tr></tbody></table></div></details><p><a href="jumpers.csv">Скачать CSV перемычек</a> · <a href="netlist.json">База выводов и цепей</a></p></section><section id="s08"><h2>8. Синтезируемая схема на SystemVerilog</h2><h3>Принятый стиль кода</h3><p>RTL, модели микросхем, оболочки и тестбенчи следуют <a href="../systemverilog_style_ru.html">правилам стиля SystemVerilog</a>, составленным по BGM и systemverilog-homework. Отступ — <strong>четыре пробела</strong>. Для регистров используются logic и always_ff, для комбинационных процедур — always_comb; порты подключаются явно по именам. Руководство учитывает различия сброса и записи FSM в двух репозиториях.</p><figure class="normal"><a href="images/fsm_encoding_ru.svg"><img src="images/fsm_encoding_ru.svg" alt="Тот же граф с унитарными значениями state[9:0] из обобщённого RTL." loading="lazy"></a><figcaption>Тот же граф с унитарными значениями state[9:0] из обобщённого RTL. · <a href="images/fsm_encoding_ru.svg" download>SVG</a> · <a href="images/fsm_encoding_ru.png" download>PNG</a></figcaption></figure><p>Оба варианта имеют одинаковый интерфейс: <code>clk, rst → red, yellow, green, state[9:0]</code>. Обобщённый вариант использует унитарный (one-hot) регистр состояния, поэтому три уравнения прямо соответствуют схеме 1. Перед работой нужен сброс.</p><details open><summary>Обобщённый RTL — полный код</summary><p class="download"><a href="rtl/traffic_light.sv" download>rtl/traffic_light.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Synthesizable generic FSM. The state output uses one-hot encoding.
+// Reset is asynchronous and active high; it selects S0.
+
+module traffic_light
+(
+    input  wire       clk,
+    input  wire       rst,
+
+    output wire       red,
+    output wire       yellow,
+    output wire       green,
+    output logic [9:0] state
+);
+
+    wire [9:0] next_state = { state [8:0], state [9] };
+
+    // State register
+
+    always_ff @ (posedge clk or posedge rst)
+        if (rst)
+            state &lt;= 10&#x27;b00_0000_0001;
+        else
+            state &lt;= next_state;
+
+    // Moore outputs depend only on the current state.
+
+    assign red    = | state [3:0];
+    assign yellow = | state [5:4];
+    assign green  = | state [9:6];
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><p>SystemVerilog описывает параллельную аппаратуру: регистр хранит состояние, а все три выходных уравнения действуют постоянно. Конкатенация циклически сдвигает единичный маркер, а не программные инструкции. Внутри реальной 4017 работает пятиразрядный счётчик Джонсона; функциональная эквивалентность не требует одинакового внутреннего хранения.</p></section><section id="s09"><h2>9. Модели микросхем CMOS на SystemVerilog</h2><p>Все три модели — <strong>синтезируемые функциональные модели</strong>, логические порты которых названы по выводам. Физические VDD/VSS и NC показаны на схеме и не изображаются как HDL-питание. Задержек распространения нет. Модели не проверяют ток LED, качество питания, метастабильность или электрические ограничения импульсов.</p><details><summary>cd4017b.sv</summary><p class="download"><a href="models/cd4017b.sv" download>models/cd4017b.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Synthesizable, zero-delay functional model of a powered CD4017B.
+// Physical supply pins: 16 = VDD, 8 = VSS; they are not HDL ports.
+// Binary encoding abstracts the chip&#x27;s five-stage Johnson counter.
+// Reset is required. Illegal Johnson-state recovery and electrical effects
+// (current, setup/hold, pulse width and propagation delay) are not modeled.
+
+module cd4017b
+(
+    input  wire p14_clock,
+    input  wire p13_inhibit,
+    input  wire p15_reset,
+
+    output wire p3_q0,
+    output wire p2_q1,
+    output wire p4_q2,
+    output wire p7_q3,
+    output wire p10_q4,
+    output wire p1_q5,
+    output wire p5_q6,
+    output wire p6_q7,
+    output wire p9_q8,
+    output wire p11_q9,
+    output wire p12_carry
+);
+
+    // Falling INHIBIT while CLOCK is high is also a count event.
+    // INHIBIT is tied low in this exercise, so synthesis removes the gate.
+    // This models the chip; it is not a recommendation to gate FPGA clocks.
+
+    wire effective_clock = p14_clock &amp; ~ p13_inhibit;
+
+    logic [3:0] count;
+
+    always_ff @ (posedge effective_clock or posedge p15_reset)
+        if (p15_reset)
+            count &lt;= &#x27;0;
+        else if (count == 4&#x27;d9)
+            count &lt;= &#x27;0;
+        else
+            count &lt;= count + 1&#x27;b1;
+
+    assign p3_q0     = (count == 4&#x27;d0);
+    assign p2_q1     = (count == 4&#x27;d1);
+    assign p4_q2     = (count == 4&#x27;d2);
+    assign p7_q3     = (count == 4&#x27;d3);
+    assign p10_q4    = (count == 4&#x27;d4);
+    assign p1_q5     = (count == 4&#x27;d5);
+    assign p5_q6     = (count == 4&#x27;d6);
+    assign p6_q7     = (count == 4&#x27;d7);
+    assign p9_q8     = (count == 4&#x27;d8);
+    assign p11_q9    = (count == 4&#x27;d9);
+    assign p12_carry = (count &lt;  4&#x27;d5);
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><details><summary>cd4072b.sv</summary><p class="download"><a href="models/cd4072b.sv" download>models/cd4072b.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Synthesizable functional model: two four-input OR gates.
+// Physical pins: 14 = VDD, 7 = VSS, 6/8 = NC. No electrical/timing model.
+
+module cd4072b
+(
+    input  wire p2_a,
+    input  wire p3_b,
+    input  wire p4_c,
+    input  wire p5_d,
+    output wire p1_j,
+
+    input  wire p9_e,
+    input  wire p10_f,
+    input  wire p11_g,
+    input  wire p12_h,
+    output wire p13_k
+);
+
+    assign p1_j  = p2_a | p3_b  | p4_c  | p5_d;
+    assign p13_k = p9_e | p10_f | p11_g | p12_h;
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><details><summary>cd4071b.sv</summary><p class="download"><a href="models/cd4071b.sv" download>models/cd4071b.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Synthesizable functional model: four two-input OR gates.
+// Physical supply pins: 14 = VDD, 7 = VSS. No electrical/timing model.
+
+module cd4071b
+(
+    input  wire p1_a,
+    input  wire p2_b,
+    input  wire p5_c,
+    input  wire p6_d,
+    input  wire p8_e,
+    input  wire p9_f,
+    input  wire p12_g,
+    input  wire p13_h,
+
+    output wire p3_j,
+    output wire p4_k,
+    output wire p10_l,
+    output wire p11_m
+);
+
+    assign p3_j  = p1_a  | p2_b;
+    assign p4_k  = p5_c  | p6_d;
+    assign p10_l = p8_e  | p9_f;
+    assign p11_m = p12_g | p13_h;
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><p>Оба кодирования следуют <a href="#s02">одному графу состояний</a>. Модель 4017 использует двоичный счётчик как абстракцию и воспроизводит последовательность сброса/счёта, перенос и запрет такта. Восстановление физического счётчика Джонсона из недопустимых внутренних кодов не моделируется. Здесь запрет такта соединён с нулём, поэтому синтез удаляет элемент в цепи эффективного такта.</p></section><section id="s10"><h2>10. SystemVerilog: соединения микросхем</h2><p>Этот список соединений генерируется из той же базы выводов и цепей, что и схемы 2 и 3. Он создаёт по экземпляру модели каждой физической микросхемы и соединяет неиспользуемые логические входы с нулём. Интерфейс совпадает с разделом 8, поэтому варианты взаимозаменяемы в тестбенче и оболочках.</p><details open><summary>RTL соединений микросхем — полный код</summary><p class="download"><a href="rtl/traffic_light_chips.sv" download>rtl/traffic_light_chips.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Generated by tools/build_diagrams.py from the same pins/nets as the drawings.
+// Synthesizable with the ideal chip models; all supply pins are physical-only.
+
+module traffic_light_chips
+(
+    input  wire       clk,
+    input  wire       rst,
+
+    output wire       red,
+    output wire       yellow,
+    output wire       green,
+    output wire [9:0] state
+);
+
+    cd4017b u1
+    (
+        .p3_q0        (state [0]),
+        .p2_q1        (state [1]),
+        .p4_q2        (state [2]),
+        .p7_q3        (state [3]),
+        .p10_q4       (state [4]),
+        .p1_q5        (state [5]),
+        .p5_q6        (state [6]),
+        .p6_q7        (state [7]),
+        .p9_q8        (state [8]),
+        .p11_q9       (state [9]),
+        .p12_carry    (),
+        .p13_inhibit  (1&#x27;b0),
+        .p14_clock    (clk),
+        .p15_reset    (rst)
+    );
+
+    cd4072b u2
+    (
+        .p1_j         (red),
+        .p2_a         (state [0]),
+        .p3_b         (state [1]),
+        .p4_c         (state [2]),
+        .p5_d         (state [3]),
+        .p9_e         (state [6]),
+        .p10_f        (state [7]),
+        .p11_g        (state [8]),
+        .p12_h        (state [9]),
+        .p13_k        (green)
+    );
+
+    cd4071b u3
+    (
+        .p1_a         (state [4]),
+        .p2_b         (state [5]),
+        .p3_j         (yellow),
+        .p4_k         (),
+        .p5_c         (1&#x27;b0),
+        .p6_d         (1&#x27;b0),
+        .p8_e         (1&#x27;b0),
+        .p9_f         (1&#x27;b0),
+        .p10_l        (),
+        .p11_m        (),
+        .p12_g        (1&#x27;b0),
+        .p13_h        (1&#x27;b0)
+    );
+
+endmodule
+
+`default_nettype wire
+</code></pre></details></section><section id="s11"><h2>11. Тестбенчи и запуск симуляторов</h2><p>Тестбенч сравнивает оба варианта с независимо вычисленным ожидаемым состоянием и набором огней. Одного совпадения вариантов недостаточно: две ошибочные схемы могут совпасть. Проверяются 12 полных циклов, 529 наблюдений, асинхронный сброс при обоих уровнях такта, удерживаемый сброс, неизменность по спаду и переход S9 → S0.</p><details><summary>Основной тестбенч эквивалентности</summary><p class="download"><a href="tb/tb_traffic_light.sv" download>tb/tb_traffic_light.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Simulation only. Portable procedural checks; no classes, DPI or UVM.
+
+module tb_traffic_light;
+
+    logic clk = 1&#x27;b0;
+    logic rst = 1&#x27;b0;
+
+    wire red_generic, yellow_generic, green_generic;
+    wire red_chips, yellow_chips, green_chips;
+    wire [9:0] state_generic, state_chips;
+
+    int expected = 0;
+    int checks   = 0;
+    int visits [0:9];
+    int red_slots = 0, yellow_slots = 0, green_slots = 0;
+
+    traffic_light generic_dut
+    (
+        .clk    (clk),
+        .rst    (rst),
+        .red    (red_generic),
+        .yellow (yellow_generic),
+        .green  (green_generic),
+        .state  (state_generic)
+    );
+
+    traffic_light_chips chip_dut
+    (
+        .clk    (clk),
+        .rst    (rst),
+        .red    (red_chips),
+        .yellow (yellow_chips),
+        .green  (green_chips),
+        .state  (state_chips)
+    );
+
+    task check_state;
+        logic [9:0] wanted;
+        logic [2:0] lamps;
+        begin
+            wanted = 10&#x27;b1 &lt;&lt; expected;
+
+            if (expected &lt; 4)
+                lamps = 3&#x27;b100;
+            else if (expected &lt; 6)
+                lamps = 3&#x27;b010;
+            else
+                lamps = 3&#x27;b001;
+
+            if (   state_generic !== wanted
+                || state_chips   !== wanted
+                || { red_generic, yellow_generic, green_generic } !== lamps
+                || { red_chips,   yellow_chips,   green_chips   } !== lamps)
+            begin
+                $fatal (1, &quot;state=%0d generic=%b/%b chips=%b/%b&quot;,
+                    expected,
+                    state_generic, { red_generic, yellow_generic, green_generic },
+                    state_chips,   { red_chips,   yellow_chips,   green_chips   });
+            end
+
+            checks = checks + 1;
+        end
+    endtask
+
+    task pulse;
+        begin
+            # 4;
+            clk = 1&#x27;b1;
+            expected = rst ? 0 : (expected + 1) % 10;
+
+            # 1;
+            check_state ();
+
+            # 4;
+            clk = 1&#x27;b0;
+
+            # 1;
+            check_state ();  // No advance on the falling edge.
+        end
+    endtask
+
+    task reset_at_current_level;
+        begin
+            # 2;
+            rst = 1&#x27;b1;
+            expected = 0;
+
+            # 1;
+            check_state ();  // Reset does not wait for a clock edge.
+
+            # 2;
+            rst = 1&#x27;b0;
+
+            # 1;
+            check_state ();
+        end
+    endtask
+
+    initial
+    begin
+        $dumpfile (&quot;traffic_light.vcd&quot;);
+        $dumpvars (0, tb_traffic_light);
+
+        for (int i = 0; i &lt; 10; i ++)
+            visits [i] = 0;
+
+        reset_at_current_level ();
+
+        for (int round = 0; round &lt; 12; round ++)
+            for (int i = 0; i &lt; 10; i ++)
+            begin
+                visits [expected] = visits [expected] + 1;
+
+                if (red_generic)
+                    red_slots = red_slots + 1;
+
+                if (yellow_generic)
+                    yellow_slots = yellow_slots + 1;
+
+                if (green_generic)
+                    green_slots = green_slots + 1;
+
+                pulse ();
+            end
+
+        if (red_slots != 48 || yellow_slots != 24 || green_slots != 48)
+            $fatal (1, &quot;4/2/4 duration mismatch&quot;);
+
+        for (int i = 0; i &lt; 10; i ++)
+            if (visits [i] != 12)
+                $fatal (1, &quot;Missing state %0d&quot;, i);
+
+        // Asynchronous reset from every reachable state, at both clock levels.
+
+        for (int round = 0; round &lt; 2; round ++)
+            for (int i = 0; i &lt; 10; i ++)
+            begin
+                reset_at_current_level ();
+                clk = 1&#x27;b0;
+
+                repeat (i)
+                    pulse ();
+
+                if (round == 1)
+                begin
+                    clk = 1&#x27;b1;
+                    expected = (expected + 1) % 10;
+                    # 1;
+                end
+
+                reset_at_current_level ();
+                clk = 1&#x27;b0;
+                # 1;
+                check_state ();
+            end
+
+        rst = 1&#x27;b1;
+        expected = 0;
+        # 1;
+
+        repeat (3)
+            pulse ();  // Reset dominates the clock.
+
+        rst = 1&#x27;b0;
+        # 1;
+        check_state ();
+
+        $display (&quot;PASS traffic_light: %0d checks; 12 full cycles; red/yellow/green=48/24/48; reset and wrap&quot;,
+            checks);
+        $finish;
+    end
+
+    initial
+    begin
+        # 100000;
+        $fatal (1, &quot;Timeout&quot;);
+    end
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><p>Два дополнительных тестбенча проверяют все 256 комбинаций входных выводов моделей ИЛИ, запрет и перенос 4017, а затем оба варианта каждой оболочки в течение 30 шагов и оба режима индикатора.</p><details><summary>Тесты моделей микросхем</summary><p class="download"><a href="tb/tb_cmos.sv" download>tb/tb_cmos.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Simulation only. Chip pin truth tables and 4017 clock semantics.
+
+module tb_cmos;
+
+    logic [7:0] a = &#x27;0;
+    logic clk = 1&#x27;b0, inhibit = 1&#x27;b0, rst = 1&#x27;b0;
+
+    wire [3:0] or2;
+    wire [1:0] or4;
+    wire [9:0] q;
+    wire carry;
+
+    int expected = 0;
+
+    cd4071b g2
+    (
+        .p1_a  (a [0]),
+        .p2_b  (a [1]),
+        .p5_c  (a [2]),
+        .p6_d  (a [3]),
+        .p8_e  (a [4]),
+        .p9_f  (a [5]),
+        .p12_g (a [6]),
+        .p13_h (a [7]),
+        .p3_j  (or2 [0]),
+        .p4_k  (or2 [1]),
+        .p10_l (or2 [2]),
+        .p11_m (or2 [3])
+    );
+
+    cd4072b g4
+    (
+        .p2_a  (a [0]),
+        .p3_b  (a [1]),
+        .p4_c  (a [2]),
+        .p5_d  (a [3]),
+        .p1_j  (or4 [0]),
+        .p9_e  (a [4]),
+        .p10_f (a [5]),
+        .p11_g (a [6]),
+        .p12_h (a [7]),
+        .p13_k (or4 [1])
+    );
+
+    cd4017b counter
+    (
+        .p14_clock   (clk),
+        .p13_inhibit (inhibit),
+        .p15_reset   (rst),
+        .p3_q0       (q [0]),
+        .p2_q1       (q [1]),
+        .p4_q2       (q [2]),
+        .p7_q3       (q [3]),
+        .p10_q4      (q [4]),
+        .p1_q5       (q [5]),
+        .p5_q6       (q [6]),
+        .p6_q7       (q [7]),
+        .p9_q8       (q [8]),
+        .p11_q9      (q [9]),
+        .p12_carry   (carry)
+    );
+
+    task check_counter;
+        begin
+            # 1;
+
+            if (q !== (10&#x27;b1 &lt;&lt; expected) || carry !== (expected &lt; 5))
+                $fatal (1, &quot;4017 state/carry mismatch: expected=%0d q=%b carry=%b&quot;,
+                    expected, q, carry);
+        end
+    endtask
+
+    initial
+    begin
+        for (int i = 0; i &lt; 256; i ++)
+        begin
+            a = 8&#x27; (i);
+            # 1;
+
+            if (   or2 !== { (| a [7:6]), (| a [5:4]), (| a [3:2]), (| a [1:0]) }
+                || or4 !== { (| a [7:4]), (| a [3:0]) })
+                $fatal (1, &quot;OR pin truth-table mismatch input=%h&quot;, a);
+        end
+
+        rst = 1&#x27;b1;
+        expected = 0;
+        check_counter ();
+        rst = 1&#x27;b0;
+
+        for (int i = 0; i &lt; 30; i ++)
+        begin
+            # 2;
+            clk = 1&#x27;b1;
+            expected = (expected + 1) % 10;
+            check_counter ();
+
+            # 2;
+            clk = 1&#x27;b0;
+            check_counter ();
+        end
+
+        inhibit = 1&#x27;b1;
+
+        repeat (4)
+        begin
+            # 2;
+            clk = 1&#x27;b1;
+            check_counter ();
+
+            # 2;
+            clk = 1&#x27;b0;
+            check_counter ();
+        end
+
+        // Releasing inhibit when CLOCK is low is not a count event.
+
+        inhibit = 1&#x27;b0;
+        check_counter ();
+
+        // A rising clock counts; raising inhibit while CLOCK is high does not.
+
+        clk = 1&#x27;b1;
+        expected = 1;
+        check_counter ();
+        inhibit = 1&#x27;b1;
+        check_counter ();
+
+        // Falling inhibit while CLOCK is high counts.
+
+        inhibit = 1&#x27;b0;
+        expected = 2;
+        check_counter ();
+
+        // Reset dominates both clock inputs.
+
+        rst = 1&#x27;b1;
+        expected = 0;
+        check_counter ();
+        inhibit = 1&#x27;b1;
+        clk = 1&#x27;b0;
+        check_counter ();
+        clk = 1&#x27;b1;
+        check_counter ();
+        inhibit = 1&#x27;b0;
+        check_counter ();
+
+        $display (&quot;PASS CMOS: 256 OR input combinations; 30 count edges; carry, inhibit and asynchronous reset&quot;);
+        $finish;
+    end
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><details><summary>Тесты BGM и Tiny Tapeout</summary><p class="download"><a href="tb/tb_integrations.sv" download>tb/tb_integrations.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Simulation only. Both core versions in all three integration wrappers.
+
+module tb_integrations;
+
+    logic clk = 1&#x27;b0, rst = 1&#x27;b0, ena = 1&#x27;b1;
+    logic [7:0] ui = &#x27;0, key = &#x27;0;
+
+    wire [7:0] lab_led  [0:1];
+    wire [7:0] hack_led [0:1];
+    wire [7:0] tt_out   [0:1];
+    wire [7:0] tt_io    [0:1];
+    wire [7:0] tt_oe    [0:1];
+
+    int n = 0;
+    logic [7:0] seven [0:9];
+    logic [2:0] expected_lamps;
+    logic [7:0] expected_segments;
+
+    generate
+        genvar k;
+
+        for (k = 0; k &lt; 2; k ++)
+        begin : versions
+            wire [99:0] lab_gpio;
+            wire [ 3:0] hack_gpio;
+
+            lab_top # (.CHIP_MODEL (k)) lab
+            (
+                .clk      (clk),
+                .slow_clk (clk),
+                .rst      (rst),
+                .key      (key [3:0]),
+                .sw       (8&#x27;b0),
+                .led      (lab_led [k]),
+                .abcdefgh (),
+                .digit    (),
+                .x        (10&#x27;b0),
+                .y        (9&#x27;b0),
+                .red      (),
+                .green    (),
+                .blue     (),
+                .mic      (24&#x27;b0),
+                .sound    (),
+                .uart_rx  (1&#x27;b0),
+                .uart_tx  (),
+                .gpio     (lab_gpio)
+            );
+
+            hackathon_top # (.CHIP_MODEL (k)) hack
+            (
+                .clock      (clk),
+                .slow_clock (clk),
+                .reset      (rst),
+                .key        (key),
+                .led        (hack_led [k]),
+                .abcdefgh   (),
+                .digit      (),
+                .x          (9&#x27;b0),
+                .y          (9&#x27;b0),
+                .red        (),
+                .green      (),
+                .blue       (),
+                .gpio       (hack_gpio)
+            );
+
+            tt_um_timofei_traffic_light # (.USE_CHIP_MODEL (k)) tt
+            (
+                .ui_in   (ui),
+                .uo_out  (tt_out [k]),
+                .uio_in  (8&#x27;b0),
+                .uio_out (tt_io [k]),
+                .uio_oe  (tt_oe [k]),
+                .ena     (ena),
+                .clk     (clk),
+                .rst_n   (~ rst)
+            );
+        end
+    endgenerate
+
+    task check_all;
+        begin
+            expected_lamps    = n &lt; 4 ? 3&#x27;b001 : n &lt; 6 ? 3&#x27;b010 : 3&#x27;b100;
+            expected_segments = ui [0] ? seven [n] : n &lt; 4 ? 8&#x27;h01 : n &lt; 6 ? 8&#x27;h40 : 8&#x27;h08;
+
+            # 1;
+
+            for (int j = 0; j &lt; 2; j ++)
+            begin
+                if (   lab_led  [j] !== { 5&#x27;b0, expected_lamps }
+                    || hack_led [j] !== { 5&#x27;b0, expected_lamps })
+                    $fatal (1, &quot;BGM output mismatch state=%0d model=%0d&quot;, n, j);
+
+                if (   tt_out [j] !== (ena ? expected_segments : 8&#x27;b0)
+                    || tt_io  [j] !== (ena ? { 5&#x27;b0, expected_lamps } : 8&#x27;b0)
+                    || tt_oe  [j] !== (ena ? 8&#x27;h07 : 8&#x27;b0))
+                    $fatal (1, &quot;Tiny Tapeout output mismatch state=%0d model=%0d&quot;, n, j);
+            end
+        end
+    endtask
+
+    initial
+    begin
+        seven [0] = 8&#x27;h3f;
+        seven [1] = 8&#x27;h06;
+        seven [2] = 8&#x27;h5b;
+        seven [3] = 8&#x27;h4f;
+        seven [4] = 8&#x27;h66;
+        seven [5] = 8&#x27;h6d;
+        seven [6] = 8&#x27;h7d;
+        seven [7] = 8&#x27;h07;
+        seven [8] = 8&#x27;h7f;
+        seven [9] = 8&#x27;h6f;
+
+        # 2;
+        rst = 1&#x27;b1;
+        check_all ();
+        rst = 1&#x27;b0;
+        check_all ();
+
+        for (int i = 0; i &lt; 30; i ++)
+        begin
+            ui = &#x27;0;
+            check_all ();
+            ui = 8&#x27;d1;
+            check_all ();
+            ena = 1&#x27;b0;
+            check_all ();
+            ena = 1&#x27;b1;
+
+            # 4;
+            clk = 1&#x27;b1;
+            n = (n + 1) % 10;
+            check_all ();
+
+            # 4;
+            clk = 1&#x27;b0;
+            check_all ();
+        end
+
+        // BGM key[0] is a reset button. TT uses its dedicated rst_n.
+
+        key = 8&#x27;d1;
+        rst = 1&#x27;b1;
+        n = 0;
+        check_all ();
+        key = &#x27;0;
+        rst = 1&#x27;b0;
+        check_all ();
+
+        $display (&quot;PASS integrations: both implementations in BGM lab/hackathon and Tiny Tapeout; 30 steps, both display modes, ena and reset&quot;);
+        $finish;
+    end
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><pre><code>cd breadboard/traffic_light
+./scripts/run_icarus.sh
+./scripts/run_questa.sh
+./scripts/run_verilator.sh</code></pre><p>Запустите любой установленный симулятор или все три. Скрипты работают в отдельных подкаталогах <code>build/</code>, запускают три тестбенча и требуют строку PASS. Основной тест записывает <code>traffic_light.vcd</code>. Пути к программам можно задать переменными окружения IVERILOG/VVP, VLIB/VMAP/VLOG/VSIM или VERILATOR.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Средство</th><th scope="col">Результат проверки</th></tr></thead><tbody><tr><td>Icarus 12.0 / 14.0</td><td>Симуляция проходит. Требуемая цель совместимости — Icarus 13; именно эта версия здесь не установлена.</td></tr><tr><td>Questa 2025.2</td><td>Все исходники компилируются без ошибок и предупреждений. Запуск недоступен: лицензия симулятора не настроена.</td></tr><tr><td>Verilator 5.053 devel</td><td>Все три тестбенча проходят с --binary --timing --trace.</td></tr><tr><td>Yosys</td><td>Оба основных варианта синтезируются и проходят check -assert.</td></tr></tbody></table></div><p>Тестбенчи используют обычные процедурные конструкции SystemVerilog-2012 без UVM, DPI и классов конкретного симулятора. <a href="research/validation.json">Протокол проверки</a> · <a href="scripts/run.sh">Общий скрипт запуска</a>. Физическая схема пока не проверялась.</p></section><section id="s12"><h2>12. Подключение к BGM lab_top</h2><p>Используйте <code>slow_clk</code> BGM, а не исходный такт в мегагерцах. В проверенной оболочке Tang Nano 9K + LCD + TM1638 формируется медленный такт 1 Гц. Для длительностей в секундах другие конфигурации должны давать ту же частоту.</p><pre><code>traffic_light dut
+(
+    .clk    (slow_clk),
+    .rst    (rst | key [0]),
+    .red    (lamp_red),
+    .yellow (lamp_yellow),
+    .green  (lamp_green),
+    .state  (state)
+);
+// Or instantiate traffic_light_chips with the same ports.</code></pre><p>Полный пример сохраняет параметризованный интерфейс BGM, выводит красный/жёлтый/зелёный на LED 0/1/2 и заполняет экран текущим цветом. Неиспользуемые выходы явно заданы. <code>key[0]</code> — сброс; нужны как минимум одна кнопка и три LED. Для варианта соединений микросхем установите <code>CHIP_MODEL=1</code>.</p><details><summary>Полный lab_top.sv</summary><p class="download"><a href="integration/bgm_lab/lab_top.sv" download>integration/bgm_lab/lab_top.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Full BGM lab interface. Requires w_key &gt;= 1 and w_led &gt;= 3.
+
+module lab_top
+# (
+    parameter CHIP_MODEL    = 0,
+    parameter clk_mhz       = 50,
+    parameter w_key         = 4,
+    parameter w_sw          = 8,
+    parameter w_led         = 8,
+    parameter w_digit       = 8,
+    parameter w_gpio        = 100,
+
+    parameter screen_width  = 640,
+    parameter screen_height = 480,
+
+    parameter w_red         = 4,
+    parameter w_green       = 4,
+    parameter w_blue        = 4,
+
+    parameter w_x           = $clog2 (screen_width),
+    parameter w_y           = $clog2 (screen_height)
+)
+(
+    input  wire                  clk,
+    input  wire                  slow_clk,
+    input  wire                  rst,
+
+    // Keys, switches, LEDs
+
+    input  wire  [w_key   - 1:0] key,
+    input  wire  [w_sw    - 1:0] sw,
+    output wire  [w_led   - 1:0] led,
+
+    // A dynamic seven-segment display
+
+    output wire  [          7:0] abcdefgh,
+    output wire  [w_digit - 1:0] digit,
+
+    // Graphics
+
+    input  wire  [w_x     - 1:0] x,
+    input  wire  [w_y     - 1:0] y,
+
+    output wire  [w_red   - 1:0] red,
+    output wire  [w_green - 1:0] green,
+    output wire  [w_blue  - 1:0] blue,
+
+    // Microphone, sound output and UART
+
+    input  wire  [         23:0] mic,
+    output wire  [         15:0] sound,
+
+    input  wire                  uart_rx,
+    output wire                  uart_tx,
+
+    // General-purpose Input/Output
+
+    inout  wire  [w_gpio  - 1:0] gpio
+);
+
+    wire lamp_red, lamp_yellow, lamp_green;
+    wire [9:0] state;
+
+    wire exercise_reset = rst | key [0];
+
+    generate
+        if (CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (slow_clk),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (slow_clk),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    // Infrastructure LEDs and graphics use active-high logical signals.
+
+    assign led      = w_led&#x27; ({ 5&#x27;b0, lamp_green, lamp_yellow, lamp_red });
+    assign red      = { w_red   { lamp_red   | lamp_yellow } };
+    assign green    = { w_green { lamp_green | lamp_yellow } };
+    assign blue     = &#x27;0;
+    assign abcdefgh = &#x27;0;
+    assign digit    = &#x27;0;
+    assign sound    = &#x27;0;
+    assign uart_tx  = 1&#x27;b1;
+    assign gpio     = &#x27;z;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, clk, sw, key, x, y, mic, uart_rx, state };
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><p>В новом каталоге упражнения внутри BGM скопируйте вспомогательные файлы скриптом ниже, затем перенесите стандартные нумерованные .bash-скрипты из соседнего упражнения. Выберите плату обычным способом BGM. Скрипт подготовки не перезаписывает существующий каталог; он не запускает синтез и не прошивает плату.</p><pre><code>python3 scripts/stage_integration.py lab /path/to/BGM/labs/1_basics/1_11_timofei_traffic_light</code></pre></section><section id="s13"><h2>13. Подключение к BGM hackathon_top</h2><p>Реальное имя модуля BGM — <strong><code>hackathon_top</code></strong> (в «hackaton_top» из задания пропущена h). Его сигналы — <code>slow_clock</code> и <code>reset</code>. Пример соответствует интерфейсу хакатона Tang Nano 9K 480×272 + TM1638.</p><pre><code>traffic_light_chips dut
+(
+    .clk    (slow_clock),
+    .rst    (reset | key [0]),
+    .red    (lamp_red),
+    .yellow (lamp_yellow),
+    .green  (lamp_green),
+    .state  (state)
+);</code></pre><details><summary>Полный hackathon_top.sv</summary><p class="download"><a href="integration/bgm_hackathon/hackathon_top.sv" download>integration/bgm_hackathon/hackathon_top.sv</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// The BGM module is spelled hackathon_top, with &quot;h&quot;.
+
+module hackathon_top
+# (
+    parameter CHIP_MODEL = 0
+)
+(
+    input  wire       clock,
+    input  wire       slow_clock,
+    input  wire       reset,
+
+    input  wire [7:0] key,
+    output wire [7:0] led,
+
+    // A dynamic seven-segment display
+
+    output wire [7:0] abcdefgh,
+    output wire [7:0] digit,
+
+    // LCD screen interface
+
+    input  wire [8:0] x,
+    input  wire [8:0] y,
+
+    output wire [4:0] red,
+    output wire [5:0] green,
+    output wire [4:0] blue,
+
+    inout  wire [3:0] gpio
+);
+
+    wire lamp_red, lamp_yellow, lamp_green;
+    wire [9:0] state;
+
+    wire exercise_reset = reset | key [0];
+
+    generate
+        if (CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (slow_clock),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (slow_clock),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    assign led      = { 5&#x27;b0, lamp_green, lamp_yellow, lamp_red };
+    assign red      = { 5 { lamp_red   | lamp_yellow } };
+    assign green    = { 6 { lamp_green | lamp_yellow } };
+    assign blue     = &#x27;0;
+    assign abcdefgh = &#x27;0;
+    assign digit    = &#x27;0;
+    assign gpio     = &#x27;z;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, clock, key, x, y, state };
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><p>Установите <code>CHIP_MODEL=0</code> для обобщённого варианта или 1 для модели микросхем. Нужна конфигурация платы с <code>USE_HACKATHON_TOP</code>, например <code>tang_nano_9k_lcd_480_272_tm1638_hackathon</code>.</p><pre><code>python3 scripts/stage_integration.py hackathon /path/to/BGM/hackathon/problems/11_timofei_traffic_light</code></pre></section><section id="s14"><h2>14. Подключение к Tiny Tapeout project.v</h2><p>Файл <code>project.v</code> использует заданный интерфейс Tiny Tapeout и уникальное имя верхнего модуля <code>tt_um_timofei_traffic_light</code>. <code>rst_n</code> активен нулём, поэтому автомат получает <code>~rst_n</code>. Установите внешний такт проекта <strong>1 Гц</strong>; оболочка не делит такт в мегагерцах.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Порт / RP2350</th><th scope="col">Назначение</th></tr></thead><tbody><tr><td>clk / GPIO16; rst_n / GPIO14</td><td>Такт и сброс; выбрать проект, подать сброс, затем запустить такт.</td></tr><tr><td>ui_in[0] / GPIO17</td><td>DIP 0: 0 = полоски по положению огня, 1 = номер состояния 0…9. Остальные DIP не используются.</td></tr><tr><td>uo_out[7:0] / GPIO40…33</td><td>{dp, g, f, e, d, c, b, a} · активный уровень 1</td></tr><tr><td>uio_out[2:0] / GPIO27…25</td><td>{green, yellow, red}</td></tr><tr><td>uio_oe[7:0]</td><td>00000111 при ena=1; иначе все выводы — входы.</td></tr><tr><td>ena</td><td>Разрешение мультиплексора проектов, не вывод платы. При 0 гасит индикатор и отключает двунаправленные выходы; счёт состояний не останавливает.</td></tr></tbody></table></div><p>В режиме полосок сегмент a (верхний) означает красный, g (средний) — жёлтый, d (нижний) — зелёный; сам индикатор не меняет цвет светодиодов. В десятичном режиме показывается номер состояния, а не обратный отсчёт. Этот порядок отличается от BGM <code>abcdefgh[7:0]</code>. Пока проект управляет uio[2:0], соответствующие выводы RP2350 должны быть входами.</p><details><summary>Полный project.v</summary><p class="download"><a href="integration/tinytapeout/project.v" download>integration/tinytapeout/project.v</a></p><pre><code>`timescale 1ns / 1ps
+`default_nettype none
+
+// Synthesizable Tiny Tapeout top; compile as SystemVerilog.
+// Set the external project clock to 1 Hz.
+// Set USE_CHIP_MODEL to 1 to synthesize the pin-connected version.
+
+module tt_um_timofei_traffic_light
+# (
+    parameter USE_CHIP_MODEL = 0
+)
+(
+    input  wire [7:0] ui_in,
+    output wire [7:0] uo_out,
+    input  wire [7:0] uio_in,
+    output wire [7:0] uio_out,
+    output wire [7:0] uio_oe,
+    input  wire       ena,
+    input  wire       clk,
+    input  wire       rst_n
+);
+
+    wire red, yellow, green;
+    wire [9:0] state;
+
+    generate
+        if (USE_CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (clk),
+                .rst    (~ rst_n),
+                .red    (red),
+                .yellow (yellow),
+                .green  (green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (clk),
+                .rst    (~ rst_n),
+                .red    (red),
+                .yellow (yellow),
+                .green  (green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    // TT output order [7:0] = { dp, g, f, e, d, c, b, a }; active high.
+    // DIP 0 = 0: top/middle/bottom bar represents red/yellow/green.
+    // DIP 0 = 1: show state number 0..9, not seconds remaining.
+
+    logic [7:0] decimal_segments;
+
+    always_comb
+    begin
+        decimal_segments = &#x27;0;
+
+        case (state)
+        10&#x27;b00_0000_0001: decimal_segments = 8&#x27;h3f;
+        10&#x27;b00_0000_0010: decimal_segments = 8&#x27;h06;
+        10&#x27;b00_0000_0100: decimal_segments = 8&#x27;h5b;
+        10&#x27;b00_0000_1000: decimal_segments = 8&#x27;h4f;
+        10&#x27;b00_0001_0000: decimal_segments = 8&#x27;h66;
+        10&#x27;b00_0010_0000: decimal_segments = 8&#x27;h6d;
+        10&#x27;b00_0100_0000: decimal_segments = 8&#x27;h7d;
+        10&#x27;b00_1000_0000: decimal_segments = 8&#x27;h07;
+        10&#x27;b01_0000_0000: decimal_segments = 8&#x27;h7f;
+        10&#x27;b10_0000_0000: decimal_segments = 8&#x27;h6f;
+        default:         decimal_segments = &#x27;0;
+        endcase
+    end
+
+    wire [7:0] bars = { 1&#x27;b0, yellow, 2&#x27;b00, green, 2&#x27;b00, red };
+
+    assign uo_out  = ena ? (ui_in [0] ? decimal_segments : bars) : &#x27;0;
+    assign uio_out = ena ? { 5&#x27;b0, green, yellow, red } : &#x27;0;
+    assign uio_oe  = ena ? 8&#x27;b0000_0111 : &#x27;0;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, ui_in [7:1], uio_in };
+
+endmodule
+
+`default_nettype wire
+</code></pre></details><pre><code>python3 scripts/stage_integration.py tinytapeout /tmp/timofei_tt_sources</code></pre><p>Скопируйте подготовленные исходники в <code>src/</code> выбранного шаблона Tiny Tapeout. Перенесите <a href="integration/tinytapeout/info_fragment.yaml">фрагмент списка исходников</a> в его <code>info.yaml</code>, сохранив обязательные поля автора, названия, выводов и документации. Это не полный файл подачи проекта. Для варианта соединений микросхем перед синтезом установите <code>USE_CHIP_MODEL=1</code>.</p><p><a href="https://github.com/TinyTapeout/tt-demo-pcb">Официальная таблица GPIO платы</a> · <a href="https://github.com/TinyTapeout/ttsky-verilog-template">Шаблон Verilog</a> · <a href="https://tinytapeout.com/guides/get-started-demoboard-etr/">Запуск платы</a></p></section><section id="s15"><h2>15. Первый запуск, задания и источники</h2><ol><li>При выключенном питании установите микросхемы и все 37 перемычек. Проверьте выемки, выводы питания и разрывы шин.</li><li>Подключите модули и индикаторы с ограничением тока. До запуска проверьте 5 В между шинами.</li><li>Настройте готовый генератор примерно на 1 Гц. Удерживайте RESET=1: красный должен гореть, несмотря на тактирование.</li><li>Отпустите сброс. Наблюдайте повторение красного/жёлтого/зелёного в отношении 4/2/4. Измеряйте полный цикл после начального интервала сброса.</li><li>Запустите тестбенчи. Затем подключите любой вариант через готовую оболочку для ПЛИС или ASIC.</li></ol><div class="table-wrap"><table class=""><thead><tr><th scope="col">Наблюдение</th><th scope="col">Что проверить</th></tr></thead><tbody><tr><td>Всегда красный</td><td>RESET постоянно равен 1, нет фронтов такта или U1.13 не на GND.</td></tr><tr><td>Нет одного цвета</td><td>Полярность LED, вывод выхода ИЛИ и соответствующие входы Q.</td></tr><tr><td>Неверная длительность / пропущен цвет</td><td>Перепутаны номера состояний и физических выводов; свериться с таблицей.</td></tr><tr><td>Тусклые огни или нестабильность</td><td>Измеренное питание, общая земля, нагрузка модулей и определённость входных уровней. Логическая HDL-симуляция этого не проверяет.</td></tr></tbody></table></div><p><strong>Следующие задания:</strong> измените группировку на 3/3/4; сначала перерисуйте граф состояний и предскажите таблицу, затем меняйте провода. Объясните, почему прямое соединение выходов Q не заменяет ИЛИ. Сравните one-hot RTL с двоичным счётчиком 0…9 и дешифратором. Разберите разницу между коротким переходным эффектом задержек и неверным установившимся состоянием.</p><p>Схемы и модели без задержек описывают установившуюся логику. У реальных выходов есть задержки распространения; упражнение не доказывает отсутствие переходных импульсов на огнях. Используется готовый тактовый модуль курса: собирать генератор здесь не нужно.</p><h3>Источники и воспроизводимость</h3><ul class="source-list"><li><a href="https://habr.com/en/articles/1071736/">Курс и упражнение со светофором</a></li><li><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit">Таблица компонентов LSSK (использован локальный снимок 14 октября)</a></li><li><a href="https://docs.google.com/document/d/1lVcfQOqSg-6YrX_VTWy0q345JGLUEWaLRE-17egVzpo/edit">Описание проекта; использованы цитата из задания и сохранённый текст</a></li><li><a href="https://github.com/yuri-panchul/basics-graphics-music">Basics-Graphics-Music</a></li><li><a href="https://verilog-meetup.com/2026/07/31/an-improved-way-of-teaching-school-kids-digital-electronics-using-venerable-small-scale-integration-ics/">Подход к обучению</a></li><li><a href="https://verilog-meetup.com/2026/07/23/a-prequel-to-fpga-and-asic-design-using-small-scale-integration-chips/">Базовые упражнения на макетной плате</a></li><li><a href="https://makerfaire.com/maker/entry/learn-chip-design-from-breadboards-to-fpga-to-your-own-asic-78900/">Страница проекта Maker Faire (загрузка завершилась тайм-аутом; технические выводы на неё не опираются)</a></li></ul><p>Страницы: <code>python3 breadboard/tools/build_site.py</code>; схемы и структурный RTL: <code>python3 breadboard/tools/build_diagrams.py --png</code>. Для PNG нужен Inkscape. <a href="research/wiring_validation.json">Проверки проводов</a> · <a href="research/bgm_provenance.json">Контрольные суммы исходников BGM</a>.</p></section></main></div><footer class="footer">Программа: Юрий Панчул / Verilog Meetup. Идея светофора: Тимофей Никифоров. Урок, схемы и код подготовлены с помощью Codex.<br><a href="https://verilog-meetup.com/">verilog-meetup.com</a> · 2026-10-21 · <a href="index.html" hreflang="en">English</a></footer></body></html>

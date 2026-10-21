@@ -1,0 +1,12 @@
+# Merge these fields into the selected Tiny Tapeout template's info.yaml.
+# Keep its required author, title, tile, pinout and documentation fields.
+project:
+  top_module: "tt_um_timofei_traffic_light"
+  clock_hz: 1
+  source_files:
+    - "project.v"
+    - "traffic_light.sv"
+    - "traffic_light_chips.sv"
+    - "cd4017b.sv"
+    - "cd4072b.sv"
+    - "cd4071b.sv"

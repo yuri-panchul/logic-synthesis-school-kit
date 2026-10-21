@@ -1,0 +1,117 @@
+{
+  "kind": "Moore",
+  "reset": {
+    "condition": "rst = 1",
+    "target": "S0",
+    "from": "any state, including S0",
+    "asynchronous": true
+  },
+  "normal_transition": "posedge clk when rst = 0",
+  "output_order": [
+    "red",
+    "yellow",
+    "green"
+  ],
+  "states": [
+    {
+      "name": "S0",
+      "next": "S1",
+      "one_hot": "0000000001",
+      "outputs": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "S1",
+      "next": "S2",
+      "one_hot": "0000000010",
+      "outputs": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "S2",
+      "next": "S3",
+      "one_hot": "0000000100",
+      "outputs": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "S3",
+      "next": "S4",
+      "one_hot": "0000001000",
+      "outputs": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "S4",
+      "next": "S5",
+      "one_hot": "0000010000",
+      "outputs": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "S5",
+      "next": "S6",
+      "one_hot": "0000100000",
+      "outputs": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "S6",
+      "next": "S7",
+      "one_hot": "0001000000",
+      "outputs": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "S7",
+      "next": "S8",
+      "one_hot": "0010000000",
+      "outputs": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "S8",
+      "next": "S9",
+      "one_hot": "0100000000",
+      "outputs": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "S9",
+      "next": "S0",
+      "one_hot": "1000000000",
+      "outputs": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

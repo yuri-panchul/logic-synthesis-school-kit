@@ -1,5 +1,0 @@
-PASS traffic_light: 529 checks; 12 full cycles; red/yellow/green=48/24/48; reset and wrap
-- /home/verilog/lssk_codex/breadboard/traffic_light/tb/tb_traffic_light.sv:76: Verilog $finish
-- S i m u l a t i o n   R e p o r t: Verilator 5.053 devel
-- Verilator: $finish at 2us; walltime 0.001 s; speed 2.203 ms/s
-- Verilator: cpu 0.001 s on 1 threads; allocated 4 MB

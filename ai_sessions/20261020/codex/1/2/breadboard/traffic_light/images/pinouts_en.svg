@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1490 720" role="img" aria-labelledby="title"><title id="title">DIP pin diagrams, top view</title><rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="48" font-family="DejaVu Sans,sans-serif" font-size="27" fill="#193244" text-anchor="start">Top view · notch up · all supplies +5 V</text>
+<text x="250" y="110" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#193244" text-anchor="middle">U1 · CD4017BE</text>
+<rect x="170" y="160" width="160" height="414" fill="#263d4d" stroke="#506e82" rx="8"/>
+<path d="M 225 160 Q 250 195 275 160" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<path d="M 150 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">1</text>
+<text x="143" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q5</text>
+<path d="M 150 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">2</text>
+<text x="143" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q1</text>
+<path d="M 150 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">3</text>
+<text x="143" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q0</text>
+<path d="M 150 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">4</text>
+<text x="143" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q2</text>
+<path d="M 150 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">5</text>
+<text x="143" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q6</text>
+<path d="M 150 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">6</text>
+<text x="143" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q7</text>
+<path d="M 150 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">7</text>
+<text x="143" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">Q3</text>
+<path d="M 150 549 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="182" y="555" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">8</text>
+<text x="143" y="555" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">VSS</text>
+<path d="M 330 549 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="555" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">9</text>
+<text x="357" y="555" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Q8</text>
+<path d="M 330 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">10</text>
+<text x="357" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Q4</text>
+<path d="M 330 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">11</text>
+<text x="357" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Q9</text>
+<path d="M 330 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">12</text>
+<text x="357" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">CARRY</text>
+<path d="M 330 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">13</text>
+<text x="357" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">INHIBIT</text>
+<path d="M 330 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">14</text>
+<text x="357" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">CLOCK</text>
+<path d="M 330 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">15</text>
+<text x="357" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">RESET</text>
+<path d="M 330 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="318" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">16</text>
+<text x="357" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">VDD</text>
+<text x="740" y="110" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#193244" text-anchor="middle">U2 · CD4072BE</text>
+<rect x="660" y="160" width="160" height="362" fill="#263d4d" stroke="#506e82" rx="8"/>
+<path d="M 715 160 Q 740 195 765 160" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<path d="M 640 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">1</text>
+<text x="633" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">J</text>
+<path d="M 640 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">2</text>
+<text x="633" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">A</text>
+<path d="M 640 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">3</text>
+<text x="633" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">B</text>
+<path d="M 640 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">4</text>
+<text x="633" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">C</text>
+<path d="M 640 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">5</text>
+<text x="633" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">D</text>
+<path d="M 640 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">6</text>
+<text x="633" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">NC</text>
+<path d="M 640 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="672" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">7</text>
+<text x="633" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">VSS</text>
+<path d="M 820 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">8</text>
+<text x="847" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">NC</text>
+<path d="M 820 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">9</text>
+<text x="847" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">E</text>
+<path d="M 820 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">10</text>
+<text x="847" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">F</text>
+<path d="M 820 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">11</text>
+<text x="847" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">G</text>
+<path d="M 820 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">12</text>
+<text x="847" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">H</text>
+<path d="M 820 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">13</text>
+<text x="847" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">K</text>
+<path d="M 820 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="808" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">14</text>
+<text x="847" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">VDD</text>
+<text x="1230" y="110" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#193244" text-anchor="middle">U3 · CD4071BE</text>
+<rect x="1150" y="160" width="160" height="362" fill="#263d4d" stroke="#506e82" rx="8"/>
+<path d="M 1205 160 Q 1230 195 1255 160" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<path d="M 1130 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">1</text>
+<text x="1123" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">A</text>
+<path d="M 1130 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">2</text>
+<text x="1123" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">B</text>
+<path d="M 1130 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">3</text>
+<text x="1123" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">J</text>
+<path d="M 1130 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">4</text>
+<text x="1123" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">K</text>
+<path d="M 1130 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">5</text>
+<text x="1123" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">C</text>
+<path d="M 1130 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">6</text>
+<text x="1123" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">D</text>
+<path d="M 1130 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1162" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="start">7</text>
+<text x="1123" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="end">VSS</text>
+<path d="M 1310 497 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="503" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">8</text>
+<text x="1337" y="503" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">E</text>
+<path d="M 1310 445 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="451" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">9</text>
+<text x="1337" y="451" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">F</text>
+<path d="M 1310 393 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">10</text>
+<text x="1337" y="399" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">L</text>
+<path d="M 1310 341 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="347" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">11</text>
+<text x="1337" y="347" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">M</text>
+<path d="M 1310 289 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="295" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">12</text>
+<text x="1337" y="295" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">G</text>
+<path d="M 1310 237 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="243" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">13</text>
+<text x="1337" y="243" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">H</text>
+<path d="M 1310 185 h 20" fill="none" stroke="#556b76" stroke-width="5" stroke-linejoin="round" />
+<text x="1298" y="191" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#fff" text-anchor="end">14</text>
+<text x="1337" y="191" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">VDD</text>
+<text x="40" y="650" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">NC = no connection. Unused outputs stay open; unused logic inputs go to GND.</text>
+</svg>

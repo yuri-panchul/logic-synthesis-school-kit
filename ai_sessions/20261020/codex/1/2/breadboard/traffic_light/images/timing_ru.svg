@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 570" role="img" aria-labelledby="title"><title id="title">Временная диаграмма светофора</title><rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="50" font-family="DejaVu Sans,sans-serif" font-size="28" fill="#193244" text-anchor="start">Полный цикл 10 секунд при частоте 1 Гц</text>
+<path d="M 200 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="200" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">0</text>
+<path d="M 305 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="305" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">1</text>
+<path d="M 410 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="410" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">2</text>
+<path d="M 515 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="515" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">3</text>
+<path d="M 620 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="620" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">4</text>
+<path d="M 725 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="725" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">5</text>
+<path d="M 830 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="830" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">6</text>
+<path d="M 935 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="935" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">7</text>
+<path d="M 1040 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="1040" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">8</text>
+<path d="M 1145 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="1145" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">9</text>
+<path d="M 1250 90 V 490" fill="none" stroke="#d3dce3" stroke-width="1" stroke-linejoin="round" />
+<text x="1250" y="110" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">10</text>
+<text x="40" y="110" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">время, с</text>
+<text x="40" y="160" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">state</text>
+<text x="252.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S0</text>
+<text x="357.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S1</text>
+<text x="462.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S2</text>
+<text x="567.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S3</text>
+<text x="672.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S4</text>
+<text x="777.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S5</text>
+<text x="882.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S6</text>
+<text x="987.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S7</text>
+<text x="1092.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S8</text>
+<text x="1197.5" y="160" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">S9</text>
+<text x="40" y="235" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">clk</text>
+<path d="M 200 205 H 252.5 V 235 H 305 V 205 H 357.5 V 235 H 410 V 205 H 462.5 V 235 H 515 V 205 H 567.5 V 235 H 620 V 205 H 672.5 V 235 H 725 V 205 H 777.5 V 235 H 830 V 205 H 882.5 V 235 H 935 V 205 H 987.5 V 235 H 1040 V 205 H 1092.5 V 235 H 1145 V 205 H 1197.5 V 235 H 1250 V 205" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="40" y="307" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">red</text>
+<path d="M 200 277 V 277 H 305 V 277 H 410 V 277 H 515 V 277 H 620 V 307 H 725 V 307 H 830 V 307 H 935 V 307 H 1040 V 307 H 1145 V 307 H 1250" fill="none" stroke="#c42f41" stroke-width="3" stroke-linejoin="round" />
+<text x="40" y="379" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">yellow</text>
+<path d="M 200 379 V 379 H 305 V 379 H 410 V 379 H 515 V 379 H 620 V 349 H 725 V 349 H 830 V 379 H 935 V 379 H 1040 V 379 H 1145 V 379 H 1250" fill="none" stroke="#b38100" stroke-width="3" stroke-linejoin="round" />
+<text x="40" y="451" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">green</text>
+<path d="M 200 451 V 451 H 305 V 451 H 410 V 451 H 515 V 451 H 620 V 451 H 725 V 451 H 830 V 421 H 935 V 421 H 1040 V 421 H 1145 V 421 H 1250" fill="none" stroke="#10826b" stroke-width="3" stroke-linejoin="round" />
+<text x="40" y="545" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="start">Сброс задаёт S0 при t=0. Фронты t=1…10 меняют состояние. Задержки не показаны.</text>
+</svg>

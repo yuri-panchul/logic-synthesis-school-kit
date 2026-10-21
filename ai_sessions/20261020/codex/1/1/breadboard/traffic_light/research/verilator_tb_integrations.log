@@ -1,5 +1,0 @@
-PASS integrations: both implementations in BGM lab/hackathon and Tiny Tapeout; 30 steps, both display modes, ena and reset
-- /home/verilog/lssk_codex/breadboard/traffic_light/tb/tb_integrations.sv:50: Verilog $finish
-- S i m u l a t i o n   R e p o r t: Verilator 5.053 devel
-- Verilator: $finish at 396ns; walltime 0.000 s; speed 3.848 ms/s
-- Verilator: cpu 0.000 s on 1 threads; allocated 2 MB

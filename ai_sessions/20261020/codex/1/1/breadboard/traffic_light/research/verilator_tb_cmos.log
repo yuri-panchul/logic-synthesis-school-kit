@@ -1,5 +1,0 @@
-PASS CMOS: 256 OR input combinations; 30 count edges; carry, inhibit and asynchronous reset
-- /home/verilog/lssk_codex/breadboard/traffic_light/tb/tb_cmos.sv:43: Verilog $finish
-- S i m u l a t i o n   R e p o r t: Verilator 5.053 devel
-- Verilator: $finish at 469ns; walltime 0.000 s; speed 3.334 ms/s
-- Verilator: cpu 0.000 s on 1 threads; allocated 2 MB

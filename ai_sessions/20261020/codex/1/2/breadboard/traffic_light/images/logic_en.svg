@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 880" role="img" aria-labelledby="title"><title id="title">1. Generic traffic-light logic</title><rect width="100%" height="100%" fill="#fff"/>
+<text x="45" y="55" font-family="DejaVu Sans,sans-serif" font-size="30" fill="#193244" text-anchor="start">1 · Ten states, three OR functions</text>
+<rect x="200" y="160" width="360" height="570" fill="#edf3f7" stroke="#506e82" rx="8"/>
+<text x="380" y="205" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#193244" text-anchor="middle">10-state cyclic FSM</text>
+<text x="380" y="242" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#193244" text-anchor="middle">S0 → S1 → … → S9 → S0</text>
+<text x="495" y="300" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S0</text>
+<path d="M 540 293 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="338" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S1</text>
+<path d="M 540 331 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="376" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S2</text>
+<path d="M 540 369 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="414" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S3</text>
+<path d="M 540 407 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="452" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S4</text>
+<path d="M 540 445 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="490" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S5</text>
+<path d="M 540 483 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="528" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S6</text>
+<path d="M 540 521 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="566" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S7</text>
+<path d="M 540 559 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="604" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S8</text>
+<path d="M 540 597 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="495" y="642" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">S9</text>
+<path d="M 540 635 H 560" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="45" y="625" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#193244" text-anchor="start">clk ↑</text>
+<path d="M 130 620 H 200" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="45" y="685" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#193244" text-anchor="start">rst = 1</text>
+<path d="M 130 680 H 200" fill="none" stroke="#315a71" stroke-width="3" stroke-linejoin="round" />
+<text x="220" y="760" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">Reset → S0; one active state</text>
+<path d="M 920 235 Q 1010 235 1060 300 Q 1010 365 920 365 Q 963 300 920 235 Z" fill="none" stroke="#c42f41" stroke-width="3" stroke-linejoin="round" />
+<text x="988" y="307" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#c42f41" text-anchor="middle">OR</text>
+<text x="1095" y="307" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#c42f41" text-anchor="start">RED</text>
+<path d="M 560 293 H 640 V 258 H 930" fill="none" stroke="#c42f41" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 331 H 662 V 286 H 930" fill="none" stroke="#c42f41" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 369 H 684 V 314 H 930" fill="none" stroke="#c42f41" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 407 H 706 V 342 H 930" fill="none" stroke="#c42f41" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 920 415 Q 1010 415 1060 480 Q 1010 545 920 545 Q 963 480 920 415 Z" fill="none" stroke="#b38100" stroke-width="3" stroke-linejoin="round" />
+<text x="988" y="487" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#b38100" text-anchor="middle">OR</text>
+<text x="1095" y="487" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#b38100" text-anchor="start">YELLOW</text>
+<path d="M 560 445 H 728 V 458 H 930" fill="none" stroke="#b38100" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 483 H 750 V 502 H 930" fill="none" stroke="#b38100" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 920 595 Q 1010 595 1060 660 Q 1010 725 920 725 Q 963 660 920 595 Z" fill="none" stroke="#10826b" stroke-width="3" stroke-linejoin="round" />
+<text x="988" y="667" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#10826b" text-anchor="middle">OR</text>
+<text x="1095" y="667" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#10826b" text-anchor="start">GREEN</text>
+<path d="M 560 521 H 772 V 618 H 930" fill="none" stroke="#10826b" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 559 H 794 V 646 H 930" fill="none" stroke="#10826b" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 597 H 816 V 674 H 930" fill="none" stroke="#10826b" stroke-width="2.3" stroke-linejoin="round" />
+<path d="M 560 635 H 838 V 702 H 930" fill="none" stroke="#10826b" stroke-width="2.3" stroke-linejoin="round" />
+<text x="45" y="835" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="start">No chip pin numbers here: the block defines behavior, not a storage encoding.</text>
+</svg>

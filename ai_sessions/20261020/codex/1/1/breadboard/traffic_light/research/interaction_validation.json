@@ -1,9 +1,0 @@
-{
-  "date": "2026-10-20",
-  "results": {
-    "en": "PASS: 3 full cycles, 4/2/4 lamps, run/pause/step/reset and localized labels",
-    "ru": "PASS: 3 full cycles, 4/2/4 lamps, run/pause/step/reset and localized labels"
-  },
-  "environment": "Tool V8 isolate with a DOM stub; Node.js unavailable. Browser layout is not covered.",
-  "browser_preview": "Chromium could not start: setsockopt Operation not permitted in sandbox."
-}
