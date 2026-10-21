@@ -1,0 +1,13 @@
+reference,part,quantity,lssk_row,purpose_en,purpose_ru
+U1,CD4017BE · DIP-16,1,37,"Decade counter, ten decoded outputs","Десятичный счётчик, десять дешифрированных выходов"
+U2,CD4072BE · DIP-14,1,21,Two 4-input OR gates: red and green,Два элемента 4ИЛИ: красный и зелёный
+U3,CD4071BE · DIP-14,1,20,One 2-input OR for yellow; three gates unused,Один элемент 2ИЛИ для жёлтого; три не используются
+LED-R,5 V LED,1,46,"Red, with built-in current limiting","Красный, со встроенным ограничением тока"
+LED-Y,5 V LED,1,48,"Yellow, with built-in current limiting","Жёлтый, со встроенным ограничением тока"
+LED-G,5 V LED,1,47,"Green, with built-in current limiting","Зелёный, со встроенным ограничением тока"
+CLK,555 clock module,1,54,Ready assembled; adjust to approximately 1 Hz,Готовый модуль; настроить примерно на 1 Гц
+RESET,Button module,1,65,"Qualified 5 V module: OUT=0 released, OUT=1 pressed; built-in pull-down","Модуль на 5 В: OUT=0 отпущена, OUT=1 нажата; встроенная подтяжка к земле"
+BB,830-contact breadboard,1,45,"One board, central trench and four power rails","Одна плата, центральный разрыв и четыре шины питания"
+PSU,5 V regulated power module,1,56,Select 5 V; use its supported USB input or the listed 9 V input supply,Выбрать 5 В; использовать поддерживаемый USB-вход или источник 9 В из таблицы
+W,M–M leads,39,70,37 board jumpers plus two supply leads; obtain a 40-pack,37 перемычек платы и два провода питания; взять упаковку 40 шт.
+M,M–F leads,6,71,"Three each for CLK and RESET, with fitted male headers",По три для CLK и RESET с установленными штырьками

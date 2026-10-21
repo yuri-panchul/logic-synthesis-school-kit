@@ -1,0 +1,3 @@
+VCD info: dumpfile traffic_light.vcd opened for output.
+PASS traffic_light: 529 checks; 12 full cycles; red/yellow/green=48/24/48; reset and wrap
+/home/verilog/lssk_codex/breadboard/traffic_light/tb/tb_traffic_light.sv:76: $finish called at 2408000 (1ps)

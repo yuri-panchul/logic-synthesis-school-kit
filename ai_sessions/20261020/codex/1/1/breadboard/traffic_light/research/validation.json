@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-20",
+  "functional": "PASS",
+  "checks": 529,
+  "full_cycles": 12,
+  "red_yellow_green_slots": [
+    48,
+    24,
+    48
+  ],
+  "or_input_vectors": 256,
+  "integration_steps": 30,
+  "integration_versions": [
+    "generic",
+    "chip"
+  ],
+  "tools": {
+    "Icarus 12.0": "PASS (initial run; final integration changes also checked on 14)",
+    "Icarus 14.0 devel": "PASS, all three benches",
+    "Icarus 13": "Portable SystemVerilog 2012 target; exact binary unavailable here",
+    "Verilator 5.053 devel": "PASS, all three benches with --binary --timing --trace",
+    "Questa 2025.2": "All design files and benches compile, 0 errors/warnings. Simulation blocked by missing license.",
+    "Yosys": "Both core tops synthesize and pass check -assert"
+  },
+  "scope": "Ideal logical behavior and static wiring only; no physical prototype or analog timing validation."
+}

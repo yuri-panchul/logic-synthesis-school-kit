@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-20",
+  "status": "PASS",
+  "html_pages": 4,
+  "sections_per_lesson": 15,
+  "exercises_per_index": 1,
+  "local_links_checked": 136,
+  "archive_local_links_checked": 134,
+  "svg_png_pairs": 10,
+  "embedded_hdl_matches_source": true,
+  "scope": "Static HTML, local links, asset formats and archive; not browser rendering."
+}

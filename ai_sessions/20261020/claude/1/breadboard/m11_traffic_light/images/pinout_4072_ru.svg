@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" class="pinout" viewBox="0 0 376 282" width="376" height="282" role="img" aria-label="Ножки микросхемы 4072, вид сверху, выемка слева"><style>svg{font-family:"DejaVu Sans",Arial,sans-serif}
+.fig-wrap{overflow-x:auto;border:1px solid #cfd5d9;border-radius:10px;background:#ffffff;margin:14px 0 6px;
+padding:8px}
+svg.arb{display:block;width:100%;min-width:900px;height:auto}
+svg.arb text{font-family:"DejaVu Sans",Arial,sans-serif}
+.s-gate,.s-chip{fill:#ffffff;stroke:#1c2329;stroke-width:1.6}
+.s-chip{stroke-width:1.8}.s-notch{fill:#ffffff;stroke:#1c2329;stroke-width:1.4}
+.s-line{stroke:#1c2329;stroke-width:1.4;fill:none}
+.s-w{fill:none;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.s-pow{stroke:#1c2329;stroke-width:1.5;fill:none}.s-vdd{stroke:#e03131;stroke-width:1.8;fill:none}
+.s-led{fill:#ffffff;stroke:#1c2329;stroke-width:1.4}
+.s-cloud{fill:#e5f2ec;stroke:#0b6e4f;stroke-width:1.2;stroke-dasharray:6 5;opacity:.85}
+.s-cloud2{fill:#fdf1e3;stroke:#9a4d00;stroke-width:1.2;stroke-dasharray:6 5;opacity:.85}
+.s-cap{fill:#5d6872;font-size:10.5px;letter-spacing:.08em;font-weight:700}
+.s-tag{fill:#1c2329;font-size:12px;font-weight:700}.s-tag2{fill:#1c2329;font-size:8.5px;font-weight:700}
+.s-sub{fill:#5d6872;font-size:10.5px}.s-io{fill:#1c2329;font-size:12.5px;font-weight:600}
+.s-pin{fill:#1c2329;font-size:11px;font-weight:600}.s-pin2{fill:#1c2329;font-size:8px}
+.s-pn{fill:#5d6872;font-size:8px}.s-chipname{fill:#1c2329;font-size:12px;font-weight:700}
+.s-mod{fill:#f0f2f1;stroke:#cfd5d9;stroke-width:1.2}.s-modt{fill:#1c2329;font-size:8.5px;font-weight:600}
+.ol{text-decoration:overline}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;margin:8px 0 4px}
+.legend>span{display:inline-flex;align-items:center;gap:5px}
+.sw{display:inline-block;width:14px;height:6px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.legend .sw{margin-right:0}
+table.wires td{padding:4px 10px}table.wires tr.grp td{background:#f0f2f1}
+table.wires tr.done td{opacity:.45}
+.wchk{width:16px;height:16px;margin:0;accent-color:#0b6e4f}
+ol.steps li{margin:6px 0}
+pre.code{background:#eef1f3;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.45}
+.eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#eef1f3;
+padding:10px 14px;border-radius:8px;display:block;line-height:1.7;overflow-x:auto}
+@media print{.fig-wrap{overflow:visible}svg.arb{min-width:0}}
+
+svg .s-pn2{fill:#5d6872;font-size:10px}
+svg .s-pinname{font-size:12px;font-weight:700}
+svg .s-statek{fill:#1c2329;font-size:14px;font-weight:700}
+svg .s-arrow{fill:#1c2329}
+svg.wave text{font-family:"DejaVu Sans",Arial,sans-serif}
+.w-edge{stroke:#cfd5d9;stroke-width:1;stroke-dasharray:2 3}
+.w-lab{fill:#1c2329;font-size:12px;font-weight:600}
+.w-line{fill:none;stroke-width:2;stroke-linejoin:round}
+.w-bus{fill:#ffffff;stroke-width:1.6}
+.w-val{fill:#1c2329;font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.w-x{fill:#5d6872;opacity:.25}
+.w-note{fill:#5d6872;font-size:11px}
+</style><rect x="0" y="0" width="376" height="282" fill="#ffffff"/><rect class="s-chip" x="34" y="76" width="308" height="130" rx="5"/><path class="s-notch" d="M34,131.0 A10,10 0 0 1 34,151.0"/><line x1="56" y1="206" x2="56" y2="232" style="stroke:#d9480f;stroke-width:3"/><text class="s-pn2" x="63" y="223">1</text><text class="s-pinname" x="56" y="252" text-anchor="middle" style="fill:#d9480f">J</text><path d="M51.5,223 L56,230 L60.5,223" style="fill:none;stroke:#d9480f;stroke-width:2.2"/><line x1="100" y1="206" x2="100" y2="232" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="107" y="223">2</text><text class="s-pinname" x="100" y="252" text-anchor="middle" style="fill:#1c7ed6">A</text><path d="M95.5,215 L100,208 L104.5,215" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="144" y1="206" x2="144" y2="232" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="151" y="223">3</text><text class="s-pinname" x="144" y="252" text-anchor="middle" style="fill:#1c7ed6">B</text><path d="M139.5,215 L144,208 L148.5,215" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="188" y1="206" x2="188" y2="232" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="195" y="223">4</text><text class="s-pinname" x="188" y="252" text-anchor="middle" style="fill:#1c7ed6">C</text><path d="M183.5,215 L188,208 L192.5,215" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="232" y1="206" x2="232" y2="232" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="239" y="223">5</text><text class="s-pinname" x="232" y="252" text-anchor="middle" style="fill:#1c7ed6">D</text><path d="M227.5,215 L232,208 L236.5,215" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="276" y1="206" x2="276" y2="232" style="stroke:#adb5bd;stroke-width:3"/><text class="s-pn2" x="283" y="223">6</text><text class="s-pinname" x="276" y="252" text-anchor="middle" style="fill:#adb5bd">NC</text><line x1="320" y1="206" x2="320" y2="232" style="stroke:#1c2329;stroke-width:3"/><text class="s-pn2" x="327" y="223">7</text><text class="s-pinname" x="320" y="252" text-anchor="middle" style="fill:#1c2329">VSS</text><line x1="320" y1="50" x2="320" y2="76" style="stroke:#adb5bd;stroke-width:3"/><text class="s-pn2" x="327" y="67">8</text><text class="s-pinname" x="320" y="42" text-anchor="middle" style="fill:#adb5bd">NC</text><line x1="276" y1="50" x2="276" y2="76" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="283" y="67">9</text><text class="s-pinname" x="276" y="42" text-anchor="middle" style="fill:#1c7ed6">E</text><path d="M271.5,67 L276,74 L280.5,67" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="232" y1="50" x2="232" y2="76" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="239" y="67">10</text><text class="s-pinname" x="232" y="42" text-anchor="middle" style="fill:#1c7ed6">F</text><path d="M227.5,67 L232,74 L236.5,67" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="188" y1="50" x2="188" y2="76" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="195" y="67">11</text><text class="s-pinname" x="188" y="42" text-anchor="middle" style="fill:#1c7ed6">G</text><path d="M183.5,67 L188,74 L192.5,67" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="144" y1="50" x2="144" y2="76" style="stroke:#1c7ed6;stroke-width:3"/><text class="s-pn2" x="151" y="67">12</text><text class="s-pinname" x="144" y="42" text-anchor="middle" style="fill:#1c7ed6">H</text><path d="M139.5,67 L144,74 L148.5,67" style="fill:none;stroke:#1c7ed6;stroke-width:2.2"/><line x1="100" y1="50" x2="100" y2="76" style="stroke:#d9480f;stroke-width:3"/><text class="s-pn2" x="107" y="67">13</text><text class="s-pinname" x="100" y="42" text-anchor="middle" style="fill:#d9480f">K</text><path d="M95.5,59 L100,52 L104.5,59" style="fill:none;stroke:#d9480f;stroke-width:2.2"/><line x1="56" y1="50" x2="56" y2="76" style="stroke:#e03131;stroke-width:3"/><text class="s-pn2" x="63" y="67">14</text><text class="s-pinname" x="56" y="42" text-anchor="middle" style="fill:#e03131">VDD</text><path class="s-gate" d="M91,187 Q91,169 166,157 Q241,169 241,187 Q166,181 91,187 Z"/><line class="s-line" x1="100" y1="206" x2="100" y2="187"/><line class="s-line" x1="144" y1="206" x2="144" y2="187"/><line class="s-line" x1="188" y1="206" x2="188" y2="187"/><line class="s-line" x1="232" y1="206" x2="232" y2="187"/><path class="s-line" d="M166,157 L166,152 Q166,148 162,148 L60,148 Q56,148 56,152 L56,206"/><path class="s-gate" d="M135,95 Q135,113 210,125 Q285,113 285,95 Q210,101 135,95 Z"/><line class="s-line" x1="276" y1="76" x2="276" y2="95"/><line class="s-line" x1="232" y1="76" x2="232" y2="95"/><line class="s-line" x1="188" y1="76" x2="188" y2="95"/><line class="s-line" x1="144" y1="76" x2="144" y2="95"/><path class="s-line" d="M210,125 L210,130 Q210,134 206,134 L104,134 Q100,134 100,130 L100,76"/><text class="s-chipname" x="284" y="145.0" text-anchor="middle">4072</text></svg>
