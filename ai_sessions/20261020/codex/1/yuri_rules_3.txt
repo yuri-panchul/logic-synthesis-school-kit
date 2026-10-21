@@ -1,0 +1,34 @@
+Additional rules, update the testbenches and the style guide as well.
+
+Look at
+https://github.com/yuri-panchul/basics-graphics-music/blob/main/labs/4_microarchitecture/4_2_fifo/4_2_4_flip_flop_fifo_with_counter_view_1_functional/tb.sv
+* Use new SystemVerilog syntax to specify timescale, not old `timescale.
+
+* Use "wire" if and only if it is a continuous assignment "wire a = ...". Otherwise use "logic".
+
+* Align "=" vertically in a sequence of assignments.
+
+* Do not change clock in the middle of "initial" block with blocking assignment. Isolate it into:
+
+logic clk = 1'b0;
+always # (period / 2) clk = ~ clk;
+
+* Do not use "# delay" unless necessary.
+Usually you need only "@ (posedge clk)"
+and sometimes "@ (posedge clk); #1" if you have combinational logic after a register and you want to sample it.
+
+* Never drive or sample anything on negedge unless you have to.
+
+* Do not use begin/end in tasks in Verilog-95 style. SystemVerilog allows to omit them.
+
+* Testbench timeouts should be counted in clock cycles, not in absolute "# delay".
+
+Look at the following testbenches as examples:
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/main/labs/4_microarchitecture/4_2_fifo/4_2_4_flip_flop_fifo_with_counter_view_1_functional/tb.sv
+
+https://github.com/yuri-panchul/basics-graphics-music/blob/main/labs/4_microarchitecture/4_3_pipelines_2/4_3_4_pow_5_pipelined_with_credit_counter/tb.sv
+
+https://github.com/verilog-meetup/systemverilog-microarchitecture-challenge-for-ai-2/blob/main/testbench.sv
+
+If you cannot follow it for whatever reason, write an HTML report need_to_deviate_from_style.html to explaining why.

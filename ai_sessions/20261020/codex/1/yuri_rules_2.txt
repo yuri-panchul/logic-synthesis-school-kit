@@ -1,0 +1,71 @@
+## SystemVerilog style rules
+
+* Use new SystemVerilog syntax to specify timescale, not old `timescale.
+
+* Put '(' from a new line after "module modulename".
+
+* Use "wire" if and only if it is a continuous assignment "wire a = ...". Otherwise use "logic".
+
+* Put a newline after ");" in module header.
+
+* Put space between "~" and its argument.
+
+* Do not use "reg", use "logic" instead.
+
+* Put empty line before any "always" blocks.
+
+* Use only "always_ff" and "always_comb", do not use plain "always".
+
+* Put empty line before endmodule.
+
+* If there is anything after endmodule, put empty line after endmodule.
+
+* Put empty line before module declaration.
+
+* Put empty line after eny "`" declaration and a comment.
+
+* Put space between # and (.
+
+* Put spaces around "=".
+
+* Align all "logic" keywords in port delarations vertically.
+
+* Always put "begin" from a new line
+
+* Always put space before and after { in concatenation. 
+
+* Always put space before } in concatemation except the case of space between }}.
+
+* Put space after unary operators "&", "|", "~", "!", "^" and other unary operators.
+
+* Align "=" vertically in a sequence of assignments.
+* empty line before generate.
+
+* space after type conversion: "w_led' (".
+
+* Do not use Verilog-95 type integer.
+
+* Put space before "(".
+
+* Put spaces around " = ".
+
+* Put space after "," unless it is at the end of line.
+
+* Do not change clock in the middle of "initial" block with blocking assignment. Isolate it into "logic clk = 1'b0; always # (period / 2) clk = ~ clk;".
+
+* Put spaces around any binary or ternary operation. Not "if(q!==(10'b1<<expected) || carry!==(expected<5))" but "if (q !== (10'b1 << expected) || carry !== (expected < 5))".
+
+* Put empty line before "initial".
+
+* Do not use "# delay" unless necessary. Usually you need only "@ (posedge clk)" and sometimes "@ (posedge clk); #1" if you have combinational logic after a register and you want to sample it.
+
+* Never drive or sample anything on negedge unless you have to.
+
+* Do not use begin/end in tasks in Verilog-95 style. SystemVerilog allows to omit them.
+
+* Put empty line between the end of "if" block and the next statement, like an assignment, next "if", loop, etc.
+
+* Put empty line before and after "task" and "endtask".
+
+* Testbench timeouts should be counted in clock cycles, not in absolute "# delay".
+* Try to vertically align "(" and ")" in port connections inside module instantiation, unless misalignment is too large, like 20 spaces.

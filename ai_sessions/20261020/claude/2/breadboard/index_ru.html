@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Упражнения на макетной плате</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-ex="">
+<header class="top"><div><b><a href="index_ru.html">Упражнения на макетной плате</a></b><span class="lang"><a href="index.html" hreflang="en" lang="en">English</a><span>Русский</span></span></div></header>
+<main>
+<h1>Упражнения на макетной плате</h1><p class="lead">Каждое упражнение — схема из микросхем КМОП серии 4000 на макетной плате с полным набором материалов: как она работает, микросхемы, три схемы, список проводов для сборки и та же схема на SystemVerilog с тестбенчем и файлами для платы ПЛИС и Tiny Tapeout.</p><div class="excards"><a class="excard" href="m11_traffic_light/index_ru.html"><span class="id">M11 · Мини-проект · конечный автомат</span><h3>Светофор на десятичном счётчике</h3><p>Схема Тимофея Никифорова: десятичный счётчик 4017 проходит десять состояний, а элементы ИЛИ превращают их в 4 секунды красного, 2 жёлтого и 4 зелёного.</p><span class="tag">4017</span><span class="tag">4072</span><span class="tag">4071</span><p class="small" style="margin-top:8px">SystemVerilog · тестбенч · скрипты · схемы</p></a></div><p class="muted">Другие упражнения появятся позже. Полный список из 39 упражнений с деталями — на <a href="../exercises.html">странице упражнений LSSK</a> (по-английски).</p>
+<footer>Logic Synthesis School Kit · Verilog Meetup · собрано <code>tools/bb_site.py</code> · цены из <a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?usp=sharing">таблицы компонентов LSSK</a> (снимок 2026-10-14)</footer>
+</main>
+<script>
+(function () {
+  document.querySelectorAll('.code button.copy').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.preventDefault();
+      var pre = b.closest('.code').querySelector('pre');
+      var text = pre.innerText;
+      var label = b.textContent;
+      function done(t) { b.textContent = t; setTimeout(function () { b.textContent = label; }, 1400); }
+      function select() {
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        done(b.dataset.sel);
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { done(b.dataset.ok); }, select);
+      } catch (err) { select(); }
+    });
+  });
+  var KEY = 'lssk-bb-wires-' + (document.body.dataset.ex || '');
+  var boxes = document.querySelectorAll('.wchk');
+  if (!boxes.length) return;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+  var count = document.getElementById('wcount');
+  function update() {
+    var n = 0;
+    boxes.forEach(function (b) { if (b.checked) n++; b.closest('tr').classList.toggle('done', b.checked); });
+    if (count) count.textContent = count.dataset.tpl.replace('{n}', n).replace('{t}', boxes.length);
+  }
+  boxes.forEach(function (b) {
+    b.checked = !!state[b.dataset.w];
+    b.addEventListener('change', function () {
+      state[b.dataset.w] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      update();
+    });
+  });
+  var reset = document.getElementById('wreset');
+  if (reset) reset.addEventListener('click', function () {
+    state = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    boxes.forEach(function (b) { b.checked = false; });
+    update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>
