@@ -1,0 +1,1023 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Timofei’s traffic light · LSSK</title><link rel="stylesheet" href="../style.css"><script src="../demo.js" defer></script></head><body><header><div class="topbar"><a href="../index.html">← Breadboard exercises</a><a href="index_ru.html">Русский</a></div><div class="eyebrow">BB-FSM-01 · Logic Synthesis School Kit</div><h1>Timofei’s traffic light</h1><p class="intro">Build a ten-state machine with three CMOS chips. Then describe the same behavior in SystemVerilog and run it in simulation, on an FPGA and through a Tiny Tapeout wrapper.</p><div class="stats"><span><strong>4 / 2 / 4</strong>red / yellow / green ticks</span><span><strong>3</strong>CMOS chips</span><span><strong>10</strong>states in a cycle</span></div></header><div class="layout"><nav class="toc" aria-label="Lesson sections"><strong>In this lesson</strong><a href="#s01">1. Exercise BB-FSM-01 · Timofei’s traffic light</a><a href="#s02">2. The state machine and OR logic</a><a href="#s03">3. Parts you need</a><a href="#s04">4. CMOS chips: functions, pins and polarity</a><a href="#s05">5. Schematic 1 · Generic logic</a><a href="#s06">6. Schematic 2 · Chip connections</a><a href="#s07">7. Schematic 3 · Breadboard assembly</a><a href="#s08">8. Generic synthesizable SystemVerilog</a><a href="#s09">9. SystemVerilog models of the CMOS chips</a><a href="#s10">10. The chip-connected SystemVerilog design</a><a href="#s11">11. Testbenches and simulator scripts</a><a href="#s12">12. Integration with BGM lab_top</a><a href="#s13">13. Integration with BGM hackathon_top</a><a href="#s14">14. Integration with Tiny Tapeout project.v</a><a href="#s15">15. Bring-up, experiments and sources</a></nav><main class="content"><section id="s01"><h2>1. Exercise BB-FSM-01 · Timofei’s traffic light</h2><p>A traffic light is a useful first <strong>finite state machine (FSM)</strong>: the outputs depend on a stored state, and each clock edge advances that state. Here the repeating sequence is red → yellow → green → red. Red occupies four states, yellow two and green four.</p><p>This follows Timofei Nikiforov’s idea described in <a href="https://habr.com/en/articles/1071736/">Yuri Panchul’s course</a>. The same “state register + output decoding” structure appears in peripheral controllers, protocol sequencers and processor control logic. This exercise teaches the link between a breadboard circuit and synthesizable RTL.</p><p><strong>Prerequisites:</strong> breadboard power rails, reading DIP pin numbers, OR gates and clock edges. The supplied circuit is a teaching sequence; intersection coordination and pedestrian inputs are outside this exercise.</p><p class="download"><a href="traffic_light.zip">Download the complete exercise (ZIP)</a></p></section><section id="s02"><h2>2. The state machine and OR logic</h2><figure class="normal"><a href="images/fsm_en.svg"><img src="images/fsm_en.svg" alt="Moore state diagram. Each arrow advances one clock period; node outputs are {red, yellow, green}." loading="lazy"></a><figcaption>Moore state diagram. Each arrow advances one clock period; node outputs are {red, yellow, green}. · <a href="images/fsm_en.svg" download>SVG</a> · <a href="images/fsm_en.png" download>PNG</a></figcaption></figure><p>The ten circles are ten distinct states, even when several light the same lamp. For example, S0 and S3 both produce red, but their next states differ. Reset selects S0 from any state and holds it while rst is high. The arrow conditions assume rst=0.</p><pre><code>S0 → S1 → S2 → S3 → S4 → S5 → S6 → S7 → S8 → S9 → S0
+
+red    = S0 | S1 | S2 | S3
+yellow = S4 | S5
+green  = S6 | S7 | S8 | S9</code></pre><p>S0–S9 are names of states and decoded signals, <strong>not chip pin numbers</strong>. At a settled state exactly one S signal is high. The source’s “outputs 1–4, 5–6, 7–10” uses one-based counting; this lesson consistently uses the datasheet’s Q0–Q9 naming.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">State</th><th scope="col">U1 output / pin</th><th scope="col">red</th><th scope="col">yellow</th><th scope="col">green</th><th scope="col">Next on clk ↑</th></tr></thead><tbody><tr><td>S0</td><td>Q0 / 3</td><td>1</td><td>0</td><td>0</td><td>S1</td></tr><tr><td>S1</td><td>Q1 / 2</td><td>1</td><td>0</td><td>0</td><td>S2</td></tr><tr><td>S2</td><td>Q2 / 4</td><td>1</td><td>0</td><td>0</td><td>S3</td></tr><tr><td>S3</td><td>Q3 / 7</td><td>1</td><td>0</td><td>0</td><td>S4</td></tr><tr><td>S4</td><td>Q4 / 10</td><td>0</td><td>1</td><td>0</td><td>S5</td></tr><tr><td>S5</td><td>Q5 / 1</td><td>0</td><td>1</td><td>0</td><td>S6</td></tr><tr><td>S6</td><td>Q6 / 5</td><td>0</td><td>0</td><td>1</td><td>S7</td></tr><tr><td>S7</td><td>Q7 / 6</td><td>0</td><td>0</td><td>1</td><td>S8</td></tr><tr><td>S8</td><td>Q8 / 9</td><td>0</td><td>0</td><td>1</td><td>S9</td></tr><tr><td>S9</td><td>Q9 / 11</td><td>0</td><td>0</td><td>1</td><td>S0</td></tr></tbody></table></div><p>A two-input OR produces 1 when either input is 1:</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">A</th><th scope="col">B</th><th scope="col">A | B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div><p>For a four-input OR, 0000 gives 0; each of the other fifteen input combinations gives 1. Reset is asynchronous and active high: it selects S0 immediately, even between clock edges. Normal counting uses rising clock edges only.</p><figure class="normal"><a href="images/timing_en.svg"><img src="images/timing_en.svg" alt="Timing: four red intervals, two yellow, four green." loading="lazy"></a><figcaption>Timing: four red intervals, two yellow, four green. · <a href="images/timing_en.svg" download>SVG</a> · <a href="images/timing_en.png" download>PNG</a></figcaption></figure><p>At clock frequency f, the durations are 4/f, 2/f and 4/f seconds. The diagram places reset at t=0 and the first counting edge at t=1 s. Releasing a real asynchronous reset at an arbitrary time can shorten the first red interval; complete subsequent cycles still have the 4/2/4 ratio.</p><div class="demo" data-traffic-demo><h3>Try the state sequence</h3><div class="lamps"><div class="lamp red"><span class="bulb" aria-hidden="true"></span>Red: <strong class="level">0</strong></div><div class="lamp yellow"><span class="bulb" aria-hidden="true"></span>Yellow: <strong class="level">0</strong></div><div class="lamp green"><span class="bulb" aria-hidden="true"></span>Green: <strong class="level">0</strong></div></div><div class="state-strip" data-states></div><p data-label aria-live="polite"></p><div class="controls"><button type="button" data-step>One rising edge</button><button type="button" data-run aria-pressed="false">Run · 1 Hz</button><button type="button" class="secondary" data-reset>Reset → S0</button></div><p class="small">This browser animation illustrates logical states; it is not the HDL simulator or an electrical model.</p><noscript>Enable JavaScript for the controls; the truth table and diagrams work without it.</noscript></div></section><section id="s03"><h2>3. Parts you need</h2><div class="table-wrap"><table class=""><thead><tr><th scope="col">Ref.</th><th scope="col">Part</th><th scope="col">Qty</th><th scope="col">Purpose</th><th scope="col">LSSK row</th></tr></thead><tbody><tr><td>U1</td><td>CD4017BE · DIP-16</td><td>1</td><td>Decade counter, ten decoded outputs</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A37:Q37">37</a></td></tr><tr><td>U2</td><td>CD4072BE · DIP-14</td><td>1</td><td>Two 4-input OR gates: red and green</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A21:Q21">21</a></td></tr><tr><td>U3</td><td>CD4071BE · DIP-14</td><td>1</td><td>One 2-input OR for yellow; three gates unused</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A20:Q20">20</a></td></tr><tr><td>LED-R</td><td>5 V LED</td><td>1</td><td>Red, with built-in current limiting</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A46:Q46">46</a></td></tr><tr><td>LED-Y</td><td>5 V LED</td><td>1</td><td>Yellow, with built-in current limiting</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A48:Q48">48</a></td></tr><tr><td>LED-G</td><td>5 V LED</td><td>1</td><td>Green, with built-in current limiting</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A47:Q47">47</a></td></tr><tr><td>CLK</td><td>555 clock module</td><td>1</td><td>Ready assembled; adjust to approximately 1 Hz</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A54:Q54">54</a></td></tr><tr><td>RESET</td><td>Button module</td><td>1</td><td>Qualified 5 V module: OUT=0 released, OUT=1 pressed; built-in pull-down</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A65:Q65">65</a></td></tr><tr><td>BB</td><td>830-contact breadboard</td><td>1</td><td>One board, central trench and four power rails</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A45:Q45">45</a></td></tr><tr><td>PSU</td><td>5 V regulated power module</td><td>1</td><td>Select 5 V; use its supported USB input or the listed 9 V input supply</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A56:Q56">56</a></td></tr><tr><td>W</td><td>M–M leads</td><td>39</td><td>37 board jumpers plus two supply leads; obtain a 40-pack</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A70:Q70">70</a></td></tr><tr><td>M</td><td>M–F leads</td><td>6</td><td>Three each for CLK and RESET, with fitted male headers</td><td><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit?range=LSSK!A71:Q71">71</a></td></tr></tbody></table></div><p>Rows refer to the local LSSK snapshot from 14 October 2026. The live Google sheet was unavailable during this update. Quantities are components actually used; the reset-button purchasing lot contains five units. The supply module needs a compatible input cable/source; this is additional to the 39 M–M leads. A ready regulated classroom 5 V supply can replace the module.</p><div class="note">Use the specified 5 V indicators with built-in current limiting, and a button <em>module</em> with a defined low output when released. A bare LED or bare pushbutton is not a drop-in substitute. Verify the actual module pin labels. CMOS outputs have limited drive; the LED load must be suitable for direct 4000-series drive.</div><p><a href="parts.csv">Parts CSV</a> · <a href="research/lssk_parts_snapshot.json">Source sheet rows</a></p></section><section id="s04"><h2>4. CMOS chips: functions, pins and polarity</h2><p><strong>U1 CD4017BE:</strong> cycles through Q0…Q9. CLOCK pin 14 advances on a rising edge when INHIBIT pin 13 is low. RESET pin 15 is high-active and overrides counting. Pin 12 is a carry output, high in S0…S4 and low in S5…S9; it is unused here.</p><p>The second clock input has an important detail: lowering INHIBIT while CLOCK is high also advances the counter. We tie INHIBIT permanently to GND. The chip model and its unit test cover this behavior; the lesson’s top-level interface needs only clk and rst. <a href="https://www.ti.com/lit/ds/symlink/cd4017b.pdf">TI reference</a>; <a href="https://assets.nexperia.com/documents/data-sheet/HEF4017B.pdf">4017-family clock truth table</a>.</p><p><strong>U2 CD4072BE:</strong> two four-input OR gates. Inputs 2,3,4,5 → output 1 (red); inputs 9,10,11,12 → output 13 (green). <strong>U3 CD4071BE:</strong> four two-input OR gates. Inputs 1,2 → output 3 (yellow). All logic outputs used here are active high. <a href="https://www.ti.com/lit/ds/symlink/cd4071b.pdf">TI OR-gate datasheet</a>.</p><figure class="normal"><a href="images/pinouts_en.svg"><img src="images/pinouts_en.svg" alt="All three DIP packages, viewed from above." loading="lazy"></a><figcaption>All three DIP packages, viewed from above. · <a href="images/pinouts_en.svg" download>SVG</a> · <a href="images/pinouts_en.png" download>PNG</a></figcaption></figure><h3>U1 · CD4017BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Pin</th><th scope="col">Chip signal</th><th scope="col">This circuit</th></tr></thead><tbody><tr><td>1</td><td>Q5</td><td>S5</td></tr><tr><td>2</td><td>Q1</td><td>S1</td></tr><tr><td>3</td><td>Q0</td><td>S0</td></tr><tr><td>4</td><td>Q2</td><td>S2</td></tr><tr><td>5</td><td>Q6</td><td>S6</td></tr><tr><td>6</td><td>Q7</td><td>S7</td></tr><tr><td>7</td><td>Q3</td><td>S3</td></tr><tr><td>8</td><td>VSS</td><td>Tie to 0 V</td></tr><tr><td>9</td><td>Q8</td><td>S8</td></tr><tr><td>10</td><td>Q4</td><td>S4</td></tr><tr><td>11</td><td>Q9</td><td>S9</td></tr><tr><td>12</td><td>CARRY</td><td>Leave open</td></tr><tr><td>13</td><td>INHIBIT</td><td>Tie to 0 V</td></tr><tr><td>14</td><td>CLOCK</td><td>clk</td></tr><tr><td>15</td><td>RESET</td><td>rst</td></tr><tr><td>16</td><td>VDD</td><td>Supply +5 V</td></tr></tbody></table></div><h3>U2 · CD4072BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Pin</th><th scope="col">Chip signal</th><th scope="col">This circuit</th></tr></thead><tbody><tr><td>1</td><td>J</td><td>red</td></tr><tr><td>2</td><td>A</td><td>S0</td></tr><tr><td>3</td><td>B</td><td>S1</td></tr><tr><td>4</td><td>C</td><td>S2</td></tr><tr><td>5</td><td>D</td><td>S3</td></tr><tr><td>6</td><td>NC</td><td>Leave open</td></tr><tr><td>7</td><td>VSS</td><td>Tie to 0 V</td></tr><tr><td>8</td><td>NC</td><td>Leave open</td></tr><tr><td>9</td><td>E</td><td>S6</td></tr><tr><td>10</td><td>F</td><td>S7</td></tr><tr><td>11</td><td>G</td><td>S8</td></tr><tr><td>12</td><td>H</td><td>S9</td></tr><tr><td>13</td><td>K</td><td>green</td></tr><tr><td>14</td><td>VDD</td><td>Supply +5 V</td></tr></tbody></table></div><h3>U3 · CD4071BE</h3><div class="table-wrap"><table class="pin-table"><thead><tr><th scope="col">Pin</th><th scope="col">Chip signal</th><th scope="col">This circuit</th></tr></thead><tbody><tr><td>1</td><td>A</td><td>S4</td></tr><tr><td>2</td><td>B</td><td>S5</td></tr><tr><td>3</td><td>J</td><td>yellow</td></tr><tr><td>4</td><td>K</td><td>Leave open</td></tr><tr><td>5</td><td>C</td><td>Tie to 0 V</td></tr><tr><td>6</td><td>D</td><td>Tie to 0 V</td></tr><tr><td>7</td><td>VSS</td><td>Tie to 0 V</td></tr><tr><td>8</td><td>E</td><td>Tie to 0 V</td></tr><tr><td>9</td><td>F</td><td>Tie to 0 V</td></tr><tr><td>10</td><td>L</td><td>Leave open</td></tr><tr><td>11</td><td>M</td><td>Leave open</td></tr><tr><td>12</td><td>G</td><td>Tie to 0 V</td></tr><tr><td>13</td><td>H</td><td>Tie to 0 V</td></tr><tr><td>14</td><td>VDD</td><td>Supply +5 V</td></tr></tbody></table></div><p>Unused <em>logic inputs</em> of U3 (5,6,8,9,12,13) are tied to GND. Its unused outputs (4,10,11) stay open. U2 pins 6 and 8 are physical NC pins; leave them open. Never connect outputs together to implement OR.</p></section><section id="s05"><h2>5. Schematic 1 · Generic logic</h2><figure class="normal"><a href="images/logic_en.svg"><img src="images/logic_en.svg" alt="A cyclic state block feeds three generic OR functions." loading="lazy"></a><figcaption>A cyclic state block feeds three generic OR functions. · <a href="images/logic_en.svg" download>SVG</a> · <a href="images/logic_en.png" download>PNG</a></figcaption></figure><p>The <a href="#s02">state graph in section 2</a> specifies each transition. This is the behavioral structure implemented by <code>traffic_light.sv</code>. The state block specifies a ten-state sequence; it does not require a particular internal encoding.</p></section><section id="s06"><h2>6. Schematic 2 · Chip connections</h2><figure class="normal"><a href="images/connections_en.svg"><img src="images/connections_en.svg" alt="Every state signal is routed to a named chip pin." loading="lazy"></a><figcaption>Every state signal is routed to a named chip pin. · <a href="images/connections_en.svg" download>SVG</a> · <a href="images/connections_en.png" download>PNG</a></figcaption></figure><p>red is U2.1, yellow is U3.3, green is U2.13. Connect each to the anode of its corresponding current-limited indicator; connect cathodes to common GND. Clock, reset and supply modules share that ground.</p></section><section id="s07"><h2>7. Schematic 3 · Breadboard assembly</h2><figure class="tall"><a href="images/breadboard_en.svg"><img src="images/breadboard_en.svg" alt="Complete board placement and all 37 jumper paths. Open the SVG to zoom." loading="lazy"></a><figcaption>Complete board placement and all 37 jumper paths. Open the SVG to zoom. · <a href="images/breadboard_en.svg" download>SVG</a> · <a href="images/breadboard_en.png" download>PNG</a></figcaption></figure><p>Insert all DIP packages across the central trench with notches upward: U1 in rows 8–15, U2 in 22–28, U3 in 35–41. Pin 1 occupies column e at the first row; the opposite top pin is in column f. Within a row, a–e are connected and f–j are connected; the two halves are separate.</p><p>LP/LM are the left positive/ground rails; RP/RM are the right rails. Rail holes are numbered 01–50 from top to bottom independently of the 63 terminal rows. The drawing assumes a break between rail holes 25 and 26 and bridges all four rails. Inspect the continuity of your actual board before applying this numbering.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">External connection</th><th scope="col">Board holes</th></tr></thead><tbody><tr><td>CLK: OUT / + / −</td><td>h47 / LP05 / LM05</td></tr><tr><td>RESET: OUT / + / −</td><td>h50 / LP06 / LM06</td></tr><tr><td>Supply +5 V / GND</td><td>LP01 / LM01</td></tr><tr><td>Red LED anode / cathode</td><td>b48 / b49</td></tr><tr><td>Yellow LED anode / cathode</td><td>b52 / b53</td></tr><tr><td>Green LED anode / cathode</td><td>b56 / b57</td></tr></tbody></table></div><div class="note">The count is 15 signal + 16 power/ground + 6 rail jumpers = 37. Six module leads and two supply leads are additional. Do not insert a jumper into a hole already occupied by an IC leg, LED leg or module lead. The CSV allocates a separate hole on the same copper strip.</div><details><summary>Complete hole-by-hole wiring checklist (37 jumpers)</summary><div class="table-wrap"><table class=""><thead><tr><th scope="col">Wire</th><th scope="col">Net</th><th scope="col">From</th><th scope="col">To</th></tr></thead><tbody><tr><td>W01</td><td>+5V</td><td>LP25</td><td>LP26</td></tr><tr><td>W02</td><td>GND</td><td>LM25</td><td>LM26</td></tr><tr><td>W03</td><td>+5V</td><td>RP25</td><td>RP26</td></tr><tr><td>W04</td><td>GND</td><td>RM25</td><td>RM26</td></tr><tr><td>W05</td><td>+5V</td><td>LP02</td><td>RP02</td></tr><tr><td>W06</td><td>GND</td><td>LM02</td><td>RM02</td></tr><tr><td>W07</td><td>S0</td><td>a10</td><td>a23</td></tr><tr><td>W08</td><td>S1</td><td>a09</td><td>a24</td></tr><tr><td>W09</td><td>S2</td><td>a11</td><td>a25</td></tr><tr><td>W10</td><td>S3</td><td>a14</td><td>a26</td></tr><tr><td>W11</td><td>S4</td><td>j14</td><td>a35</td></tr><tr><td>W12</td><td>S5</td><td>a08</td><td>a36</td></tr><tr><td>W13</td><td>S6</td><td>a12</td><td>j27</td></tr><tr><td>W14</td><td>S7</td><td>a13</td><td>j26</td></tr><tr><td>W15</td><td>S8</td><td>j15</td><td>j25</td></tr><tr><td>W16</td><td>S9</td><td>j13</td><td>j24</td></tr><tr><td>W17</td><td>GND</td><td>a15</td><td>LM08</td></tr><tr><td>W18</td><td>GND</td><td>j11</td><td>RM08</td></tr><tr><td>W19</td><td>GND</td><td>a28</td><td>LM09</td></tr><tr><td>W20</td><td>GND</td><td>a39</td><td>LM10</td></tr><tr><td>W21</td><td>GND</td><td>a40</td><td>LM11</td></tr><tr><td>W22</td><td>GND</td><td>a41</td><td>LM12</td></tr><tr><td>W23</td><td>GND</td><td>j41</td><td>RM09</td></tr><tr><td>W24</td><td>GND</td><td>j40</td><td>RM10</td></tr><tr><td>W25</td><td>GND</td><td>j37</td><td>RM11</td></tr><tr><td>W26</td><td>GND</td><td>j36</td><td>RM12</td></tr><tr><td>W27</td><td>GND</td><td>a49</td><td>LM13</td></tr><tr><td>W28</td><td>GND</td><td>a53</td><td>LM14</td></tr><tr><td>W29</td><td>GND</td><td>a57</td><td>LM15</td></tr><tr><td>W30</td><td>clk</td><td>j10</td><td>j47</td></tr><tr><td>W31</td><td>rst</td><td>j09</td><td>j50</td></tr><tr><td>W32</td><td>+5V</td><td>j08</td><td>RP08</td></tr><tr><td>W33</td><td>+5V</td><td>j22</td><td>RP09</td></tr><tr><td>W34</td><td>+5V</td><td>j35</td><td>RP10</td></tr><tr><td>W35</td><td>red</td><td>a22</td><td>a48</td></tr><tr><td>W36</td><td>green</td><td>j23</td><td>a56</td></tr><tr><td>W37</td><td>yellow</td><td>a37</td><td>a52</td></tr></tbody></table></div></details><p><a href="jumpers.csv">Download jumper CSV</a> · <a href="netlist.json">Pin/net database</a></p></section><section id="s08"><h2>8. Generic synthesizable SystemVerilog</h2><h3>Coding style used here</h3><p>Each module starts with <code>timeunit 1ns;</code> and <code>timeprecision 1ps;</code> after its header. Net ports use plain <code>input</code>/<code>output</code>; procedural outputs use <code>output logic</code>. Port names are aligned with spaces.</p><p>The RTL, chip models, wrappers and testbenches now follow the documented <a href="../systemverilog_style.html">SystemVerilog style rules</a> derived from BGM and systemverilog-homework. Indentation is <strong>four spaces</strong>. Registers use logic and always_ff; combinational procedures use always_comb; module connections use explicit port names. The guide records reset and FSM-style differences between the repositories.</p><figure class="normal"><a href="images/fsm_encoding_en.svg"><img src="images/fsm_encoding_en.svg" alt="The same state graph with the one-hot values of state[9:0] used by the generic RTL." loading="lazy"></a><figcaption>The same state graph with the one-hot values of state[9:0] used by the generic RTL. · <a href="images/fsm_encoding_en.svg" download>SVG</a> · <a href="images/fsm_encoding_en.png" download>PNG</a></figcaption></figure><p>Both designs have exactly the same interface: <code>clk, rst → red, yellow, green, state[9:0]</code>. The generic design uses a one-hot state register, so the three equations match schematic 1 directly. Reset is required before normal operation.</p><details open><summary>Generic RTL — full source</summary><p class="download"><a href="rtl/traffic_light.sv" download>rtl/traffic_light.sv</a></p><pre><code>// Synthesizable generic FSM. The state output uses one-hot encoding.
+// Reset is asynchronous and active high; it selects S0.
+
+module traffic_light
+(
+    input              clk,
+    input              rst,
+
+    output             red,
+    output             yellow,
+    output             green,
+    output logic [9:0] state
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    wire [9:0] next_state = { state [8:0], state [9] };
+
+    // State register
+
+    always_ff @ (posedge clk or posedge rst)
+        if (rst)
+            state &lt;= 10&#x27;b00_0000_0001;
+        else
+            state &lt;= next_state;
+
+    // Moore outputs depend only on the current state.
+
+    assign red    = | state [3:0];
+    assign yellow = | state [5:4];
+    assign green  = | state [9:6];
+
+endmodule
+</code></pre></details><p>SystemVerilog describes concurrent hardware: the register remembers a state, while all three output equations are continuously active. The shift concatenation rotates the one-hot marker, not software instructions. The real 4017 uses a five-stage Johnson counter internally; functional equivalence does not require identical internal storage.</p></section><section id="s09"><h2>9. SystemVerilog models of the CMOS chips</h2><p>All three models are <strong>synthesizable functional models</strong> with logical ports named after chip pins. Physical VDD/VSS and NC pins are documented in the diagram, not modeled as HDL power pins. There are no propagation delays. They do not verify LED current, supply quality, metastability or electrical pulse limits.</p><details><summary>cd4017b.sv</summary><p class="download"><a href="models/cd4017b.sv" download>models/cd4017b.sv</a></p><pre><code>// Synthesizable, zero-delay functional model of a powered CD4017B.
+// Physical supply pins: 16 = VDD, 8 = VSS; they are not HDL ports.
+// Binary encoding abstracts the chip&#x27;s five-stage Johnson counter.
+// Reset is required. Illegal Johnson-state recovery and electrical effects
+// (current, setup/hold, pulse width and propagation delay) are not modeled.
+
+module cd4017b
+(
+    input   p14_clock,
+    input   p13_inhibit,
+    input   p15_reset,
+
+    output  p3_q0,
+    output  p2_q1,
+    output  p4_q2,
+    output  p7_q3,
+    output  p10_q4,
+    output  p1_q5,
+    output  p5_q6,
+    output  p6_q7,
+    output  p9_q8,
+    output  p11_q9,
+    output  p12_carry
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    // Falling INHIBIT while CLOCK is high is also a count event.
+    // INHIBIT is tied low in this exercise, so synthesis removes the gate.
+    // This models the chip; it is not a recommendation to gate FPGA clocks.
+
+    wire effective_clock = p14_clock &amp; ~ p13_inhibit;
+
+    logic [3:0] count;
+
+    always_ff @ (posedge effective_clock or posedge p15_reset)
+        if (p15_reset)
+            count &lt;= &#x27;0;
+        else if (count == 4&#x27;d9)
+            count &lt;= &#x27;0;
+        else
+            count &lt;= count + 1&#x27;b1;
+
+    assign p3_q0     = (count == 4&#x27;d0);
+    assign p2_q1     = (count == 4&#x27;d1);
+    assign p4_q2     = (count == 4&#x27;d2);
+    assign p7_q3     = (count == 4&#x27;d3);
+    assign p10_q4    = (count == 4&#x27;d4);
+    assign p1_q5     = (count == 4&#x27;d5);
+    assign p5_q6     = (count == 4&#x27;d6);
+    assign p6_q7     = (count == 4&#x27;d7);
+    assign p9_q8     = (count == 4&#x27;d8);
+    assign p11_q9    = (count == 4&#x27;d9);
+    assign p12_carry = (count &lt;  4&#x27;d5);
+
+endmodule
+</code></pre></details><details><summary>cd4072b.sv</summary><p class="download"><a href="models/cd4072b.sv" download>models/cd4072b.sv</a></p><pre><code>// Synthesizable functional model: two four-input OR gates.
+// Physical pins: 14 = VDD, 7 = VSS, 6/8 = NC. No electrical/timing model.
+
+module cd4072b
+(
+    input   p2_a,
+    input   p3_b,
+    input   p4_c,
+    input   p5_d,
+    output  p1_j,
+
+    input   p9_e,
+    input   p10_f,
+    input   p11_g,
+    input   p12_h,
+    output  p13_k
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    assign p1_j  = p2_a | p3_b  | p4_c  | p5_d;
+    assign p13_k = p9_e | p10_f | p11_g | p12_h;
+
+endmodule
+</code></pre></details><details><summary>cd4071b.sv</summary><p class="download"><a href="models/cd4071b.sv" download>models/cd4071b.sv</a></p><pre><code>// Synthesizable functional model: four two-input OR gates.
+// Physical supply pins: 14 = VDD, 7 = VSS. No electrical/timing model.
+
+module cd4071b
+(
+    input   p1_a,
+    input   p2_b,
+    input   p5_c,
+    input   p6_d,
+    input   p8_e,
+    input   p9_f,
+    input   p12_g,
+    input   p13_h,
+
+    output  p3_j,
+    output  p4_k,
+    output  p10_l,
+    output  p11_m
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    assign p3_j  = p1_a  | p2_b;
+    assign p4_k  = p5_c  | p6_d;
+    assign p10_l = p8_e  | p9_f;
+    assign p11_m = p12_g | p13_h;
+
+endmodule
+</code></pre></details><p>Both encodings follow the <a href="#s02">same state graph</a>. The 4017 model uses a binary counter as an abstraction and matches the legal reset/count sequence, including carry and inhibit. It does not implement the physical Johnson counter’s recovery from illegal internal codes. In this exercise inhibit is tied low, allowing synthesis to remove the effective-clock gate.</p></section><section id="s10"><h2>10. The chip-connected SystemVerilog design</h2><p>This netlist is generated from the same pin/net database used by schematics 2 and 3. It instantiates one model per physical IC and ties unused logic inputs low. It has the same interface as section 8, so either implementation can replace the other in the testbench or wrappers.</p><details open><summary>Chip-connected RTL — full source</summary><p class="download"><a href="rtl/traffic_light_chips.sv" download>rtl/traffic_light_chips.sv</a></p><pre><code>// Generated by tools/build_diagrams.py from the same pins/nets as the drawings.
+// Synthesizable with the ideal chip models; all supply pins are physical-only.
+
+module traffic_light_chips
+(
+    input              clk,
+    input              rst,
+
+    output             red,
+    output             yellow,
+    output             green,
+    output       [9:0] state
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    cd4017b u1
+    (
+        .p3_q0        (state [0]),
+        .p2_q1        (state [1]),
+        .p4_q2        (state [2]),
+        .p7_q3        (state [3]),
+        .p10_q4       (state [4]),
+        .p1_q5        (state [5]),
+        .p5_q6        (state [6]),
+        .p6_q7        (state [7]),
+        .p9_q8        (state [8]),
+        .p11_q9       (state [9]),
+        .p12_carry    (),
+        .p13_inhibit  (1&#x27;b0),
+        .p14_clock    (clk),
+        .p15_reset    (rst)
+    );
+
+    cd4072b u2
+    (
+        .p1_j         (red),
+        .p2_a         (state [0]),
+        .p3_b         (state [1]),
+        .p4_c         (state [2]),
+        .p5_d         (state [3]),
+        .p9_e         (state [6]),
+        .p10_f        (state [7]),
+        .p11_g        (state [8]),
+        .p12_h        (state [9]),
+        .p13_k        (green)
+    );
+
+    cd4071b u3
+    (
+        .p1_a         (state [4]),
+        .p2_b         (state [5]),
+        .p3_j         (yellow),
+        .p4_k         (),
+        .p5_c         (1&#x27;b0),
+        .p6_d         (1&#x27;b0),
+        .p8_e         (1&#x27;b0),
+        .p9_f         (1&#x27;b0),
+        .p10_l        (),
+        .p11_m        (),
+        .p12_g        (1&#x27;b0),
+        .p13_h        (1&#x27;b0)
+    );
+
+endmodule
+</code></pre></details></section><section id="s11"><h2>11. Testbenches and simulator scripts</h2><p>The testbench compares both implementations with an independent expected state and expected lamp pattern. Equality alone is insufficient: two wrong designs could agree. Checks cover 12 complete cycles, 285 observations, asynchronous reset at both clock levels, held reset, falling-edge stability and wrap from S9 to S0.</p><p>All three benches use a separate free-running clock, event-based stimulus, SystemVerilog task bodies and cycle-counted timeouts. The only falling-edge waits check low-CLOCK behavior; each settling delay is explained in the source and in the <a href="../systemverilog_style.html#timing-notes">style guide timing notes</a>.</p><details><summary>Main equivalence testbench</summary><p class="download"><a href="tb/tb_traffic_light.sv" download>tb/tb_traffic_light.sv</a></p><pre><code>// Simulation only. Portable procedural checks; no classes, DPI or UVM.
+
+module tb_traffic_light;
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    localparam period         = 20;
+    localparam timeout_cycles = 500;
+
+    logic clk = 1&#x27;b0;
+    logic rst = 1&#x27;b0;
+
+    always # (period / 2) clk = ~ clk;
+
+    logic red_generic, yellow_generic, green_generic;
+    logic red_chips, yellow_chips, green_chips;
+    logic [9:0] state_generic, state_chips;
+
+    int expected     = 0;
+    int checks       = 0;
+    int red_slots    = 0;
+    int yellow_slots = 0;
+    int green_slots  = 0;
+    int visits [0:9];
+
+    traffic_light generic_dut
+    (
+        .clk    (clk),
+        .rst    (rst),
+        .red    (red_generic),
+        .yellow (yellow_generic),
+        .green  (green_generic),
+        .state  (state_generic)
+    );
+
+    traffic_light_chips chip_dut
+    (
+        .clk    (clk),
+        .rst    (rst),
+        .red    (red_chips),
+        .yellow (yellow_chips),
+        .green  (green_chips),
+        .state  (state_chips)
+    );
+
+    task check_state;
+        logic [9:0] wanted;
+        logic [2:0] lamps;
+
+        wanted = 10&#x27;b1 &lt;&lt; expected;
+        lamps  = expected &lt; 4 ? 3&#x27;b100 : expected &lt; 6 ? 3&#x27;b010 : 3&#x27;b001;
+
+        if (   state_generic !== wanted
+            || state_chips   !== wanted
+            || { red_generic, yellow_generic, green_generic } !== lamps
+            || { red_chips,   yellow_chips,   green_chips   } !== lamps)
+        begin
+            $fatal (1, &quot;state=%0d generic=%b/%b chips=%b/%b&quot;,
+                expected,
+                state_generic, { red_generic, yellow_generic, green_generic },
+                state_chips,   { red_chips,   yellow_chips,   green_chips   });
+        end
+
+        checks = checks + 1;
+    endtask
+
+    task tick;
+        @ (posedge clk);
+        expected = rst ? 0 : (expected + 1) % 10;
+        # 1;  // Let register updates and lamp decoding settle before sampling.
+        check_state ();
+    endtask
+
+    // Called between rising edges, after tick or the focused low-phase check.
+    // Checking before the next clock edge distinguishes asynchronous reset.
+    task reset_now;
+        rst      = 1&#x27;b1;
+        expected = 0;
+        # 1;  // Asynchronous register update and combinational output settling.
+        check_state ();
+        rst = 1&#x27;b0;
+    endtask
+
+    initial
+    begin
+        $dumpfile (&quot;traffic_light.vcd&quot;);
+        $dumpvars (0, tb_traffic_light);
+
+        for (int i = 0; i &lt; 10; i ++)
+            visits [i] = 0;
+
+        @ (posedge clk);
+        # 1;  // Place the initial reset after the clock event, without a race.
+        reset_now ();
+
+        for (int round = 0; round &lt; 12; round ++)
+            for (int i = 0; i &lt; 10; i ++)
+            begin
+                visits [expected] = visits [expected] + 1;
+
+                if (red_generic)
+                    red_slots = red_slots + 1;
+
+                if (yellow_generic)
+                    yellow_slots = yellow_slots + 1;
+
+                if (green_generic)
+                    green_slots = green_slots + 1;
+
+                tick ();
+            end
+
+        if (red_slots != 48 || yellow_slots != 24 || green_slots != 48)
+            $fatal (1, &quot;4/2/4 duration mismatch&quot;);
+
+        for (int i = 0; i &lt; 10; i ++)
+            if (visits [i] != 12)
+                $fatal (1, &quot;Missing state %0d&quot;, i);
+
+        // Reset from every state while CLOCK is high, then while it is low.
+        for (int low_phase = 0; low_phase &lt; 2; low_phase ++)
+            for (int i = 0; i &lt; 10; i ++)
+            begin
+                tick ();
+                reset_now ();
+
+                repeat (i)
+                    tick ();
+
+                if (low_phase != 0)
+                begin
+                    // Necessary exception: exercise reset with CLOCK low and
+                    // verify that a falling clock edge does not advance state.
+                    @ (negedge clk);
+                    # 1;  // Observe any erroneous falling-edge state update.
+                    check_state ();
+                end
+
+                reset_now ();
+            end
+
+        rst      = 1&#x27;b1;
+        expected = 0;
+
+        repeat (3)
+            tick ();  // Reset dominates the clock.
+
+        rst = 1&#x27;b0;
+        tick ();
+
+        $display (&quot;PASS traffic_light: %0d checks; 12 full cycles; red/yellow/green=48/24/48; reset and wrap&quot;,
+            checks);
+        $finish;
+    end
+
+    initial
+    begin
+        repeat (timeout_cycles) @ (posedge clk);
+        $fatal (1, &quot;Timeout after %0d clock cycles&quot;, timeout_cycles);
+    end
+
+endmodule
+</code></pre></details><p>Two additional benches exercise all 256 combinations across the OR-model input pins and the 4017’s inhibit/carry behavior, then both versions of each integration wrapper for 30 steps and both display modes, followed by three disabled cycles and independent button/dedicated reset checks.</p><details><summary>Chip-model unit tests</summary><p class="download"><a href="tb/tb_cmos.sv" download>tb/tb_cmos.sv</a></p><pre><code>// Simulation only. Chip pin truth tables and 4017 clock semantics.
+
+module tb_cmos;
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    localparam period         = 20;
+    localparam timeout_cycles = 500;
+
+    logic clk     = 1&#x27;b0;
+    logic inhibit = 1&#x27;b0;
+    logic rst     = 1&#x27;b0;
+    logic [7:0] a = &#x27;0;
+
+    always # (period / 2) clk = ~ clk;
+
+    logic [3:0] or2;
+    logic [1:0] or4;
+    logic [9:0] q;
+    logic carry;
+
+    int expected = 0;
+
+    cd4071b g2
+    (
+        .p1_a  (a [0]),
+        .p2_b  (a [1]),
+        .p5_c  (a [2]),
+        .p6_d  (a [3]),
+        .p8_e  (a [4]),
+        .p9_f  (a [5]),
+        .p12_g (a [6]),
+        .p13_h (a [7]),
+        .p3_j  (or2 [0]),
+        .p4_k  (or2 [1]),
+        .p10_l (or2 [2]),
+        .p11_m (or2 [3])
+    );
+
+    cd4072b g4
+    (
+        .p2_a  (a [0]),
+        .p3_b  (a [1]),
+        .p4_c  (a [2]),
+        .p5_d  (a [3]),
+        .p1_j  (or4 [0]),
+        .p9_e  (a [4]),
+        .p10_f (a [5]),
+        .p11_g (a [6]),
+        .p12_h (a [7]),
+        .p13_k (or4 [1])
+    );
+
+    cd4017b counter
+    (
+        .p14_clock   (clk),
+        .p13_inhibit (inhibit),
+        .p15_reset   (rst),
+        .p3_q0       (q [0]),
+        .p2_q1       (q [1]),
+        .p4_q2       (q [2]),
+        .p7_q3       (q [3]),
+        .p10_q4      (q [4]),
+        .p1_q5       (q [5]),
+        .p5_q6       (q [6]),
+        .p6_q7       (q [7]),
+        .p9_q8       (q [8]),
+        .p11_q9      (q [9]),
+        .p12_carry   (carry)
+    );
+
+    task check_counter;
+        if (q !== (10&#x27;b1 &lt;&lt; expected) || carry !== (expected &lt; 5))
+            $fatal (1, &quot;4017 state/carry mismatch: expected=%0d q=%b carry=%b&quot;,
+                expected, q, carry);
+    endtask
+
+    task tick;
+        @ (posedge clk);
+        expected = rst ? 0 : inhibit ? expected : (expected + 1) % 10;
+        # 1;  // Counter register and decoded output settling.
+        check_counter ();
+    endtask
+
+    initial
+    begin
+        @ (posedge clk);
+        # 1;  // Assert reset after the clock event, without a stimulus/DUT race.
+        rst      = 1&#x27;b1;
+        expected = 0;
+        # 1;  // Check asynchronous reset before the next clock edge.
+        check_counter ();
+
+        // Inputs are changed after sampling, safely before the next clock edge.
+        for (int i = 0; i &lt; 256; i ++)
+        begin
+            a = 8&#x27; (i);
+            tick ();
+
+            if (   or2 !== { (| a [7:6]), (| a [5:4]), (| a [3:2]), (| a [1:0]) }
+                || or4 !== { (| a [7:4]), (| a [3:0]) })
+                $fatal (1, &quot;OR pin truth-table mismatch input=%h&quot;, a);
+        end
+
+        rst = 1&#x27;b0;
+
+        repeat (30)
+            tick ();
+
+        inhibit = 1&#x27;b1;
+        # 1;  // Raising inhibit while CLOCK is high must not count.
+        check_counter ();
+
+        repeat (4)
+            tick ();
+
+        // Necessary exception: falling INHIBIT with CLOCK low must not count.
+        // Posedge-only stimulus cannot test this half of the chip&#x27;s truth table.
+        @ (negedge clk);
+        inhibit = 1&#x27;b0;
+        # 1;  // Settle the effective clock and output decode before checking.
+        check_counter ();
+
+        tick ();
+
+        inhibit = 1&#x27;b1;
+        # 1;  // Raising inhibit with CLOCK high must not count.
+        check_counter ();
+
+        inhibit  = 1&#x27;b0;
+        expected = (expected + 1) % 10;
+        # 1;  // Falling inhibit with CLOCK high IS a count event.
+        check_counter ();
+
+        rst      = 1&#x27;b1;
+        expected = 0;
+        # 1;  // Reset must act without waiting for the next clock edge.
+        check_counter ();
+
+        inhibit = 1&#x27;b1;
+        tick ();
+        inhibit = 1&#x27;b0;
+        # 1;  // Reset also dominates the falling-INHIBIT count event.
+        check_counter ();
+
+        repeat (2)
+            tick ();
+
+        $display (&quot;PASS CMOS: 256 OR input combinations; 30 count edges; carry, inhibit and asynchronous reset&quot;);
+        $finish;
+    end
+
+    initial
+    begin
+        repeat (timeout_cycles) @ (posedge clk);
+        $fatal (1, &quot;Timeout after %0d clock cycles&quot;, timeout_cycles);
+    end
+
+endmodule
+</code></pre></details><details><summary>BGM and Tiny Tapeout tests</summary><p class="download"><a href="tb/tb_integrations.sv" download>tb/tb_integrations.sv</a></p><pre><code>// Simulation only. Both core versions in all three integration wrappers.
+
+module tb_integrations;
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    localparam period         = 20;
+    localparam timeout_cycles = 200;
+
+    logic clk = 1&#x27;b0;
+    logic rst = 1&#x27;b0;
+    logic ena = 1&#x27;b1;
+
+    always # (period / 2) clk = ~ clk;
+
+    logic [7:0] ui  = &#x27;0;
+    logic [7:0] key = &#x27;0;
+
+    logic [7:0] lab_led  [0:1];
+    logic [7:0] hack_led [0:1];
+    logic [7:0] tt_out   [0:1];
+    logic [7:0] tt_io    [0:1];
+    logic [7:0] tt_oe    [0:1];
+
+    int n_bgm = 0;
+    int n_tt  = 0;
+    logic [7:0] seven [0:9];
+
+    generate
+        genvar k;
+
+        for (k = 0; k &lt; 2; k ++)
+        begin : versions
+            lab_top # (.CHIP_MODEL (k)) lab
+            (
+                .clk      (clk),
+                .slow_clk (clk),
+                .rst      (rst),
+                .key      (key [3:0]),
+                .sw       (8&#x27;b0),
+                .led      (lab_led [k]),
+                .abcdefgh (),
+                .digit    (),
+                .x        (10&#x27;b0),
+                .y        (9&#x27;b0),
+                .red      (),
+                .green    (),
+                .blue     (),
+                .mic      (24&#x27;b0),
+                .sound    (),
+                .uart_rx  (1&#x27;b0),
+                .uart_tx  (),
+                .gpio     ()
+            );
+
+            hackathon_top # (.CHIP_MODEL (k)) hack
+            (
+                .clock      (clk),
+                .slow_clock (clk),
+                .reset      (rst),
+                .key        (key),
+                .led        (hack_led [k]),
+                .abcdefgh   (),
+                .digit      (),
+                .x          (9&#x27;b0),
+                .y          (9&#x27;b0),
+                .red        (),
+                .green      (),
+                .blue       (),
+                .gpio       ()
+            );
+
+            tt_um_timofei_traffic_light # (.USE_CHIP_MODEL (k)) tt
+            (
+                .ui_in   (ui),
+                .uo_out  (tt_out [k]),
+                .uio_in  (8&#x27;b0),
+                .uio_out (tt_io [k]),
+                .uio_oe  (tt_oe [k]),
+                .ena     (ena),
+                .clk     (clk),
+                .rst_n   (~ rst)
+            );
+        end
+    endgenerate
+
+    task check_all;
+        logic [2:0] bgm_lamps;
+        logic [2:0] tt_lamps;
+        logic [7:0] segments;
+
+        bgm_lamps = n_bgm &lt; 4 ? 3&#x27;b001 : n_bgm &lt; 6 ? 3&#x27;b010 : 3&#x27;b100;
+        tt_lamps  = n_tt  &lt; 4 ? 3&#x27;b001 : n_tt  &lt; 6 ? 3&#x27;b010 : 3&#x27;b100;
+        segments  = ui [0] ? seven [n_tt] : n_tt &lt; 4 ? 8&#x27;h01 : n_tt &lt; 6 ? 8&#x27;h40 : 8&#x27;h08;
+
+        for (int j = 0; j &lt; 2; j ++)
+        begin
+            if (   lab_led  [j] !== { 5&#x27;b0, bgm_lamps }
+                || hack_led [j] !== { 5&#x27;b0, bgm_lamps })
+                $fatal (1, &quot;BGM output mismatch state=%0d model=%0d&quot;, n_bgm, j);
+
+            if (   tt_out [j] !== (ena ? segments : 8&#x27;b0)
+                || tt_io  [j] !== (ena ? { 5&#x27;b0, tt_lamps } : 8&#x27;b0)
+                || tt_oe  [j] !== (ena ? 8&#x27;h07 : 8&#x27;b0))
+                $fatal (1, &quot;Tiny Tapeout output mismatch state=%0d model=%0d&quot;, n_tt, j);
+        end
+    endtask
+
+    task tick;
+        @ (posedge clk);
+        n_bgm = rst || key [0] ? 0 : (n_bgm + 1) % 10;
+        n_tt  = rst           ? 0 : (n_tt  + 1) % 10;
+        # 1;  // Register updates and wrapper output decoding must settle.
+        check_all ();
+    endtask
+
+    initial
+    begin
+        seven [0] = 8&#x27;h3f;
+        seven [1] = 8&#x27;h06;
+        seven [2] = 8&#x27;h5b;
+        seven [3] = 8&#x27;h4f;
+        seven [4] = 8&#x27;h66;
+        seven [5] = 8&#x27;h6d;
+        seven [6] = 8&#x27;h7d;
+        seven [7] = 8&#x27;h07;
+        seven [8] = 8&#x27;h7f;
+        seven [9] = 8&#x27;h6f;
+
+        @ (posedge clk);
+        # 1;  // Drive reset after the clock event, without a stimulus/DUT race.
+        rst   = 1&#x27;b1;
+        n_bgm = 0;
+        n_tt  = 0;
+        # 1;  // Asynchronous reset must be observable before the next clock.
+        check_all ();
+        rst = 1&#x27;b0;
+
+        // Each display mode sees all ten states; stimulus changes after sampling.
+        for (int i = 0; i &lt; 30; i ++)
+        begin
+            ui = 8&#x27; ((i / 10) % 2);
+            tick ();
+        end
+
+        // ena blanks TT outputs but must not stop the internal state sequence.
+        ena = 1&#x27;b0;
+
+        repeat (3)
+            tick ();
+
+        ena = 1&#x27;b1;
+        # 1;  // Combinational output-enable and display settling.
+        check_all ();
+
+        // Check the BGM reset button independently of the dedicated TT reset.
+        key   = 8&#x27;d1;
+        n_bgm = 0;
+        # 1;  // Asynchronous button reset; TT must retain its own state.
+        check_all ();
+
+        repeat (2)
+            tick ();
+
+        key = &#x27;0;
+        tick ();
+
+        rst   = 1&#x27;b1;
+        n_bgm = 0;
+        n_tt  = 0;
+        # 1;  // Asynchronous dedicated reset in all wrappers.
+        check_all ();
+
+        repeat (2)
+            tick ();
+
+        rst = 1&#x27;b0;
+        tick ();
+
+        $display (&quot;PASS integrations: both implementations in BGM lab/hackathon and Tiny Tapeout; 30 steps, both display modes, 3 disabled cycles, independent button and dedicated resets&quot;);
+        $finish;
+    end
+
+    initial
+    begin
+        repeat (timeout_cycles) @ (posedge clk);
+        $fatal (1, &quot;Timeout after %0d clock cycles&quot;, timeout_cycles);
+    end
+
+endmodule
+</code></pre></details><pre><code>cd breadboard/traffic_light
+./scripts/run_icarus.sh
+./scripts/run_questa.sh
+./scripts/run_verilator.sh</code></pre><p>Run any installed simulator, or all three. Scripts build in separate <code>build/</code> subdirectories, run all three testbenches and require a PASS line. The main test writes <code>traffic_light.vcd</code>. Tool paths can be overridden with IVERILOG/VVP, VLIB/VMAP/VLOG/VSIM or VERILATOR environment variables.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Tool</th><th scope="col">Observed result</th></tr></thead><tbody><tr><td>Icarus 12.0 / 14.0</td><td>Simulation passes. Icarus 13 is the requested portability target; the exact version is not installed here.</td></tr><tr><td>Questa 2025.2</td><td>All sources compile with zero errors/warnings. Runtime unavailable: simulator license not configured.</td></tr><tr><td>Verilator 5.053 devel</td><td>All three testbenches pass using --binary --timing --trace.</td></tr><tr><td>Yosys + Slang</td><td>Both core designs synthesize and pass check -assert.</td></tr></tbody></table></div><p>For synthesis, run <code>python3 scripts/check_synthesis.py</code> with a Yosys installation that includes the Slang frontend; set <code>YOSYS</code> to its executable if needed. Both cores pass using the original modern SystemVerilog sources. The local Yosys 0.43 built-in reader rejects timeunit declarations.</p><p>The benches use ordinary SystemVerilog-2012 procedural constructs without UVM, DPI or simulator-specific classes. <a href="research/validation.json">Validation record</a> · <a href="scripts/run.sh">Shared runner</a> · <a href="scripts/check_synthesis.py">Synthesis check</a>. No physical circuit has been tested.</p></section><section id="s12"><h2>12. Integration with BGM lab_top</h2><p>Use the BGM <code>slow_clk</code>, not the raw MHz clock. The inspected Tang Nano 9K + LCD + TM1638 board wrapper generates a 1 Hz slow clock. Other board configurations must provide the same rate for seconds-based timing.</p><pre><code>traffic_light dut
+(
+    .clk    (slow_clk),
+    .rst    (rst | key [0]),
+    .red    (lamp_red),
+    .yellow (lamp_yellow),
+    .green  (lamp_green),
+    .state  (state)
+);
+// Or instantiate traffic_light_chips with the same ports.</code></pre><p>The complete example preserves BGM’s parameterized port list, drives LEDs 0/1/2 as red/yellow/green and fills the LCD with the current color. It explicitly assigns otherwise unused outputs. <code>key[0]</code> is reset; the minimum configuration has one key and three LEDs. Set <code>CHIP_MODEL=1</code> in the example to use the chip-connected version.</p><details><summary>Complete lab_top.sv</summary><p class="download"><a href="integration/bgm_lab/lab_top.sv" download>integration/bgm_lab/lab_top.sv</a></p><pre><code>// Full BGM lab interface. Requires w_key &gt;= 1 and w_led &gt;= 3.
+
+module lab_top
+# (
+    parameter CHIP_MODEL    = 0,
+    parameter clk_mhz       = 50,
+    parameter w_key         = 4,
+    parameter w_sw          = 8,
+    parameter w_led         = 8,
+    parameter w_digit       = 8,
+    parameter w_gpio        = 100,
+
+    parameter screen_width  = 640,
+    parameter screen_height = 480,
+
+    parameter w_red         = 4,
+    parameter w_green       = 4,
+    parameter w_blue        = 4,
+
+    parameter w_x           = $clog2 (screen_width),
+    parameter w_y           = $clog2 (screen_height)
+)
+(
+    input                  clk,
+    input                  slow_clk,
+    input                  rst,
+
+    // Keys, switches, LEDs
+
+    input  [w_key   - 1:0] key,
+    input  [w_sw    - 1:0] sw,
+    output [w_led   - 1:0] led,
+
+    // A dynamic seven-segment display
+
+    output [          7:0] abcdefgh,
+    output [w_digit - 1:0] digit,
+
+    // Graphics
+
+    input  [w_x     - 1:0] x,
+    input  [w_y     - 1:0] y,
+
+    output [w_red   - 1:0] red,
+    output [w_green - 1:0] green,
+    output [w_blue  - 1:0] blue,
+
+    // Microphone, sound output and UART
+
+    input  [         23:0] mic,
+    output [         15:0] sound,
+
+    input                  uart_rx,
+    output                 uart_tx,
+
+    // General-purpose Input/Output
+
+    inout  [w_gpio  - 1:0] gpio
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    logic lamp_red, lamp_yellow, lamp_green;
+    logic [9:0] state;
+
+    wire exercise_reset = rst | key [0];
+
+    generate
+        if (CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (slow_clk),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (slow_clk),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    // Infrastructure LEDs and graphics use active-high logical signals.
+
+    assign led      = w_led&#x27; ({ 5&#x27;b0, lamp_green, lamp_yellow, lamp_red });
+    assign red      = { w_red   { lamp_red   | lamp_yellow } };
+    assign green    = { w_green { lamp_green | lamp_yellow } };
+    assign blue     = &#x27;0;
+    assign abcdefgh = &#x27;0;
+    assign digit    = &#x27;0;
+    assign sound    = &#x27;0;
+    assign uart_tx  = 1&#x27;b1;
+    assign gpio     = &#x27;z;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, clk, sw, key, x, y, mic, uart_rx, state };
+
+endmodule
+</code></pre></details><p>In a new exercise directory under your BGM checkout, copy the support files with the staging script below, then copy the standard numbered .bash launchers from a neighboring lab. Choose your board using BGM’s normal workflow. The staging script refuses to overwrite an existing destination; it does not run synthesis or program a board.</p><pre><code>python3 scripts/stage_integration.py lab /path/to/BGM/labs/1_basics/1_11_timofei_traffic_light</code></pre></section><section id="s13"><h2>13. Integration with BGM hackathon_top</h2><p>The actual BGM module name is <strong><code>hackathon_top</code></strong> (the prompt’s “hackaton_top” omits an h). Its clock/reset signals are <code>slow_clock</code> and <code>reset</code>. The supplied example matches the Tang Nano 9K 480×272 + TM1638 hackathon interface.</p><pre><code>traffic_light_chips dut
+(
+    .clk    (slow_clock),
+    .rst    (reset | key [0]),
+    .red    (lamp_red),
+    .yellow (lamp_yellow),
+    .green  (lamp_green),
+    .state  (state)
+);</code></pre><details><summary>Complete hackathon_top.sv</summary><p class="download"><a href="integration/bgm_hackathon/hackathon_top.sv" download>integration/bgm_hackathon/hackathon_top.sv</a></p><pre><code>// The BGM module is spelled hackathon_top, with &quot;h&quot;.
+
+module hackathon_top
+# (
+    parameter CHIP_MODEL = 0
+)
+(
+    input        clock,
+    input        slow_clock,
+    input        reset,
+
+    input  [7:0] key,
+    output [7:0] led,
+
+    // A dynamic seven-segment display
+
+    output [7:0] abcdefgh,
+    output [7:0] digit,
+
+    // LCD screen interface
+
+    input  [8:0] x,
+    input  [8:0] y,
+
+    output [4:0] red,
+    output [5:0] green,
+    output [4:0] blue,
+
+    inout  [3:0] gpio
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    logic lamp_red, lamp_yellow, lamp_green;
+    logic [9:0] state;
+
+    wire exercise_reset = reset | key [0];
+
+    generate
+        if (CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (slow_clock),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (slow_clock),
+                .rst    (exercise_reset),
+                .red    (lamp_red),
+                .yellow (lamp_yellow),
+                .green  (lamp_green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    assign led      = { 5&#x27;b0, lamp_green, lamp_yellow, lamp_red };
+    assign red      = { 5 { lamp_red   | lamp_yellow } };
+    assign green    = { 6 { lamp_green | lamp_yellow } };
+    assign blue     = &#x27;0;
+    assign abcdefgh = &#x27;0;
+    assign digit    = &#x27;0;
+    assign gpio     = &#x27;z;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, clock, key, x, y, state };
+
+endmodule
+</code></pre></details><p>Set <code>CHIP_MODEL=0</code> for the generic version or 1 for the chip model. Use a board configuration with <code>USE_HACKATHON_TOP</code>, such as <code>tang_nano_9k_lcd_480_272_tm1638_hackathon</code>.</p><pre><code>python3 scripts/stage_integration.py hackathon /path/to/BGM/hackathon/problems/11_timofei_traffic_light</code></pre></section><section id="s14"><h2>14. Integration with Tiny Tapeout project.v</h2><p>The supplied <code>project.v</code> uses the requested Tiny Tapeout port interface with the unique top name <code>tt_um_timofei_traffic_light</code>. <code>rst_n</code> is active low, so the core receives <code>~rst_n</code>. Configure the project’s external clock to <strong>1 Hz</strong>; this wrapper does not divide a MHz clock.</p><div class="table-wrap"><table class=""><thead><tr><th scope="col">Port / RP2350</th><th scope="col">Assignment</th></tr></thead><tbody><tr><td>clk / GPIO16; rst_n / GPIO14</td><td>Clock and reset; select the project, assert reset, then run the clock.</td></tr><tr><td>ui_in[0] / GPIO17</td><td>DIP 0: 0 = lamp-position bars, 1 = state number 0…9. Other DIP inputs unused.</td></tr><tr><td>uo_out[7:0] / GPIO40…33</td><td>{dp, g, f, e, d, c, b, a} · active high</td></tr><tr><td>uio_out[2:0] / GPIO27…25</td><td>{green, yellow, red}</td></tr><tr><td>uio_oe[7:0]</td><td>00000111 when ena=1; otherwise all pins are inputs.</td></tr><tr><td>ena</td><td>Project-mux enable, not a board pin. Blanks outputs and disables bidirectional drivers when 0; it does not pause the state counter.</td></tr></tbody></table></div><p>In bar mode, segment a (top) means red, g (middle) means yellow and d (bottom) means green; the display itself does not change LED color. In decimal mode it shows the state number, not a countdown. The standard mapping above differs from BGM’s <code>abcdefgh[7:0]</code> bit order. Keep the RP2350 pins connected to uio[2:0] configured as inputs when this project drives them.</p><details><summary>Complete project.v</summary><p class="download"><a href="integration/tinytapeout/project.v" download>integration/tinytapeout/project.v</a></p><pre><code>// Synthesizable Tiny Tapeout top; compile as SystemVerilog.
+// Set the external project clock to 1 Hz.
+// Set USE_CHIP_MODEL to 1 to synthesize the pin-connected version.
+
+module tt_um_timofei_traffic_light
+# (
+    parameter USE_CHIP_MODEL = 0
+)
+(
+    input  [7:0] ui_in,
+    output [7:0] uo_out,
+    input  [7:0] uio_in,
+    output [7:0] uio_out,
+    output [7:0] uio_oe,
+    input        ena,
+    input        clk,
+    input        rst_n
+);
+
+    timeunit 1ns;
+    timeprecision 1ps;
+
+    logic red, yellow, green;
+    logic [9:0] state;
+
+    generate
+        if (USE_CHIP_MODEL == 0)
+        begin : generic_version
+            traffic_light dut
+            (
+                .clk    (clk),
+                .rst    (~ rst_n),
+                .red    (red),
+                .yellow (yellow),
+                .green  (green),
+                .state  (state)
+            );
+        end
+        else
+        begin : chip_version
+            traffic_light_chips dut
+            (
+                .clk    (clk),
+                .rst    (~ rst_n),
+                .red    (red),
+                .yellow (yellow),
+                .green  (green),
+                .state  (state)
+            );
+        end
+    endgenerate
+
+    // TT output order [7:0] = { dp, g, f, e, d, c, b, a }; active high.
+    // DIP 0 = 0: top/middle/bottom bar represents red/yellow/green.
+    // DIP 0 = 1: show state number 0..9, not seconds remaining.
+
+    logic [7:0] decimal_segments;
+
+    always_comb
+    begin
+        decimal_segments = &#x27;0;
+
+        case (state)
+        10&#x27;b00_0000_0001: decimal_segments = 8&#x27;h3f;
+        10&#x27;b00_0000_0010: decimal_segments = 8&#x27;h06;
+        10&#x27;b00_0000_0100: decimal_segments = 8&#x27;h5b;
+        10&#x27;b00_0000_1000: decimal_segments = 8&#x27;h4f;
+        10&#x27;b00_0001_0000: decimal_segments = 8&#x27;h66;
+        10&#x27;b00_0010_0000: decimal_segments = 8&#x27;h6d;
+        10&#x27;b00_0100_0000: decimal_segments = 8&#x27;h7d;
+        10&#x27;b00_1000_0000: decimal_segments = 8&#x27;h07;
+        10&#x27;b01_0000_0000: decimal_segments = 8&#x27;h7f;
+        10&#x27;b10_0000_0000: decimal_segments = 8&#x27;h6f;
+        default:          decimal_segments = &#x27;0;
+        endcase
+    end
+
+    wire [7:0] bars = { 1&#x27;b0, yellow, 2&#x27;b00, green, 2&#x27;b00, red };
+
+    assign uo_out  = ena ? (ui_in [0] ? decimal_segments : bars) : &#x27;0;
+    assign uio_out = ena ? { 5&#x27;b0, green, yellow, red } : &#x27;0;
+    assign uio_oe  = ena ? 8&#x27;b0000_0111 : &#x27;0;
+
+    wire unused_inputs = &amp; { 1&#x27;b0, ui_in [7:1], uio_in };
+
+endmodule
+</code></pre></details><pre><code>python3 scripts/stage_integration.py tinytapeout /tmp/timofei_tt_sources</code></pre><p>Select a synthesis frontend supporting <code>timeunit</code> and <code>timeprecision</code>, such as Slang for Yosys. A template using the older built-in Yosys reader needs a frontend change before these sources can be synthesized.</p><p>Copy the staged source files into the selected Tiny Tapeout template’s <code>src/</code>. Merge <a href="integration/tinytapeout/info_fragment.yaml">the source-list fragment</a> into its <code>info.yaml</code>; keep the template’s required author, title, pinout and documentation fields. This fragment is not a complete submission manifest. Set <code>USE_CHIP_MODEL=1</code> to select the chip-connected design before synthesis.</p><p><a href="https://github.com/TinyTapeout/tt-demo-pcb">Official demoboard GPIO reference</a> · <a href="https://github.com/TinyTapeout/ttsky-verilog-template">Verilog template</a> · <a href="https://tinytapeout.com/guides/get-started-demoboard-etr/">Board setup guide</a></p></section><section id="s15"><h2>15. Bring-up, experiments and sources</h2><ol><li>With power disconnected, install chips and all 37 jumpers. Check notch orientation, power pins and split rails.</li><li>Connect the module leads and current-limited indicators. Verify 5 V across the rails before running the circuit.</li><li>Set the assembled clock near 1 Hz. Hold RESET high: red must stay on even while the clock runs.</li><li>Release reset. Observe repeating red/yellow/green intervals in the ratio 4/2/4. Time a complete cycle after the initial reset interval.</li><li>Run the testbenches. Then try either implementation in the supplied FPGA or ASIC wrapper.</li></ol><div class="table-wrap"><table class=""><thead><tr><th scope="col">Observation</th><th scope="col">Check</th></tr></thead><tbody><tr><td>Always red</td><td>RESET stuck high, no clock edges, or U1.13 not at GND.</td></tr><tr><td>Only one color missing</td><td>LED polarity, OR output pin and the corresponding Q inputs.</td></tr><tr><td>Wrong duration / skipped color</td><td>Confusing state numbers with physical pins; use the state-to-pin table.</td></tr><tr><td>Dim lamps or unstable behavior</td><td>Measured supply voltage, common ground, module loading and defined input levels. Static HDL simulation cannot diagnose these.</td></tr></tbody></table></div><p><strong>Try next:</strong> change the grouping to 3/3/4; redraw the state diagram and predict the truth table before rewiring. Explain why connecting Q outputs directly together is not OR. Compare one-hot RTL with a binary 0…9 counter plus a decoder. Investigate the distinction between a short gate-delay transient and an incorrect stable state.</p><p>The drawings and zero-delay models describe settled logic. Real outputs have propagation delays; this exercise does not prove hazard-free lamp transitions. The assembled clock is reused as supplied by the course: students do not build a clock oscillator here.</p><h3>Sources and reproducibility</h3><ul class="source-list"><li><a href="https://habr.com/en/articles/1071736/">Course and the traffic-light exercise</a></li><li><a href="https://docs.google.com/spreadsheets/d/1ULTF4ocT2YyJowGakEOEVTsIUBTxLMkqXyvZM56vlU8/edit">LSSK components sheet (local October 14 snapshot used)</a></li><li><a href="https://docs.google.com/document/d/1lVcfQOqSg-6YrX_VTWy0q345JGLUEWaLRE-17egVzpo/edit">Project brief; the quotation in the assignment and archived text were used</a></li><li><a href="https://github.com/yuri-panchul/basics-graphics-music">Basics-Graphics-Music</a></li><li><a href="https://verilog-meetup.com/2026/07/31/an-improved-way-of-teaching-school-kids-digital-electronics-using-venerable-small-scale-integration-ics/">Teaching approach</a></li><li><a href="https://verilog-meetup.com/2026/07/23/a-prequel-to-fpga-and-asic-design-using-small-scale-integration-chips/">Breadboard foundation exercises</a></li><li><a href="https://makerfaire.com/maker/entry/learn-chip-design-from-breadboards-to-fpga-to-your-own-asic-78900/">Maker Faire project page (fetch timed out; no technical claims rely on it)</a></li></ul><p>Build the pages with <code>python3 breadboard/tools/build_site.py</code>; regenerate diagrams and the structural netlist with <code>python3 breadboard/tools/build_diagrams.py --png</code>. PNG rendering needs Inkscape. <a href="research/wiring_validation.json">Wiring checks</a> · <a href="research/bgm_provenance.json">BGM source fingerprints</a>.</p></section></main></div><footer class="footer">Curriculum: Yuri Panchul / Verilog Meetup. Traffic-light idea: Timofei Nikiforov. Lesson, drawings and code prepared with Codex.<br><a href="https://verilog-meetup.com/">verilog-meetup.com</a> · 2026-10-21 · <a href="index_ru.html" hreflang="ru">Русский</a></footer></body></html>

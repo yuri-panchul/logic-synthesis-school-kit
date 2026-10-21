@@ -1,0 +1,1252 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1870" role="img" aria-labelledby="title"><title id="title">3. Breadboard with every jumper</title><rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="55" font-family="DejaVu Sans,sans-serif" font-size="30" fill="#193244" text-anchor="start">3 · One 830-contact board · 37 jumpers</text>
+<text x="40" y="94" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#193244" text-anchor="start">All wires are shown. Endpoints are authoritative; line crossings are not junctions.</text>
+<rect x="525" y="165" width="580" height="1540" fill="#f5f3e9" stroke="#9b9e9d" rx="18"/>
+<text x="680" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">a</text>
+<circle cx="680" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="680" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="700" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">b</text>
+<circle cx="700" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="700" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="720" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">c</text>
+<circle cx="720" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="720" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="740" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">d</text>
+<circle cx="740" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="740" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="760" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">e</text>
+<circle cx="760" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="760" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="860" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">f</text>
+<circle cx="860" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="860" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="880" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">g</text>
+<circle cx="880" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="880" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="900" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">h</text>
+<circle cx="900" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="900" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="920" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">i</text>
+<circle cx="920" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="920" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="940" y="197" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="middle">j</text>
+<circle cx="940" cy="220" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="243" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="266" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="289" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="312" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="335" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="358" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="381" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="404" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="427" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="450" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="473" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="496" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="519" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="542" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="565" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="588" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="611" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="634" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="657" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="680" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="703" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="726" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="749" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="772" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="795" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="818" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="841" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="864" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="887" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="910" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="933" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="956" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="979" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1002" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1025" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1048" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1071" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1094" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1117" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1140" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1163" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1186" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1209" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1232" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1255" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1278" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1301" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1324" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1347" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1370" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1393" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1416" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1439" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1462" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1485" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1508" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1531" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1554" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1577" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1600" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1623" r="3.2" fill="#9da3a7" stroke="none"/>
+<circle cx="940" cy="1646" r="3.2" fill="#9da3a7" stroke="none"/>
+<text x="640" y="225" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">1</text>
+<text x="640" y="248" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">2</text>
+<text x="640" y="271" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">3</text>
+<text x="640" y="294" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">4</text>
+<text x="640" y="317" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">5</text>
+<text x="640" y="340" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">6</text>
+<text x="640" y="363" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">7</text>
+<text x="640" y="386" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">8</text>
+<text x="640" y="409" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">9</text>
+<text x="640" y="432" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">10</text>
+<text x="640" y="455" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">11</text>
+<text x="640" y="478" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">12</text>
+<text x="640" y="501" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">13</text>
+<text x="640" y="524" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">14</text>
+<text x="640" y="547" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">15</text>
+<text x="640" y="570" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">16</text>
+<text x="640" y="593" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">17</text>
+<text x="640" y="616" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">18</text>
+<text x="640" y="639" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">19</text>
+<text x="640" y="662" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">20</text>
+<text x="640" y="685" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">21</text>
+<text x="640" y="708" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">22</text>
+<text x="640" y="731" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">23</text>
+<text x="640" y="754" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">24</text>
+<text x="640" y="777" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">25</text>
+<text x="640" y="800" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">26</text>
+<text x="640" y="823" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">27</text>
+<text x="640" y="846" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">28</text>
+<text x="640" y="869" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">29</text>
+<text x="640" y="892" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">30</text>
+<text x="640" y="915" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">31</text>
+<text x="640" y="938" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">32</text>
+<text x="640" y="961" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">33</text>
+<text x="640" y="984" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">34</text>
+<text x="640" y="1007" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">35</text>
+<text x="640" y="1030" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">36</text>
+<text x="640" y="1053" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">37</text>
+<text x="640" y="1076" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">38</text>
+<text x="640" y="1099" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">39</text>
+<text x="640" y="1122" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">40</text>
+<text x="640" y="1145" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">41</text>
+<text x="640" y="1168" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">42</text>
+<text x="640" y="1191" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">43</text>
+<text x="640" y="1214" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">44</text>
+<text x="640" y="1237" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">45</text>
+<text x="640" y="1260" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">46</text>
+<text x="640" y="1283" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">47</text>
+<text x="640" y="1306" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">48</text>
+<text x="640" y="1329" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">49</text>
+<text x="640" y="1352" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">50</text>
+<text x="640" y="1375" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">51</text>
+<text x="640" y="1398" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">52</text>
+<text x="640" y="1421" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">53</text>
+<text x="640" y="1444" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">54</text>
+<text x="640" y="1467" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">55</text>
+<text x="640" y="1490" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">56</text>
+<text x="640" y="1513" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">57</text>
+<text x="640" y="1536" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">58</text>
+<text x="640" y="1559" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">59</text>
+<text x="640" y="1582" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">60</text>
+<text x="640" y="1605" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">61</text>
+<text x="640" y="1628" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">62</text>
+<text x="640" y="1651" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#193244" text-anchor="end">63</text>
+<text x="560" y="190" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">LP</text>
+<circle cx="560" cy="220" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="249" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="278" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="307" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="336" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="365" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="394" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="423" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="452" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="481" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="510" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="539" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="568" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="597" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="626" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="655" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="684" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="713" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="742" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="771" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="800" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="829" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="858" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="887" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="916" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="963" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="992" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1021" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1050" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1079" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1108" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1137" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1166" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1195" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1224" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1253" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1282" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1311" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1340" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1369" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1398" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1427" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1456" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1485" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1514" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1543" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1572" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1601" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1630" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="560" cy="1659" r="3.5" fill="#aa3941" stroke="none"/>
+<path d="M 550 220 V 916" fill="none" stroke="#bd2d3a" stroke-width="2" stroke-linejoin="round" />
+<path d="M 550 963 V 1659" fill="none" stroke="#bd2d3a" stroke-width="2" stroke-linejoin="round" />
+<text x="560" y="1730" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">LP</text>
+<text x="590" y="190" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">LM</text>
+<circle cx="590" cy="220" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="249" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="278" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="307" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="336" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="365" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="394" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="423" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="452" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="481" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="510" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="539" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="568" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="597" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="626" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="655" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="684" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="713" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="742" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="771" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="800" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="829" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="858" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="887" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="916" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="963" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="992" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1021" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1050" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1079" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1108" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1137" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1166" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1195" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1224" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1253" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1282" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1311" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1340" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1369" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1398" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1427" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1456" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1485" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1514" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1543" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1572" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1601" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1630" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="590" cy="1659" r="3.5" fill="#36414d" stroke="none"/>
+<path d="M 580 220 V 916" fill="none" stroke="#3f4d59" stroke-width="2" stroke-linejoin="round" />
+<path d="M 580 963 V 1659" fill="none" stroke="#3f4d59" stroke-width="2" stroke-linejoin="round" />
+<text x="590" y="1730" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">LM</text>
+<text x="1040" y="190" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">RP</text>
+<circle cx="1040" cy="220" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="249" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="278" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="307" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="336" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="365" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="394" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="423" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="452" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="481" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="510" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="539" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="568" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="597" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="626" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="655" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="684" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="713" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="742" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="771" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="800" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="829" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="858" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="887" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="916" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="963" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="992" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1021" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1050" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1079" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1108" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1137" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1166" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1195" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1224" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1253" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1282" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1311" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1340" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1369" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1398" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1427" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1456" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1485" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1514" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1543" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1572" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1601" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1630" r="3.5" fill="#aa3941" stroke="none"/>
+<circle cx="1040" cy="1659" r="3.5" fill="#aa3941" stroke="none"/>
+<path d="M 1030 220 V 916" fill="none" stroke="#bd2d3a" stroke-width="2" stroke-linejoin="round" />
+<path d="M 1030 963 V 1659" fill="none" stroke="#bd2d3a" stroke-width="2" stroke-linejoin="round" />
+<text x="1040" y="1730" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">RP</text>
+<text x="1070" y="190" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">RM</text>
+<circle cx="1070" cy="220" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="249" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="278" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="307" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="336" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="365" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="394" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="423" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="452" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="481" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="510" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="539" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="568" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="597" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="626" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="655" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="684" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="713" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="742" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="771" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="800" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="829" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="858" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="887" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="916" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="963" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="992" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1021" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1050" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1079" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1108" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1137" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1166" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1195" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1224" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1253" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1282" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1311" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1340" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1369" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1398" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1427" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1456" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1485" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1514" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1543" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1572" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1601" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1630" r="3.5" fill="#36414d" stroke="none"/>
+<circle cx="1070" cy="1659" r="3.5" fill="#36414d" stroke="none"/>
+<path d="M 1060 220 V 916" fill="none" stroke="#3f4d59" stroke-width="2" stroke-linejoin="round" />
+<path d="M 1060 963 V 1659" fill="none" stroke="#3f4d59" stroke-width="2" stroke-linejoin="round" />
+<text x="1070" y="1730" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#193244" text-anchor="middle">RM</text>
+<rect x="773" y="371" width="74" height="181" fill="#263d4d" stroke="#263d4d" rx="3"/>
+<path d="M 795 371 Q 810 391 825 371" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<text x="810" y="461.5" font-family="DejaVu Sans,sans-serif" font-size="22" fill="#fff" text-anchor="middle">U1</text>
+<path d="M 760 381 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="385" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">1</text>
+<path d="M 760 404 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="408" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">2</text>
+<path d="M 760 427 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="431" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">3</text>
+<path d="M 760 450 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="454" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">4</text>
+<path d="M 760 473 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="477" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">5</text>
+<path d="M 760 496 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="500" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">6</text>
+<path d="M 760 519 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="523" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">7</text>
+<path d="M 760 542 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="546" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">8</text>
+<path d="M 860 542 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="546" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">9</text>
+<path d="M 860 519 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="523" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">10</text>
+<path d="M 860 496 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="500" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">11</text>
+<path d="M 860 473 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="477" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">12</text>
+<path d="M 860 450 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="454" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">13</text>
+<path d="M 860 427 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="431" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">14</text>
+<path d="M 860 404 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="408" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">15</text>
+<path d="M 860 381 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="385" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">16</text>
+<rect x="773" y="693" width="74" height="158" fill="#263d4d" stroke="#263d4d" rx="3"/>
+<path d="M 795 693 Q 810 713 825 693" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<text x="810" y="772.0" font-family="DejaVu Sans,sans-serif" font-size="22" fill="#fff" text-anchor="middle">U2</text>
+<path d="M 760 703 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="707" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">1</text>
+<path d="M 760 726 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="730" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">2</text>
+<path d="M 760 749 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="753" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">3</text>
+<path d="M 760 772 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="776" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">4</text>
+<path d="M 760 795 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="799" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">5</text>
+<path d="M 760 818 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="822" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">6</text>
+<path d="M 760 841 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="845" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">7</text>
+<path d="M 860 841 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="845" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">8</text>
+<path d="M 860 818 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="822" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">9</text>
+<path d="M 860 795 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="799" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">10</text>
+<path d="M 860 772 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="776" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">11</text>
+<path d="M 860 749 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="753" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">12</text>
+<path d="M 860 726 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="730" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">13</text>
+<path d="M 860 703 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="707" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">14</text>
+<rect x="773" y="992" width="74" height="158" fill="#263d4d" stroke="#263d4d" rx="3"/>
+<path d="M 795 992 Q 810 1012 825 992" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+<text x="810" y="1071.0" font-family="DejaVu Sans,sans-serif" font-size="22" fill="#fff" text-anchor="middle">U3</text>
+<path d="M 760 1002 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1006" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">1</text>
+<path d="M 760 1025 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1029" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">2</text>
+<path d="M 760 1048 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1052" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">3</text>
+<path d="M 760 1071 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1075" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">4</text>
+<path d="M 760 1094 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1098" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">5</text>
+<path d="M 760 1117 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1121" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">6</text>
+<path d="M 760 1140 H 773" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="782" y="1144" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="start">7</text>
+<path d="M 860 1140 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1144" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">8</text>
+<path d="M 860 1117 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1121" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">9</text>
+<path d="M 860 1094 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1098" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">10</text>
+<path d="M 860 1071 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1075" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">11</text>
+<path d="M 860 1048 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1052" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">12</text>
+<path d="M 860 1025 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1029" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">13</text>
+<path d="M 860 1002 H 847" fill="none" stroke="#657986" stroke-width="5" stroke-linejoin="round" />
+<text x="838" y="1006" font-family="DejaVu Sans,sans-serif" font-size="10" fill="#fff" text-anchor="end">14</text>
+<path d="M 560 916 L 560 963" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 560 916 L 560 963" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W01"/>
+<circle cx="560" cy="916" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="560" cy="963" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="565" y="911" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W01</text>
+<path d="M 590 916 L 590 963" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 590 916 L 590 963" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W02"/>
+<circle cx="590" cy="916" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="963" r="4" fill="#3f4d59" stroke="none"/>
+<text x="595" y="911" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W02</text>
+<path d="M 1040 916 L 1040 963" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 1040 916 L 1040 963" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W03"/>
+<circle cx="1040" cy="916" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="1040" cy="963" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="1045" y="911" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W03</text>
+<path d="M 1070 916 L 1070 963" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 1070 916 L 1070 963" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W04"/>
+<circle cx="1070" cy="916" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="963" r="4" fill="#3f4d59" stroke="none"/>
+<text x="1075" y="911" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W04</text>
+<path d="M 560 249 L 1040 249" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 560 249 L 1040 249" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W05"/>
+<circle cx="560" cy="249" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="1040" cy="249" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="565" y="244" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W05</text>
+<path d="M 590 249 L 1070 249" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 590 249 L 1070 249" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W06"/>
+<circle cx="590" cy="249" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="249" r="4" fill="#3f4d59" stroke="none"/>
+<text x="595" y="244" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W06</text>
+<path d="M 680 427 H 120 V 726 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 427 H 120 V 726 H 680" fill="none" stroke="#ad3041" stroke-width="2.5" stroke-linejoin="round" id="W07"/>
+<circle cx="680" cy="427" r="4" fill="#ad3041" stroke="none"/>
+<circle cx="680" cy="726" r="4" fill="#ad3041" stroke="none"/>
+<text x="685" y="422" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#ad3041" text-anchor="start">W07</text>
+<text x="1120" y="240" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#ad3041" text-anchor="start">W07 · S0</text>
+<text x="1120" y="261" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a10 → a23</text>
+<path d="M 680 404 H 144 V 749 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 404 H 144 V 749 H 680" fill="none" stroke="#ba4654" stroke-width="2.5" stroke-linejoin="round" id="W08"/>
+<circle cx="680" cy="404" r="4" fill="#ba4654" stroke="none"/>
+<circle cx="680" cy="749" r="4" fill="#ba4654" stroke="none"/>
+<text x="685" y="399" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#ba4654" text-anchor="start">W08</text>
+<text x="1120" y="297" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#ba4654" text-anchor="start">W08 · S1</text>
+<text x="1120" y="318" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a09 → a24</text>
+<path d="M 680 450 H 168 V 772 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 450 H 168 V 772 H 680" fill="none" stroke="#8b375d" stroke-width="2.5" stroke-linejoin="round" id="W09"/>
+<circle cx="680" cy="450" r="4" fill="#8b375d" stroke="none"/>
+<circle cx="680" cy="772" r="4" fill="#8b375d" stroke="none"/>
+<text x="685" y="445" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#8b375d" text-anchor="start">W09</text>
+<text x="1120" y="354" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#8b375d" text-anchor="start">W09 · S2</text>
+<text x="1120" y="375" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a11 → a25</text>
+<path d="M 680 519 H 192 V 795 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 519 H 192 V 795 H 680" fill="none" stroke="#a6507b" stroke-width="2.5" stroke-linejoin="round" id="W10"/>
+<circle cx="680" cy="519" r="4" fill="#a6507b" stroke="none"/>
+<circle cx="680" cy="795" r="4" fill="#a6507b" stroke="none"/>
+<text x="685" y="514" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#a6507b" text-anchor="start">W10</text>
+<text x="1120" y="411" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#a6507b" text-anchor="start">W10 · S3</text>
+<text x="1120" y="432" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a14 → a26</text>
+<path d="M 940 519 H 216 V 1002 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 519 H 216 V 1002 H 680" fill="none" stroke="#a47700" stroke-width="2.5" stroke-linejoin="round" id="W11"/>
+<circle cx="940" cy="519" r="4" fill="#a47700" stroke="none"/>
+<circle cx="680" cy="1002" r="4" fill="#a47700" stroke="none"/>
+<text x="945" y="514" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#a47700" text-anchor="start">W11</text>
+<text x="1120" y="468" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#a47700" text-anchor="start">W11 · S4</text>
+<text x="1120" y="489" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j14 → a35</text>
+<path d="M 680 381 H 240 V 1025 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 381 H 240 V 1025 H 680" fill="none" stroke="#b98808" stroke-width="2.5" stroke-linejoin="round" id="W12"/>
+<circle cx="680" cy="381" r="4" fill="#b98808" stroke="none"/>
+<circle cx="680" cy="1025" r="4" fill="#b98808" stroke="none"/>
+<text x="685" y="376" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#b98808" text-anchor="start">W12</text>
+<text x="1120" y="525" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#b98808" text-anchor="start">W12 · S5</text>
+<text x="1120" y="546" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a08 → a36</text>
+<path d="M 680 473 H 264 V 818 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 473 H 264 V 818 H 940" fill="none" stroke="#237b52" stroke-width="2.5" stroke-linejoin="round" id="W13"/>
+<circle cx="680" cy="473" r="4" fill="#237b52" stroke="none"/>
+<circle cx="940" cy="818" r="4" fill="#237b52" stroke="none"/>
+<text x="685" y="468" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#237b52" text-anchor="start">W13</text>
+<text x="1120" y="582" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#237b52" text-anchor="start">W13 · S6</text>
+<text x="1120" y="603" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a12 → j27</text>
+<path d="M 680 496 H 288 V 795 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 496 H 288 V 795 H 940" fill="none" stroke="#278e73" stroke-width="2.5" stroke-linejoin="round" id="W14"/>
+<circle cx="680" cy="496" r="4" fill="#278e73" stroke="none"/>
+<circle cx="940" cy="795" r="4" fill="#278e73" stroke="none"/>
+<text x="685" y="491" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#278e73" text-anchor="start">W14</text>
+<text x="1120" y="639" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#278e73" text-anchor="start">W14 · S7</text>
+<text x="1120" y="660" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a13 → j26</text>
+<path d="M 940 542 H 312 V 772 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 542 H 312 V 772 H 940" fill="none" stroke="#267d9a" stroke-width="2.5" stroke-linejoin="round" id="W15"/>
+<circle cx="940" cy="542" r="4" fill="#267d9a" stroke="none"/>
+<circle cx="940" cy="772" r="4" fill="#267d9a" stroke="none"/>
+<text x="945" y="537" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#267d9a" text-anchor="start">W15</text>
+<text x="1120" y="696" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#267d9a" text-anchor="start">W15 · S8</text>
+<text x="1120" y="717" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j15 → j25</text>
+<path d="M 940 496 H 336 V 749 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 496 H 336 V 749 H 940" fill="none" stroke="#3f67a3" stroke-width="2.5" stroke-linejoin="round" id="W16"/>
+<circle cx="940" cy="496" r="4" fill="#3f67a3" stroke="none"/>
+<circle cx="940" cy="749" r="4" fill="#3f67a3" stroke="none"/>
+<text x="945" y="491" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f67a3" text-anchor="start">W16</text>
+<text x="1120" y="753" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#3f67a3" text-anchor="start">W16 · S9</text>
+<text x="1120" y="774" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j13 → j24</text>
+<path d="M 680 542 L 590 423" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 542 L 590 423" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W17"/>
+<circle cx="680" cy="542" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="423" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="537" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W17</text>
+<path d="M 940 450 L 1070 423" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 450 L 1070 423" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W18"/>
+<circle cx="940" cy="450" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="423" r="4" fill="#3f4d59" stroke="none"/>
+<text x="945" y="445" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W18</text>
+<path d="M 680 841 L 590 452" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 841 L 590 452" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W19"/>
+<circle cx="680" cy="841" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="452" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="836" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W19</text>
+<path d="M 680 1094 L 590 481" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1094 L 590 481" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W20"/>
+<circle cx="680" cy="1094" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="481" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1089" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W20</text>
+<path d="M 680 1117 L 590 510" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1117 L 590 510" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W21"/>
+<circle cx="680" cy="1117" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="510" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1112" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W21</text>
+<path d="M 680 1140 L 590 539" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1140 L 590 539" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W22"/>
+<circle cx="680" cy="1140" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="539" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1135" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W22</text>
+<path d="M 940 1140 L 1070 452" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 1140 L 1070 452" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W23"/>
+<circle cx="940" cy="1140" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="452" r="4" fill="#3f4d59" stroke="none"/>
+<text x="945" y="1135" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W23</text>
+<path d="M 940 1117 L 1070 481" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 1117 L 1070 481" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W24"/>
+<circle cx="940" cy="1117" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="481" r="4" fill="#3f4d59" stroke="none"/>
+<text x="945" y="1112" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W24</text>
+<path d="M 940 1048 L 1070 510" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 1048 L 1070 510" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W25"/>
+<circle cx="940" cy="1048" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="510" r="4" fill="#3f4d59" stroke="none"/>
+<text x="945" y="1043" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W25</text>
+<path d="M 940 1025 L 1070 539" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 1025 L 1070 539" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W26"/>
+<circle cx="940" cy="1025" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="1070" cy="539" r="4" fill="#3f4d59" stroke="none"/>
+<text x="945" y="1020" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W26</text>
+<path d="M 680 1324 L 590 568" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1324 L 590 568" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W27"/>
+<circle cx="680" cy="1324" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="568" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1319" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W27</text>
+<path d="M 680 1416 L 590 597" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1416 L 590 597" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W28"/>
+<circle cx="680" cy="1416" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="597" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1411" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W28</text>
+<path d="M 680 1508 L 590 626" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1508 L 590 626" fill="none" stroke="#3f4d59" stroke-width="2.5" stroke-linejoin="round" id="W29"/>
+<circle cx="680" cy="1508" r="4" fill="#3f4d59" stroke="none"/>
+<circle cx="590" cy="626" r="4" fill="#3f4d59" stroke="none"/>
+<text x="685" y="1503" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#3f4d59" text-anchor="start">W29</text>
+<path d="M 940 427 H 360 V 1278 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 427 H 360 V 1278 H 940" fill="none" stroke="#764cb1" stroke-width="2.5" stroke-linejoin="round" id="W30"/>
+<circle cx="940" cy="427" r="4" fill="#764cb1" stroke="none"/>
+<circle cx="940" cy="1278" r="4" fill="#764cb1" stroke="none"/>
+<text x="945" y="422" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#764cb1" text-anchor="start">W30</text>
+<text x="1120" y="810" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#764cb1" text-anchor="start">W30 · clk</text>
+<text x="1120" y="831" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j10 → j47</text>
+<path d="M 940 404 H 384 V 1347 H 940" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 404 H 384 V 1347 H 940" fill="none" stroke="#cf6c19" stroke-width="2.5" stroke-linejoin="round" id="W31"/>
+<circle cx="940" cy="404" r="4" fill="#cf6c19" stroke="none"/>
+<circle cx="940" cy="1347" r="4" fill="#cf6c19" stroke="none"/>
+<text x="945" y="399" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#cf6c19" text-anchor="start">W31</text>
+<text x="1120" y="867" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#cf6c19" text-anchor="start">W31 · rst</text>
+<text x="1120" y="888" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j09 → j50</text>
+<path d="M 940 381 L 1040 423" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 381 L 1040 423" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W32"/>
+<circle cx="940" cy="381" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="1040" cy="423" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="945" y="376" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W32</text>
+<path d="M 940 703 L 1040 452" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 703 L 1040 452" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W33"/>
+<circle cx="940" cy="703" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="1040" cy="452" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="945" y="698" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W33</text>
+<path d="M 940 1002 L 1040 481" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 1002 L 1040 481" fill="none" stroke="#bd2d3a" stroke-width="2.5" stroke-linejoin="round" id="W34"/>
+<circle cx="940" cy="1002" r="4" fill="#bd2d3a" stroke="none"/>
+<circle cx="1040" cy="481" r="4" fill="#bd2d3a" stroke="none"/>
+<text x="945" y="997" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#bd2d3a" text-anchor="start">W34</text>
+<path d="M 680 703 H 408 V 1301 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 703 H 408 V 1301 H 680" fill="none" stroke="#c42f41" stroke-width="2.5" stroke-linejoin="round" id="W35"/>
+<circle cx="680" cy="703" r="4" fill="#c42f41" stroke="none"/>
+<circle cx="680" cy="1301" r="4" fill="#c42f41" stroke="none"/>
+<text x="685" y="698" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#c42f41" text-anchor="start">W35</text>
+<text x="1120" y="924" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#c42f41" text-anchor="start">W35 · red</text>
+<text x="1120" y="945" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a22 → a48</text>
+<path d="M 940 726 H 432 V 1485 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 940 726 H 432 V 1485 H 680" fill="none" stroke="#10826b" stroke-width="2.5" stroke-linejoin="round" id="W36"/>
+<circle cx="940" cy="726" r="4" fill="#10826b" stroke="none"/>
+<circle cx="680" cy="1485" r="4" fill="#10826b" stroke="none"/>
+<text x="945" y="721" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#10826b" text-anchor="start">W36</text>
+<text x="1120" y="981" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#10826b" text-anchor="start">W36 · green</text>
+<text x="1120" y="1002" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">j23 → a56</text>
+<path d="M 680 1048 H 456 V 1393 H 680" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" />
+<path d="M 680 1048 H 456 V 1393 H 680" fill="none" stroke="#b38100" stroke-width="2.5" stroke-linejoin="round" id="W37"/>
+<circle cx="680" cy="1048" r="4" fill="#b38100" stroke="none"/>
+<circle cx="680" cy="1393" r="4" fill="#b38100" stroke="none"/>
+<text x="685" y="1043" font-family="DejaVu Sans,sans-serif" font-size="11" fill="#b38100" text-anchor="start">W37</text>
+<text x="1120" y="1038" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#b38100" text-anchor="start">W37 · yellow</text>
+<text x="1120" y="1059" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#193244" text-anchor="start">a37 → a52</text>
+<path d="M 700 1301 V 1324" fill="none" stroke="#c42f41" stroke-width="4" stroke-linejoin="round" />
+<circle cx="700" cy="1312.5" r="9" fill="#c42f41" stroke="none"/>
+<text x="780" y="1309" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#c42f41" text-anchor="start">RED</text>
+<path d="M 700 1393 V 1416" fill="none" stroke="#b38100" stroke-width="4" stroke-linejoin="round" />
+<circle cx="700" cy="1404.5" r="9" fill="#b38100" stroke="none"/>
+<text x="780" y="1401" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#b38100" text-anchor="start">YELLOW</text>
+<path d="M 700 1485 V 1508" fill="none" stroke="#10826b" stroke-width="4" stroke-linejoin="round" />
+<circle cx="700" cy="1496.5" r="9" fill="#10826b" stroke="none"/>
+<text x="780" y="1493" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#10826b" text-anchor="start">GREEN</text>
+<circle cx="900" cy="1278" r="7" fill="#fff" stroke="#764cb1"/>
+<text x="1120" y="1284" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#764cb1" text-anchor="start">clk → h47</text>
+<circle cx="900" cy="1347" r="7" fill="#fff" stroke="#cf6c19"/>
+<text x="1120" y="1353" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#cf6c19" text-anchor="start">rst → h50</text>
+<text x="45" y="1768" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Clock: OUT → h47, + → LP05, − → LM05. Reset module: OUT → h50, + → LP06, − → LM06.</text>
+<text x="45" y="1804" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Regulated +5 V → LP01; supply GND → LM01. Rails split between holes 25 and 26; bridge all four.</text>
+<text x="45" y="1840" font-family="DejaVu Sans,sans-serif" font-size="18" fill="#193244" text-anchor="start">Module leads and two supply leads are additional. LED anode/cathode: b48/b49, b52/b53, b56/b57.</text>
+</svg>

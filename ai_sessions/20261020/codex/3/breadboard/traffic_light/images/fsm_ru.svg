@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 910" role="img" aria-labelledby="title desc">
+<title id="title">Конечный автомат светофора · автомат Мура</title>
+<desc id="desc">S0 → S1 → S2 → S3 → S4 → S5 → S6 → S7 → S8 → S9 → S0. Асинхронный сброс из любого состояния в S0. Выходы: красный в S0–S3, жёлтый в S4–S5, зелёный в S6–S9.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#34596c"/></marker></defs>
+<text x="40" y="55" font-family="DejaVu Sans,sans-serif" font-size="31" fill="#193244" text-anchor="start">Конечный автомат светофора · автомат Мура</text>
+<text x="40" y="100" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#193244" text-anchor="start">Каждая обычная стрелка: положительный фронт clk при rst = 0.</text>
+<text x="40" y="140" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#193244" text-anchor="start">Сброс: rst = 1, из любого состояния (включая S0), без ожидания фронта.</text>
+<path d="M 200 155 V 205" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-reset="any-to-S0"/>
+<path d="M 275 280 H 390" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S0" data-to="S1" data-event="posedge clk; rst=0"/>
+<text x="332.5" y="263" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S0" data-bits="0000000001" data-outputs="100"><circle cx="200" cy="280" r="70" fill="#fff0f3" stroke="#b92c43" stroke-width="3"/>
+<text x="200" y="263" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#b92c43" text-anchor="middle">S0</text>
+<text x="200" y="296" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#b92c43" text-anchor="middle">100</text>
+</g>
+<path d="M 540 280 H 655" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S1" data-to="S2" data-event="posedge clk; rst=0"/>
+<text x="597.5" y="263" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S1" data-bits="0000000010" data-outputs="100"><circle cx="465" cy="280" r="70" fill="#fff0f3" stroke="#b92c43" stroke-width="3"/>
+<text x="465" y="263" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#b92c43" text-anchor="middle">S1</text>
+<text x="465" y="296" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#b92c43" text-anchor="middle">100</text>
+</g>
+<path d="M 805 280 H 920" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S2" data-to="S3" data-event="posedge clk; rst=0"/>
+<text x="862.5" y="263" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S2" data-bits="0000000100" data-outputs="100"><circle cx="730" cy="280" r="70" fill="#fff0f3" stroke="#b92c43" stroke-width="3"/>
+<text x="730" y="263" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#b92c43" text-anchor="middle">S2</text>
+<text x="730" y="296" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#b92c43" text-anchor="middle">100</text>
+</g>
+<path d="M 1070 280 H 1185" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S3" data-to="S4" data-event="posedge clk; rst=0"/>
+<text x="1127.5" y="263" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S3" data-bits="0000001000" data-outputs="100"><circle cx="995" cy="280" r="70" fill="#fff0f3" stroke="#b92c43" stroke-width="3"/>
+<text x="995" y="263" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#b92c43" text-anchor="middle">S3</text>
+<text x="995" y="296" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#b92c43" text-anchor="middle">100</text>
+</g>
+<path d="M 1260 355 V 545" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S4" data-to="S5" data-event="posedge clk; rst=0"/>
+<text x="1286" y="457.0" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="start">clk ↑</text>
+<g id="state-S4" data-bits="0000010000" data-outputs="010"><circle cx="1260" cy="280" r="70" fill="#fff7d9" stroke="#8e6400" stroke-width="3"/>
+<text x="1260" y="263" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#8e6400" text-anchor="middle">S4</text>
+<text x="1260" y="296" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#8e6400" text-anchor="middle">010</text>
+</g>
+<path d="M 1185 620 H 1070" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S5" data-to="S6" data-event="posedge clk; rst=0"/>
+<text x="1127.5" y="603" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S5" data-bits="0000100000" data-outputs="010"><circle cx="1260" cy="620" r="70" fill="#fff7d9" stroke="#8e6400" stroke-width="3"/>
+<text x="1260" y="603" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#8e6400" text-anchor="middle">S5</text>
+<text x="1260" y="636" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#8e6400" text-anchor="middle">010</text>
+</g>
+<path d="M 920 620 H 805" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S6" data-to="S7" data-event="posedge clk; rst=0"/>
+<text x="862.5" y="603" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S6" data-bits="0001000000" data-outputs="001"><circle cx="995" cy="620" r="70" fill="#e8f8ef" stroke="#087a55" stroke-width="3"/>
+<text x="995" y="603" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#087a55" text-anchor="middle">S6</text>
+<text x="995" y="636" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#087a55" text-anchor="middle">001</text>
+</g>
+<path d="M 655 620 H 540" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S7" data-to="S8" data-event="posedge clk; rst=0"/>
+<text x="597.5" y="603" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S7" data-bits="0010000000" data-outputs="001"><circle cx="730" cy="620" r="70" fill="#e8f8ef" stroke="#087a55" stroke-width="3"/>
+<text x="730" y="603" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#087a55" text-anchor="middle">S7</text>
+<text x="730" y="636" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#087a55" text-anchor="middle">001</text>
+</g>
+<path d="M 390 620 H 275" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S8" data-to="S9" data-event="posedge clk; rst=0"/>
+<text x="332.5" y="603" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="middle">clk ↑</text>
+<g id="state-S8" data-bits="0100000000" data-outputs="001"><circle cx="465" cy="620" r="70" fill="#e8f8ef" stroke="#087a55" stroke-width="3"/>
+<text x="465" y="603" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#087a55" text-anchor="middle">S8</text>
+<text x="465" y="636" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#087a55" text-anchor="middle">001</text>
+</g>
+<path d="M 200 545 V 355" fill="none" stroke="#34596c" stroke-width="2.5" marker-end="url(#arrow)" data-from="S9" data-to="S0" data-event="posedge clk; rst=0"/>
+<text x="226" y="457.0" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#193244" text-anchor="start">clk ↑</text>
+<g id="state-S9" data-bits="1000000000" data-outputs="001"><circle cx="200" cy="620" r="70" fill="#e8f8ef" stroke="#087a55" stroke-width="3"/>
+<text x="200" y="603" font-family="DejaVu Sans,sans-serif" font-size="29" fill="#087a55" text-anchor="middle">S9</text>
+<text x="200" y="636" font-family="DejaVu Sans,sans-serif" font-size="26" fill="#087a55" text-anchor="middle">001</text>
+</g>
+<text x="730" y="423" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#193244" text-anchor="middle">Одно состояние = один период такта</text>
+<text x="730" y="464" font-family="DejaVu Sans,sans-serif" font-size="22" fill="#193244" text-anchor="middle">4 красных → 2 жёлтых → 4 зелёных → повтор</text>
+<text x="40" y="780" font-family="DejaVu Sans,sans-serif" font-size="24" fill="#193244" text-anchor="start">Выходы внутри вершины: { red, yellow, green } — 100 / 010 / 001.</text>
+<text x="40" y="824" font-family="DejaVu Sans,sans-serif" font-size="22" fill="#193244" text-anchor="start">Выходы зависят только от текущего состояния. Пока rst = 1, выбран S0.</text>
+<text x="40" y="868" font-family="DejaVu Sans,sans-serif" font-size="21" fill="#193244" text-anchor="start">Без счётного фронта состояние сохраняется. При 1 Гц полный цикл длится 10 секунд.</text>
+</svg>
