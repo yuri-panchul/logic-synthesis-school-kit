@@ -18,11 +18,11 @@ for top in ${TEST_TOP:-tb_cmos tb_traffic_light tb_integrations}; do
             "${VVP:-vvp}" "$top.vvp" 2>&1 | tee "$top.log"
             ;;
         questa)
-            "${VMAP:-vmap}" -c > /dev/null
+            [[ -f modelsim.ini ]] || "${VMAP:-vmap}" -c > /dev/null
             [[ -d work ]] || "${VLIB:-vlib}" work
             "${VLOG:-vlog}" -sv -work work "${sources[@]}" 2>&1 | tee "$top.compile.log"
             # $fatal/onbreak returns failure; normal $finish exits successfully.
-            "${VSIM:-vsim}" -c -onfinish exit "work.$top" -do "onerror {quit -code 1}; onbreak {quit -code 1}; run -all; quit -code 0" 2>&1 | tee "$top.log"
+            "${VSIM:-vsim}" "${QUESTA_MODE:--batch}" -onfinish exit "work.$top" -do "onerror {quit -code 1}; onbreak {quit -code 1}; run -all; quit -code 0" 2>&1 | tee "$top.log"
             ;;
         verilator)
             "${VERILATOR:-verilator}" --binary --timing --trace --top-module "$top" --Mdir "obj_$top" \

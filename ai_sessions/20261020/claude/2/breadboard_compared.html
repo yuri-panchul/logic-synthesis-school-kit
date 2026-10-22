@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breadboard Lessons Compared</title>
+<style>
+:root{--bg:#f7f6f2;--fg:#1c2329;--muted:#5d6872;--card:#ffffff;--line:#dfe3e6;--accent:#0b6e4f;
+--accent-bg:#e5f2ec;--warn:#9a4d00;--warn-bg:#fdf1e3;--code:#eef1f3;--th:#f0f2f1;--cx:#2f5fb3;--cx-bg:#e7eefa;--bad:#c0392b;--bad-bg:#fbeae7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;
+--card:#1b2126;--line:#2d363d;--accent:#55c79a;--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;
+--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;--bad-bg:#3a201c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;--card:#1b2126;--line:#2d363d;--accent:#55c79a;
+--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;--bad-bg:#3a201c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+nav.top{background:var(--card);border-bottom:1px solid var(--line);font-size:14px}
+nav.top div{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 16px}
+nav.top a{color:var(--muted);text-decoration:none}nav.top a:hover{color:var(--accent)}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px;text-wrap:balance}h2{font-size:22px;margin:40px 0 10px;text-wrap:balance}
+h3{font-size:18px;margin:22px 0 6px}
+p.lead{font-size:18px;color:var(--muted);margin:0 0 18px;max-width:820px}
+p,li{max-width:860px}
+a{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin:16px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:22px;line-height:1.2}.stat span{color:var(--muted);font-size:13px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--th);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;white-space:nowrap}
+tr.grp td{background:var(--th);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+table.cmp td:first-child{font-weight:600;min-width:150px}
+table.cmp td:nth-child(2),table.cmp td:nth-child(3){min-width:240px}
+table.find td:nth-child(3){min-width:280px}table.find td:nth-child(4){min-width:240px}table.find td:nth-child(5){min-width:200px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--accent-bg);
+color:var(--accent);margin:2px 4px 2px 0;white-space:nowrap;font-weight:600}
+.tag.cx{background:var(--cx-bg);color:var(--cx)}
+.tag.eq{background:var(--th);color:var(--muted)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
+.muted{color:var(--muted)}.small{font-size:13px}
+.note{background:var(--warn-bg);border-radius:10px;padding:12px 16px;margin:14px 0;max-width:900px}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:90%}
+p code,li code,td code{overflow-wrap:anywhere}
+pre.code{background:var(--code);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.5;margin:8px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px 22px}
+.cols>div{min-width:0}
+.ok{color:var(--accent);font-weight:600}.bad{color:var(--bad);font-weight:600}.mid{color:var(--warn);font-weight:600}
+ul.tight li{margin:4px 0}
+td.c{text-align:center;white-space:nowrap}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav class="top"><div>
+<a href="../lssk_codex/breadboard/traffic_light/index.html">Codex's lesson</a>
+<a href="breadboard/m11_traffic_light/index.html">My lesson</a>
+<a href="#errors">Errors</a>
+<a href="#style">Testbench style</a>
+<a href="#mutations">Bug hunt</a>
+<a href="#presentation">Presentation</a>
+<a href="#adopt">Ideas to adopt</a>
+<a href="#brief">Brief, item by item</a>
+<a href="#check">How this was checked</a>
+</div></nav>
+<main>
+
+<h1>Two traffic-light lessons, compared</h1>
+<p class="lead">You gave Codex and me the same brief: <code>20261019_exercise.md</code>, byte-for-byte identical in both
+directories. It asks for a <code>breadboard/</code> site whose first lesson is the 4017 + OR-gate traffic light, in
+15 sections, in English and Russian. This page reviews everything in
+<a href="../lssk_codex/breadboard/index.html">lssk_codex/breadboard</a> and compares it with my
+<a href="breadboard/m11_traffic_light/index.html">breadboard/m11_traffic_light</a>.</p>
+
+<div class="note"><b>I wrote one of the two sites.</b> To keep this fair:
+<ul class="tight">
+<li>I ran Codex's own scripts myself, on copies: Icarus 12, Icarus 14, Verilator 5.053, licensed Questa 2025.2 and Yosys 0.69.</li>
+<li>I put the same 12 bugs into both designs.</li>
+<li>I list my own weak points next to Codex's.</li>
+</ul>
+<p>Codex was still editing while I worked. Its README, pages and Questa notes changed at 13:21–13:22; its HDL has not
+changed since 07:30. This review is of a snapshot taken at <b>13:27 PDT on 21 October</b>. I changed nothing in
+<code>lssk_codex</code>.</p>
+<p>The rules were not the same for both of us. Codex got <code>yuri_rules_3.txt</code>, with eight rules. I got
+<code>yuri_rules_4.txt</code>, which has two of them plus "Asynchronous reset is also OK". The <a href="#style">style
+section</a> checks both sites against all of the rules.</p></div>
+
+<div class="grid">
+<div class="stat"><b>Both pass</b><span>Codex's three benches pass in Icarus 12 and 14, Verilator and Questa (Questa run by me with the license)</span></div>
+<div class="stat"><b>Stock Yosys: no</b><span><code>timeunit</code> in every RTL file: Yosys 0.69 <code>read_verilog -sv</code> fails on line 15. Mine synthesizes.</span></div>
+<div class="stat"><b>12/12 vs 9/12</b><span>Bugs caught: Codex's three benches together vs my single bench</span></div>
+<div class="stat"><b>19 × <code>#&nbsp;1</code>, 2 × negedge</b><span>In Codex's benches. Mine has neither: only the clock generator has a delay.</span></div>
+<div class="stat"><b>45 vs 34 wires</b><span>Codex: 37 jumpers + 2 supply + 6 module leads. Mine: 24 jumpers + 10 module leads.</span></div>
+<div class="stat"><b>11 vs 5</b><span>Mentions of Timofei on the English lesson page, counting the code</span></div>
+</div>
+
+<h2>Verdict</h2>
+<ul class="tight">
+<li><b>Both sites are complete and work.</b> Each has all 15 sections, English and Russian, three schematics, two
+equivalent designs, chip models, scripts for three simulators, and BGM and Tiny Tapeout wrappers. Codex's site is
+polished, carefully cross-checked and honest about what it did not test.</li>
+<li><b>Codex's verification is broader, and that is the main thing to take from it.</b> It has a unit test for the chip
+models (all 256 input patterns of the OR chips, plus the 4017's CARRY and CLOCK INHIBIT) and a bench that simulates
+all three wrappers with both designs. Those benches catch three bugs that mine misses.</li>
+<li><b>The biggest technical problem is <code>timeunit 1ns; timeprecision 1ps;</code> in every synthesizable file.</b>
+Yosys's standard reader rejects them in the newest version here (0.69), not only in the "older 0.43" that Codex
+blames. BGM's Yosys flow and a Tiny Tapeout build would fail unless switched to Slang. BGM itself uses
+<code>timeunit</code> only in testbenches (16 files, all of them <code>tb.sv</code>).</li>
+<li><b>The testbenches keep the letter of rules_3 but not the BGM examples.</b> They sample at the edge plus
+<code>#&nbsp;1</code> and drive inputs with blocking assignments in the middle of the cycle. That pattern then needs 19
+<code>#&nbsp;1</code> delays and two negedge waits.
+<ul class="tight">
+<li>The negedge waits are not needed. Without them, Codex's main bench stops catching a design that counts on the
+falling edge, but a BGM-style rising-edge checker catches it with no negedge.</li>
+<li>Codex wrote that no deviation was required and did not write <code>need_to_deviate_from_style.html</code>.</li>
+</ul></li>
+<li><b>Schematic 1 does not show what the brief asked for.</b> The brief asked for flip-flops and gates; Codex draws the
+state register as a black box.</li>
+<li><b>Process notes leak into the student pages.</b> Examples: the typo in "the prompt", the license failure inside
+Codex's sandbox, a page fetch that timed out. The pages also over-credit Timofei, and the footers say "Traffic-light
+idea: Timofei Nikiforov".</li>
+<li><b>My own gaps</b>, all things Codex has:
+<ul class="tight">
+<li>no unit test for the chip models;</li>
+<li>wrappers never simulated;</li>
+<li>no synthesis script;</li>
+<li>no time unit in <code>tb.sv</code>;</li>
+<li>bare <code>wire</code> declarations;</li>
+<li>no CSV or ZIP downloads.</li>
+</ul></li>
+</ul>
+
+<h2 id="check-results">What the tools say</h2>
+<div class="tbl"><table class="cmp">
+<tr><th>Check</th><th>Codex</th><th>Mine</th></tr>
+<tr><td>Icarus 12.0</td><td><span class="ok">PASS</span>: all three benches, 285 checks in the main one</td><td><span class="ok">PASS</span>: 82 checks</td></tr>
+<tr><td>Icarus 14.0 devel</td><td><span class="ok">PASS</span>: all three</td><td><span class="ok">PASS</span></td></tr>
+<tr><td>Verilator 5.053, as each script runs it</td><td><span class="ok">PASS</span>: all three, with <code>--timing</code> and without <code>-Wall</code>; the script turns off PINCONNECTEMPTY and DECLFILENAME</td><td><span class="ok">PASS</span> with <code>-Wall</code></td></tr>
+<tr><td>Verilator <code>-Wall</code> lint</td><td>
+<ul class="tight">
+<li>RTL: 4 × PINCONNECTEMPTY, from empty <code>()</code> pins in <code>traffic_light_chips.sv</code>.</li>
+<li>Benches: PROCASSINIT on <code>logic clk = 1'b0;</code>, the very clock form that rules_3 prescribes.</li>
+<li>Also DECLFILENAME on <code>project.v</code>, UNUSEDPARAM <code>clk_mhz</code> and 14 empty pins in <code>tb_integrations</code>.</li>
+</ul>Style warnings only; none of them is a bug.</td>
+<td>0 warnings. My unused outputs get named wires, and two lint_off lines carry a comment.</td></tr>
+<tr><td>Questa 2025.2 with the license</td><td><span class="ok">PASS</span>: all three benches, 0 errors and 0 warnings.
+I ran Codex's 13:21 <code>run_questa.sh</code> from my shell. The page still tells students the simulation "is blocked".</td>
+<td><span class="ok">PASS</span>: 0 errors, 0 warnings</td></tr>
+<tr><td>Yosys 0.69 <code>read_verilog -sv</code>, which BGM's Yosys flow uses</td><td><span class="bad">Parse error</span>:
+<code>rtl/traffic_light.sv:15: ERROR: syntax error, unexpected TOK_TIME_SCALE</code>. Yosys 0.43 gives the same error.</td>
+<td><span class="ok">OK</span>:
+<ul class="tight">
+<li><code>traffic_light</code>: 23 cells, 5 flip-flops.</li>
+<li><code>traffic_light_chips</code>: 26 cells, 5 flip-flops.</li>
+<li>The TT top passes <code>check -assert</code>.</li>
+</ul></td></tr>
+<tr><td>Yosys 0.69 + Slang</td><td><span class="ok">OK</span>: both cores; the TT top is 81 cells</td><td>Not needed</td></tr>
+<tr><td>Wiring check</td><td>Static checks:
+<ul class="tight">
+<li>no hole used twice, no shorts;</li>
+<li>every functional pin connected, NC pins left free;</li>
+<li>split rails bridged.</li>
+</ul>I checked all 37 jumpers against the chip pinouts by hand and found no error.</td>
+<td>Static checks:
+<ul class="tight">
+<li>no hole used twice, no shorts;</li>
+<li>no floating input, one driver per net.</li>
+</ul>The wire list is also simulated and must give <code>RRRRYYGGGG</code>.</td></tr>
+<tr><td>Link check</td><td>178 local links checked by its <code>validate.py</code>; I found no broken ones</td><td>Link and anchor checks clean</td></tr>
+</table></div>
+
+<h2 id="errors">Errors and wrong claims in Codex's site</h2>
+<p class="muted">Ranked by how much they would hurt a student or a teacher. "Evidence" is what I ran or read today.</p>
+<div class="tbl"><table class="find">
+<tr><th>#</th><th>Severity</th><th>What</th><th>Evidence</th><th>Fix</th></tr>
+<tr><td>1</td><td><span class="tag bad">high</span></td>
+<td><b><code>timeunit</code>/<code>timeprecision</code> in all 11 HDL files, synthesizable ones included.</b> The TT
+<code>project.v</code>, both cores, the chip models and both BGM wrappers fail to parse with Yosys's standard reader.
+Codex says "the older local Yosys 0.43 built-in reader cannot parse"; the newest Yosys here fails the same way.</td>
+<td>
+<ul class="tight">
+<li>Yosys 0.69+24 and 0.43 both report <code>unexpected TOK_TIME_SCALE</code>.</li>
+<li>BGM's <code>scripts/steps/00_setup_yosys.source_bash</code> runs <code>read_verilog … -sv</code>.</li>
+<li>BGM's <code>timeunit</code> appears only in <code>tb.sv</code> files.</li>
+<li>Codex's TT section admits a template "needs a frontend change".</li>
+</ul></td>
+<td>Keep <code>timeunit</code> in testbenches only, as BGM does. The rule's own example was a testbench.</td></tr>
+<tr><td>2</td><td><span class="tag warn">medium</span></td>
+<td><b>Schematic 1 has no flip-flops and no gates for the state.</b> It shows a "10-state cyclic FSM" box feeding three
+ORs. The brief asks for "gates, flip-flop and other elements in generic fashion". The generic RTL is a ring of ten
+flip-flops, and no drawing shows that ring.</td>
+<td><code>images/logic_en.svg</code>, whose caption says "the block defines behavior, not a storage encoding"</td>
+<td>Draw the register. Either draw ten flip-flops in a ring, or, like mine, the 4017's own 5-bit Johnson counter with a 10-gate decoder.</td></tr>
+<tr><td>3</td><td><span class="tag warn">medium</span></td>
+<td><b>The two negedge waits are called "necessary", and they are not.</b> The style guide says "a posedge-only reset
+check would not establish this behavior".
+<ul class="tight">
+<li>The real reason is Codex's own sampling scheme: <code>@ (posedge clk); # 1</code>. Right after the rising edge, a
+design that counts on the falling edge already shows the expected value, so the bench needs the negedge block to catch it.</li>
+<li>For the 4017 INHIBIT test, the CLOCK pin is just an input of the device under test. The bench can drive it like
+any other input at rising edges of its own clock.</li>
+</ul>
+No <code>need_to_deviate_from_style.html</code> was written. <code>validation.json</code> says
+<code>"style_deviation_required": false</code>.</td>
+<td><a href="#mutations">Bug hunt</a>: with the negedge block deleted, Codex's main bench misses "counts on the falling
+edge". My rising-edge checker catches it.</td>
+<td>Use a BGM-style checker in <code>always @ (posedge clk)</code>. It samples the values of the cycle that just ended.</td></tr>
+<tr><td>4</td><td><span class="tag warn">medium</span></td>
+<td><b>Timofei is credited too often, and as the originator.</b>
+<ul class="tight">
+<li>Each lesson page mentions him 11 times: 6 in the text and 5 in code.</li>
+<li>The code includes <code>tt_um_timofei_traffic_light</code> and <code>1_11_timofei_traffic_light</code>.</li>
+<li>Both footers and the README say "Traffic-light idea: Timofei Nikiforov".</li>
+</ul>
+You corrected me on exactly this: the same design was published earlier, as a 2014 B.Tech student project on SlideShare.</td>
+<td>Visible text: title, h1, table of contents, section 1 heading, section 1 text, footer. The index page has 2 more.</td>
+<td>Drop the footer credit and the name in module names and paths. Keep one factual mention of where the circuit was described.</td></tr>
+<tr><td>5</td><td><span class="tag warn">low–medium</span></td>
+<td><b>The Questa status on the page is wrong for this machine.</b> Section 11 says: "Runtime blocked here: FlexNet sees an empty
+host ID and Questa reports Invalid host." That is true inside Codex's sandbox only. The README says the same.</td>
+<td>Codex's own updated <code>run_questa.sh</code>, run from a normal shell, passes all three benches</td>
+<td>Report the real result, or leave sandbox details out of student pages.</td></tr>
+<tr><td>6</td><td><span class="tag warn">low–medium</span></td>
+<td><b>The lesson disagrees with Codex's own exercise list and kits.</b> <code>exercises.html</code> calls the exercise
+<b>P11</b> and uses the 5&nbsp;V traffic-light module (LSSK row 64). The lesson is <b>BB-FSM-01</b> and uses three separate
+5&nbsp;V LEDs (rows 46–48). The sheet itself notes that those three LEDs are "not really needed".</td>
+<td><code>lssk_codex/exercises.html</code>, P11 entry</td>
+<td>Use the list's ID and its traffic-light module. One module GND lead replaces the three LED cathode jumpers.</td></tr>
+<tr><td>7</td><td><span class="tag eq">low</span></td>
+<td><b>The power module is drawn off the board</b>, with "two supply leads" to LP01 and LM01. The part in row 56 is a
+breadboard power module that plugs straight into the rails. So two wires are extra, and the picture differs from
+the getting-started guide.</td>
+<td>Codex's parts table, the text under schematic 3, and row 56 of its saved sheet rows</td>
+<td>Plug the module into the rails at the end of the board.</td></tr>
+<tr><td>8</td><td><span class="tag eq">low</span></td>
+<td><b>Rail coordinates such as LP25 and RM08 are invented.</b> Real boards print no hole numbers on the rails. The split
+between holes 25 and 26 is an assumption; the text admits it.</td>
+<td>Section 7 and <code>jumpers.csv</code></td>
+<td>Refer to rails by the printed column numbers, the way my checklist does: "top + rail, column 12".</td></tr>
+<tr><td>9</td><td><span class="tag eq">low</span></td>
+<td><b>A wrong reason for leaving out <code>`default_nettype none</code>.</b> The guide says "Questa rejects their implicit
+net types". Every tool must reject ports without a net type; that is what the directive is for.
+<code>project.v</code> also drops the TT template's <code>`default_nettype none</code> and its
+<code>input wire</code> header, which the brief quoted.</td>
+<td>Style guide §16 and <code>integration/tinytapeout/project.v</code></td>
+<td>Keep the TT template header as given.</td></tr>
+<tr><td>10</td><td><span class="tag eq">low</span></td>
+<td><b>The Verilator check is weaker than it looks.</b> The script runs without <code>-Wall</code> and turns off two
+warnings, while the page says only "All three testbenches pass".</td>
+<td>See "What the tools say" above</td>
+<td>Use named unused wires and <code>-Wall</code>.</td></tr>
+</table></div>
+
+<h2>Questionable design choices</h2>
+<ul class="tight">
+<li><b>The generic design is a one-hot ring of ten flip-flops.</b> The ring is a valid RTL idiom. But the 4017 has five
+flip-flops inside, a Johnson counter, so the lesson misses the chance to show what is in the chip. The ring also has
+no self-correction. Codex's 4017 model is a binary counter, so the three encodings in the lesson are all different
+(one-hot RTL, binary model, Johnson chip).</li>
+<li><b>Benches stop at the first mismatch with <code>$fatal</code>, print no per-cycle trace and have no
+<code>final</code> summary.</b> A student sees either one PASS line or one error message. The BGM examples count
+errors and summarize them in <code>final</code>; mine also prints a table, one line per cycle.</li>
+<li><b>Lots of disclaimers in student text.</b> Examples: "No physical circuit has been tested", "not the HDL simulator
+or an electrical model", "Parts descriptions alone do not establish module electrical specifications". They are honest,
+but they belong in the README, not in a lesson for 15-year-olds.</li>
+<li><b>The ZIP (2.2&nbsp;MB) ships <code>research/</code></b>: 33 logs, JSON records and a copy of your rules file.</li>
+<li><b>The TT outputs are gated with <code>ena</code>.</b> This is harmless but unnecessary: Tiny Tapeout's docs say
+<code>ena</code> can be ignored.</li>
+<li><b>Two wrapper parameters, <code>CHIP_MODEL</code> and <code>USE_CHIP_MODEL</code>,</b> each select the design with a
+<code>generate if</code>. This is fine, but the two wrappers name the parameter differently.</li>
+</ul>
+
+<h2 id="style">Testbench and HDL style against your rules</h2>
+<p class="muted">Rules marked <span class="tag cx">rules_3 only</span> were given to Codex and not to me. I check my code against
+them as well, because you may want them applied to both sites.</p>
+<div class="tbl"><table class="cmp">
+<tr><th>Rule</th><th>Codex</th><th>Mine</th></tr>
+<tr><td>No <code>#</code> delay unless necessary <span class="tag eq">both</span></td>
+<td class="bad">19 sites of <code>#&nbsp;1</code>: 9 in <code>tb_cmos</code>, 6 in <code>tb_integrations</code>, 4 in
+<code>tb_traffic_light</code>. Some sit in tasks that run hundreds of times.</td>
+<td class="ok">Only <code>#&nbsp;5</code> in the clock generator</td></tr>
+<tr><td>No negedge unless you have to <span class="tag eq">both</span></td>
+<td class="bad">2 sites, both avoidable (finding 3)</td><td class="ok">None</td></tr>
+<tr><td>Follow the BGM examples <span class="tag eq">both</span></td>
+<td class="bad">No <code>always @ (posedge clk)</code> checker, no <code>was_reset</code>, no <code>final</code>.
+Stimulus uses blocking assignments in the middle of the cycle, with no <code>&lt;=</code> anywhere.</td>
+<td class="ok">Checker at the rising edge, <code>was_reset</code>, summary in <code>final</code>. Stimulus uses
+<code>&lt;=</code> after <code>@ (posedge clk)</code>.</td></tr>
+<tr><td>Report deviations in <code>need_to_deviate_from_style.html</code> <span class="tag eq">both</span></td>
+<td class="bad">Not written. The exceptions are explained in the style guide instead.</td><td>No deviations</td></tr>
+<tr><td>New SystemVerilog time syntax, not <code>`timescale</code> <span class="tag cx">rules_3 only</span></td>
+<td class="mid">Done, but in every file, which breaks synthesis (finding 1)</td>
+<td class="mid">No time unit at all, so units depend on the simulator: Verilator reports
+<code>$finish at 445ps</code>, while Icarus uses its own default. Adding <code>timeunit</code> to <code>tb.sv</code> only would fix it.</td></tr>
+<tr><td><code>wire</code> only for <code>wire a = …;</code> <span class="tag cx">rules_3 only</span></td>
+<td class="ok">Followed</td>
+<td class="mid">Three places don't follow it:
+<ul class="tight">
+<li><code>wire [9:0] q, q_chips;</code> for the DUT outputs in <code>tb.sv</code>, which is what the BGM FIFO bench does too;</li>
+<li><code>wire unused_4071_j;</code> and similar in <code>traffic_light_chips.sv</code>;</li>
+<li><code>wire [9:0] q;</code> in <code>project.v</code>.</li>
+</ul></td></tr>
+<tr><td>Align <code>=</code> <span class="tag cx">rules_3 only</span></td><td class="ok">Mostly</td><td class="ok">Yes</td></tr>
+<tr><td>Clock in its own <code>always # (period / 2)</code> <span class="tag cx">rules_3 only</span></td>
+<td class="ok">Yes. Verilator <code>-Wall</code> flags it as PROCASSINIT.</td>
+<td class="mid">The clock has its own <code>initial … forever</code> block, as in the BGM examples, but not this exact form.</td></tr>
+<tr><td>Tasks without Verilog-95 <code>begin</code>/<code>end</code> <span class="tag cx">rules_3 only</span></td><td class="ok">Yes</td><td>No tasks</td></tr>
+<tr><td>Timeouts in clock cycles <span class="tag cx">rules_3 only</span></td><td class="ok">500, 500 and 200 cycles</td>
+<td class="mid">No watchdog. The run has a fixed length, so it cannot hang, but a cycle watchdog costs three lines.</td></tr>
+</table></div>
+<p>Codex's <a href="../lssk_codex/breadboard/systemverilog_style.html">style guide</a> (22 rules, English and Russian, Markdown copies)
+is a good idea, and it records the upstream commits it cites. Three of its rules contradict the evidence above:
+§17 puts <code>timeunit</code> everywhere, §16 gives the wrong reason for <code>default_nettype</code>, and the section
+"Why specific # 1 and negedge uses remain" says the negedge waits are necessary.</p>
+
+<h2 id="mutations">Bug hunt: the same 12 bugs in both designs</h2>
+<p class="muted">Each bug was put into a fresh copy and run with Icarus 12. "Caught" means the bench printed no PASS.
+For Codex, "main without negedge" is <code>tb_traffic_light.sv</code> with its low-clock block deleted.</p>
+<div class="tbl"><table>
+<tr><th>Bug</th><th class="c">Codex<br>tb_cmos</th><th class="c">Codex<br>main</th><th class="c">Codex<br>integrations</th><th class="c">Codex main<br>without negedge</th><th class="c">Mine</th></tr>
+<tr><td>No bug (sanity)</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td></tr>
+<tr><td>Generic design counts on the falling clock edge</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c muted">missed</td><td class="c bad">missed</td><td class="c ok">caught</td></tr>
+<tr><td>Generic design: synchronous reset</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>Generic design: reset goes to state 1</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>Generic design: green misses state 6</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>Chips: a red OR input on Q4 instead of Q3</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>Chips: a green OR input left at GND</td><td class="c muted">missed</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>4017 model: synchronous reset</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td></tr>
+<tr><td>4017 model counts on the falling edge</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c muted">missed</td><td class="c bad">missed</td><td class="c ok">caught</td></tr>
+<tr><td>4017 model ignores CLOCK INHIBIT</td><td class="c ok">caught</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c bad">missed</td></tr>
+<tr><td>4017 model: CARRY high in counts 0–5</td><td class="c ok">caught</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c bad">missed</td></tr>
+<tr><td>4071 gate J is AND (Codex's yellow gate; unused in mine)</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c ok">caught</td><td class="c bad">missed</td></tr>
+<tr><td>4071 gate K is AND (my yellow gate; unused in Codex's)</td><td class="c ok">caught</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c muted">missed</td><td class="c ok">caught</td></tr>
+</table></div>
+<ul class="tight">
+<li><b>Codex: 12 of 12</b> over three benches with 514 lines. <b>Mine: 9 of 12</b> with one bench of 198 lines. The three I miss are
+in parts of the chips that my circuit does not use. Only a unit test of each chip model can catch those, and Codex
+has one.</li>
+<li><b>The negedge question.</b> With the negedge block removed, Codex's main bench misses "counts on the falling edge",
+in both the generic design and the 4017 model. My bench uses no negedge and no <code>#&nbsp;1</code>, and catches
+both. It samples at the rising edge, so it sees the cycle that just ended, as a flip-flop would.</li>
+</ul>
+
+<h2 id="presentation">Presentation and wording</h2>
+<div class="cols">
+<div>
+<h3>What works well in Codex's site</h3>
+<ul class="tight">
+<li>Clean layout: a dark header with three numbers (4/2/4, 3 chips, 10 states), a sticky table of contents, and each
+section in its own card. A print stylesheet is included.</li>
+<li>Every figure is an SVG file with SVG and PNG download links and alt text.</li>
+<li>Both pages set <code>lang</code> and <code>hreflang</code>, and the two languages link to each other.</li>
+<li>Seven clean drawings. The state graph has the Moore outputs inside the nodes, and a second graph shows the
+one-hot codes. The pinouts are clear.</li>
+<li>The parts table links each part to its exact sheet row, for example <code>range=LSSK!A37:Q37</code>, and comes
+with CSV files for parts and jumpers.</li>
+<li>A small JavaScript stepper (Run 1&nbsp;Hz, Step, Reset) shows the ten states and the lamps. It works offline.</li>
+<li>A troubleshooting table and "try next" tasks. One useful note: the source's "outputs 1–4, 5–6, 7–10" counts from
+one, while the datasheet says Q0–Q9.</li>
+</ul>
+</div>
+<div>
+<h3>What doesn't</h3>
+<ul class="tight">
+<li><b>Notes meant for you appear on student pages:</b>
+<ul class="tight">
+<li>"the prompt's 'hackaton_top' omits an h", which also appears as a comment inside <code>hackathon_top.sv</code>;</li>
+<li>"The live Google sheet was unavailable during this update";</li>
+<li>"Icarus 13 … is not installed here";</li>
+<li>the FlexNet host-ID story;</li>
+<li>"fetch timed out; no technical claims rely on it";</li>
+<li>"the quotation in the assignment and archived text were used".</li>
+</ul></li>
+<li><b>The breadboard drawing is hard to follow.</b> Ten signal wires leave the board and loop around its left side.
+Labels cover row numbers and pin numbers, and the clock and reset modules are not drawn. A student needs the
+hole-by-hole table to build it, and that table is collapsed.</li>
+<li><b>The timing diagram is drawn by hand</b>, not taken from the simulation. It has no reset trace. The clock starts
+high at t&nbsp;=&nbsp;0, so the first counting edge is ambiguous.</li>
+<li>Code has no syntax highlighting and is collapsed. There is no dark mode.</li>
+<li>Calling the Habr article "Yuri Panchul's course" and listing it under "Course and the traffic-light exercise" is
+vague. The lesson number, 1.7, would help readers find it.</li>
+</ul>
+</div>
+</div>
+
+<h3>Russian page</h3>
+<p>The translation is complete and matches the English section by section. The problems are terminology and a few calques:</p>
+<ul class="tight">
+<li>«микросхемы CMOS» throughout; the page never uses «КМОП».</li>
+<li>«Сброс асинхронный, активный высокий» is a calque of "active high". A few lines later the page says «активен
+единицей», so the wording is also inconsistent.</li>
+<li>«Двухвходовый ИЛИ даёт 1» is missing a noun: «двухвходовый элемент ИЛИ».</li>
+<li>«даташит» is jargon in a school text. Use «техническое описание (datasheet)».</li>
+<li>«Сброс выбирает S0» is a calque. Use «сброс переводит автомат в S0».</li>
+<li>«выемкой вверх» is understandable, but «ключом вверх» is the usual term for the notch on a DIP package.</li>
+</ul>
+
+<h2 id="adopt">Ideas to adopt</h2>
+<div class="cols">
+<div>
+<h3>From Codex into my lesson</h3>
+<p class="muted small">I have not changed anything yet. Tell me which of these to do.</p>
+<ol class="tight">
+<li><b>A unit-test bench for the chip models</b>, in the posedge style: every OR input pattern on every pin, plus the
+4017's CARRY and CLOCK INHIBIT. CLOCK INHIBIT can be tested by driving CLOCK as data from the bench's clock.
+This closes the three bugs I miss.</li>
+<li><b>A simulation of the wrappers</b> (<code>lab_top</code>, <code>hackathon_top</code>, <code>project.v</code>)
+with both designs. I have never simulated mine.</li>
+<li><b>A synthesis check script</b>: Yosys <code>read_verilog -sv; synth; check -assert</code>, run on the stock reader.</li>
+<li><b>Parts linked to their sheet rows</b>, while keeping my prices.</li>
+<li><b>CSV downloads</b> for parts and wires, and a ZIP of the exercise without build logs.</li>
+<li><b>The note about counting from one</b> ("outputs 1–4" are Q0–Q3).</li>
+<li><b>A troubleshooting table</b> that maps each symptom to what to check.</li>
+<li><b>rules_3 items</b>, if you want them in my code too:
+<ul class="tight">
+<li><code>timeunit 1ns; timeprecision 1ps;</code> in <code>tb.sv</code> only;</li>
+<li><code>logic</code> for DUT outputs and unused nets;</li>
+<li>a watchdog counted in clock cycles.</li>
+</ul></li>
+<li>Optional: the small state stepper widget.</li>
+</ol>
+</div>
+<div>
+<h3>From my lesson into Codex's</h3>
+<ol class="tight">
+<li>Schematic 1 with real flip-flops and gates. The Johnson counter and decoder are what is inside the 4017.</li>
+<li>A breadboard drawing that looks like the board, with the modules on it, plus a checklist with tick boxes.</li>
+<li>A waveform made from the simulation's VCD, so the picture and the testbench cannot disagree.</li>
+<li>A rising-edge checker with <code>was_reset</code> and <code>final</code>, which removes all <code>#&nbsp;1</code> delays and negedge waits.</li>
+<li>RTL that the stock Yosys reader accepts, so BGM's Yosys flow and Tiny Tapeout work without Slang.</li>
+<li>The kit's traffic-light module and prices from the sheet.</li>
+<li>A clean <code>-Wall</code> run, syntax highlighting, copy buttons and dark mode.</li>
+</ol>
+</div>
+</div>
+
+<h2 id="brief">The brief, item by item</h2>
+<div class="tbl"><table class="cmp">
+<tr><th>Brief item</th><th>Codex</th><th>Mine</th></tr>
+<tr><td>1 · ID, name, why it matters</td><td>BB-FSM-01, a new ID that is not the P11 in its own list. Good motivation and prerequisites.</td><td>M11, the ID from <code>exercises.html</code></td></tr>
+<tr><td>2 · Key element, symbols, truth table, waveform</td><td>FSM graph, OR truth tables, hand-drawn timing, stepper widget</td><td>The 4017 explained, with a waveform from the simulation</td></tr>
+<tr><td>3 · Parts</td><td>Rows of the sheet with deep links and a CSV; no prices; three separate LEDs; 37 + 2 + 6 wires</td><td>Prices and suppliers; the traffic-light module; 24 + 10 wires; no CSV</td></tr>
+<tr><td>4 · Chips, pins, polarity</td><td>Three pin tables and a pinout drawing. The CLOCK INHIBIT detail cites Nexperia.</td><td>A pinout and table for each chip</td></tr>
+<tr><td>5 · Schematic 1: flip-flops and gates</td><td class="bad">A black box and three ORs</td><td class="ok">5 flip-flops, 10 ANDs and 3 ORs</td></tr>
+<tr><td>6 · Schematic 2: chip connections</td><td class="ok">Clean pin-level block diagram</td><td class="ok">Chip-level schematic</td></tr>
+<tr><td>7 · Schematic 3: breadboard</td><td class="mid">Hole map with all 37 jumpers; dense and abstract; the CSV and table are exact</td><td class="ok">Picture of the board with the modules, build steps and a checklist with tick boxes</td></tr>
+<tr><td>8 · Generic SystemVerilog</td><td>A one-hot ring of ten flip-flops</td><td>A Johnson counter and decoder, matching schematic 1 and the 4017</td></tr>
+<tr><td>9 · Chip models</td><td>Ports named after pins (<code>p14_clock</code>); marked synthesizable</td><td>Datasheet names, with the pin number in a comment; marked synthesizable</td></tr>
+<tr><td>10 · Chip-level SystemVerilog</td><td>Generated from the pin and net database</td><td>Generated from the checked wire list</td></tr>
+<tr><td>11 · Testbench for Icarus, Questa and Verilator</td><td>Three benches; scripts that accept tool paths from environment variables. The page says Questa cannot run, but it can.</td><td>One bench, three scripts and a clean script; all three simulators run</td></tr>
+<tr><td>12 · BGM <code>lab_top</code></td><td>Full interface, LEDs and LCD colour, reset on <code>key[0]</code>, a staging script</td><td>LEDs show a running state, the 7-segment display shows the light</td></tr>
+<tr><td>13 · BGM <code>hackathon_top</code></td><td>Fills the LCD with the current colour</td><td>Draws a traffic light on the LCD</td></tr>
+<tr><td>14 · Tiny Tapeout <code>project.v</code></td><td>Uses <code>clock_hz: 1</code> with no divider. A DIP switch selects bars or the state digit, and the lamps also go to <code>uio</code>. Needs Slang to synthesize.</td><td>Uses <code>clock_hz: 1</code> with no divider. Bars on the display; stock Yosys works; a comment says to rename the module.</td></tr>
+<tr><td>15 · Other</td><td>Bring-up steps, a troubleshooting table, "try next" tasks and sources</td><td>Tasks including a clock enable, and related designs</td></tr>
+<tr><td>Site: list page, English and Russian, linked</td><td class="ok">Yes, plus a style guide</td><td class="ok">Yes</td></tr>
+</table></div>
+
+<h2 id="check">How this was checked</h2>
+<ul class="tight">
+<li><b>Snapshot.</b> <code>lssk_codex/breadboard</code> was copied at 13:27 PDT. I diffed the HDL against the copy I ran
+earlier, and all nine files were unchanged. Every run used copies in my scratch directory; nothing was written to
+<code>lssk_codex</code>.</li>
+<li><b>Simulation.</b> I ran Codex's <code>scripts/run.sh</code>:
+<ul class="tight">
+<li>with Icarus 12.0 from <code>/usr/bin</code>, and Icarus 14.0 devel and Verilator 5.053 from <code>~/oss-cad-suite</code>;</li>
+<li>with Questa Altera Starter FPGA Edition 2025.2, using <code>SALT_LICENSE_SERVER=~/flexlm/license.dat</code>;</li>
+<li>and Codex's 13:21 <code>run_questa.sh</code> on its own.</li>
+</ul>
+Lint was <code>verilator --lint-only -Wall</code> on the same file sets.</li>
+<li><b>Synthesis.</b> Yosys 0.69+24 with <code>read_verilog -sv … ; synth -top … -flatten; check -assert; stat</code>, then
+the same with <code>-m slang</code> and <code>read_slang</code>. I also tried Yosys 0.43 from <code>/usr/bin</code>.</li>
+<li><b>Bugs.</b> A script put each of the 12 bugs above into fresh copies of both projects and ran every bench with
+Icarus 12. For the "without negedge" column, the low-clock block was removed from Codex's main bench with a regular
+expression.</li>
+<li><b>BGM facts</b> come from the local clone at commit <code>3b18fdba</code>:
+<ul class="tight">
+<li>all 63 <code>slow_clk_gen</code> instances use <code>slow_clk_hz (1)</code>;</li>
+<li><code>timeunit</code> appears only in testbenches;</li>
+<li>the Yosys flow uses <code>read_verilog -sv</code>;</li>
+<li>the pow_5 bench and the FIFO's <code>fifo_monitor.sv</code> use <code>was_reset</code>;</li>
+<li>the pow_5 bench and the microarchitecture-challenge <code>testbench.sv</code> end with <code>final</code>.</li>
+</ul></li>
+<li><b>Text, wiring and counts.</b> I read both of Codex's lesson pages, both list pages, the style guide, the README, the
+tools and the <code>research/</code> records. I checked every pin of the three pin tables and all 37 jumpers against the
+CD4017B, CD4071B and CD4072B pinouts. The Timofei counts come from the HTML, with text and <code>&lt;pre&gt;</code>
+blocks counted separately.</li>
+</ul>
+
+<footer>Breadboard lessons compared · 21 October 2026 · Codex snapshot 13:27 PDT · local file, not published</footer>
+</main>
+</body>
+</html>

@@ -1,4 +1,6 @@
 __pycache__/
+build/
+research/
 *.gz
 *.tar
 *.zip

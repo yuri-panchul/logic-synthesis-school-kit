@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сравнение уроков на макетной плате</title>
+<style>
+:root{--bg:#f7f6f2;--fg:#1c2329;--muted:#5d6872;--card:#ffffff;--line:#dfe3e6;--accent:#0b6e4f;
+--accent-bg:#e5f2ec;--warn:#9a4d00;--warn-bg:#fdf1e3;--code:#eef1f3;--th:#f0f2f1;--cx:#2f5fb3;--cx-bg:#e7eefa;--bad:#c0392b;--bad-bg:#fbeae7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;
+--card:#1b2126;--line:#2d363d;--accent:#55c79a;--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;
+--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;--bad-bg:#3a201c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13171b;--fg:#e5e9ec;--muted:#9aa6b0;--card:#1b2126;--line:#2d363d;--accent:#55c79a;
+--accent-bg:#1b3027;--warn:#f0b06a;--warn-bg:#33261a;--code:#232b31;--th:#20282e;--cx:#8fb2f0;--cx-bg:#1d2a3d;--bad:#f08070;--bad-bg:#3a201c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+nav.top{background:var(--card);border-bottom:1px solid var(--line);font-size:14px}
+nav.top div{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 16px}
+nav.top a{color:var(--muted);text-decoration:none}nav.top a:hover{color:var(--accent)}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px;text-wrap:balance}h2{font-size:22px;margin:40px 0 10px;text-wrap:balance}
+h3{font-size:18px;margin:22px 0 6px}
+p.lead{font-size:18px;color:var(--muted);margin:0 0 18px;max-width:820px}
+p,li{max-width:860px}
+a{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin:16px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:22px;line-height:1.2}.stat span{color:var(--muted);font-size:13px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--th);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;white-space:nowrap}
+tr.grp td{background:var(--th);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+table.cmp td:first-child{font-weight:600;min-width:150px}
+table.cmp td:nth-child(2),table.cmp td:nth-child(3){min-width:240px}
+table.find td:nth-child(3){min-width:280px}table.find td:nth-child(4){min-width:240px}table.find td:nth-child(5){min-width:200px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--accent-bg);
+color:var(--accent);margin:2px 4px 2px 0;white-space:nowrap;font-weight:600}
+.tag.cx{background:var(--cx-bg);color:var(--cx)}
+.tag.eq{background:var(--th);color:var(--muted)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
+.muted{color:var(--muted)}.small{font-size:13px}
+.note{background:var(--warn-bg);border-radius:10px;padding:12px 16px;margin:14px 0;max-width:900px}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:90%}
+p code,li code,td code{overflow-wrap:anywhere}
+pre.code{background:var(--code);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.5;margin:8px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px 22px}
+.cols>div{min-width:0}
+.ok{color:var(--accent);font-weight:600}.bad{color:var(--bad);font-weight:600}.mid{color:var(--warn);font-weight:600}
+ul.tight li{margin:4px 0}
+td.c{text-align:center;white-space:nowrap}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav class="top"><div>
+<a href="../lssk_codex/breadboard/traffic_light/index_ru.html">Урок Codex</a>
+<a href="breadboard/m11_traffic_light/index_ru.html">Мой урок</a>
+<a href="#errors">Ошибки</a>
+<a href="#style">Стиль тестбенчей</a>
+<a href="#mutations">Охота за ошибками</a>
+<a href="#presentation">Оформление</a>
+<a href="#adopt">Что перенять</a>
+<a href="#brief">Задание по пунктам</a>
+<a href="#check">Как проверялось</a>
+<a href="breadboard_compared.html" hreflang="en">English</a>
+</div></nav>
+<main>
+
+<h1>Сравнение двух уроков про светофор</h1>
+<p class="lead">Вы дали Codex и мне одно и то же задание: файл <code>20261019_exercise.md</code>, побайтно одинаковый в
+обоих каталогах. В нём нужен сайт <code>breadboard/</code>, первый урок которого — светофор на 4017 и элементах ИЛИ,
+в 15 разделах, на английском и русском. Здесь разобрано всё, что лежит в
+<a href="../lssk_codex/breadboard/index_ru.html">lssk_codex/breadboard</a>, и сравнено с моим уроком
+<a href="breadboard/m11_traffic_light/index_ru.html">breadboard/m11_traffic_light</a>.</p>
+
+<div class="note"><b>Один из двух сайтов написал я.</b> Чтобы сравнение было честным:
+<ul class="tight">
+<li>скрипты Codex я запускал сам, на копиях: Icarus 12, Icarus 14, Verilator 5.053, Questa 2025.2 с лицензией и Yosys 0.69;</li>
+<li>в обе схемы я внёс одни и те же 12 ошибок;</li>
+<li>свои слабые места я привожу рядом со слабыми местами Codex.</li>
+</ul>
+<p>Codex продолжал править файлы, пока я работал. README, страницы и заметки о Questa изменились в 13:21–13:22, а HDL не
+менялся с 07:30. Разбирается снимок, сделанный <b>21 октября в 13:27 PDT</b>. В <code>lssk_codex</code> я ничего не менял.</p>
+<p>Правила у нас были разные. Codex получил <code>yuri_rules_3.txt</code> с восемью правилами. Я получил
+<code>yuri_rules_4.txt</code>: в нём два из этих правил и фраза «Asynchronous reset is also OK». В <a href="#style">разделе
+о стиле</a> оба сайта проверены по всем правилам.</p></div>
+
+<div class="grid">
+<div class="stat"><b>Оба проходят</b><span>Три тестбенча Codex проходят в Icarus 12 и 14, Verilator и Questa (Questa я запускал сам, с лицензией)</span></div>
+<div class="stat"><b>Обычный Yosys: нет</b><span><code>timeunit</code> в каждом RTL-файле: Yosys 0.69 <code>read_verilog -sv</code> падает на строке 15. Мой код синтезируется.</span></div>
+<div class="stat"><b>12/12 против 9/12</b><span>Пойманные ошибки: три тестбенча Codex вместе против моего одного</span></div>
+<div class="stat"><b>19 × <code>#&nbsp;1</code>, 2 × negedge</b><span>В тестбенчах Codex. У меня нет ни того, ни другого: задержка есть только в генераторе такта.</span></div>
+<div class="stat"><b>45 против 34 проводов</b><span>Codex: 37 перемычек, 2 провода питания и 6 проводов модулей. У меня: 24 перемычки и 10 проводов модулей.</span></div>
+<div class="stat"><b>12 против 5</b><span>Упоминания Тимофея на странице урока, считая код</span></div>
+</div>
+
+<h2>Итог</h2>
+<ul class="tight">
+<li><b>Оба сайта полные и работают.</b> В каждом есть все 15 разделов на английском и русском, три схемы, две
+эквивалентные реализации, модели микросхем, скрипты для трёх симуляторов и обёртки для BGM и Tiny Tapeout. Сайт Codex
+аккуратно оформлен, тщательно перепроверен и честно говорит о том, что не тестировалось.</li>
+<li><b>Проверка у Codex шире, и это главное, что стоит у него взять.</b> У него есть модульный тест моделей микросхем
+(все 256 комбинаций входов микросхем ИЛИ, а также CARRY и CLOCK INHIBIT у 4017) и тестбенч, который моделирует все три
+обёртки с обеими реализациями. Эти тестбенчи ловят три ошибки, которые мой пропускает.</li>
+<li><b>Самая серьёзная техническая проблема — <code>timeunit 1ns; timeprecision 1ps;</code> в каждом синтезируемом
+файле.</b> Стандартный парсер Yosys отвергает эти объявления и в самой новой версии на этой машине (0.69), а не только
+в «локальном Yosys 0.43», на который ссылается Codex. Маршрут синтеза BGM на Yosys и сборка Tiny Tapeout не пройдут без
+перехода на Slang. В самом BGM <code>timeunit</code> встречается только в тестбенчах (16 файлов, все — <code>tb.sv</code>).</li>
+<li><b>Тестбенчи соблюдают букву rules_3, но не следуют примерам BGM.</b> Они считывают сигналы через
+<code>#&nbsp;1</code> после фронта и подают входы блокирующими присваиваниями в середине такта. Из-за этого понадобились
+19 задержек <code>#&nbsp;1</code> и два ожидания спада (negedge).
+<ul class="tight">
+<li>Ожидания спада не нужны. Без них основной тестбенч Codex перестаёт ловить схему, которая считает по спаду такта, а
+проверка по положительному фронту в стиле BGM ловит её без всякого negedge.</li>
+<li>Codex написал, что отступать от стиля не требуется, и не создал <code>need_to_deviate_from_style.html</code>.</li>
+</ul></li>
+<li><b>Схема 1 не показывает того, что требовало задание.</b> В задании нужны триггеры и логические элементы, а Codex
+рисует регистр состояния чёрным ящиком.</li>
+<li><b>На страницы для учеников попали рабочие заметки.</b> Примеры: замечание об опечатке в задании, сбой лицензии в
+песочнице Codex, загрузка страницы, завершившаяся тайм-аутом. Кроме того, Тимофей упоминается слишком часто, а в подвалах страниц
+написано «Идея светофора: Тимофей Никифоров».</li>
+<li><b>Мои собственные пробелы</b> — всё это у Codex есть:
+<ul class="tight">
+<li>нет модульного теста моделей микросхем;</li>
+<li>обёртки ни разу не моделировались;</li>
+<li>нет скрипта проверки синтеза;</li>
+<li>в <code>tb.sv</code> не задана единица времени;</li>
+<li>голые объявления <code>wire</code>;</li>
+<li>нет файлов CSV и ZIP для скачивания.</li>
+</ul></li>
+</ul>
+
+<h2 id="check-results">Что говорят инструменты</h2>
+<div class="tbl"><table class="cmp">
+<tr><th>Проверка</th><th>Codex</th><th>Мой урок</th></tr>
+<tr><td>Icarus 12.0</td><td><span class="ok">PASS</span>: все три тестбенча, 285 проверок в основном</td><td><span class="ok">PASS</span>: 82 проверки</td></tr>
+<tr><td>Icarus 14.0 devel</td><td><span class="ok">PASS</span>: все три</td><td><span class="ok">PASS</span></td></tr>
+<tr><td>Verilator 5.053 так, как его запускает скрипт</td><td><span class="ok">PASS</span>: все три, с <code>--timing</code> и без <code>-Wall</code>; скрипт отключает PINCONNECTEMPTY и DECLFILENAME</td><td><span class="ok">PASS</span> с <code>-Wall</code></td></tr>
+<tr><td>Verilator <code>-Wall</code> в режиме lint</td><td>
+<ul class="tight">
+<li>RTL: 4 × PINCONNECTEMPTY из-за пустых выводов <code>()</code> в <code>traffic_light_chips.sv</code>.</li>
+<li>Тестбенчи: PROCASSINIT на <code>logic clk = 1'b0;</code> — именно на ту форму генератора такта, которую предписывает rules_3.</li>
+<li>Также DECLFILENAME на <code>project.v</code>, UNUSEDPARAM на <code>clk_mhz</code> и 14 пустых выводов в <code>tb_integrations</code>.</li>
+</ul>Только предупреждения о стиле; ни одно из них не указывает на ошибку.</td>
+<td>0 предупреждений. Неиспользуемые выходы подключены к именованным цепям, а у двух строк lint_off есть комментарий.</td></tr>
+<tr><td>Questa 2025.2 с лицензией</td><td><span class="ok">PASS</span>: все три тестбенча, 0 ошибок и 0 предупреждений.
+Я запустил из своей оболочки <code>run_questa.sh</code> Codex в версии 13:21. На странице ученикам по-прежнему сказано,
+что запуск здесь невозможен.</td>
+<td><span class="ok">PASS</span>: 0 ошибок, 0 предупреждений</td></tr>
+<tr><td>Yosys 0.69 <code>read_verilog -sv</code>, как в маршруте синтеза BGM</td><td><span class="bad">Ошибка разбора</span>:
+<code>rtl/traffic_light.sv:15: ERROR: syntax error, unexpected TOK_TIME_SCALE</code>. Yosys 0.43 выдаёт ту же ошибку.</td>
+<td><span class="ok">OK</span>:
+<ul class="tight">
+<li><code>traffic_light</code>: 23 ячейки, 5 триггеров.</li>
+<li><code>traffic_light_chips</code>: 26 ячеек, 5 триггеров.</li>
+<li>Верхний модуль TT проходит <code>check -assert</code>.</li>
+</ul></td></tr>
+<tr><td>Yosys 0.69 + Slang</td><td><span class="ok">OK</span>: обе реализации; верхний модуль TT — 81 ячейка</td><td>Не нужен</td></tr>
+<tr><td>Проверка проводки</td><td>Статические проверки:
+<ul class="tight">
+<li>ни одно отверстие не занято дважды, нет замыканий;</li>
+<li>все функциональные выводы подключены, выводы NC свободны;</li>
+<li>разорванные шины питания соединены.</li>
+</ul>Я вручную сверил все 37 перемычек с цоколёвками микросхем и ошибок не нашёл.</td>
+<td>Статические проверки:
+<ul class="tight">
+<li>ни одно отверстие не занято дважды, нет замыканий;</li>
+<li>нет висящих входов, у каждой цепи один источник.</li>
+</ul>Кроме того, список проводов моделируется и должен дать <code>RRRRYYGGGG</code>.</td></tr>
+<tr><td>Проверка ссылок</td><td>178 локальных ссылок проверены его <code>validate.py</code>; я битых не нашёл</td><td>Ссылки и якоря в порядке</td></tr>
+</table></div>
+
+<h2 id="errors">Ошибки и неверные утверждения на сайте Codex</h2>
+<p class="muted">Упорядочены по тому, насколько они помешали бы ученику или учителю. В столбце «Доказательство» — то, что я
+сегодня запускал или читал. Цитаты со страниц Codex взяты из его русской версии.</p>
+<div class="tbl"><table class="find">
+<tr><th>№</th><th>Важность</th><th>Что</th><th>Доказательство</th><th>Как исправить</th></tr>
+<tr><td>1</td><td><span class="tag bad">высокая</span></td>
+<td><b><code>timeunit</code>/<code>timeprecision</code> во всех 11 HDL-файлах, включая синтезируемые.</b> Стандартный
+парсер Yosys не может разобрать <code>project.v</code> для TT, обе реализации, модели микросхем и обе обёртки BGM.
+Codex пишет: «Встроенный парсер локального Yosys 0.43 не принимает объявления timeunit». Самая новая версия Yosys на
+этой машине падает точно так же.</td>
+<td>
+<ul class="tight">
+<li>Yosys 0.69+24 и 0.43 оба сообщают <code>unexpected TOK_TIME_SCALE</code>.</li>
+<li><code>scripts/steps/00_setup_yosys.source_bash</code> в BGM вызывает <code>read_verilog … -sv</code>.</li>
+<li>В BGM <code>timeunit</code> встречается только в файлах <code>tb.sv</code>.</li>
+<li>В разделе про TT Codex сам признаёт, что для шаблона «перед синтезом этих исходников нужно сменить фронтенд».</li>
+</ul></td>
+<td>Оставить <code>timeunit</code> только в тестбенчах, как в BGM. Пример в самом правиле был тестбенчем.</td></tr>
+<tr><td>2</td><td><span class="tag warn">средняя</span></td>
+<td><b>На схеме 1 нет ни триггеров, ни логических элементов для состояния.</b> На ней блок «Циклический автомат»
+с десятью состояниями, который питает три элемента ИЛИ. Задание требует «gates, flip-flop and other elements in generic
+fashion». Общая схема на RTL — кольцо из десяти триггеров, но ни на одном рисунке этого кольца нет.</td>
+<td><code>images/logic_ru.svg</code>, подпись: «блок задаёт поведение, а не кодирование памяти»</td>
+<td>Нарисовать регистр: либо десять триггеров в кольце, либо, как у меня, пятиразрядный счётчик Джонсона из самой 4017
+с дешифратором из десяти элементов.</td></tr>
+<tr><td>3</td><td><span class="tag warn">средняя</span></td>
+<td><b>Два ожидания спада названы необходимыми, хотя они не нужны.</b> В руководстве по стилю сказано: «Проверка сброса
+только по posedge не доказывала бы это поведение».
+<ul class="tight">
+<li>На самом деле причина в схеме считывания самого Codex: <code>@ (posedge clk); # 1</code>. Сразу после
+положительного фронта схема, которая считает по спаду, уже показывает ожидаемое значение, поэтому тестбенчу и нужен
+блок с negedge, чтобы её поймать.</li>
+<li>В тесте INHIBIT у 4017 вывод CLOCK — просто вход проверяемого устройства. Тестбенч может подавать его, как любой
+другой вход, по положительным фронтам своего собственного такта.</li>
+</ul>
+Файл <code>need_to_deviate_from_style.html</code> не создан. В <code>validation.json</code> записано
+<code>"style_deviation_required": false</code>.</td>
+<td><a href="#mutations">Охота за ошибками</a>: если удалить блок с negedge, основной тестбенч Codex пропускает
+«счёт по спаду». Моя проверка по положительному фронту эту ошибку ловит.</td>
+<td>Проверять в <code>always @ (posedge clk)</code>, как в BGM. Такая проверка видит значения только что закончившегося такта.</td></tr>
+<tr><td>4</td><td><span class="tag warn">средняя</span></td>
+<td><b>Тимофей упоминается слишком часто и как автор идеи.</b>
+<ul class="tight">
+<li>На каждой странице урока он упомянут 12 раз: 6 раз в тексте и 6 раз в коде, один из них в строке раздела 14.</li>
+<li>В коде есть <code>tt_um_timofei_traffic_light</code> и <code>1_11_timofei_traffic_light</code>.</li>
+<li>В обоих подвалах и в README написано «Идея светофора: Тимофей Никифоров».</li>
+</ul>
+Именно это вы поправляли у меня: та же схема была опубликована раньше, в 2014 году на SlideShare, как студенческий
+проект B.Tech.</td>
+<td>Видимый текст: заголовок вкладки, h1, оглавление, заголовок раздела 1, текст раздела 1, подвал. На странице со
+списком ещё 2 упоминания.</td>
+<td>Убрать упоминание в подвале и имя в названиях модулей и путях. Оставить одно фактическое упоминание того, где
+описана схема.</td></tr>
+<tr><td>5</td><td><span class="tag warn">ниже средней</span></td>
+<td><b>Статус Questa на странице неверен для этой машины.</b> В разделе 11 сказано: «Здесь FlexNet не видит host ID, и
+Questa сообщает Invalid host». Это верно только внутри песочницы Codex. В README написано то же самое.</td>
+<td>Обновлённый <code>run_questa.sh</code> самого Codex, запущенный из обычной оболочки, проходит все три тестбенча</td>
+<td>Сообщить реальный результат или не писать о песочнице на страницах для учеников.</td></tr>
+<tr><td>6</td><td><span class="tag warn">ниже средней</span></td>
+<td><b>Урок расходится с собственным списком упражнений и наборами Codex.</b> В <code>exercises.html</code> упражнение
+называется <b>P11</b> и использует модуль светофора на 5&nbsp;В (строка 64 листа LSSK). В уроке оно называется
+<b>BB-FSM-01</b>, и в нём три отдельных светодиода на 5&nbsp;В (строки 46–48). В самой таблице про эти три светодиода
+сказано «not really needed».</td>
+<td><code>lssk_codex/exercises.html</code>, запись P11</td>
+<td>Взять номер из списка и его модуль светофора. Один провод GND модуля заменяет три перемычки катодов.</td></tr>
+<tr><td>7</td><td><span class="tag eq">низкая</span></td>
+<td><b>Модуль питания нарисован вне платы</b>, с «двумя проводами питания» к LP01 и LM01. Деталь из строки 56 — модуль
+питания для макетной платы, который вставляется прямо в шины. Значит, два провода лишние, и картинка не совпадает с
+руководством «Как начать».</td>
+<td>Таблица деталей Codex, текст под схемой 3 и строка 56 в сохранённых им строках таблицы</td>
+<td>Вставить модуль в шины на краю платы.</td></tr>
+<tr><td>8</td><td><span class="tag eq">низкая</span></td>
+<td><b>Координаты на шинах вроде LP25 и RM08 выдуманы.</b> На настоящих платах у шин нет номеров отверстий. Разрыв
+между отверстиями 25 и 26 — допущение, и текст это признаёт.</td>
+<td>Раздел 7 и <code>jumpers.csv</code></td>
+<td>Указывать места на шинах по напечатанным номерам столбиков, как в моём списке проверки: «верхняя шина +, столбик 12».</td></tr>
+<tr><td>9</td><td><span class="tag eq">низкая</span></td>
+<td><b>Неверная причина отказа от <code>`default_nettype none</code>.</b> В руководстве сказано: «Questa отвергает их
+неявные типы цепей». Порты без типа цепи обязан отвергать любой инструмент — для этого директива и нужна.
+Кроме того, <code>project.v</code> теряет <code>`default_nettype none</code> и заголовок с <code>input wire</code> из
+шаблона TT, который цитировался в задании.</td>
+<td>Руководство по стилю, §16, и <code>integration/tinytapeout/project.v</code></td>
+<td>Сохранить заголовок шаблона TT в исходном виде.</td></tr>
+<tr><td>10</td><td><span class="tag eq">низкая</span></td>
+<td><b>Проверка в Verilator слабее, чем кажется.</b> Скрипт запускает его без <code>-Wall</code> и отключает два
+предупреждения, а на странице написано только «Все три тестбенча проходят».</td>
+<td>См. «Что говорят инструменты» выше</td>
+<td>Подключать неиспользуемые выходы к именованным цепям и запускать с <code>-Wall</code>.</td></tr>
+</table></div>
+
+<h2>Спорные проектные решения</h2>
+<ul class="tight">
+<li><b>Общая схема — кольцо из десяти триггеров с унитарным кодом (one-hot).</b> Кольцо — законная идиома RTL. Но внутри
+4017 пять триггеров, счётчик Джонсона, и урок упускает случай показать, что внутри микросхемы. Кроме того, кольцо не
+восстанавливается само из неверного состояния. Модель 4017 у Codex — двоичный счётчик, так что все три кодирования
+в уроке разные: унитарное в RTL, двоичное в модели и код Джонсона в микросхеме.</li>
+<li><b>Тестбенчи останавливаются на первом расхождении через <code>$fatal</code>, не печатают трассу по тактам и не
+подводят итог в <code>final</code>.</b> Ученик видит либо одну строку PASS, либо одно сообщение об ошибке. Примеры BGM
+считают ошибки и подводят итог в <code>final</code>; мой тестбенч ещё и печатает таблицу, по строке на такт.</li>
+<li><b>Много оговорок в тексте для учеников.</b> Примеры: «Физическая схема пока не проверялась», «это не HDL-симулятор и
+не электрическая модель», «Модели не проверяют ток LED, качество питания, метастабильность или электрические
+ограничения импульсов». Они честные, но им место в README, а не в уроке для пятнадцатилетних.</li>
+<li><b>В ZIP-архив (2,2&nbsp;МБ) попал каталог <code>research/</code></b>: 33 журнала, записи в JSON и копия вашего файла правил.</li>
+<li><b>Выходы TT стробируются сигналом <code>ena</code>.</b> Вреда нет, но и смысла тоже: в документации Tiny Tapeout
+сказано, что <code>ena</code> можно игнорировать.</li>
+<li><b>Два параметра обёрток, <code>CHIP_MODEL</code> и <code>USE_CHIP_MODEL</code>,</b> выбирают реализацию через
+<code>generate if</code>. Это нормально, но в двух обёртках параметр называется по-разному.</li>
+</ul>
+
+<h2 id="style">Стиль тестбенчей и HDL по вашим правилам</h2>
+<p class="muted">Правила с пометкой <span class="tag cx">только rules_3</span> получил Codex, а я — нет. Я всё равно
+проверяю по ним и свой код, потому что вы, возможно, захотите применять их к обоим сайтам.</p>
+<div class="tbl"><table class="cmp">
+<tr><th>Правило</th><th>Codex</th><th>Мой урок</th></tr>
+<tr><td>Никаких задержек <code>#</code> без необходимости <span class="tag eq">оба</span></td>
+<td class="bad">19 мест с <code>#&nbsp;1</code>: 9 в <code>tb_cmos</code>, 6 в <code>tb_integrations</code>, 4 в
+<code>tb_traffic_light</code>. Некоторые стоят в задачах, которые выполняются сотни раз.</td>
+<td class="ok">Только <code>#&nbsp;5</code> в генераторе такта</td></tr>
+<tr><td>Никакого negedge без крайней нужды <span class="tag eq">оба</span></td>
+<td class="bad">2 места, оба можно убрать (пункт 3)</td><td class="ok">Нет</td></tr>
+<tr><td>Следовать примерам BGM <span class="tag eq">оба</span></td>
+<td class="bad">Нет проверки в <code>always @ (posedge clk)</code>, нет <code>was_reset</code>, нет <code>final</code>.
+Входы подаются блокирующими присваиваниями в середине такта; <code>&lt;=</code> нет нигде.</td>
+<td class="ok">Проверка по положительному фронту, <code>was_reset</code>, итог в <code>final</code>. Входы подаются через
+<code>&lt;=</code> после <code>@ (posedge clk)</code>.</td></tr>
+<tr><td>Отступления описывать в <code>need_to_deviate_from_style.html</code> <span class="tag eq">оба</span></td>
+<td class="bad">Не создан. Исключения объяснены вместо этого в руководстве по стилю.</td><td>Отступлений нет</td></tr>
+<tr><td>Новый синтаксис времени SystemVerilog вместо <code>`timescale</code> <span class="tag cx">только rules_3</span></td>
+<td class="mid">Сделано, но в каждом файле, и это ломает синтез (пункт 1)</td>
+<td class="mid">Единица времени не задана вовсе, так что она зависит от симулятора: Verilator сообщает
+<code>$finish at 445ps</code>, а Icarus использует свою единицу по умолчанию. Исправляется добавлением
+<code>timeunit</code> только в <code>tb.sv</code>.</td></tr>
+<tr><td><code>wire</code> только в виде <code>wire a = …;</code> <span class="tag cx">только rules_3</span></td>
+<td class="ok">Соблюдено</td>
+<td class="mid">Не соблюдено в трёх местах:
+<ul class="tight">
+<li><code>wire [9:0] q, q_chips;</code> для выходов проверяемых модулей в <code>tb.sv</code> — так же сделано и в тестбенче FIFO в BGM;</li>
+<li><code>wire unused_4071_j;</code> и подобные в <code>traffic_light_chips.sv</code>;</li>
+<li><code>wire [9:0] q;</code> в <code>project.v</code>.</li>
+</ul></td></tr>
+<tr><td>Выравнивать <code>=</code> <span class="tag cx">только rules_3</span></td><td class="ok">В основном</td><td class="ok">Да</td></tr>
+<tr><td>Такт в отдельном <code>always # (period / 2)</code> <span class="tag cx">только rules_3</span></td>
+<td class="ok">Да. Verilator <code>-Wall</code> выдаёт на это PROCASSINIT.</td>
+<td class="mid">У такта свой блок <code>initial … forever</code>, как в примерах BGM, но не в этой точной форме.</td></tr>
+<tr><td>Задачи без <code>begin</code>/<code>end</code> в духе Verilog-95 <span class="tag cx">только rules_3</span></td><td class="ok">Да</td><td>Задач нет</td></tr>
+<tr><td>Тайм-ауты в тактах <span class="tag cx">только rules_3</span></td><td class="ok">500, 500 и 200 тактов</td>
+<td class="mid">Сторожевого таймера нет. Длина прогона фиксирована, поэтому он не зависнет, но счётчик тактов
+обошёлся бы в три строки.</td></tr>
+</table></div>
+<p><a href="../lssk_codex/breadboard/systemverilog_style_ru.html">Руководство по стилю</a> у Codex (22 правила, на
+английском и русском, с копиями в Markdown) — хорошая идея, и в нём записаны коммиты исходных репозиториев, на которые
+оно ссылается. Три его правила противоречат сказанному выше: §17 требует <code>timeunit</code> везде, §16 даёт неверную
+причину для <code>default_nettype</code>, а раздел «Почему остаются отдельные # 1 и negedge» называет ожидания спада
+необходимыми.</p>
+
+<h2 id="mutations">Охота за ошибками: одни и те же 12 ошибок в обоих проектах</h2>
+<p class="muted">Каждая ошибка вносилась в свежую копию, и копия запускалась в Icarus 12. «Поймана» значит, что тестбенч
+не напечатал PASS. Для Codex «основной без negedge» — это <code>tb_traffic_light.sv</code> с удалённым блоком проверки
+при низком уровне такта.</p>
+<div class="tbl"><table>
+<tr><th>Ошибка</th><th class="c">Codex<br>tb_cmos</th><th class="c">Codex<br>основной</th><th class="c">Codex<br>integrations</th><th class="c">Codex основной<br>без negedge</th><th class="c">Мой</th></tr>
+<tr><td>Без ошибки (контроль)</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td><td class="c">pass</td></tr>
+<tr><td>Общая схема считает по спаду такта</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c muted">пропущена</td><td class="c bad">пропущена</td><td class="c ok">поймана</td></tr>
+<tr><td>Общая схема: синхронный сброс</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Общая схема: сброс в состояние 1</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Общая схема: зелёный не горит в состоянии 6</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Микросхемы: вход ИЛИ красного на Q4 вместо Q3</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Микросхемы: вход ИЛИ зелёного оставлен на GND</td><td class="c muted">пропущена</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Модель 4017: синхронный сброс</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td></tr>
+<tr><td>Модель 4017 считает по спаду</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c muted">пропущена</td><td class="c bad">пропущена</td><td class="c ok">поймана</td></tr>
+<tr><td>Модель 4017 игнорирует CLOCK INHIBIT</td><td class="c ok">поймана</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c bad">пропущена</td></tr>
+<tr><td>Модель 4017: CARRY равен 1 при счёте 0–5</td><td class="c ok">поймана</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c bad">пропущена</td></tr>
+<tr><td>Элемент J в 4071 работает как И (жёлтый у Codex; у меня не используется)</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c ok">поймана</td><td class="c bad">пропущена</td></tr>
+<tr><td>Элемент K в 4071 работает как И (жёлтый у меня; у Codex не используется)</td><td class="c ok">поймана</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c muted">пропущена</td><td class="c ok">поймана</td></tr>
+</table></div>
+<ul class="tight">
+<li><b>Codex: 12 из 12</b> тремя тестбенчами в 514 строк. <b>Мой: 9 из 12</b> одним тестбенчем в 198 строк. Три
+пропущенные мной ошибки находятся в тех частях микросхем, которые моя схема не использует. Поймать их может только
+модульный тест каждой модели микросхемы, а у Codex он есть.</li>
+<li><b>Вопрос о negedge.</b> Без блока с negedge основной тестбенч Codex пропускает «счёт по спаду» и в общей схеме, и в
+модели 4017. Мой тестбенч не использует ни negedge, ни <code>#&nbsp;1</code> и ловит обе ошибки. Он считывает сигналы
+по положительному фронту и поэтому, как и триггер, видит только что закончившийся такт.</li>
+</ul>
+
+<h2 id="presentation">Оформление и язык</h2>
+<div class="cols">
+<div>
+<h3>Что удалось на сайте Codex</h3>
+<ul class="tight">
+<li>Чистая вёрстка: тёмная шапка с тремя числами (4/2/4, 3 микросхемы, 10 состояний), закреплённое оглавление и каждый
+раздел в своей карточке. Есть стили для печати.</li>
+<li>Каждый рисунок — файл SVG со ссылками на SVG и PNG и с альтернативным текстом.</li>
+<li>Обе страницы задают <code>lang</code> и <code>hreflang</code>, и языковые версии ссылаются друг на друга.</li>
+<li>Семь аккуратных рисунков. На графе состояний выходы автомата Мура вписаны в вершины, а второй граф показывает
+унитарные коды. Цоколёвки понятны.</li>
+<li>Таблица деталей ведёт на точную строку таблицы LSSK, например <code>range=LSSK!A37:Q37</code>, и к ней приложены
+файлы CSV с деталями и перемычками.</li>
+<li>Небольшой пошаговый просмотр на JavaScript (пуск на 1&nbsp;Гц, шаг, сброс) показывает десять состояний и огни.
+Он работает без сети.</li>
+<li>Таблица неисправностей и задания «что попробовать дальше». Одно полезное замечание: в источнике «выходы 1–4, 5–6,
+7–10» нумеруются с единицы, а в техническом описании — Q0–Q9.</li>
+</ul>
+</div>
+<div>
+<h3>Что не удалось</h3>
+<ul class="tight">
+<li><b>На страницах для учеников оказались заметки, предназначенные вам:</b>
+<ul class="tight">
+<li>«в „hackaton_top“ из задания пропущена h» — это ещё и комментарий внутри <code>hackathon_top.sv</code>;</li>
+<li>«Во время обновления Google-таблица не открывалась»;</li>
+<li>«Требуемая цель совместимости — Icarus 13; именно эта версия здесь не установлена»;</li>
+<li>история про host ID и FlexNet;</li>
+<li>«загрузка завершилась тайм-аутом; технические выводы на неё не опираются»;</li>
+<li>«использованы цитата из задания и сохранённый текст».</li>
+</ul></li>
+<li><b>Рисунок макетной платы трудно читать.</b> Десять сигнальных проводов выходят за плату и огибают её слева.
+Подписи закрывают номера строк и выводов, а модули такта и сброса не нарисованы. Чтобы собрать схему, ученику нужна
+таблица по отверстиям, а она свёрнута.</li>
+<li><b>Временная диаграмма нарисована вручную</b>, а не взята из моделирования. На ней нет сигнала сброса. Такт в
+момент t&nbsp;=&nbsp;0 начинается с единицы, поэтому непонятно, какой фронт первым продвигает счёт.</li>
+<li>У кода нет подсветки синтаксиса, и он свёрнут. Тёмной темы нет.</li>
+<li>Называть статью на Habr «курсом Юрия Панчула» и помещать её под заголовком «Курс и упражнение со светофором» —
+расплывчато. Читателю помог бы номер урока, 1.7.</li>
+</ul>
+</div>
+</div>
+
+<h3>Русская страница</h3>
+<p>Перевод полный и раздел за разделом совпадает с английским. Проблемы — в терминологии и нескольких кальках:</p>
+<ul class="tight">
+<li>Везде «микросхемы CMOS»; слово «КМОП» на странице не встречается ни разу.</li>
+<li>«Сброс асинхронный, активный высокий» — калька с «active high». Несколькими строками ниже сказано «активен
+единицей», так что формулировка ещё и непоследовательна.</li>
+<li>В «Двухвходовый ИЛИ даёт 1» не хватает существительного: «двухвходовый элемент ИЛИ».</li>
+<li>«Даташит» — жаргон для школьного текста. Лучше «техническое описание (datasheet)».</li>
+<li>«Сброс выбирает S0» — калька. Лучше «сброс переводит автомат в S0».</li>
+<li>«Выемкой вверх» понятно, но для выемки на корпусе DIP обычно говорят «ключом вверх».</li>
+</ul>
+
+<h2 id="adopt">Что перенять</h2>
+<div class="cols">
+<div>
+<h3>Из урока Codex в мой</h3>
+<p class="muted small">Я пока ничего не менял. Скажите, что из этого сделать.</p>
+<ol class="tight">
+<li><b>Модульный тестбенч для моделей микросхем</b> в стиле posedge: все комбинации входов ИЛИ на всех выводах, а также
+CARRY и CLOCK INHIBIT у 4017. CLOCK INHIBIT можно проверить, подавая CLOCK как данные по такту тестбенча.
+Это закрывает три ошибки, которые я пропускаю.</li>
+<li><b>Моделирование обёрток</b> (<code>lab_top</code>, <code>hackathon_top</code>, <code>project.v</code>) с обеими
+реализациями. Свои я ни разу не моделировал.</li>
+<li><b>Скрипт проверки синтеза</b>: Yosys <code>read_verilog -sv; synth; check -assert</code> на стандартном парсере.</li>
+<li><b>Ссылки с деталей на строки таблицы LSSK</b>, с сохранением моих цен.</li>
+<li><b>Файлы CSV</b> с деталями и проводами и ZIP-архив упражнения без журналов сборки.</li>
+<li><b>Замечание о нумерации с единицы</b> («выходы 1–4» — это Q0–Q3).</li>
+<li><b>Таблица неисправностей</b>: для каждого признака — что проверить.</li>
+<li><b>Пункты rules_3</b>, если вы хотите применить их и к моему коду:
+<ul class="tight">
+<li><code>timeunit 1ns; timeprecision 1ps;</code> только в <code>tb.sv</code>;</li>
+<li><code>logic</code> для выходов проверяемых модулей и неиспользуемых цепей;</li>
+<li>сторожевой таймер, считающий такты.</li>
+</ul></li>
+<li>По желанию: небольшой пошаговый просмотр состояний.</li>
+</ol>
+</div>
+<div>
+<h3>Из моего урока в урок Codex</h3>
+<ol class="tight">
+<li>Схема 1 с настоящими триггерами и логическими элементами. Счётчик Джонсона с дешифратором — это и есть содержимое 4017.</li>
+<li>Рисунок макетной платы, похожий на настоящую плату, с модулями на ней, и список проверки с флажками.</li>
+<li>Временная диаграмма из VCD-файла моделирования, чтобы рисунок и тестбенч не могли разойтись.</li>
+<li>Проверка по положительному фронту с <code>was_reset</code> и <code>final</code>, которая убирает все задержки <code>#&nbsp;1</code> и ожидания спада.</li>
+<li>RTL, который принимает стандартный парсер Yosys, чтобы маршрут синтеза BGM и Tiny Tapeout работали без Slang.</li>
+<li>Модуль светофора из набора и цены из таблицы LSSK.</li>
+<li>Чистый прогон с <code>-Wall</code>, подсветка синтаксиса, кнопки копирования и тёмная тема.</li>
+</ol>
+</div>
+</div>
+
+<h2 id="brief">Задание по пунктам</h2>
+<div class="tbl"><table class="cmp">
+<tr><th>Пункт задания</th><th>Codex</th><th>Мой урок</th></tr>
+<tr><td>1 · Номер, название, зачем это нужно</td><td>BB-FSM-01 — новый номер, а не P11 из его собственного списка. Хорошая мотивация и предварительные требования.</td><td>M11, номер из <code>exercises.html</code></td></tr>
+<tr><td>2 · Главный элемент, обозначения, таблица истинности, временная диаграмма</td><td>Граф автомата, таблицы истинности ИЛИ, временная диаграмма от руки, пошаговый просмотр</td><td>Объяснение 4017 и временная диаграмма из моделирования</td></tr>
+<tr><td>3 · Детали</td><td>Строки таблицы LSSK с прямыми ссылками и CSV; без цен; три отдельных светодиода; 37 + 2 + 6 проводов</td><td>Цены и поставщики; модуль светофора; 24 + 10 проводов; без CSV</td></tr>
+<tr><td>4 · Микросхемы, выводы, полярность</td><td>Три таблицы выводов и рисунок цоколёвок. Подробность про CLOCK INHIBIT со ссылкой на Nexperia.</td><td>Цоколёвка и таблица для каждой микросхемы</td></tr>
+<tr><td>5 · Схема 1: триггеры и логические элементы</td><td class="bad">Чёрный ящик и три ИЛИ</td><td class="ok">5 триггеров, 10 элементов И и 3 ИЛИ</td></tr>
+<tr><td>6 · Схема 2: соединения микросхем</td><td class="ok">Аккуратная блок-схема на уровне выводов</td><td class="ok">Схема на уровне микросхем</td></tr>
+<tr><td>7 · Схема 3: макетная плата</td><td class="mid">Карта отверстий со всеми 37 перемычками; плотная и абстрактная; CSV и таблица точные</td><td class="ok">Рисунок платы с модулями, шаги сборки и список проверки с флажками</td></tr>
+<tr><td>8 · Общая схема на SystemVerilog</td><td>Кольцо из десяти триггеров с унитарным кодом</td><td>Счётчик Джонсона с дешифратором, как на схеме 1 и в 4017</td></tr>
+<tr><td>9 · Модели микросхем</td><td>Порты названы по выводам (<code>p14_clock</code>); помечены как синтезируемые</td><td>Имена из технического описания, номер вывода в комментарии; помечены как синтезируемые</td></tr>
+<tr><td>10 · SystemVerilog: схема из микросхем</td><td>Сгенерирована из базы выводов и цепей</td><td>Сгенерирована из проверенного списка проводов</td></tr>
+<tr><td>11 · Тестбенч для Icarus, Questa и Verilator</td><td>Три тестбенча; скрипты берут пути к инструментам из переменных окружения. На странице сказано, что Questa не запускается, хотя она запускается.</td><td>Один тестбенч, три скрипта запуска и скрипт очистки; все три симулятора работают</td></tr>
+<tr><td>12 · <code>lab_top</code> в BGM</td><td>Полный интерфейс, светодиоды и цвет на LCD, сброс на <code>key[0]</code>, скрипт размещения в BGM</td><td>Светодиоды показывают бегущее состояние, семисегментный индикатор — огонь</td></tr>
+<tr><td>13 · <code>hackathon_top</code> в BGM</td><td>Заливает LCD текущим цветом</td><td>Рисует светофор на LCD</td></tr>
+<tr><td>14 · <code>project.v</code> для Tiny Tapeout</td><td>Использует <code>clock_hz: 1</code> без делителя. DIP-переключатель выбирает полоски или цифру состояния, огни выведены ещё и на <code>uio</code>. Для синтеза нужен Slang.</td><td>Использует <code>clock_hz: 1</code> без делителя. Полоски на индикаторе; работает со стандартным Yosys; в комментарии сказано переименовать модуль.</td></tr>
+<tr><td>15 · Прочее</td><td>Шаги первого запуска, таблица неисправностей, задания «что попробовать дальше» и источники</td><td>Задания, включая разрешение такта, и родственные схемы</td></tr>
+<tr><td>Сайт: страница со списком, английская и русская версии со ссылками друг на друга</td><td class="ok">Да, плюс руководство по стилю</td><td class="ok">Да</td></tr>
+</table></div>
+
+<h2 id="check">Как проверялось</h2>
+<ul class="tight">
+<li><b>Снимок.</b> <code>lssk_codex/breadboard</code> скопирован в 13:27 PDT. Я сравнил HDL с копией, на которой запускал
+тесты раньше: все девять файлов совпали. Все запуски шли на копиях в моём временном каталоге; в <code>lssk_codex</code>
+ничего не записывалось.</li>
+<li><b>Моделирование.</b> Я запускал <code>scripts/run.sh</code> Codex:
+<ul class="tight">
+<li>с Icarus 12.0 из <code>/usr/bin</code>, а также с Icarus 14.0 devel и Verilator 5.053 из <code>~/oss-cad-suite</code>;</li>
+<li>с Questa Altera Starter FPGA Edition 2025.2 и <code>SALT_LICENSE_SERVER=~/flexlm/license.dat</code>;</li>
+<li>и отдельно <code>run_questa.sh</code> Codex в версии 13:21.</li>
+</ul>
+Проверка lint — <code>verilator --lint-only -Wall</code> на тех же наборах файлов.</li>
+<li><b>Синтез.</b> Yosys 0.69+24 с <code>read_verilog -sv … ; synth -top … -flatten; check -assert; stat</code>, затем то
+же самое с <code>-m slang</code> и <code>read_slang</code>. Я также пробовал Yosys 0.43 из <code>/usr/bin</code>.</li>
+<li><b>Ошибки.</b> Скрипт вносил каждую из 12 ошибок выше в свежие копии обоих проектов и запускал все тестбенчи в
+Icarus 12. Для столбца «без negedge» блок проверки при низком такте удалялся из основного тестбенча Codex регулярным
+выражением.</li>
+<li><b>Факты о BGM</b> взяты из локального клона на коммите <code>3b18fdba</code>:
+<ul class="tight">
+<li>все 63 экземпляра <code>slow_clk_gen</code> используют <code>slow_clk_hz (1)</code>;</li>
+<li><code>timeunit</code> встречается только в тестбенчах;</li>
+<li>маршрут синтеза на Yosys использует <code>read_verilog -sv</code>;</li>
+<li>тестбенч pow_5 и <code>fifo_monitor.sv</code> из FIFO используют <code>was_reset</code>;</li>
+<li>тестбенч pow_5 и <code>testbench.sv</code> из microarchitecture challenge заканчиваются блоком <code>final</code>.</li>
+</ul></li>
+<li><b>Текст, проводка и подсчёты.</b> Я прочитал обе страницы урока Codex, обе страницы со списком, руководство по стилю,
+README, инструменты и записи в <code>research/</code>. Каждый вывод в трёх таблицах выводов и все 37 перемычек я сверил
+с цоколёвками CD4017B, CD4071B и CD4072B. Упоминания Тимофея подсчитаны по HTML, отдельно в тексте и в блоках
+<code>&lt;pre&gt;</code>.</li>
+</ul>
+
+<footer>Сравнение уроков на макетной плате · 21 октября 2026 · снимок Codex 13:27 PDT · локальный файл, не опубликован</footer>
+</main>
+</body>
+</html>
