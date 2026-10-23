@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1790" viewBox="0 0 1500 1790" role="img" aria-labelledby="title desc">
+<title id="title">Chip connections</title><desc id="desc">Pin-numbered chip connections. Port positions are schematic, not physical package positions.</desc>
+<style>text{font-family:DejaVu Sans,Arial,sans-serif} .mono{font-family:DejaVu Sans Mono,monospace}</style>
+<rect x="0" y="0" width="1500" height="1790" rx="0" fill="#fff" stroke="none" stroke-width="2"/>
+<text x="40" y="42" fill="#203746" font-size="25" font-weight="bold" text-anchor="start">OLD · 14 Oct 2026 / СТАРАЯ</text>
+<text x="40" y="73" fill="#536b7c" font-size="20" font-weight="normal" text-anchor="start">2 · Chip connections / Соединения микросхем</text>
+<text x="40" y="100" fill="#536b7c" font-size="16" font-weight="normal" text-anchor="start">A: XOR experiment / опыт XOR     B: D flip-flop experiment / опыт с D-триггером</text>
+<text x="40" y="127" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="start">Pin positions are schematic / Положение выводов условное.  Same net label = connection / Одинаковая метка = соединение.</text>
+<rect x="25" y="155" width="1450" height="750" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="45" y="193" fill="#203746" font-size="24" font-weight="bold" text-anchor="start">A · XOR</text>
+<rect x="55" y="265" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="150" y="300" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">S1 · A</text>
+<text x="150" y="344" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="55" y="380" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="150" y="415" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">S2 · B</text>
+<text x="150" y="459" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="425" y="245" width="225" height="245" rx="8" fill="white" stroke="#203746" stroke-width="2"/>
+<text x="537.5" y="273" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">U1</text>
+<text x="537.5" y="300" fill="#203746" font-size="18" font-weight="bold" text-anchor="middle">CD4070BE</text>
+<polyline points="407,335 425,335" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="435" y="327" fill="#11806c" font-size="16" font-weight="normal" text-anchor="start">1 · A</text>
+<polyline points="407,415 425,415" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="435" y="407" fill="#7a4bac" font-size="16" font-weight="normal" text-anchor="start">2 · B</text>
+<polyline points="650,365 668,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="640" y="357" fill="#11806c" font-size="16" font-weight="normal" text-anchor="end">3 · Y</text>
+<polyline points="245,295 330,295 330,335 407,335" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="245,410 360,410 360,415 407,415" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M505,333 Q541,375 505,417 Q570,417 609,375 Q570,333 505,333" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<path d="M495,333 Q531,375 495,417" fill="none" stroke="#203746" stroke-width="2.5"/>
+<text x="555" y="381" fill="#203746" font-size="18" font-weight="normal" text-anchor="middle">=1</text>
+<rect x="875" y="245" width="205" height="245" rx="8" fill="white" stroke="#203746" stroke-width="2"/>
+<text x="977.5" y="273" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">U2</text>
+<text x="977.5" y="300" fill="#203746" font-size="18" font-weight="bold" text-anchor="middle">SN74HCT244N</text>
+<polyline points="857,365 875,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="885" y="357" fill="#11806c" font-size="16" font-weight="normal" text-anchor="start">2 · 1A1</text>
+<polyline points="1080,365 1098,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1070" y="357" fill="#11806c" font-size="16" font-weight="normal" text-anchor="end">18 · 1Y1</text>
+<polyline points="668,365 857,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M951,355 L951,405 L1009,380 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<text x="977" y="458" fill="#28629f" font-size="15" font-weight="normal" text-anchor="middle">1, 19 · /OE → GND</text>
+<polyline points="1098,365 1170,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1170,365 1184,365" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1184" y="357" width="52" height="16" rx="0" fill="#fff6d6" stroke="#203746" stroke-width="2"/>
+<polyline points="1236,365 1250,365" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1210.0" y="347" fill="#203746" font-size="16" font-weight="normal" text-anchor="middle">R1 · 2.2 kΩ</text>
+<polyline points="1250,365 1270,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1270" y="317" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1362" y="341" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1270,365 1335,365" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1335,353 L1335,377 L1355,365 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1357,352 1357,378" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1357,365 1420,365 1420,387" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1420,387 1420,399" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1407,399 1433,399" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1412,405 1428,405" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1417,411 1423,411" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1280" y="435" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1366,357 1384,345" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1384,345 1377,346" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1378,363 1396,351" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1396,351 1389,352" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="50" y="640" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start" class="mono">U1: 14 → +5V; 7 → GND; 5,6,8,9,12,13 → GND; NC: 4,10,11</text>
+<text x="50" y="665" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start" class="mono">U2: 20 → +5V; 10 → GND; 1,4,6,8,11,13,15,17,19 → GND; NC: 3,5,7,9,12,14,16</text>
+<text x="50" y="725" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start">S1, S2: VCC → +5V; GND → GND. LED1: A ← signal / сигнал; K → GND.</text>
+<rect x="146" y="752" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="153" y="765" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="160,770 160,798" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="145,798 175,798" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="145,808 175,808" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="160,808 160,834" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="185" y="808" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C1</text>
+<polyline points="160,834 160,846" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="147,846 173,846" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="152,852 168,852" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="157,858 163,858" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="145" y="873" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">100 nF</text>
+<rect x="431" y="752" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="438" y="765" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="445,770 445,798" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="430,798 460,798" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="430,808 460,808" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="445,808 445,834" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="470" y="808" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C2</text>
+<polyline points="445,834 445,846" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="432,846 458,846" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="437,852 453,852" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="442,858 448,858" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="430" y="873" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">100 nF</text>
+<rect x="716" y="752" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="723" y="765" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="730,770 730,798" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="715,798 745,798" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="715,808 745,808" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="730,808 730,834" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="755" y="808" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C0</text>
+<text x="702" y="793" fill="#bf3148" font-size="18" font-weight="bold" text-anchor="start">+</text>
+<polyline points="730,834 730,846" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="717,846 743,846" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="722,852 738,852" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="727,858 733,858" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="715" y="873" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">10 µF</text>
+<text x="50" y="891" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="start">100 nF at each IC / у каждой ИС; C0 = 10 µF</text>
+<rect x="25" y="945" width="1450" height="750" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="45" y="983" fill="#203746" font-size="24" font-weight="bold" text-anchor="start">B · D flip-flop / D-триггер</text>
+<rect x="55" y="1025" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="150" y="1060" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">S1 · DATA</text>
+<text x="150" y="1104" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="55" y="1220" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="150" y="1255" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">OSC · 555</text>
+<text x="150" y="1299" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<text x="150" y="1208" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="middle">0.5–1 Hz</text>
+<rect x="55" y="1330" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="150" y="1365" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">S2 · RESET</text>
+<text x="150" y="1409" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="650" y="1025" width="205" height="340" rx="8" fill="white" stroke="#203746" stroke-width="2"/>
+<text x="752.5" y="1053" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">U1</text>
+<text x="752.5" y="1080" fill="#203746" font-size="18" font-weight="bold" text-anchor="middle">CD4013BE</text>
+<polyline points="632,1115 650,1115" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="660" y="1107" fill="#11806c" font-size="16" font-weight="normal" text-anchor="start">5 · D</text>
+<polyline points="632,1250 650,1250" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="660" y="1242" fill="#ad6c04" font-size="16" font-weight="normal" text-anchor="start">3 · CLK</text>
+<polyline points="632,1325 650,1325" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="660" y="1317" fill="#7a4bac" font-size="16" font-weight="normal" text-anchor="start">4 · RESET</text>
+<path d="M650,1239 L665,1250 L650,1261" fill="none" stroke="#203746" stroke-width="2.5"/>
+<polyline points="855,1155 873,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="845" y="1147" fill="#11806c" font-size="16" font-weight="normal" text-anchor="end">1 · Q</text>
+<polyline points="245,1055 580,1055 580,1115 632,1115" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="245,1360 605,1360 605,1325 632,1325" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="330" y="1140" width="235" height="160" rx="8" fill="white" stroke="#203746" stroke-width="2"/>
+<text x="447.5" y="1168" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">U3</text>
+<text x="447.5" y="1195" fill="#203746" font-size="18" font-weight="bold" text-anchor="middle">SN74HCT14N</text>
+<path d="M365,1225 L365,1275 L423,1250 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<polyline points="375,1257 384,1257 384,1243 394,1243 394,1257 402,1257" fill="none" stroke="#203746" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="429" cy="1250" r="6" fill="white" stroke="#203746" stroke-width="2"/>
+<path d="M480,1225 L480,1275 L538,1250 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<polyline points="490,1257 499,1257 499,1243 509,1243 509,1257 517,1257" fill="none" stroke="#203746" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="544" cy="1250" r="6" fill="white" stroke="#203746" stroke-width="2"/>
+<polyline points="245,1250 365,1250" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="435,1250 480,1250" fill="none" stroke="#c28320" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="550,1250 632,1250" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="350" y="1230" fill="#203746" font-size="14" font-weight="normal" text-anchor="middle">1</text>
+<text x="439" y="1230" fill="#203746" font-size="14" font-weight="normal" text-anchor="middle">2</text>
+<text x="465" y="1230" fill="#203746" font-size="14" font-weight="normal" text-anchor="middle">3</text>
+<text x="555" y="1230" fill="#203746" font-size="14" font-weight="normal" text-anchor="middle">4</text>
+<rect x="441" y="1272" width="54.3" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="448" y="1285" fill="#c28320" font-size="13" font-weight="bold" text-anchor="start">2 → 3</text>
+<text x="675" y="1350" fill="#28629f" font-size="16" font-weight="normal" text-anchor="start">6 · SET → GND</text>
+<rect x="930" y="1035" width="205" height="245" rx="8" fill="white" stroke="#203746" stroke-width="2"/>
+<text x="1032.5" y="1063" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">U2</text>
+<text x="1032.5" y="1090" fill="#203746" font-size="18" font-weight="bold" text-anchor="middle">SN74HCT244N</text>
+<polyline points="912,1155 930,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="940" y="1147" fill="#11806c" font-size="16" font-weight="normal" text-anchor="start">2 · 1A1</text>
+<polyline points="1135,1155 1153,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1125" y="1147" fill="#11806c" font-size="16" font-weight="normal" text-anchor="end">18 · 1Y1</text>
+<polyline points="873,1155 912,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1006,1145 L1006,1195 L1064,1170 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<text x="1032" y="1248" fill="#28629f" font-size="15" font-weight="normal" text-anchor="middle">1, 19 · /OE → GND</text>
+<polyline points="1153,1155 1170,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1170,1155 1184,1155" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1184" y="1147" width="52" height="16" rx="0" fill="#fff6d6" stroke="#203746" stroke-width="2"/>
+<polyline points="1236,1155 1250,1155" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1210.0" y="1137" fill="#203746" font-size="16" font-weight="normal" text-anchor="middle">R1 · 2.2 kΩ</text>
+<polyline points="1250,1155 1270,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1270" y="1107" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1362" y="1131" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1270,1155 1335,1155" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1335,1143 L1335,1167 L1355,1155 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1357,1142 1357,1168" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1357,1155 1420,1155 1420,1177" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1420,1177 1420,1189" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1407,1189 1433,1189" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1412,1195 1428,1195" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1417,1201 1423,1201" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1280" y="1225" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1366,1147 1384,1135" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1384,1135 1377,1136" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1378,1153 1396,1141" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1396,1141 1389,1142" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="50" y="1430" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start" class="mono">U1: 14 → +5V; 7 → GND; 6,8,9,10,11 → GND; NC: 2,12,13</text>
+<text x="50" y="1455" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start" class="mono">U3: 14 → +5V; 7 → GND; 5,9,11,13 → GND; NC: 6,8,10,12</text>
+<text x="50" y="1480" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start" class="mono">U2: 20 → +5V; 10 → GND; 1,4,6,8,11,13,15,17,19 → GND; NC: 3,5,7,9,12,14,16</text>
+<text x="50" y="1515" fill="#536b7c" font-size="15" font-weight="normal" text-anchor="start">S1, S2, OSC: VCC → +5V; GND → GND. LED1: A ← signal / сигнал; K → GND.</text>
+<rect x="146" y="1542" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="153" y="1555" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="160,1560 160,1588" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="145,1588 175,1588" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="145,1598 175,1598" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="160,1598 160,1624" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="185" y="1598" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C1</text>
+<polyline points="160,1624 160,1636" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="147,1636 173,1636" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="152,1642 168,1642" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="157,1648 163,1648" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="145" y="1663" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">100 nF</text>
+<rect x="431" y="1542" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="438" y="1555" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="445,1560 445,1588" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="430,1588 460,1588" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="430,1598 460,1598" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="445,1598 445,1624" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="470" y="1598" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C2</text>
+<polyline points="445,1624 445,1636" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="432,1636 458,1636" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="437,1642 453,1642" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="442,1648 448,1648" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="430" y="1663" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">100 nF</text>
+<rect x="716" y="1542" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="723" y="1555" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="730,1560 730,1588" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="715,1588 745,1588" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="715,1598 745,1598" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="730,1598 730,1624" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="755" y="1598" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C3</text>
+<polyline points="730,1624 730,1636" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="717,1636 743,1636" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="722,1642 738,1642" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="727,1648 733,1648" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="715" y="1663" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">100 nF</text>
+<rect x="1001" y="1542" width="38.18" height="21" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1008" y="1555" fill="#bf3148" font-size="13" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="1015,1560 1015,1588" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1000,1588 1030,1588" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1000,1598 1030,1598" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1015,1598 1015,1624" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1040" y="1598" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">C0</text>
+<text x="987" y="1583" fill="#bf3148" font-size="18" font-weight="bold" text-anchor="start">+</text>
+<polyline points="1015,1624 1015,1636" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1002,1636 1028,1636" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1007,1642 1023,1642" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1012,1648 1018,1648" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1000" y="1663" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">10 µF</text>
+<text x="50" y="1681" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="start">100 nF at each IC / у каждой ИС; C0 = 10 µF</text>
+<text x="40" y="1745" fill="#536b7c" font-size="17" font-weight="normal" text-anchor="start">USB 5 V → 9 V boost cable / повышающий кабель → power module / модуль питания → +5V, GND</text>
+</svg>

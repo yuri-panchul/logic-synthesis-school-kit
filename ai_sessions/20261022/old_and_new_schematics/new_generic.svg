@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1120" viewBox="0 0 1500 1120" role="img" aria-labelledby="title desc">
+<title id="title">Old/new generic circuits</title><desc id="desc">Two separate experiments: XOR and a positive-edge D flip-flop with asynchronous reset.</desc>
+<style>text{font-family:DejaVu Sans,Arial,sans-serif} .mono{font-family:DejaVu Sans Mono,monospace}</style>
+<rect x="0" y="0" width="1500" height="1120" rx="0" fill="#fff" stroke="none" stroke-width="2"/>
+<text x="40" y="42" fill="#203746" font-size="25" font-weight="bold" text-anchor="start">NEW · current guide / НОВАЯ</text>
+<text x="40" y="73" fill="#536b7c" font-size="20" font-weight="normal" text-anchor="start">1 · Generic elements / Общие логические элементы</text>
+<text x="40" y="100" fill="#536b7c" font-size="16" font-weight="normal" text-anchor="start">A: XOR experiment / опыт XOR     B: D flip-flop experiment / опыт с D-триггером</text>
+<rect x="25" y="125" width="1450" height="375" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="50" y="162" fill="#203746" font-size="23" font-weight="bold" text-anchor="start">A · XOR</text>
+<rect x="65" y="215" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="250" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">A</text>
+<text x="160" y="294" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="65" y="325" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="360" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">B</text>
+<text x="160" y="404" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<path d="M450,258 Q486,300 450,342 Q515,342 554,300 Q515,258 450,258" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<path d="M440,258 Q476,300 440,342" fill="none" stroke="#203746" stroke-width="2.5"/>
+<text x="500" y="306" fill="#203746" font-size="18" font-weight="normal" text-anchor="middle">=1</text>
+<polyline points="255,245 360,245 360,278 463,278" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,355 390,355 390,322 463,322" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="554,300 1050,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="766" y="270" width="97.7" height="23" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="773" y="285" fill="#11806c" font-size="15" font-weight="bold" text-anchor="start">Y = A ⊕ B</text>
+<rect x="1050" y="252" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1142" y="276" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1050,300 1115,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1115,288 L1115,312 L1135,300 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1137,287 1137,313" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1137,300 1200,300 1200,322" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1200,322 1200,334" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1187,334 1213,334" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1192,340 1208,340" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1197,346 1203,346" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1060" y="370" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1146,292 1164,280" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1164,280 1157,281" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1158,298 1176,286" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1176,286 1169,287" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="65" y="458" fill="#536b7c" font-size="17" font-weight="normal" text-anchor="start">Button modules: released = 0, pressed = 1 / Кнопочные модули: отпущена = 0, нажата = 1</text>
+<rect x="25" y="520" width="1450" height="465" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="50" y="558" fill="#203746" font-size="23" font-weight="bold" text-anchor="start">B · D flip-flop / D-триггер</text>
+<rect x="65" y="610" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="645" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">DATA</text>
+<text x="160" y="689" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="65" y="745" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="780" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">Clock / такт</text>
+<text x="160" y="824" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<text x="160" y="733" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="middle">0.5–1 Hz</text>
+<rect x="65" y="880" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="915" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">RESET</text>
+<text x="160" y="959" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="660" y="620" width="180" height="260" rx="5" fill="#fff" stroke="#203746" stroke-width="2"/>
+<text x="750" y="655" fill="#203746" font-size="22" font-weight="bold" text-anchor="middle">D FF</text>
+<text x="688" y="665" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">D</text>
+<text x="688" y="780" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">CLK</text>
+<text x="688" y="855" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">RESET</text>
+<path d="M660,764 L677,775 L660,786" fill="none" stroke="#203746" stroke-width="2.5"/>
+<text x="810" y="695" fill="#203746" font-size="20" font-weight="normal" text-anchor="middle">Q</text>
+<text x="770" y="915" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">SET = 0</text>
+<polyline points="750,880 750,929" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="750,929 750,941" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="737,941 763,941" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="742,947 758,947" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="747,953 753,953" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,640 540,640 540,660 660,660" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,910 580,910 580,850 660,850" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,775 660,775" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="840,690 1120,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1120" y="642" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1212" y="666" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1120,690 1185,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1185,678 L1185,702 L1205,690 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1207,677 1207,703" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1207,690 1270,690 1270,712" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1270,712 1270,724" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1257,724 1283,724" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1262,730 1278,730" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1267,736 1273,736" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1130" y="760" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1216,682 1234,670" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1234,670 1227,671" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1228,688 1246,676" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1246,676 1239,677" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="900" y="830" fill="#203746" font-size="22" font-weight="bold" text-anchor="start">↑CLK: Q ← D</text>
+<text x="900" y="863" fill="#203746" font-size="20" font-weight="normal" text-anchor="start">RESET = 1: Q = 0</text>
+<text x="900" y="892" fill="#536b7c" font-size="16" font-weight="normal" text-anchor="start">asynchronous / асинхронно</text>
+<text x="45" y="1030" fill="#536b7c" font-size="18" font-weight="normal" text-anchor="start">Direct indicator and clock connections, as in the current guide.</text>
+<text x="45" y="1060" fill="#536b7c" font-size="18" font-weight="normal" text-anchor="start">Прямое подключение индикатора и такта, как в текущей инструкции.</text>
+</svg>

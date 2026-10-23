@@ -1,0 +1,72 @@
+{
+  "html": {
+    "old_and_new_en.html": {
+      "status": "PASS",
+      "images": 6,
+      "local_links_checked": 42,
+      "language": "en"
+    },
+    "old_and_new_ru.html": {
+      "status": "PASS",
+      "images": 6,
+      "local_links_checked": 42,
+      "language": "ru"
+    }
+  },
+  "images": {
+    "new_breadboard": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1540 1800",
+      "png_size": [
+        2300,
+        2688
+      ]
+    },
+    "new_chips": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1500 1790",
+      "png_size": [
+        2300,
+        2745
+      ]
+    },
+    "new_generic": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1500 1120",
+      "png_size": [
+        2300,
+        1717
+      ]
+    },
+    "old_breadboard": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1540 1800",
+      "png_size": [
+        2300,
+        2688
+      ]
+    },
+    "old_chips": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1500 1790",
+      "png_size": [
+        2300,
+        2745
+      ]
+    },
+    "old_generic": {
+      "status": "PASS",
+      "svg_viewBox": "0 0 1500 1210",
+      "png_size": [
+        2300,
+        1855
+      ]
+    }
+  },
+  "unchanged_sources": {
+    "old_en": "PASS",
+    "old_ru": "PASS",
+    "new_en": "PASS",
+    "new_ru": "PASS"
+  }
+}

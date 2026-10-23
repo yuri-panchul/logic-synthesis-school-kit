@@ -1,0 +1,76 @@
+{
+  "old_xor": {
+    "status": "PASS",
+    "nets": 7,
+    "jumper_leads": 43,
+    "checks": [
+      "DIP orientation",
+      "exclusive hole occupancy",
+      "split-rail continuity",
+      "no shorted nets",
+      "all specified connections present",
+      "unused outputs isolated",
+      "active pin path"
+    ]
+  },
+  "old_dff": {
+    "status": "PASS",
+    "nets": 10,
+    "jumper_leads": 55,
+    "checks": [
+      "DIP orientation",
+      "exclusive hole occupancy",
+      "split-rail continuity",
+      "no shorted nets",
+      "all specified connections present",
+      "unused outputs isolated",
+      "active pin path"
+    ]
+  },
+  "new_xor": {
+    "status": "PASS",
+    "nets": 5,
+    "jumper_leads": 24,
+    "checks": [
+      "DIP orientation",
+      "exclusive hole occupancy",
+      "split-rail continuity",
+      "no shorted nets",
+      "all specified connections present",
+      "unused outputs isolated",
+      "active pin path"
+    ]
+  },
+  "new_dff": {
+    "status": "PASS",
+    "nets": 6,
+    "jumper_leads": 26,
+    "checks": [
+      "DIP orientation",
+      "exclusive hole occupancy",
+      "split-rail continuity",
+      "no shorted nets",
+      "all specified connections present",
+      "unused outputs isolated",
+      "active pin path"
+    ]
+  },
+  "source_sha256": {
+    "old_en": {
+      "path": "/home/verilog/lssk_codex/old_session_20261014/start_en.html",
+      "sha256": "4f7a217eaab449c182454105cc135657e47ac1d6141b2d480508bc7212104883"
+    },
+    "old_ru": {
+      "path": "/home/verilog/lssk_codex/old_session_20261014/start_ru.html",
+      "sha256": "1347e9f637e878fcf234ea4788917ff17d250ee2ce8e7d029f341451bd127b9f"
+    },
+    "new_en": {
+      "path": "/home/verilog/lssk_codex/start_en.html",
+      "sha256": "2afef04efbe9a7311407fe70f1b4578c899f6d473c988a1c54347ad50b7675e0"
+    },
+    "new_ru": {
+      "path": "/home/verilog/lssk_codex/start_ru.html",
+      "sha256": "7c036789c7784d60c59255bf1bfc580d66e4ab2362a6b4ae8e7c24f7e28892cd"
+    }
+  }
+}

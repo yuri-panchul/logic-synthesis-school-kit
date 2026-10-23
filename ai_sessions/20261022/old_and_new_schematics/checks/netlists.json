@@ -1,0 +1,3401 @@
+{
+  "old": {
+    "circuits": {
+      "xor": {
+        "edition": "old",
+        "experiment": "xor",
+        "chips": {
+          "U1": {
+            "part": "CD4070BE",
+            "count": 14,
+            "col": 9,
+            "pins": {
+              "1": [
+                "A",
+                "A",
+                "I"
+              ],
+              "2": [
+                "B",
+                "B",
+                "I"
+              ],
+              "3": [
+                "Y",
+                "XOR",
+                "O"
+              ],
+              "4": [
+                "Y2",
+                null,
+                "O"
+              ],
+              "5": [
+                "A2",
+                "GND",
+                "I"
+              ],
+              "6": [
+                "B2",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "VSS",
+                "GND",
+                "P"
+              ],
+              "8": [
+                "A3",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "B3",
+                "GND",
+                "I"
+              ],
+              "10": [
+                "Y3",
+                null,
+                "O"
+              ],
+              "11": [
+                "Y4",
+                null,
+                "O"
+              ],
+              "12": [
+                "A4",
+                "GND",
+                "I"
+              ],
+              "13": [
+                "B4",
+                "GND",
+                "I"
+              ],
+              "14": [
+                "VDD",
+                "+5V",
+                "P"
+              ]
+            }
+          },
+          "U2": {
+            "part": "SN74HCT244N",
+            "count": 20,
+            "col": 32,
+            "pins": {
+              "1": [
+                "/1OE",
+                "GND",
+                "I"
+              ],
+              "2": [
+                "1A1",
+                "XOR",
+                "I"
+              ],
+              "3": [
+                "2Y4",
+                null,
+                "O"
+              ],
+              "4": [
+                "1A2",
+                "GND",
+                "I"
+              ],
+              "5": [
+                "2Y3",
+                null,
+                "O"
+              ],
+              "6": [
+                "1A3",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "2Y2",
+                null,
+                "O"
+              ],
+              "8": [
+                "1A4",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "2Y1",
+                null,
+                "O"
+              ],
+              "10": [
+                "GND",
+                "GND",
+                "P"
+              ],
+              "11": [
+                "2A1",
+                "GND",
+                "I"
+              ],
+              "12": [
+                "1Y4",
+                null,
+                "O"
+              ],
+              "13": [
+                "2A2",
+                "GND",
+                "I"
+              ],
+              "14": [
+                "1Y3",
+                null,
+                "O"
+              ],
+              "15": [
+                "2A3",
+                "GND",
+                "I"
+              ],
+              "16": [
+                "1Y2",
+                null,
+                "O"
+              ],
+              "17": [
+                "2A4",
+                "GND",
+                "I"
+              ],
+              "18": [
+                "1Y1",
+                "BUF",
+                "O"
+              ],
+              "19": [
+                "/2OE",
+                "GND",
+                "I"
+              ],
+              "20": [
+                "VCC",
+                "+5V",
+                "P"
+              ]
+            }
+          }
+        },
+        "parts": {
+          "R1": {
+            "value": "2.2 kΩ",
+            "pins": {
+              "1": "BUF",
+              "2": "LED"
+            },
+            "holes": {
+              "1": "b57",
+              "2": "b61"
+            }
+          },
+          "C1": {
+            "value": "100 nF",
+            "pins": {
+              "1": "+5V",
+              "2": "GND"
+            },
+            "holes": {
+              "1": "b9",
+              "2": "b8"
+            },
+            "near": "U1"
+          },
+          "C2": {
+            "value": "100 nF",
+            "pins": {
+              "1": "+5V",
+              "2": "GND"
+            },
+            "holes": {
+              "1": "b32",
+              "2": "b31"
+            },
+            "near": "U2"
+          },
+          "C0": {
+            "value": "10 µF",
+            "pins": {
+              "+": "+5V",
+              "−": "GND"
+            },
+            "holes": {
+              "+": "b3",
+              "−": "b4"
+            }
+          }
+        },
+        "modules": {
+          "PWR": {
+            "name": "5 V supply / питание",
+            "pins": {
+              "+5V": "+5V",
+              "GND": "GND"
+            }
+          },
+          "S1": {
+            "name": "A",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "A"
+            }
+          },
+          "S2": {
+            "name": "B",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "B"
+            }
+          },
+          "LED1": {
+            "name": "5 V LED",
+            "pins": {
+              "A": "LED",
+              "K": "GND"
+            }
+          }
+        }
+      },
+      "dff": {
+        "edition": "old",
+        "experiment": "dff",
+        "chips": {
+          "U1": {
+            "part": "CD4013BE",
+            "count": 14,
+            "col": 9,
+            "pins": {
+              "1": [
+                "Q",
+                "Q",
+                "O"
+              ],
+              "2": [
+                "/Q",
+                null,
+                "O"
+              ],
+              "3": [
+                "CLK",
+                "CLK",
+                "I"
+              ],
+              "4": [
+                "RESET",
+                "RESET",
+                "I"
+              ],
+              "5": [
+                "D",
+                "DATA",
+                "I"
+              ],
+              "6": [
+                "SET",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "VSS",
+                "GND",
+                "P"
+              ],
+              "8": [
+                "SET2",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "D2",
+                "GND",
+                "I"
+              ],
+              "10": [
+                "RESET2",
+                "GND",
+                "I"
+              ],
+              "11": [
+                "CLK2",
+                "GND",
+                "I"
+              ],
+              "12": [
+                "/Q2",
+                null,
+                "O"
+              ],
+              "13": [
+                "Q2",
+                null,
+                "O"
+              ],
+              "14": [
+                "VDD",
+                "+5V",
+                "P"
+              ]
+            }
+          },
+          "U3": {
+            "part": "SN74HCT14N",
+            "count": 14,
+            "col": 26,
+            "pins": {
+              "1": [
+                "1A",
+                "CLK_RAW",
+                "I"
+              ],
+              "2": [
+                "1Y",
+                "CLK_INV",
+                "O"
+              ],
+              "3": [
+                "2A",
+                "CLK_INV",
+                "I"
+              ],
+              "4": [
+                "2Y",
+                "CLK",
+                "O"
+              ],
+              "5": [
+                "3A",
+                "GND",
+                "I"
+              ],
+              "6": [
+                "3Y",
+                null,
+                "O"
+              ],
+              "7": [
+                "GND",
+                "GND",
+                "P"
+              ],
+              "8": [
+                "4Y",
+                null,
+                "O"
+              ],
+              "9": [
+                "4A",
+                "GND",
+                "I"
+              ],
+              "10": [
+                "5Y",
+                null,
+                "O"
+              ],
+              "11": [
+                "5A",
+                "GND",
+                "I"
+              ],
+              "12": [
+                "6Y",
+                null,
+                "O"
+              ],
+              "13": [
+                "6A",
+                "GND",
+                "I"
+              ],
+              "14": [
+                "VCC",
+                "+5V",
+                "P"
+              ]
+            }
+          },
+          "U2": {
+            "part": "SN74HCT244N",
+            "count": 20,
+            "col": 43,
+            "pins": {
+              "1": [
+                "/1OE",
+                "GND",
+                "I"
+              ],
+              "2": [
+                "1A1",
+                "Q",
+                "I"
+              ],
+              "3": [
+                "2Y4",
+                null,
+                "O"
+              ],
+              "4": [
+                "1A2",
+                "GND",
+                "I"
+              ],
+              "5": [
+                "2Y3",
+                null,
+                "O"
+              ],
+              "6": [
+                "1A3",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "2Y2",
+                null,
+                "O"
+              ],
+              "8": [
+                "1A4",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "2Y1",
+                null,
+                "O"
+              ],
+              "10": [
+                "GND",
+                "GND",
+                "P"
+              ],
+              "11": [
+                "2A1",
+                "GND",
+                "I"
+              ],
+              "12": [
+                "1Y4",
+                null,
+                "O"
+              ],
+              "13": [
+                "2A2",
+                "GND",
+                "I"
+              ],
+              "14": [
+                "1Y3",
+                null,
+                "O"
+              ],
+              "15": [
+                "2A3",
+                "GND",
+                "I"
+              ],
+              "16": [
+                "1Y2",
+                null,
+                "O"
+              ],
+              "17": [
+                "2A4",
+                "GND",
+                "I"
+              ],
+              "18": [
+                "1Y1",
+                "BUF",
+                "O"
+              ],
+              "19": [
+                "/2OE",
+                "GND",
+                "I"
+              ],
+              "20": [
+                "VCC",
+                "+5V",
+                "P"
+              ]
+            }
+          }
+        },
+        "parts": {
+          "R1": {
+            "value": "2.2 kΩ",
+            "pins": {
+              "1": "BUF",
+              "2": "LED"
+            },
+            "holes": {
+              "1": "b57",
+              "2": "b61"
+            }
+          },
+          "C1": {
+            "value": "100 nF",
+            "pins": {
+              "1": "+5V",
+              "2": "GND"
+            },
+            "holes": {
+              "1": "b9",
+              "2": "b8"
+            },
+            "near": "U1"
+          },
+          "C2": {
+            "value": "100 nF",
+            "pins": {
+              "1": "+5V",
+              "2": "GND"
+            },
+            "holes": {
+              "1": "b26",
+              "2": "b25"
+            },
+            "near": "U3"
+          },
+          "C3": {
+            "value": "100 nF",
+            "pins": {
+              "1": "+5V",
+              "2": "GND"
+            },
+            "holes": {
+              "1": "b43",
+              "2": "b42"
+            },
+            "near": "U2"
+          },
+          "C0": {
+            "value": "10 µF",
+            "pins": {
+              "+": "+5V",
+              "−": "GND"
+            },
+            "holes": {
+              "+": "b3",
+              "−": "b4"
+            }
+          }
+        },
+        "modules": {
+          "PWR": {
+            "name": "5 V supply / питание",
+            "pins": {
+              "+5V": "+5V",
+              "GND": "GND"
+            }
+          },
+          "S1": {
+            "name": "DATA",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "DATA"
+            }
+          },
+          "S2": {
+            "name": "RESET",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "RESET"
+            }
+          },
+          "LED1": {
+            "name": "5 V LED",
+            "pins": {
+              "A": "LED",
+              "K": "GND"
+            }
+          },
+          "OSC": {
+            "name": "555 · 0.5–1 Hz",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "CLK_RAW"
+            }
+          }
+        }
+      }
+    },
+    "layouts": {
+      "xor": {
+        "endpoints": {
+          "U1.1": {
+            "net": "A",
+            "hole": "f9",
+            "kind": "I"
+          },
+          "U1.2": {
+            "net": "B",
+            "hole": "f10",
+            "kind": "I"
+          },
+          "U1.3": {
+            "net": "XOR",
+            "hole": "f11",
+            "kind": "O"
+          },
+          "U1.4": {
+            "net": null,
+            "hole": "f12",
+            "kind": "O"
+          },
+          "U1.5": {
+            "net": "GND",
+            "hole": "f13",
+            "kind": "I"
+          },
+          "U1.6": {
+            "net": "GND",
+            "hole": "f14",
+            "kind": "I"
+          },
+          "U1.7": {
+            "net": "GND",
+            "hole": "f15",
+            "kind": "P"
+          },
+          "U1.8": {
+            "net": "GND",
+            "hole": "e15",
+            "kind": "I"
+          },
+          "U1.9": {
+            "net": "GND",
+            "hole": "e14",
+            "kind": "I"
+          },
+          "U1.10": {
+            "net": null,
+            "hole": "e13",
+            "kind": "O"
+          },
+          "U1.11": {
+            "net": null,
+            "hole": "e12",
+            "kind": "O"
+          },
+          "U1.12": {
+            "net": "GND",
+            "hole": "e11",
+            "kind": "I"
+          },
+          "U1.13": {
+            "net": "GND",
+            "hole": "e10",
+            "kind": "I"
+          },
+          "U1.14": {
+            "net": "+5V",
+            "hole": "e9",
+            "kind": "P"
+          },
+          "U2.1": {
+            "net": "GND",
+            "hole": "f32",
+            "kind": "I"
+          },
+          "U2.2": {
+            "net": "XOR",
+            "hole": "f33",
+            "kind": "I"
+          },
+          "U2.3": {
+            "net": null,
+            "hole": "f34",
+            "kind": "O"
+          },
+          "U2.4": {
+            "net": "GND",
+            "hole": "f35",
+            "kind": "I"
+          },
+          "U2.5": {
+            "net": null,
+            "hole": "f36",
+            "kind": "O"
+          },
+          "U2.6": {
+            "net": "GND",
+            "hole": "f37",
+            "kind": "I"
+          },
+          "U2.7": {
+            "net": null,
+            "hole": "f38",
+            "kind": "O"
+          },
+          "U2.8": {
+            "net": "GND",
+            "hole": "f39",
+            "kind": "I"
+          },
+          "U2.9": {
+            "net": null,
+            "hole": "f40",
+            "kind": "O"
+          },
+          "U2.10": {
+            "net": "GND",
+            "hole": "f41",
+            "kind": "P"
+          },
+          "U2.11": {
+            "net": "GND",
+            "hole": "e41",
+            "kind": "I"
+          },
+          "U2.12": {
+            "net": null,
+            "hole": "e40",
+            "kind": "O"
+          },
+          "U2.13": {
+            "net": "GND",
+            "hole": "e39",
+            "kind": "I"
+          },
+          "U2.14": {
+            "net": null,
+            "hole": "e38",
+            "kind": "O"
+          },
+          "U2.15": {
+            "net": "GND",
+            "hole": "e37",
+            "kind": "I"
+          },
+          "U2.16": {
+            "net": null,
+            "hole": "e36",
+            "kind": "O"
+          },
+          "U2.17": {
+            "net": "GND",
+            "hole": "e35",
+            "kind": "I"
+          },
+          "U2.18": {
+            "net": "BUF",
+            "hole": "e34",
+            "kind": "O"
+          },
+          "U2.19": {
+            "net": "GND",
+            "hole": "e33",
+            "kind": "I"
+          },
+          "U2.20": {
+            "net": "+5V",
+            "hole": "e32",
+            "kind": "P"
+          },
+          "R1.1": {
+            "net": "BUF",
+            "hole": "b57",
+            "kind": "passive"
+          },
+          "R1.2": {
+            "net": "LED",
+            "hole": "b61",
+            "kind": "passive"
+          },
+          "C1.1": {
+            "net": "+5V",
+            "hole": "b9",
+            "kind": "passive"
+          },
+          "C1.2": {
+            "net": "GND",
+            "hole": "b8",
+            "kind": "passive"
+          },
+          "C2.1": {
+            "net": "+5V",
+            "hole": "b32",
+            "kind": "passive"
+          },
+          "C2.2": {
+            "net": "GND",
+            "hole": "b31",
+            "kind": "passive"
+          },
+          "C0.+": {
+            "net": "+5V",
+            "hole": "b3",
+            "kind": "passive"
+          },
+          "C0.−": {
+            "net": "GND",
+            "hole": "b4",
+            "kind": "passive"
+          },
+          "PWR.+5V": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "PWR.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.OUT": {
+            "net": "A",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.OUT": {
+            "net": "B",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.A": {
+            "net": "LED",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.K": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          }
+        },
+        "wires": [
+          {
+            "id": "J01",
+            "a": "TP25",
+            "b": "TP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J02",
+            "a": "TG25",
+            "b": "TG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J03",
+            "a": "BP25",
+            "b": "BP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J04",
+            "a": "BG25",
+            "b": "BG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J05",
+            "a": "TP1",
+            "b": "BP1",
+            "net": "+5V",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J06",
+            "a": "TG1",
+            "b": "BG1",
+            "net": "GND",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J07",
+            "a": "h13",
+            "b": "BG10",
+            "net": "GND",
+            "label": "U1.5",
+            "external": null
+          },
+          {
+            "id": "J08",
+            "a": "h14",
+            "b": "BG11",
+            "net": "GND",
+            "label": "U1.6",
+            "external": null
+          },
+          {
+            "id": "J09",
+            "a": "h15",
+            "b": "BG12",
+            "net": "GND",
+            "label": "U1.7",
+            "external": null
+          },
+          {
+            "id": "J10",
+            "a": "c15",
+            "b": "TG11",
+            "net": "GND",
+            "label": "U1.8",
+            "external": null
+          },
+          {
+            "id": "J11",
+            "a": "c14",
+            "b": "TG10",
+            "net": "GND",
+            "label": "U1.9",
+            "external": null
+          },
+          {
+            "id": "J12",
+            "a": "c11",
+            "b": "TG8",
+            "net": "GND",
+            "label": "U1.12",
+            "external": null
+          },
+          {
+            "id": "J13",
+            "a": "c10",
+            "b": "TG7",
+            "net": "GND",
+            "label": "U1.13",
+            "external": null
+          },
+          {
+            "id": "J14",
+            "a": "c9",
+            "b": "TP6",
+            "net": "+5V",
+            "label": "U1.14",
+            "external": null
+          },
+          {
+            "id": "J15",
+            "a": "h32",
+            "b": "BG24",
+            "net": "GND",
+            "label": "U2.1",
+            "external": null
+          },
+          {
+            "id": "J16",
+            "a": "h35",
+            "b": "BG28",
+            "net": "GND",
+            "label": "U2.4",
+            "external": null
+          },
+          {
+            "id": "J17",
+            "a": "h37",
+            "b": "BG30",
+            "net": "GND",
+            "label": "U2.6",
+            "external": null
+          },
+          {
+            "id": "J18",
+            "a": "h39",
+            "b": "BG31",
+            "net": "GND",
+            "label": "U2.8",
+            "external": null
+          },
+          {
+            "id": "J19",
+            "a": "h41",
+            "b": "BG33",
+            "net": "GND",
+            "label": "U2.10",
+            "external": null
+          },
+          {
+            "id": "J20",
+            "a": "c41",
+            "b": "TG33",
+            "net": "GND",
+            "label": "U2.11",
+            "external": null
+          },
+          {
+            "id": "J21",
+            "a": "c39",
+            "b": "TG31",
+            "net": "GND",
+            "label": "U2.13",
+            "external": null
+          },
+          {
+            "id": "J22",
+            "a": "c37",
+            "b": "TG30",
+            "net": "GND",
+            "label": "U2.15",
+            "external": null
+          },
+          {
+            "id": "J23",
+            "a": "c35",
+            "b": "TG28",
+            "net": "GND",
+            "label": "U2.17",
+            "external": null
+          },
+          {
+            "id": "J24",
+            "a": "c33",
+            "b": "TG27",
+            "net": "GND",
+            "label": "U2.19",
+            "external": null
+          },
+          {
+            "id": "J25",
+            "a": "c32",
+            "b": "TP24",
+            "net": "+5V",
+            "label": "U2.20",
+            "external": null
+          },
+          {
+            "id": "J26",
+            "a": "d9",
+            "b": "TP7",
+            "net": "+5V",
+            "label": "C1.1",
+            "external": null
+          },
+          {
+            "id": "J27",
+            "a": "c8",
+            "b": "TG5",
+            "net": "GND",
+            "label": "C1.2",
+            "external": null
+          },
+          {
+            "id": "J28",
+            "a": "d32",
+            "b": "TP27",
+            "net": "+5V",
+            "label": "C2.1",
+            "external": null
+          },
+          {
+            "id": "J29",
+            "a": "c31",
+            "b": "TG24",
+            "net": "GND",
+            "label": "C2.2",
+            "external": null
+          },
+          {
+            "id": "J30",
+            "a": "c3",
+            "b": "TP2",
+            "net": "+5V",
+            "label": "C0.+",
+            "external": null
+          },
+          {
+            "id": "J31",
+            "a": "c4",
+            "b": "TG2",
+            "net": "GND",
+            "label": "C0.−",
+            "external": null
+          },
+          {
+            "id": "J32",
+            "a": "PWR.+5V",
+            "b": "TP3",
+            "net": "+5V",
+            "label": "PWR.+5V",
+            "external": "PWR.+5V"
+          },
+          {
+            "id": "J33",
+            "a": "PWR.GND",
+            "b": "TG3",
+            "net": "GND",
+            "label": "PWR.GND",
+            "external": "PWR.GND"
+          },
+          {
+            "id": "J34",
+            "a": "S1.VCC",
+            "b": "BP7",
+            "net": "+5V",
+            "label": "S1.VCC",
+            "external": "S1.VCC"
+          },
+          {
+            "id": "J35",
+            "a": "S1.GND",
+            "b": "BG7",
+            "net": "GND",
+            "label": "S1.GND",
+            "external": "S1.GND"
+          },
+          {
+            "id": "J36",
+            "a": "S2.VCC",
+            "b": "BP18",
+            "net": "+5V",
+            "label": "S2.VCC",
+            "external": "S2.VCC"
+          },
+          {
+            "id": "J37",
+            "a": "S2.GND",
+            "b": "BG18",
+            "net": "GND",
+            "label": "S2.GND",
+            "external": "S2.GND"
+          },
+          {
+            "id": "J38",
+            "a": "LED1.K",
+            "b": "BG49",
+            "net": "GND",
+            "label": "LED1.K",
+            "external": "LED1.K"
+          },
+          {
+            "id": "J39",
+            "a": "h9",
+            "b": "S1.OUT",
+            "net": "A",
+            "label": "U1.1 → S1.OUT",
+            "external": "S1.OUT"
+          },
+          {
+            "id": "J40",
+            "a": "h10",
+            "b": "S2.OUT",
+            "net": "B",
+            "label": "U1.2 → S2.OUT",
+            "external": "S2.OUT"
+          },
+          {
+            "id": "J41",
+            "a": "h11",
+            "b": "h33",
+            "net": "XOR",
+            "label": "U1.3 → U2.2",
+            "external": null
+          },
+          {
+            "id": "J42",
+            "a": "c34",
+            "b": "c57",
+            "net": "BUF",
+            "label": "U2.18 → R1.1",
+            "external": null
+          },
+          {
+            "id": "J43",
+            "a": "c61",
+            "b": "LED1.A",
+            "net": "LED",
+            "label": "R1.2 → LED1.A",
+            "external": "LED1.A"
+          }
+        ],
+        "occupied": [
+          "BG1",
+          "BG10",
+          "BG11",
+          "BG12",
+          "BG18",
+          "BG24",
+          "BG25",
+          "BG26",
+          "BG28",
+          "BG30",
+          "BG31",
+          "BG33",
+          "BG49",
+          "BG7",
+          "BP1",
+          "BP18",
+          "BP25",
+          "BP26",
+          "BP7",
+          "LED1.A",
+          "LED1.K",
+          "PWR.+5V",
+          "PWR.GND",
+          "S1.GND",
+          "S1.OUT",
+          "S1.VCC",
+          "S2.GND",
+          "S2.OUT",
+          "S2.VCC",
+          "TG1",
+          "TG10",
+          "TG11",
+          "TG2",
+          "TG24",
+          "TG25",
+          "TG26",
+          "TG27",
+          "TG28",
+          "TG3",
+          "TG30",
+          "TG31",
+          "TG33",
+          "TG5",
+          "TG7",
+          "TG8",
+          "TP1",
+          "TP2",
+          "TP24",
+          "TP25",
+          "TP26",
+          "TP27",
+          "TP3",
+          "TP6",
+          "TP7",
+          "b3",
+          "b31",
+          "b32",
+          "b4",
+          "b57",
+          "b61",
+          "b8",
+          "b9",
+          "c10",
+          "c11",
+          "c14",
+          "c15",
+          "c3",
+          "c31",
+          "c32",
+          "c33",
+          "c34",
+          "c35",
+          "c37",
+          "c39",
+          "c4",
+          "c41",
+          "c57",
+          "c61",
+          "c8",
+          "c9",
+          "d32",
+          "d9",
+          "e10",
+          "e11",
+          "e12",
+          "e13",
+          "e14",
+          "e15",
+          "e32",
+          "e33",
+          "e34",
+          "e35",
+          "e36",
+          "e37",
+          "e38",
+          "e39",
+          "e40",
+          "e41",
+          "e9",
+          "f10",
+          "f11",
+          "f12",
+          "f13",
+          "f14",
+          "f15",
+          "f32",
+          "f33",
+          "f34",
+          "f35",
+          "f36",
+          "f37",
+          "f38",
+          "f39",
+          "f40",
+          "f41",
+          "f9",
+          "h10",
+          "h11",
+          "h13",
+          "h14",
+          "h15",
+          "h32",
+          "h33",
+          "h35",
+          "h37",
+          "h39",
+          "h41",
+          "h9"
+        ]
+      },
+      "dff": {
+        "endpoints": {
+          "U1.1": {
+            "net": "Q",
+            "hole": "f9",
+            "kind": "O"
+          },
+          "U1.2": {
+            "net": null,
+            "hole": "f10",
+            "kind": "O"
+          },
+          "U1.3": {
+            "net": "CLK",
+            "hole": "f11",
+            "kind": "I"
+          },
+          "U1.4": {
+            "net": "RESET",
+            "hole": "f12",
+            "kind": "I"
+          },
+          "U1.5": {
+            "net": "DATA",
+            "hole": "f13",
+            "kind": "I"
+          },
+          "U1.6": {
+            "net": "GND",
+            "hole": "f14",
+            "kind": "I"
+          },
+          "U1.7": {
+            "net": "GND",
+            "hole": "f15",
+            "kind": "P"
+          },
+          "U1.8": {
+            "net": "GND",
+            "hole": "e15",
+            "kind": "I"
+          },
+          "U1.9": {
+            "net": "GND",
+            "hole": "e14",
+            "kind": "I"
+          },
+          "U1.10": {
+            "net": "GND",
+            "hole": "e13",
+            "kind": "I"
+          },
+          "U1.11": {
+            "net": "GND",
+            "hole": "e12",
+            "kind": "I"
+          },
+          "U1.12": {
+            "net": null,
+            "hole": "e11",
+            "kind": "O"
+          },
+          "U1.13": {
+            "net": null,
+            "hole": "e10",
+            "kind": "O"
+          },
+          "U1.14": {
+            "net": "+5V",
+            "hole": "e9",
+            "kind": "P"
+          },
+          "U3.1": {
+            "net": "CLK_RAW",
+            "hole": "f26",
+            "kind": "I"
+          },
+          "U3.2": {
+            "net": "CLK_INV",
+            "hole": "f27",
+            "kind": "O"
+          },
+          "U3.3": {
+            "net": "CLK_INV",
+            "hole": "f28",
+            "kind": "I"
+          },
+          "U3.4": {
+            "net": "CLK",
+            "hole": "f29",
+            "kind": "O"
+          },
+          "U3.5": {
+            "net": "GND",
+            "hole": "f30",
+            "kind": "I"
+          },
+          "U3.6": {
+            "net": null,
+            "hole": "f31",
+            "kind": "O"
+          },
+          "U3.7": {
+            "net": "GND",
+            "hole": "f32",
+            "kind": "P"
+          },
+          "U3.8": {
+            "net": null,
+            "hole": "e32",
+            "kind": "O"
+          },
+          "U3.9": {
+            "net": "GND",
+            "hole": "e31",
+            "kind": "I"
+          },
+          "U3.10": {
+            "net": null,
+            "hole": "e30",
+            "kind": "O"
+          },
+          "U3.11": {
+            "net": "GND",
+            "hole": "e29",
+            "kind": "I"
+          },
+          "U3.12": {
+            "net": null,
+            "hole": "e28",
+            "kind": "O"
+          },
+          "U3.13": {
+            "net": "GND",
+            "hole": "e27",
+            "kind": "I"
+          },
+          "U3.14": {
+            "net": "+5V",
+            "hole": "e26",
+            "kind": "P"
+          },
+          "U2.1": {
+            "net": "GND",
+            "hole": "f43",
+            "kind": "I"
+          },
+          "U2.2": {
+            "net": "Q",
+            "hole": "f44",
+            "kind": "I"
+          },
+          "U2.3": {
+            "net": null,
+            "hole": "f45",
+            "kind": "O"
+          },
+          "U2.4": {
+            "net": "GND",
+            "hole": "f46",
+            "kind": "I"
+          },
+          "U2.5": {
+            "net": null,
+            "hole": "f47",
+            "kind": "O"
+          },
+          "U2.6": {
+            "net": "GND",
+            "hole": "f48",
+            "kind": "I"
+          },
+          "U2.7": {
+            "net": null,
+            "hole": "f49",
+            "kind": "O"
+          },
+          "U2.8": {
+            "net": "GND",
+            "hole": "f50",
+            "kind": "I"
+          },
+          "U2.9": {
+            "net": null,
+            "hole": "f51",
+            "kind": "O"
+          },
+          "U2.10": {
+            "net": "GND",
+            "hole": "f52",
+            "kind": "P"
+          },
+          "U2.11": {
+            "net": "GND",
+            "hole": "e52",
+            "kind": "I"
+          },
+          "U2.12": {
+            "net": null,
+            "hole": "e51",
+            "kind": "O"
+          },
+          "U2.13": {
+            "net": "GND",
+            "hole": "e50",
+            "kind": "I"
+          },
+          "U2.14": {
+            "net": null,
+            "hole": "e49",
+            "kind": "O"
+          },
+          "U2.15": {
+            "net": "GND",
+            "hole": "e48",
+            "kind": "I"
+          },
+          "U2.16": {
+            "net": null,
+            "hole": "e47",
+            "kind": "O"
+          },
+          "U2.17": {
+            "net": "GND",
+            "hole": "e46",
+            "kind": "I"
+          },
+          "U2.18": {
+            "net": "BUF",
+            "hole": "e45",
+            "kind": "O"
+          },
+          "U2.19": {
+            "net": "GND",
+            "hole": "e44",
+            "kind": "I"
+          },
+          "U2.20": {
+            "net": "+5V",
+            "hole": "e43",
+            "kind": "P"
+          },
+          "R1.1": {
+            "net": "BUF",
+            "hole": "b57",
+            "kind": "passive"
+          },
+          "R1.2": {
+            "net": "LED",
+            "hole": "b61",
+            "kind": "passive"
+          },
+          "C1.1": {
+            "net": "+5V",
+            "hole": "b9",
+            "kind": "passive"
+          },
+          "C1.2": {
+            "net": "GND",
+            "hole": "b8",
+            "kind": "passive"
+          },
+          "C2.1": {
+            "net": "+5V",
+            "hole": "b26",
+            "kind": "passive"
+          },
+          "C2.2": {
+            "net": "GND",
+            "hole": "b25",
+            "kind": "passive"
+          },
+          "C3.1": {
+            "net": "+5V",
+            "hole": "b43",
+            "kind": "passive"
+          },
+          "C3.2": {
+            "net": "GND",
+            "hole": "b42",
+            "kind": "passive"
+          },
+          "C0.+": {
+            "net": "+5V",
+            "hole": "b3",
+            "kind": "passive"
+          },
+          "C0.−": {
+            "net": "GND",
+            "hole": "b4",
+            "kind": "passive"
+          },
+          "PWR.+5V": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "PWR.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.OUT": {
+            "net": "DATA",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.OUT": {
+            "net": "RESET",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.A": {
+            "net": "LED",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.K": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.OUT": {
+            "net": "CLK_RAW",
+            "hole": null,
+            "kind": "module"
+          }
+        },
+        "wires": [
+          {
+            "id": "J01",
+            "a": "TP25",
+            "b": "TP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J02",
+            "a": "TG25",
+            "b": "TG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J03",
+            "a": "BP25",
+            "b": "BP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J04",
+            "a": "BG25",
+            "b": "BG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J05",
+            "a": "TP1",
+            "b": "BP1",
+            "net": "+5V",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J06",
+            "a": "TG1",
+            "b": "BG1",
+            "net": "GND",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J07",
+            "a": "h14",
+            "b": "BG10",
+            "net": "GND",
+            "label": "U1.6",
+            "external": null
+          },
+          {
+            "id": "J08",
+            "a": "h15",
+            "b": "BG11",
+            "net": "GND",
+            "label": "U1.7",
+            "external": null
+          },
+          {
+            "id": "J09",
+            "a": "c15",
+            "b": "TG11",
+            "net": "GND",
+            "label": "U1.8",
+            "external": null
+          },
+          {
+            "id": "J10",
+            "a": "c14",
+            "b": "TG10",
+            "net": "GND",
+            "label": "U1.9",
+            "external": null
+          },
+          {
+            "id": "J11",
+            "a": "c13",
+            "b": "TG9",
+            "net": "GND",
+            "label": "U1.10",
+            "external": null
+          },
+          {
+            "id": "J12",
+            "a": "c12",
+            "b": "TG8",
+            "net": "GND",
+            "label": "U1.11",
+            "external": null
+          },
+          {
+            "id": "J13",
+            "a": "c9",
+            "b": "TP6",
+            "net": "+5V",
+            "label": "U1.14",
+            "external": null
+          },
+          {
+            "id": "J14",
+            "a": "h30",
+            "b": "BG24",
+            "net": "GND",
+            "label": "U3.5",
+            "external": null
+          },
+          {
+            "id": "J15",
+            "a": "h32",
+            "b": "BG27",
+            "net": "GND",
+            "label": "U3.7",
+            "external": null
+          },
+          {
+            "id": "J16",
+            "a": "c31",
+            "b": "TG24",
+            "net": "GND",
+            "label": "U3.9",
+            "external": null
+          },
+          {
+            "id": "J17",
+            "a": "c29",
+            "b": "TG23",
+            "net": "GND",
+            "label": "U3.11",
+            "external": null
+          },
+          {
+            "id": "J18",
+            "a": "c27",
+            "b": "TG21",
+            "net": "GND",
+            "label": "U3.13",
+            "external": null
+          },
+          {
+            "id": "J19",
+            "a": "c26",
+            "b": "TP20",
+            "net": "+5V",
+            "label": "U3.14",
+            "external": null
+          },
+          {
+            "id": "J20",
+            "a": "h43",
+            "b": "BG35",
+            "net": "GND",
+            "label": "U2.1",
+            "external": null
+          },
+          {
+            "id": "J21",
+            "a": "h46",
+            "b": "BG37",
+            "net": "GND",
+            "label": "U2.4",
+            "external": null
+          },
+          {
+            "id": "J22",
+            "a": "h48",
+            "b": "BG39",
+            "net": "GND",
+            "label": "U2.6",
+            "external": null
+          },
+          {
+            "id": "J23",
+            "a": "h50",
+            "b": "BG40",
+            "net": "GND",
+            "label": "U2.8",
+            "external": null
+          },
+          {
+            "id": "J24",
+            "a": "h52",
+            "b": "BG42",
+            "net": "GND",
+            "label": "U2.10",
+            "external": null
+          },
+          {
+            "id": "J25",
+            "a": "c52",
+            "b": "TG42",
+            "net": "GND",
+            "label": "U2.11",
+            "external": null
+          },
+          {
+            "id": "J26",
+            "a": "c50",
+            "b": "TG40",
+            "net": "GND",
+            "label": "U2.13",
+            "external": null
+          },
+          {
+            "id": "J27",
+            "a": "c48",
+            "b": "TG39",
+            "net": "GND",
+            "label": "U2.15",
+            "external": null
+          },
+          {
+            "id": "J28",
+            "a": "c46",
+            "b": "TG37",
+            "net": "GND",
+            "label": "U2.17",
+            "external": null
+          },
+          {
+            "id": "J29",
+            "a": "c44",
+            "b": "TG35",
+            "net": "GND",
+            "label": "U2.19",
+            "external": null
+          },
+          {
+            "id": "J30",
+            "a": "c43",
+            "b": "TP35",
+            "net": "+5V",
+            "label": "U2.20",
+            "external": null
+          },
+          {
+            "id": "J31",
+            "a": "d9",
+            "b": "TP7",
+            "net": "+5V",
+            "label": "C1.1",
+            "external": null
+          },
+          {
+            "id": "J32",
+            "a": "c8",
+            "b": "TG5",
+            "net": "GND",
+            "label": "C1.2",
+            "external": null
+          },
+          {
+            "id": "J33",
+            "a": "d26",
+            "b": "TP21",
+            "net": "+5V",
+            "label": "C2.1",
+            "external": null
+          },
+          {
+            "id": "J34",
+            "a": "c25",
+            "b": "TG20",
+            "net": "GND",
+            "label": "C2.2",
+            "external": null
+          },
+          {
+            "id": "J35",
+            "a": "d43",
+            "b": "TP34",
+            "net": "+5V",
+            "label": "C3.1",
+            "external": null
+          },
+          {
+            "id": "J36",
+            "a": "c42",
+            "b": "TG34",
+            "net": "GND",
+            "label": "C3.2",
+            "external": null
+          },
+          {
+            "id": "J37",
+            "a": "c3",
+            "b": "TP2",
+            "net": "+5V",
+            "label": "C0.+",
+            "external": null
+          },
+          {
+            "id": "J38",
+            "a": "c4",
+            "b": "TG2",
+            "net": "GND",
+            "label": "C0.−",
+            "external": null
+          },
+          {
+            "id": "J39",
+            "a": "PWR.+5V",
+            "b": "TP3",
+            "net": "+5V",
+            "label": "PWR.+5V",
+            "external": "PWR.+5V"
+          },
+          {
+            "id": "J40",
+            "a": "PWR.GND",
+            "b": "TG3",
+            "net": "GND",
+            "label": "PWR.GND",
+            "external": "PWR.GND"
+          },
+          {
+            "id": "J41",
+            "a": "S1.VCC",
+            "b": "BP7",
+            "net": "+5V",
+            "label": "S1.VCC",
+            "external": "S1.VCC"
+          },
+          {
+            "id": "J42",
+            "a": "S1.GND",
+            "b": "BG7",
+            "net": "GND",
+            "label": "S1.GND",
+            "external": "S1.GND"
+          },
+          {
+            "id": "J43",
+            "a": "S2.VCC",
+            "b": "BP18",
+            "net": "+5V",
+            "label": "S2.VCC",
+            "external": "S2.VCC"
+          },
+          {
+            "id": "J44",
+            "a": "S2.GND",
+            "b": "BG18",
+            "net": "GND",
+            "label": "S2.GND",
+            "external": "S2.GND"
+          },
+          {
+            "id": "J45",
+            "a": "LED1.K",
+            "b": "BG49",
+            "net": "GND",
+            "label": "LED1.K",
+            "external": "LED1.K"
+          },
+          {
+            "id": "J46",
+            "a": "OSC.VCC",
+            "b": "BP29",
+            "net": "+5V",
+            "label": "OSC.VCC",
+            "external": "OSC.VCC"
+          },
+          {
+            "id": "J47",
+            "a": "OSC.GND",
+            "b": "BG29",
+            "net": "GND",
+            "label": "OSC.GND",
+            "external": "OSC.GND"
+          },
+          {
+            "id": "J48",
+            "a": "h9",
+            "b": "h44",
+            "net": "Q",
+            "label": "U1.1 → U2.2",
+            "external": null
+          },
+          {
+            "id": "J49",
+            "a": "h11",
+            "b": "h29",
+            "net": "CLK",
+            "label": "U1.3 → U3.4",
+            "external": null
+          },
+          {
+            "id": "J50",
+            "a": "h12",
+            "b": "S2.OUT",
+            "net": "RESET",
+            "label": "U1.4 → S2.OUT",
+            "external": "S2.OUT"
+          },
+          {
+            "id": "J51",
+            "a": "h13",
+            "b": "S1.OUT",
+            "net": "DATA",
+            "label": "U1.5 → S1.OUT",
+            "external": "S1.OUT"
+          },
+          {
+            "id": "J52",
+            "a": "h26",
+            "b": "OSC.OUT",
+            "net": "CLK_RAW",
+            "label": "U3.1 → OSC.OUT",
+            "external": "OSC.OUT"
+          },
+          {
+            "id": "J53",
+            "a": "h27",
+            "b": "h28",
+            "net": "CLK_INV",
+            "label": "U3.2 → U3.3",
+            "external": null
+          },
+          {
+            "id": "J54",
+            "a": "c45",
+            "b": "c57",
+            "net": "BUF",
+            "label": "U2.18 → R1.1",
+            "external": null
+          },
+          {
+            "id": "J55",
+            "a": "c61",
+            "b": "LED1.A",
+            "net": "LED",
+            "label": "R1.2 → LED1.A",
+            "external": "LED1.A"
+          }
+        ],
+        "occupied": [
+          "BG1",
+          "BG10",
+          "BG11",
+          "BG18",
+          "BG24",
+          "BG25",
+          "BG26",
+          "BG27",
+          "BG29",
+          "BG35",
+          "BG37",
+          "BG39",
+          "BG40",
+          "BG42",
+          "BG49",
+          "BG7",
+          "BP1",
+          "BP18",
+          "BP25",
+          "BP26",
+          "BP29",
+          "BP7",
+          "LED1.A",
+          "LED1.K",
+          "OSC.GND",
+          "OSC.OUT",
+          "OSC.VCC",
+          "PWR.+5V",
+          "PWR.GND",
+          "S1.GND",
+          "S1.OUT",
+          "S1.VCC",
+          "S2.GND",
+          "S2.OUT",
+          "S2.VCC",
+          "TG1",
+          "TG10",
+          "TG11",
+          "TG2",
+          "TG20",
+          "TG21",
+          "TG23",
+          "TG24",
+          "TG25",
+          "TG26",
+          "TG3",
+          "TG34",
+          "TG35",
+          "TG37",
+          "TG39",
+          "TG40",
+          "TG42",
+          "TG5",
+          "TG8",
+          "TG9",
+          "TP1",
+          "TP2",
+          "TP20",
+          "TP21",
+          "TP25",
+          "TP26",
+          "TP3",
+          "TP34",
+          "TP35",
+          "TP6",
+          "TP7",
+          "b25",
+          "b26",
+          "b3",
+          "b4",
+          "b42",
+          "b43",
+          "b57",
+          "b61",
+          "b8",
+          "b9",
+          "c12",
+          "c13",
+          "c14",
+          "c15",
+          "c25",
+          "c26",
+          "c27",
+          "c29",
+          "c3",
+          "c31",
+          "c4",
+          "c42",
+          "c43",
+          "c44",
+          "c45",
+          "c46",
+          "c48",
+          "c50",
+          "c52",
+          "c57",
+          "c61",
+          "c8",
+          "c9",
+          "d26",
+          "d43",
+          "d9",
+          "e10",
+          "e11",
+          "e12",
+          "e13",
+          "e14",
+          "e15",
+          "e26",
+          "e27",
+          "e28",
+          "e29",
+          "e30",
+          "e31",
+          "e32",
+          "e43",
+          "e44",
+          "e45",
+          "e46",
+          "e47",
+          "e48",
+          "e49",
+          "e50",
+          "e51",
+          "e52",
+          "e9",
+          "f10",
+          "f11",
+          "f12",
+          "f13",
+          "f14",
+          "f15",
+          "f26",
+          "f27",
+          "f28",
+          "f29",
+          "f30",
+          "f31",
+          "f32",
+          "f43",
+          "f44",
+          "f45",
+          "f46",
+          "f47",
+          "f48",
+          "f49",
+          "f50",
+          "f51",
+          "f52",
+          "f9",
+          "h11",
+          "h12",
+          "h13",
+          "h14",
+          "h15",
+          "h26",
+          "h27",
+          "h28",
+          "h29",
+          "h30",
+          "h32",
+          "h43",
+          "h44",
+          "h46",
+          "h48",
+          "h50",
+          "h52",
+          "h9"
+        ]
+      }
+    }
+  },
+  "new": {
+    "circuits": {
+      "xor": {
+        "edition": "new",
+        "experiment": "xor",
+        "chips": {
+          "U1": {
+            "part": "CD4070BE",
+            "count": 14,
+            "col": 9,
+            "pins": {
+              "1": [
+                "A",
+                "A",
+                "I"
+              ],
+              "2": [
+                "B",
+                "B",
+                "I"
+              ],
+              "3": [
+                "Y",
+                "XOR",
+                "O"
+              ],
+              "4": [
+                "Y2",
+                null,
+                "O"
+              ],
+              "5": [
+                "A2",
+                "GND",
+                "I"
+              ],
+              "6": [
+                "B2",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "VSS",
+                "GND",
+                "P"
+              ],
+              "8": [
+                "A3",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "B3",
+                "GND",
+                "I"
+              ],
+              "10": [
+                "Y3",
+                null,
+                "O"
+              ],
+              "11": [
+                "Y4",
+                null,
+                "O"
+              ],
+              "12": [
+                "A4",
+                "GND",
+                "I"
+              ],
+              "13": [
+                "B4",
+                "GND",
+                "I"
+              ],
+              "14": [
+                "VDD",
+                "+5V",
+                "P"
+              ]
+            }
+          }
+        },
+        "parts": {},
+        "modules": {
+          "PWR": {
+            "name": "5 V supply / питание",
+            "pins": {
+              "+5V": "+5V",
+              "GND": "GND"
+            }
+          },
+          "S1": {
+            "name": "A",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "A"
+            }
+          },
+          "S2": {
+            "name": "B",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "B"
+            }
+          },
+          "LED1": {
+            "name": "5 V LED",
+            "pins": {
+              "A": "XOR",
+              "K": "GND"
+            }
+          }
+        }
+      },
+      "dff": {
+        "edition": "new",
+        "experiment": "dff",
+        "chips": {
+          "U1": {
+            "part": "CD4013BE",
+            "count": 14,
+            "col": 9,
+            "pins": {
+              "1": [
+                "Q",
+                "Q",
+                "O"
+              ],
+              "2": [
+                "/Q",
+                null,
+                "O"
+              ],
+              "3": [
+                "CLK",
+                "CLK",
+                "I"
+              ],
+              "4": [
+                "RESET",
+                "RESET",
+                "I"
+              ],
+              "5": [
+                "D",
+                "DATA",
+                "I"
+              ],
+              "6": [
+                "SET",
+                "GND",
+                "I"
+              ],
+              "7": [
+                "VSS",
+                "GND",
+                "P"
+              ],
+              "8": [
+                "SET2",
+                "GND",
+                "I"
+              ],
+              "9": [
+                "D2",
+                "GND",
+                "I"
+              ],
+              "10": [
+                "RESET2",
+                "GND",
+                "I"
+              ],
+              "11": [
+                "CLK2",
+                "GND",
+                "I"
+              ],
+              "12": [
+                "/Q2",
+                null,
+                "O"
+              ],
+              "13": [
+                "Q2",
+                null,
+                "O"
+              ],
+              "14": [
+                "VDD",
+                "+5V",
+                "P"
+              ]
+            }
+          }
+        },
+        "parts": {},
+        "modules": {
+          "PWR": {
+            "name": "5 V supply / питание",
+            "pins": {
+              "+5V": "+5V",
+              "GND": "GND"
+            }
+          },
+          "S1": {
+            "name": "DATA",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "DATA"
+            }
+          },
+          "S2": {
+            "name": "RESET",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "RESET"
+            }
+          },
+          "LED1": {
+            "name": "5 V LED",
+            "pins": {
+              "A": "Q",
+              "K": "GND"
+            }
+          },
+          "OSC": {
+            "name": "555 · 0.5–1 Hz",
+            "pins": {
+              "VCC": "+5V",
+              "GND": "GND",
+              "OUT": "CLK"
+            }
+          }
+        }
+      }
+    },
+    "layouts": {
+      "xor": {
+        "endpoints": {
+          "U1.1": {
+            "net": "A",
+            "hole": "f9",
+            "kind": "I"
+          },
+          "U1.2": {
+            "net": "B",
+            "hole": "f10",
+            "kind": "I"
+          },
+          "U1.3": {
+            "net": "XOR",
+            "hole": "f11",
+            "kind": "O"
+          },
+          "U1.4": {
+            "net": null,
+            "hole": "f12",
+            "kind": "O"
+          },
+          "U1.5": {
+            "net": "GND",
+            "hole": "f13",
+            "kind": "I"
+          },
+          "U1.6": {
+            "net": "GND",
+            "hole": "f14",
+            "kind": "I"
+          },
+          "U1.7": {
+            "net": "GND",
+            "hole": "f15",
+            "kind": "P"
+          },
+          "U1.8": {
+            "net": "GND",
+            "hole": "e15",
+            "kind": "I"
+          },
+          "U1.9": {
+            "net": "GND",
+            "hole": "e14",
+            "kind": "I"
+          },
+          "U1.10": {
+            "net": null,
+            "hole": "e13",
+            "kind": "O"
+          },
+          "U1.11": {
+            "net": null,
+            "hole": "e12",
+            "kind": "O"
+          },
+          "U1.12": {
+            "net": "GND",
+            "hole": "e11",
+            "kind": "I"
+          },
+          "U1.13": {
+            "net": "GND",
+            "hole": "e10",
+            "kind": "I"
+          },
+          "U1.14": {
+            "net": "+5V",
+            "hole": "e9",
+            "kind": "P"
+          },
+          "PWR.+5V": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "PWR.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.OUT": {
+            "net": "A",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.OUT": {
+            "net": "B",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.A": {
+            "net": "XOR",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.K": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          }
+        },
+        "wires": [
+          {
+            "id": "J01",
+            "a": "TP25",
+            "b": "TP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J02",
+            "a": "TG25",
+            "b": "TG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J03",
+            "a": "BP25",
+            "b": "BP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J04",
+            "a": "BG25",
+            "b": "BG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J05",
+            "a": "TP1",
+            "b": "BP1",
+            "net": "+5V",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J06",
+            "a": "TG1",
+            "b": "BG1",
+            "net": "GND",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J07",
+            "a": "h13",
+            "b": "BG10",
+            "net": "GND",
+            "label": "U1.5",
+            "external": null
+          },
+          {
+            "id": "J08",
+            "a": "h14",
+            "b": "BG11",
+            "net": "GND",
+            "label": "U1.6",
+            "external": null
+          },
+          {
+            "id": "J09",
+            "a": "h15",
+            "b": "BG12",
+            "net": "GND",
+            "label": "U1.7",
+            "external": null
+          },
+          {
+            "id": "J10",
+            "a": "c15",
+            "b": "TG11",
+            "net": "GND",
+            "label": "U1.8",
+            "external": null
+          },
+          {
+            "id": "J11",
+            "a": "c14",
+            "b": "TG10",
+            "net": "GND",
+            "label": "U1.9",
+            "external": null
+          },
+          {
+            "id": "J12",
+            "a": "c11",
+            "b": "TG8",
+            "net": "GND",
+            "label": "U1.12",
+            "external": null
+          },
+          {
+            "id": "J13",
+            "a": "c10",
+            "b": "TG7",
+            "net": "GND",
+            "label": "U1.13",
+            "external": null
+          },
+          {
+            "id": "J14",
+            "a": "c9",
+            "b": "TP6",
+            "net": "+5V",
+            "label": "U1.14",
+            "external": null
+          },
+          {
+            "id": "J15",
+            "a": "PWR.+5V",
+            "b": "TP2",
+            "net": "+5V",
+            "label": "PWR.+5V",
+            "external": "PWR.+5V"
+          },
+          {
+            "id": "J16",
+            "a": "PWR.GND",
+            "b": "TG2",
+            "net": "GND",
+            "label": "PWR.GND",
+            "external": "PWR.GND"
+          },
+          {
+            "id": "J17",
+            "a": "S1.VCC",
+            "b": "BP7",
+            "net": "+5V",
+            "label": "S1.VCC",
+            "external": "S1.VCC"
+          },
+          {
+            "id": "J18",
+            "a": "S1.GND",
+            "b": "BG7",
+            "net": "GND",
+            "label": "S1.GND",
+            "external": "S1.GND"
+          },
+          {
+            "id": "J19",
+            "a": "S2.VCC",
+            "b": "BP18",
+            "net": "+5V",
+            "label": "S2.VCC",
+            "external": "S2.VCC"
+          },
+          {
+            "id": "J20",
+            "a": "S2.GND",
+            "b": "BG18",
+            "net": "GND",
+            "label": "S2.GND",
+            "external": "S2.GND"
+          },
+          {
+            "id": "J21",
+            "a": "LED1.K",
+            "b": "BG49",
+            "net": "GND",
+            "label": "LED1.K",
+            "external": "LED1.K"
+          },
+          {
+            "id": "J22",
+            "a": "h9",
+            "b": "S1.OUT",
+            "net": "A",
+            "label": "U1.1 → S1.OUT",
+            "external": "S1.OUT"
+          },
+          {
+            "id": "J23",
+            "a": "h10",
+            "b": "S2.OUT",
+            "net": "B",
+            "label": "U1.2 → S2.OUT",
+            "external": "S2.OUT"
+          },
+          {
+            "id": "J24",
+            "a": "h11",
+            "b": "LED1.A",
+            "net": "XOR",
+            "label": "U1.3 → LED1.A",
+            "external": "LED1.A"
+          }
+        ],
+        "occupied": [
+          "BG1",
+          "BG10",
+          "BG11",
+          "BG12",
+          "BG18",
+          "BG25",
+          "BG26",
+          "BG49",
+          "BG7",
+          "BP1",
+          "BP18",
+          "BP25",
+          "BP26",
+          "BP7",
+          "LED1.A",
+          "LED1.K",
+          "PWR.+5V",
+          "PWR.GND",
+          "S1.GND",
+          "S1.OUT",
+          "S1.VCC",
+          "S2.GND",
+          "S2.OUT",
+          "S2.VCC",
+          "TG1",
+          "TG10",
+          "TG11",
+          "TG2",
+          "TG25",
+          "TG26",
+          "TG7",
+          "TG8",
+          "TP1",
+          "TP2",
+          "TP25",
+          "TP26",
+          "TP6",
+          "c10",
+          "c11",
+          "c14",
+          "c15",
+          "c9",
+          "e10",
+          "e11",
+          "e12",
+          "e13",
+          "e14",
+          "e15",
+          "e9",
+          "f10",
+          "f11",
+          "f12",
+          "f13",
+          "f14",
+          "f15",
+          "f9",
+          "h10",
+          "h11",
+          "h13",
+          "h14",
+          "h15",
+          "h9"
+        ]
+      },
+      "dff": {
+        "endpoints": {
+          "U1.1": {
+            "net": "Q",
+            "hole": "f9",
+            "kind": "O"
+          },
+          "U1.2": {
+            "net": null,
+            "hole": "f10",
+            "kind": "O"
+          },
+          "U1.3": {
+            "net": "CLK",
+            "hole": "f11",
+            "kind": "I"
+          },
+          "U1.4": {
+            "net": "RESET",
+            "hole": "f12",
+            "kind": "I"
+          },
+          "U1.5": {
+            "net": "DATA",
+            "hole": "f13",
+            "kind": "I"
+          },
+          "U1.6": {
+            "net": "GND",
+            "hole": "f14",
+            "kind": "I"
+          },
+          "U1.7": {
+            "net": "GND",
+            "hole": "f15",
+            "kind": "P"
+          },
+          "U1.8": {
+            "net": "GND",
+            "hole": "e15",
+            "kind": "I"
+          },
+          "U1.9": {
+            "net": "GND",
+            "hole": "e14",
+            "kind": "I"
+          },
+          "U1.10": {
+            "net": "GND",
+            "hole": "e13",
+            "kind": "I"
+          },
+          "U1.11": {
+            "net": "GND",
+            "hole": "e12",
+            "kind": "I"
+          },
+          "U1.12": {
+            "net": null,
+            "hole": "e11",
+            "kind": "O"
+          },
+          "U1.13": {
+            "net": null,
+            "hole": "e10",
+            "kind": "O"
+          },
+          "U1.14": {
+            "net": "+5V",
+            "hole": "e9",
+            "kind": "P"
+          },
+          "PWR.+5V": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "PWR.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S1.OUT": {
+            "net": "DATA",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "S2.OUT": {
+            "net": "RESET",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.A": {
+            "net": "Q",
+            "hole": null,
+            "kind": "module"
+          },
+          "LED1.K": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.VCC": {
+            "net": "+5V",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.GND": {
+            "net": "GND",
+            "hole": null,
+            "kind": "module"
+          },
+          "OSC.OUT": {
+            "net": "CLK",
+            "hole": null,
+            "kind": "module"
+          }
+        },
+        "wires": [
+          {
+            "id": "J01",
+            "a": "TP25",
+            "b": "TP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J02",
+            "a": "TG25",
+            "b": "TG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J03",
+            "a": "BP25",
+            "b": "BP26",
+            "net": "+5V",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J04",
+            "a": "BG25",
+            "b": "BG26",
+            "net": "GND",
+            "label": "rail bridge",
+            "external": null
+          },
+          {
+            "id": "J05",
+            "a": "TP1",
+            "b": "BP1",
+            "net": "+5V",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J06",
+            "a": "TG1",
+            "b": "BG1",
+            "net": "GND",
+            "label": "top/bottom rails",
+            "external": null
+          },
+          {
+            "id": "J07",
+            "a": "h14",
+            "b": "BG10",
+            "net": "GND",
+            "label": "U1.6",
+            "external": null
+          },
+          {
+            "id": "J08",
+            "a": "h15",
+            "b": "BG11",
+            "net": "GND",
+            "label": "U1.7",
+            "external": null
+          },
+          {
+            "id": "J09",
+            "a": "c15",
+            "b": "TG11",
+            "net": "GND",
+            "label": "U1.8",
+            "external": null
+          },
+          {
+            "id": "J10",
+            "a": "c14",
+            "b": "TG10",
+            "net": "GND",
+            "label": "U1.9",
+            "external": null
+          },
+          {
+            "id": "J11",
+            "a": "c13",
+            "b": "TG9",
+            "net": "GND",
+            "label": "U1.10",
+            "external": null
+          },
+          {
+            "id": "J12",
+            "a": "c12",
+            "b": "TG8",
+            "net": "GND",
+            "label": "U1.11",
+            "external": null
+          },
+          {
+            "id": "J13",
+            "a": "c9",
+            "b": "TP6",
+            "net": "+5V",
+            "label": "U1.14",
+            "external": null
+          },
+          {
+            "id": "J14",
+            "a": "PWR.+5V",
+            "b": "TP2",
+            "net": "+5V",
+            "label": "PWR.+5V",
+            "external": "PWR.+5V"
+          },
+          {
+            "id": "J15",
+            "a": "PWR.GND",
+            "b": "TG2",
+            "net": "GND",
+            "label": "PWR.GND",
+            "external": "PWR.GND"
+          },
+          {
+            "id": "J16",
+            "a": "S1.VCC",
+            "b": "BP7",
+            "net": "+5V",
+            "label": "S1.VCC",
+            "external": "S1.VCC"
+          },
+          {
+            "id": "J17",
+            "a": "S1.GND",
+            "b": "BG7",
+            "net": "GND",
+            "label": "S1.GND",
+            "external": "S1.GND"
+          },
+          {
+            "id": "J18",
+            "a": "S2.VCC",
+            "b": "BP18",
+            "net": "+5V",
+            "label": "S2.VCC",
+            "external": "S2.VCC"
+          },
+          {
+            "id": "J19",
+            "a": "S2.GND",
+            "b": "BG18",
+            "net": "GND",
+            "label": "S2.GND",
+            "external": "S2.GND"
+          },
+          {
+            "id": "J20",
+            "a": "LED1.K",
+            "b": "BG49",
+            "net": "GND",
+            "label": "LED1.K",
+            "external": "LED1.K"
+          },
+          {
+            "id": "J21",
+            "a": "OSC.VCC",
+            "b": "BP29",
+            "net": "+5V",
+            "label": "OSC.VCC",
+            "external": "OSC.VCC"
+          },
+          {
+            "id": "J22",
+            "a": "OSC.GND",
+            "b": "BG29",
+            "net": "GND",
+            "label": "OSC.GND",
+            "external": "OSC.GND"
+          },
+          {
+            "id": "J23",
+            "a": "h9",
+            "b": "LED1.A",
+            "net": "Q",
+            "label": "U1.1 → LED1.A",
+            "external": "LED1.A"
+          },
+          {
+            "id": "J24",
+            "a": "h11",
+            "b": "OSC.OUT",
+            "net": "CLK",
+            "label": "U1.3 → OSC.OUT",
+            "external": "OSC.OUT"
+          },
+          {
+            "id": "J25",
+            "a": "h12",
+            "b": "S2.OUT",
+            "net": "RESET",
+            "label": "U1.4 → S2.OUT",
+            "external": "S2.OUT"
+          },
+          {
+            "id": "J26",
+            "a": "h13",
+            "b": "S1.OUT",
+            "net": "DATA",
+            "label": "U1.5 → S1.OUT",
+            "external": "S1.OUT"
+          }
+        ],
+        "occupied": [
+          "BG1",
+          "BG10",
+          "BG11",
+          "BG18",
+          "BG25",
+          "BG26",
+          "BG29",
+          "BG49",
+          "BG7",
+          "BP1",
+          "BP18",
+          "BP25",
+          "BP26",
+          "BP29",
+          "BP7",
+          "LED1.A",
+          "LED1.K",
+          "OSC.GND",
+          "OSC.OUT",
+          "OSC.VCC",
+          "PWR.+5V",
+          "PWR.GND",
+          "S1.GND",
+          "S1.OUT",
+          "S1.VCC",
+          "S2.GND",
+          "S2.OUT",
+          "S2.VCC",
+          "TG1",
+          "TG10",
+          "TG11",
+          "TG2",
+          "TG25",
+          "TG26",
+          "TG8",
+          "TG9",
+          "TP1",
+          "TP2",
+          "TP25",
+          "TP26",
+          "TP6",
+          "c12",
+          "c13",
+          "c14",
+          "c15",
+          "c9",
+          "e10",
+          "e11",
+          "e12",
+          "e13",
+          "e14",
+          "e15",
+          "e9",
+          "f10",
+          "f11",
+          "f12",
+          "f13",
+          "f14",
+          "f15",
+          "f9",
+          "h11",
+          "h12",
+          "h13",
+          "h14",
+          "h15",
+          "h9"
+        ]
+      }
+    }
+  }
+}

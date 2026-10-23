@@ -1,0 +1,384 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Схемы старой и новой вводной инструкции</title><style>
+:root{--ink:#233b49;--muted:#526978;--line:#d8e2e8;--accent:#096b67;--paper:#fff;--bg:#f0f4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,sans-serif}header,main,footer{max-width:1500px;margin:auto;padding:26px}header{padding-top:42px}h1{font-size:clamp(30px,5vw,47px);line-height:1.12;max-width:28ch}h2{font-size:27px;line-height:1.3;margin-top:0}h3{font-size:20px}a{color:var(--accent);text-underline-offset:3px}.lead{font-size:21px;max-width:95ch}.meta,figcaption,.small{font-size:14px;color:var(--muted)}nav{display:flex;gap:12px 24px;flex-wrap:wrap;margin:20px 0}.section{background:white;border:1px solid var(--line);border-radius:12px;padding:26px;margin:22px 0;scroll-margin-top:15px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid>*{min-width:0}figure{margin:0;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#fff}figure img{width:100%;height:auto;display:block}figcaption{padding:14px 18px;border-top:1px solid var(--line)}.links{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}.note{border-left:4px solid #bb8c3e;background:#fff8eb;padding:14px 18px}.table{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:15px}td,th{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}th{background:#eaf1f4}code{font:0.9em ui-monospace,monospace;background:#ecf1f5;padding:2px 4px;overflow-wrap:anywhere}details{border:1px solid var(--line);padding:14px 18px;margin:14px 0;border-radius:6px}summary{font-weight:700;cursor:pointer}li{margin:8px 0}.swatch{display:inline-block;width:12px;height:12px;margin-right:5px;border-radius:50%}.checks{padding:12px 16px;background:#edf7f1;border-left:4px solid #288163}footer{padding-bottom:45px}@media(max-width:850px){.grid{grid-template-columns:1fr}header,main,footer{padding:16px}.section{padding:18px}table{min-width:620px}}@media print{body{background:white;font-size:10pt}header,main,footer{max-width:none;padding:0}nav,.lang{display:none}.section{border:0;padding:12px 0}.grid{display:block}figure{break-inside:avoid;margin-bottom:20px}figure img{max-height:235mm;object-fit:contain}h2,h3{break-after:avoid}.table{overflow:visible}table{font-size:9pt;min-width:0}tr{break-inside:avoid}a{color:inherit}}
+</style></head><body><header>
+<p class="lang"><a href="old_and_new_en.html">English</a></p>
+<p class="meta">LSSK · 2026-10-22</p>
+<h1>Схемы старой и новой вводной инструкции</h1>
+<p class="lead">Шесть рисунков сравнивают архивную инструкцию от 14 октября с текущей на трёх уровнях: общая логическая схема, соединения выводов микросхем и размещение на макетке. В каждом рисунке две независимые панели: A — опыт XOR, B — последующий опыт с памятью на один бит.</p>
+<p class=""><a href="../start_ru.html">Архивная инструкция</a> · <a href="../../start_ru.html">Текущая инструкция</a> · <a href="../20261022_task.md">Исходное задание</a></p>
+<nav aria-label="Содержание"><a href="#differences">Что изменилось</a><a href="#generic">1 · Общая схема</a><a href="#chips">2 · Микросхемы</a><a href="#breadboard">3 · Макетка</a><a href="#connections">Точные соединения</a><a href="#checks">Проверки и источники</a></nav></header><main>
+<section class="section" id="differences"><h2>Что изменилось между редакциями</h2>
+<div class="table"><table><thead><tr><th scope="col">Элемент</th><th scope="col">Старая · 14 октября</th><th scope="col">Текущая</th></tr></thead><tbody>
+<tr><td>Выход XOR</td><td>CD4070 → SN74HCT244 → 2.2 kΩ → 5 V LED</td><td>CD4070 → 5 V LED</td></tr>
+<tr><td>Выход триггера</td><td>CD4013 Q → SN74HCT244 → 2.2 kΩ → 5 V LED</td><td>CD4013 Q → 5 V LED</td></tr>
+<tr><td>Путь такта</td><td>555 OUT → HCT14 (1→2) → HCT14 (3→4) → CD4013 CLK</td><td>555 OUT → CD4013 CLK</td></tr>
+<tr><td>Внешние конденсаторы</td><td>100 нФ у каждой ИС, плюс один полярный 10 мкФ на сборку.</td><td>В этой редакции не заданы; в рисунок не добавлены.</td></tr>
+<tr><td>Микросхем в A / B</td><td>2 / 3</td><td>1 / 1</td></tr>
+<tr><td>Логическое поведение</td><td>Таблица XOR; выборка D по положительному фронту; асинхронный сброс единицей.</td><td>То же предусмотренное логическое поведение.</td></tr>
+</tbody></table></div>
+<p class="">Это восстановление схем по двум текстам. Панель B заменяет опыт XOR, а не соединяется с панелью A. Обозначения U1, C1 и другие начинаются заново в каждой панели. Замены XOR на AND/OR/инвертор и необязательное наблюдение /Q здесь не являются дополнительными собранными схемами.</p>
+<p class="note">Показан один канал индикации. В старом списке предусмотрены восемь резисторов 2,2 кОм для полного узла наблюдения, но инструкция первого канала использует только R1; семь неиспользуемых входов буфера заземлены, выходы свободны. LED1 — указанный светодиод на 5 В с ограничением тока либо канал 0 пассивной гребёнки на 5 В с общим катодом. Имеющееся внутреннее ограничение тока входит в сам компонент.</p>
+</section>
+<section class="section" id="generic"><h2>1. Общая логическая схема</h2>
+<p class="">XOR, D-триггер по положительному фронту, асинхронный RESET, старый буфер и два инвертора Шмитта показаны без привязки к выводам конкретной ИС. Старые конденсаторы питания показаны отдельно под логикой.</p>
+<div class="grid">
+<figure><a href="old_generic.svg"><img src="old_generic.png" alt="Старая инструкция: Общая логическая схема; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Старая инструкция</strong><div class="links"><a href="old_generic.svg">SVG</a> · <a href="old_generic.png">PNG</a></div></figcaption></figure>
+<figure><a href="new_generic.svg"><img src="new_generic.png" alt="Текущая инструкция: Общая логическая схема; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Текущая инструкция</strong><div class="links"><a href="new_generic.svg">SVG</a> · <a href="new_generic.png">PNG</a></div></figcaption></figure>
+</div>
+</section>
+<section class="section" id="chips"><h2>2. Соединения между микросхемами</h2>
+<p class="">Сигнальные соединения подписаны настоящими номерами выводов. Списки под схемами задают питание, все заземлённые свободные входы и все неподключённые выходы. Положение выводов здесь условное, не вид корпуса.</p>
+<div class="grid">
+<figure><a href="old_chips.svg"><img src="old_chips.png" alt="Старая инструкция: Соединения между микросхемами; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Старая инструкция</strong><div class="links"><a href="old_chips.svg">SVG</a> · <a href="old_chips.png">PNG</a></div></figcaption></figure>
+<figure><a href="new_chips.svg"><img src="new_chips.png" alt="Текущая инструкция: Соединения между микросхемами; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Текущая инструкция</strong><div class="links"><a href="new_chips.svg">SVG</a> · <a href="new_chips.png">PNG</a></div></figcaption></figure>
+</div>
+</section>
+<section class="section" id="breadboard"><h2>3. Размещение и провода на макетке</h2>
+<p class="">Каждая панель — самостоятельная сборка с объединёнными пятёрками отверстий, явными перемычками шин и выводами деталей. Таблицы ниже задают точные отверстия. Для любого увеличения откройте SVG.</p>
+<div class="grid">
+<figure><a href="old_breadboard.svg"><img src="old_breadboard.png" alt="Старая инструкция: Размещение и провода на макетке; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Старая инструкция</strong><div class="links"><a href="old_breadboard.svg">SVG</a> · <a href="old_breadboard.png">PNG</a></div></figcaption></figure>
+<figure><a href="new_breadboard.svg"><img src="new_breadboard.png" alt="Текущая инструкция: Размещение и провода на макетке; панель A XOR, панель B D-триггер." loading="lazy"></a><figcaption><strong>Текущая инструкция</strong><div class="links"><a href="new_breadboard.svg">SVG</a> · <a href="new_breadboard.png">PNG</a></div></figcaption></figure>
+</div>
+<ul>
+<li>Выемка DIP обращена ВЛЕВО. Вывод 1 — снизу слева, в ряду f; вывод с наибольшим номером — прямо над ним в ряду e. Каждая ИС пересекает канавку.</li>
+<li>a–e одного столбца образуют контакт; f–j — другой. Канавка разделяет их. TP/BP — верхняя/нижняя положительные шины, TG/BG — верхняя/нижняя земля. Нумерация шин относится к этому рисунку.</li>
+<li>На изображённой шине 50 отверстий и разрыв между 25 и 26. Четыре короткие перемычки соединяют половины; две длинные — верхние и нижние шины. Сопоставьте их с реальной связностью вашей платы.</li>
+<li>PWR показывает подключение выхода стабилизированных 5 В. До него: USB 5 В → повышающий кабель 9 В → модуль питания макетки, установленный на 5 В. Логику питает только стабилизированный выход.</li>
+<li>Внешние модули показаны по именам контактов, без гарантии порядка ножек разъёма. Используйте реальные метки VCC, GND и OUT. Соединение обозначено точкой конца провода; пересечение без точки не соединяет.</li>
+<li>Переподключайте при выключенном питании. Соберите A или B: сначала шины и постоянные уровни входов, затем сигналы; перед включением сверьте отверстия с таблицей.</li>
+</ul>
+<p class=""><span class="swatch" style="background:#bf3148"></span>+5V · <span class="swatch" style="background:#28629f"></span>GND · <span class="swatch" style="background:#11806c"></span>данные / результат · <span class="swatch" style="background:#7a4bac"></span>B / RESET · <span class="swatch" style="background:#ad6c04"></span>такт</p>
+</section>
+<section class="section" id="connections"><h2>Назначение выводов и точные концы перемычек</h2>
+<p class="">В числа ниже входят шесть перемычек шин и все провода внешних модулей, включая два выходных провода PWR. Ножки деталей не считаются перемычками. Это количества для данных рисунков, а не новый список покупки наборов.</p>
+<details><summary>Старая · A / XOR · 43 проводов-перемычек</summary>
+<h3>Компоненты и размещение</h3>
+<div class="table"><table><thead><tr><th scope="col">Позиция</th><th scope="col">Тип / номинал</th><th scope="col">Размещение</th></tr></thead><tbody>
+<tr><td>U1</td><td>CD4070BE</td><td>Вывод 1 в <code>f9</code></td></tr>
+<tr><td>U2</td><td>SN74HCT244N</td><td>Вывод 1 в <code>f32</code></td></tr>
+<tr><td>R1</td><td>2.2 kΩ</td><td><code>b57</code> ↔ <code>b61</code></td></tr>
+<tr><td>C1</td><td>100 nF</td><td><code>b9</code> ↔ <code>b8</code> у U1</td></tr>
+<tr><td>C2</td><td>100 nF</td><td><code>b32</code> ↔ <code>b31</code> у U2</td></tr>
+<tr><td>C0</td><td>10 µF</td><td><code>b3</code> ↔ <code>b4</code> · + в b3, − в b4</td></tr>
+</tbody></table></div>
+<h3>Все выводы</h3>
+<div class="table"><table><thead><tr><th scope="col">Вывод</th><th scope="col">Функция</th><th scope="col">Отверстие</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>U1.1</td><td>A</td><td><code>f9</code></td><td>A</td></tr>
+<tr><td>U1.2</td><td>B</td><td><code>f10</code></td><td>B</td></tr>
+<tr><td>U1.3</td><td>Y</td><td><code>f11</code></td><td>XOR</td></tr>
+<tr><td>U1.4</td><td>Y2</td><td><code>f12</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.5</td><td>A2</td><td><code>f13</code></td><td>GND</td></tr>
+<tr><td>U1.6</td><td>B2</td><td><code>f14</code></td><td>GND</td></tr>
+<tr><td>U1.7</td><td>VSS</td><td><code>f15</code></td><td>GND</td></tr>
+<tr><td>U1.8</td><td>A3</td><td><code>e15</code></td><td>GND</td></tr>
+<tr><td>U1.9</td><td>B3</td><td><code>e14</code></td><td>GND</td></tr>
+<tr><td>U1.10</td><td>Y3</td><td><code>e13</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.11</td><td>Y4</td><td><code>e12</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.12</td><td>A4</td><td><code>e11</code></td><td>GND</td></tr>
+<tr><td>U1.13</td><td>B4</td><td><code>e10</code></td><td>GND</td></tr>
+<tr><td>U1.14</td><td>VDD</td><td><code>e9</code></td><td>+5V</td></tr>
+<tr><td>U2.1</td><td>/1OE</td><td><code>f32</code></td><td>GND</td></tr>
+<tr><td>U2.2</td><td>1A1</td><td><code>f33</code></td><td>XOR</td></tr>
+<tr><td>U2.3</td><td>2Y4</td><td><code>f34</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.4</td><td>1A2</td><td><code>f35</code></td><td>GND</td></tr>
+<tr><td>U2.5</td><td>2Y3</td><td><code>f36</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.6</td><td>1A3</td><td><code>f37</code></td><td>GND</td></tr>
+<tr><td>U2.7</td><td>2Y2</td><td><code>f38</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.8</td><td>1A4</td><td><code>f39</code></td><td>GND</td></tr>
+<tr><td>U2.9</td><td>2Y1</td><td><code>f40</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.10</td><td>GND</td><td><code>f41</code></td><td>GND</td></tr>
+<tr><td>U2.11</td><td>2A1</td><td><code>e41</code></td><td>GND</td></tr>
+<tr><td>U2.12</td><td>1Y4</td><td><code>e40</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.13</td><td>2A2</td><td><code>e39</code></td><td>GND</td></tr>
+<tr><td>U2.14</td><td>1Y3</td><td><code>e38</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.15</td><td>2A3</td><td><code>e37</code></td><td>GND</td></tr>
+<tr><td>U2.16</td><td>1Y2</td><td><code>e36</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.17</td><td>2A4</td><td><code>e35</code></td><td>GND</td></tr>
+<tr><td>U2.18</td><td>1Y1</td><td><code>e34</code></td><td>BUF</td></tr>
+<tr><td>U2.19</td><td>/2OE</td><td><code>e33</code></td><td>GND</td></tr>
+<tr><td>U2.20</td><td>VCC</td><td><code>e32</code></td><td>+5V</td></tr>
+</tbody></table></div>
+<h3>Список перемычек</h3>
+<p class=""><a href="checks/old_xor_jumpers.csv">CSV</a></p>
+<div class="table"><table><thead><tr><th scope="col">ID</th><th scope="col">Конец 1</th><th scope="col">Конец 2</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>J01</td><td><code>TP25</code></td><td><code>TP26</code></td><td>+5V</td></tr>
+<tr><td>J02</td><td><code>TG25</code></td><td><code>TG26</code></td><td>GND</td></tr>
+<tr><td>J03</td><td><code>BP25</code></td><td><code>BP26</code></td><td>+5V</td></tr>
+<tr><td>J04</td><td><code>BG25</code></td><td><code>BG26</code></td><td>GND</td></tr>
+<tr><td>J05</td><td><code>TP1</code></td><td><code>BP1</code></td><td>+5V</td></tr>
+<tr><td>J06</td><td><code>TG1</code></td><td><code>BG1</code></td><td>GND</td></tr>
+<tr><td>J07</td><td><code>h13</code></td><td><code>BG10</code></td><td>GND</td></tr>
+<tr><td>J08</td><td><code>h14</code></td><td><code>BG11</code></td><td>GND</td></tr>
+<tr><td>J09</td><td><code>h15</code></td><td><code>BG12</code></td><td>GND</td></tr>
+<tr><td>J10</td><td><code>c15</code></td><td><code>TG11</code></td><td>GND</td></tr>
+<tr><td>J11</td><td><code>c14</code></td><td><code>TG10</code></td><td>GND</td></tr>
+<tr><td>J12</td><td><code>c11</code></td><td><code>TG8</code></td><td>GND</td></tr>
+<tr><td>J13</td><td><code>c10</code></td><td><code>TG7</code></td><td>GND</td></tr>
+<tr><td>J14</td><td><code>c9</code></td><td><code>TP6</code></td><td>+5V</td></tr>
+<tr><td>J15</td><td><code>h32</code></td><td><code>BG24</code></td><td>GND</td></tr>
+<tr><td>J16</td><td><code>h35</code></td><td><code>BG28</code></td><td>GND</td></tr>
+<tr><td>J17</td><td><code>h37</code></td><td><code>BG30</code></td><td>GND</td></tr>
+<tr><td>J18</td><td><code>h39</code></td><td><code>BG31</code></td><td>GND</td></tr>
+<tr><td>J19</td><td><code>h41</code></td><td><code>BG33</code></td><td>GND</td></tr>
+<tr><td>J20</td><td><code>c41</code></td><td><code>TG33</code></td><td>GND</td></tr>
+<tr><td>J21</td><td><code>c39</code></td><td><code>TG31</code></td><td>GND</td></tr>
+<tr><td>J22</td><td><code>c37</code></td><td><code>TG30</code></td><td>GND</td></tr>
+<tr><td>J23</td><td><code>c35</code></td><td><code>TG28</code></td><td>GND</td></tr>
+<tr><td>J24</td><td><code>c33</code></td><td><code>TG27</code></td><td>GND</td></tr>
+<tr><td>J25</td><td><code>c32</code></td><td><code>TP24</code></td><td>+5V</td></tr>
+<tr><td>J26</td><td><code>d9</code></td><td><code>TP7</code></td><td>+5V</td></tr>
+<tr><td>J27</td><td><code>c8</code></td><td><code>TG5</code></td><td>GND</td></tr>
+<tr><td>J28</td><td><code>d32</code></td><td><code>TP27</code></td><td>+5V</td></tr>
+<tr><td>J29</td><td><code>c31</code></td><td><code>TG24</code></td><td>GND</td></tr>
+<tr><td>J30</td><td><code>c3</code></td><td><code>TP2</code></td><td>+5V</td></tr>
+<tr><td>J31</td><td><code>c4</code></td><td><code>TG2</code></td><td>GND</td></tr>
+<tr><td>J32</td><td><code>PWR.+5V</code></td><td><code>TP3</code></td><td>+5V</td></tr>
+<tr><td>J33</td><td><code>PWR.GND</code></td><td><code>TG3</code></td><td>GND</td></tr>
+<tr><td>J34</td><td><code>S1.VCC</code></td><td><code>BP7</code></td><td>+5V</td></tr>
+<tr><td>J35</td><td><code>S1.GND</code></td><td><code>BG7</code></td><td>GND</td></tr>
+<tr><td>J36</td><td><code>S2.VCC</code></td><td><code>BP18</code></td><td>+5V</td></tr>
+<tr><td>J37</td><td><code>S2.GND</code></td><td><code>BG18</code></td><td>GND</td></tr>
+<tr><td>J38</td><td><code>LED1.K</code></td><td><code>BG49</code></td><td>GND</td></tr>
+<tr><td>J39</td><td><code>h9</code></td><td><code>S1.OUT</code></td><td>A</td></tr>
+<tr><td>J40</td><td><code>h10</code></td><td><code>S2.OUT</code></td><td>B</td></tr>
+<tr><td>J41</td><td><code>h11</code></td><td><code>h33</code></td><td>XOR</td></tr>
+<tr><td>J42</td><td><code>c34</code></td><td><code>c57</code></td><td>BUF</td></tr>
+<tr><td>J43</td><td><code>c61</code></td><td><code>LED1.A</code></td><td>LED</td></tr>
+</tbody></table></div>
+</details>
+<details><summary>Старая · B / D FF · 55 проводов-перемычек</summary>
+<h3>Компоненты и размещение</h3>
+<div class="table"><table><thead><tr><th scope="col">Позиция</th><th scope="col">Тип / номинал</th><th scope="col">Размещение</th></tr></thead><tbody>
+<tr><td>U1</td><td>CD4013BE</td><td>Вывод 1 в <code>f9</code></td></tr>
+<tr><td>U3</td><td>SN74HCT14N</td><td>Вывод 1 в <code>f26</code></td></tr>
+<tr><td>U2</td><td>SN74HCT244N</td><td>Вывод 1 в <code>f43</code></td></tr>
+<tr><td>R1</td><td>2.2 kΩ</td><td><code>b57</code> ↔ <code>b61</code></td></tr>
+<tr><td>C1</td><td>100 nF</td><td><code>b9</code> ↔ <code>b8</code> у U1</td></tr>
+<tr><td>C2</td><td>100 nF</td><td><code>b26</code> ↔ <code>b25</code> у U3</td></tr>
+<tr><td>C3</td><td>100 nF</td><td><code>b43</code> ↔ <code>b42</code> у U2</td></tr>
+<tr><td>C0</td><td>10 µF</td><td><code>b3</code> ↔ <code>b4</code> · + в b3, − в b4</td></tr>
+</tbody></table></div>
+<h3>Все выводы</h3>
+<div class="table"><table><thead><tr><th scope="col">Вывод</th><th scope="col">Функция</th><th scope="col">Отверстие</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>U1.1</td><td>Q</td><td><code>f9</code></td><td>Q</td></tr>
+<tr><td>U1.2</td><td>/Q</td><td><code>f10</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.3</td><td>CLK</td><td><code>f11</code></td><td>CLK</td></tr>
+<tr><td>U1.4</td><td>RESET</td><td><code>f12</code></td><td>RESET</td></tr>
+<tr><td>U1.5</td><td>D</td><td><code>f13</code></td><td>DATA</td></tr>
+<tr><td>U1.6</td><td>SET</td><td><code>f14</code></td><td>GND</td></tr>
+<tr><td>U1.7</td><td>VSS</td><td><code>f15</code></td><td>GND</td></tr>
+<tr><td>U1.8</td><td>SET2</td><td><code>e15</code></td><td>GND</td></tr>
+<tr><td>U1.9</td><td>D2</td><td><code>e14</code></td><td>GND</td></tr>
+<tr><td>U1.10</td><td>RESET2</td><td><code>e13</code></td><td>GND</td></tr>
+<tr><td>U1.11</td><td>CLK2</td><td><code>e12</code></td><td>GND</td></tr>
+<tr><td>U1.12</td><td>/Q2</td><td><code>e11</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.13</td><td>Q2</td><td><code>e10</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.14</td><td>VDD</td><td><code>e9</code></td><td>+5V</td></tr>
+<tr><td>U3.1</td><td>1A</td><td><code>f26</code></td><td>CLK_RAW</td></tr>
+<tr><td>U3.2</td><td>1Y</td><td><code>f27</code></td><td>CLK_INV</td></tr>
+<tr><td>U3.3</td><td>2A</td><td><code>f28</code></td><td>CLK_INV</td></tr>
+<tr><td>U3.4</td><td>2Y</td><td><code>f29</code></td><td>CLK</td></tr>
+<tr><td>U3.5</td><td>3A</td><td><code>f30</code></td><td>GND</td></tr>
+<tr><td>U3.6</td><td>3Y</td><td><code>f31</code></td><td>NC — не подключать</td></tr>
+<tr><td>U3.7</td><td>GND</td><td><code>f32</code></td><td>GND</td></tr>
+<tr><td>U3.8</td><td>4Y</td><td><code>e32</code></td><td>NC — не подключать</td></tr>
+<tr><td>U3.9</td><td>4A</td><td><code>e31</code></td><td>GND</td></tr>
+<tr><td>U3.10</td><td>5Y</td><td><code>e30</code></td><td>NC — не подключать</td></tr>
+<tr><td>U3.11</td><td>5A</td><td><code>e29</code></td><td>GND</td></tr>
+<tr><td>U3.12</td><td>6Y</td><td><code>e28</code></td><td>NC — не подключать</td></tr>
+<tr><td>U3.13</td><td>6A</td><td><code>e27</code></td><td>GND</td></tr>
+<tr><td>U3.14</td><td>VCC</td><td><code>e26</code></td><td>+5V</td></tr>
+<tr><td>U2.1</td><td>/1OE</td><td><code>f43</code></td><td>GND</td></tr>
+<tr><td>U2.2</td><td>1A1</td><td><code>f44</code></td><td>Q</td></tr>
+<tr><td>U2.3</td><td>2Y4</td><td><code>f45</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.4</td><td>1A2</td><td><code>f46</code></td><td>GND</td></tr>
+<tr><td>U2.5</td><td>2Y3</td><td><code>f47</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.6</td><td>1A3</td><td><code>f48</code></td><td>GND</td></tr>
+<tr><td>U2.7</td><td>2Y2</td><td><code>f49</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.8</td><td>1A4</td><td><code>f50</code></td><td>GND</td></tr>
+<tr><td>U2.9</td><td>2Y1</td><td><code>f51</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.10</td><td>GND</td><td><code>f52</code></td><td>GND</td></tr>
+<tr><td>U2.11</td><td>2A1</td><td><code>e52</code></td><td>GND</td></tr>
+<tr><td>U2.12</td><td>1Y4</td><td><code>e51</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.13</td><td>2A2</td><td><code>e50</code></td><td>GND</td></tr>
+<tr><td>U2.14</td><td>1Y3</td><td><code>e49</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.15</td><td>2A3</td><td><code>e48</code></td><td>GND</td></tr>
+<tr><td>U2.16</td><td>1Y2</td><td><code>e47</code></td><td>NC — не подключать</td></tr>
+<tr><td>U2.17</td><td>2A4</td><td><code>e46</code></td><td>GND</td></tr>
+<tr><td>U2.18</td><td>1Y1</td><td><code>e45</code></td><td>BUF</td></tr>
+<tr><td>U2.19</td><td>/2OE</td><td><code>e44</code></td><td>GND</td></tr>
+<tr><td>U2.20</td><td>VCC</td><td><code>e43</code></td><td>+5V</td></tr>
+</tbody></table></div>
+<h3>Список перемычек</h3>
+<p class=""><a href="checks/old_dff_jumpers.csv">CSV</a></p>
+<div class="table"><table><thead><tr><th scope="col">ID</th><th scope="col">Конец 1</th><th scope="col">Конец 2</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>J01</td><td><code>TP25</code></td><td><code>TP26</code></td><td>+5V</td></tr>
+<tr><td>J02</td><td><code>TG25</code></td><td><code>TG26</code></td><td>GND</td></tr>
+<tr><td>J03</td><td><code>BP25</code></td><td><code>BP26</code></td><td>+5V</td></tr>
+<tr><td>J04</td><td><code>BG25</code></td><td><code>BG26</code></td><td>GND</td></tr>
+<tr><td>J05</td><td><code>TP1</code></td><td><code>BP1</code></td><td>+5V</td></tr>
+<tr><td>J06</td><td><code>TG1</code></td><td><code>BG1</code></td><td>GND</td></tr>
+<tr><td>J07</td><td><code>h14</code></td><td><code>BG10</code></td><td>GND</td></tr>
+<tr><td>J08</td><td><code>h15</code></td><td><code>BG11</code></td><td>GND</td></tr>
+<tr><td>J09</td><td><code>c15</code></td><td><code>TG11</code></td><td>GND</td></tr>
+<tr><td>J10</td><td><code>c14</code></td><td><code>TG10</code></td><td>GND</td></tr>
+<tr><td>J11</td><td><code>c13</code></td><td><code>TG9</code></td><td>GND</td></tr>
+<tr><td>J12</td><td><code>c12</code></td><td><code>TG8</code></td><td>GND</td></tr>
+<tr><td>J13</td><td><code>c9</code></td><td><code>TP6</code></td><td>+5V</td></tr>
+<tr><td>J14</td><td><code>h30</code></td><td><code>BG24</code></td><td>GND</td></tr>
+<tr><td>J15</td><td><code>h32</code></td><td><code>BG27</code></td><td>GND</td></tr>
+<tr><td>J16</td><td><code>c31</code></td><td><code>TG24</code></td><td>GND</td></tr>
+<tr><td>J17</td><td><code>c29</code></td><td><code>TG23</code></td><td>GND</td></tr>
+<tr><td>J18</td><td><code>c27</code></td><td><code>TG21</code></td><td>GND</td></tr>
+<tr><td>J19</td><td><code>c26</code></td><td><code>TP20</code></td><td>+5V</td></tr>
+<tr><td>J20</td><td><code>h43</code></td><td><code>BG35</code></td><td>GND</td></tr>
+<tr><td>J21</td><td><code>h46</code></td><td><code>BG37</code></td><td>GND</td></tr>
+<tr><td>J22</td><td><code>h48</code></td><td><code>BG39</code></td><td>GND</td></tr>
+<tr><td>J23</td><td><code>h50</code></td><td><code>BG40</code></td><td>GND</td></tr>
+<tr><td>J24</td><td><code>h52</code></td><td><code>BG42</code></td><td>GND</td></tr>
+<tr><td>J25</td><td><code>c52</code></td><td><code>TG42</code></td><td>GND</td></tr>
+<tr><td>J26</td><td><code>c50</code></td><td><code>TG40</code></td><td>GND</td></tr>
+<tr><td>J27</td><td><code>c48</code></td><td><code>TG39</code></td><td>GND</td></tr>
+<tr><td>J28</td><td><code>c46</code></td><td><code>TG37</code></td><td>GND</td></tr>
+<tr><td>J29</td><td><code>c44</code></td><td><code>TG35</code></td><td>GND</td></tr>
+<tr><td>J30</td><td><code>c43</code></td><td><code>TP35</code></td><td>+5V</td></tr>
+<tr><td>J31</td><td><code>d9</code></td><td><code>TP7</code></td><td>+5V</td></tr>
+<tr><td>J32</td><td><code>c8</code></td><td><code>TG5</code></td><td>GND</td></tr>
+<tr><td>J33</td><td><code>d26</code></td><td><code>TP21</code></td><td>+5V</td></tr>
+<tr><td>J34</td><td><code>c25</code></td><td><code>TG20</code></td><td>GND</td></tr>
+<tr><td>J35</td><td><code>d43</code></td><td><code>TP34</code></td><td>+5V</td></tr>
+<tr><td>J36</td><td><code>c42</code></td><td><code>TG34</code></td><td>GND</td></tr>
+<tr><td>J37</td><td><code>c3</code></td><td><code>TP2</code></td><td>+5V</td></tr>
+<tr><td>J38</td><td><code>c4</code></td><td><code>TG2</code></td><td>GND</td></tr>
+<tr><td>J39</td><td><code>PWR.+5V</code></td><td><code>TP3</code></td><td>+5V</td></tr>
+<tr><td>J40</td><td><code>PWR.GND</code></td><td><code>TG3</code></td><td>GND</td></tr>
+<tr><td>J41</td><td><code>S1.VCC</code></td><td><code>BP7</code></td><td>+5V</td></tr>
+<tr><td>J42</td><td><code>S1.GND</code></td><td><code>BG7</code></td><td>GND</td></tr>
+<tr><td>J43</td><td><code>S2.VCC</code></td><td><code>BP18</code></td><td>+5V</td></tr>
+<tr><td>J44</td><td><code>S2.GND</code></td><td><code>BG18</code></td><td>GND</td></tr>
+<tr><td>J45</td><td><code>LED1.K</code></td><td><code>BG49</code></td><td>GND</td></tr>
+<tr><td>J46</td><td><code>OSC.VCC</code></td><td><code>BP29</code></td><td>+5V</td></tr>
+<tr><td>J47</td><td><code>OSC.GND</code></td><td><code>BG29</code></td><td>GND</td></tr>
+<tr><td>J48</td><td><code>h9</code></td><td><code>h44</code></td><td>Q</td></tr>
+<tr><td>J49</td><td><code>h11</code></td><td><code>h29</code></td><td>CLK</td></tr>
+<tr><td>J50</td><td><code>h12</code></td><td><code>S2.OUT</code></td><td>RESET</td></tr>
+<tr><td>J51</td><td><code>h13</code></td><td><code>S1.OUT</code></td><td>DATA</td></tr>
+<tr><td>J52</td><td><code>h26</code></td><td><code>OSC.OUT</code></td><td>CLK_RAW</td></tr>
+<tr><td>J53</td><td><code>h27</code></td><td><code>h28</code></td><td>CLK_INV</td></tr>
+<tr><td>J54</td><td><code>c45</code></td><td><code>c57</code></td><td>BUF</td></tr>
+<tr><td>J55</td><td><code>c61</code></td><td><code>LED1.A</code></td><td>LED</td></tr>
+</tbody></table></div>
+</details>
+<details><summary>Текущая · A / XOR · 24 проводов-перемычек</summary>
+<h3>Компоненты и размещение</h3>
+<div class="table"><table><thead><tr><th scope="col">Позиция</th><th scope="col">Тип / номинал</th><th scope="col">Размещение</th></tr></thead><tbody>
+<tr><td>U1</td><td>CD4070BE</td><td>Вывод 1 в <code>f9</code></td></tr>
+</tbody></table></div>
+<h3>Все выводы</h3>
+<div class="table"><table><thead><tr><th scope="col">Вывод</th><th scope="col">Функция</th><th scope="col">Отверстие</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>U1.1</td><td>A</td><td><code>f9</code></td><td>A</td></tr>
+<tr><td>U1.2</td><td>B</td><td><code>f10</code></td><td>B</td></tr>
+<tr><td>U1.3</td><td>Y</td><td><code>f11</code></td><td>XOR</td></tr>
+<tr><td>U1.4</td><td>Y2</td><td><code>f12</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.5</td><td>A2</td><td><code>f13</code></td><td>GND</td></tr>
+<tr><td>U1.6</td><td>B2</td><td><code>f14</code></td><td>GND</td></tr>
+<tr><td>U1.7</td><td>VSS</td><td><code>f15</code></td><td>GND</td></tr>
+<tr><td>U1.8</td><td>A3</td><td><code>e15</code></td><td>GND</td></tr>
+<tr><td>U1.9</td><td>B3</td><td><code>e14</code></td><td>GND</td></tr>
+<tr><td>U1.10</td><td>Y3</td><td><code>e13</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.11</td><td>Y4</td><td><code>e12</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.12</td><td>A4</td><td><code>e11</code></td><td>GND</td></tr>
+<tr><td>U1.13</td><td>B4</td><td><code>e10</code></td><td>GND</td></tr>
+<tr><td>U1.14</td><td>VDD</td><td><code>e9</code></td><td>+5V</td></tr>
+</tbody></table></div>
+<h3>Список перемычек</h3>
+<p class=""><a href="checks/new_xor_jumpers.csv">CSV</a></p>
+<div class="table"><table><thead><tr><th scope="col">ID</th><th scope="col">Конец 1</th><th scope="col">Конец 2</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>J01</td><td><code>TP25</code></td><td><code>TP26</code></td><td>+5V</td></tr>
+<tr><td>J02</td><td><code>TG25</code></td><td><code>TG26</code></td><td>GND</td></tr>
+<tr><td>J03</td><td><code>BP25</code></td><td><code>BP26</code></td><td>+5V</td></tr>
+<tr><td>J04</td><td><code>BG25</code></td><td><code>BG26</code></td><td>GND</td></tr>
+<tr><td>J05</td><td><code>TP1</code></td><td><code>BP1</code></td><td>+5V</td></tr>
+<tr><td>J06</td><td><code>TG1</code></td><td><code>BG1</code></td><td>GND</td></tr>
+<tr><td>J07</td><td><code>h13</code></td><td><code>BG10</code></td><td>GND</td></tr>
+<tr><td>J08</td><td><code>h14</code></td><td><code>BG11</code></td><td>GND</td></tr>
+<tr><td>J09</td><td><code>h15</code></td><td><code>BG12</code></td><td>GND</td></tr>
+<tr><td>J10</td><td><code>c15</code></td><td><code>TG11</code></td><td>GND</td></tr>
+<tr><td>J11</td><td><code>c14</code></td><td><code>TG10</code></td><td>GND</td></tr>
+<tr><td>J12</td><td><code>c11</code></td><td><code>TG8</code></td><td>GND</td></tr>
+<tr><td>J13</td><td><code>c10</code></td><td><code>TG7</code></td><td>GND</td></tr>
+<tr><td>J14</td><td><code>c9</code></td><td><code>TP6</code></td><td>+5V</td></tr>
+<tr><td>J15</td><td><code>PWR.+5V</code></td><td><code>TP2</code></td><td>+5V</td></tr>
+<tr><td>J16</td><td><code>PWR.GND</code></td><td><code>TG2</code></td><td>GND</td></tr>
+<tr><td>J17</td><td><code>S1.VCC</code></td><td><code>BP7</code></td><td>+5V</td></tr>
+<tr><td>J18</td><td><code>S1.GND</code></td><td><code>BG7</code></td><td>GND</td></tr>
+<tr><td>J19</td><td><code>S2.VCC</code></td><td><code>BP18</code></td><td>+5V</td></tr>
+<tr><td>J20</td><td><code>S2.GND</code></td><td><code>BG18</code></td><td>GND</td></tr>
+<tr><td>J21</td><td><code>LED1.K</code></td><td><code>BG49</code></td><td>GND</td></tr>
+<tr><td>J22</td><td><code>h9</code></td><td><code>S1.OUT</code></td><td>A</td></tr>
+<tr><td>J23</td><td><code>h10</code></td><td><code>S2.OUT</code></td><td>B</td></tr>
+<tr><td>J24</td><td><code>h11</code></td><td><code>LED1.A</code></td><td>XOR</td></tr>
+</tbody></table></div>
+</details>
+<details><summary>Текущая · B / D FF · 26 проводов-перемычек</summary>
+<h3>Компоненты и размещение</h3>
+<div class="table"><table><thead><tr><th scope="col">Позиция</th><th scope="col">Тип / номинал</th><th scope="col">Размещение</th></tr></thead><tbody>
+<tr><td>U1</td><td>CD4013BE</td><td>Вывод 1 в <code>f9</code></td></tr>
+</tbody></table></div>
+<h3>Все выводы</h3>
+<div class="table"><table><thead><tr><th scope="col">Вывод</th><th scope="col">Функция</th><th scope="col">Отверстие</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>U1.1</td><td>Q</td><td><code>f9</code></td><td>Q</td></tr>
+<tr><td>U1.2</td><td>/Q</td><td><code>f10</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.3</td><td>CLK</td><td><code>f11</code></td><td>CLK</td></tr>
+<tr><td>U1.4</td><td>RESET</td><td><code>f12</code></td><td>RESET</td></tr>
+<tr><td>U1.5</td><td>D</td><td><code>f13</code></td><td>DATA</td></tr>
+<tr><td>U1.6</td><td>SET</td><td><code>f14</code></td><td>GND</td></tr>
+<tr><td>U1.7</td><td>VSS</td><td><code>f15</code></td><td>GND</td></tr>
+<tr><td>U1.8</td><td>SET2</td><td><code>e15</code></td><td>GND</td></tr>
+<tr><td>U1.9</td><td>D2</td><td><code>e14</code></td><td>GND</td></tr>
+<tr><td>U1.10</td><td>RESET2</td><td><code>e13</code></td><td>GND</td></tr>
+<tr><td>U1.11</td><td>CLK2</td><td><code>e12</code></td><td>GND</td></tr>
+<tr><td>U1.12</td><td>/Q2</td><td><code>e11</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.13</td><td>Q2</td><td><code>e10</code></td><td>NC — не подключать</td></tr>
+<tr><td>U1.14</td><td>VDD</td><td><code>e9</code></td><td>+5V</td></tr>
+</tbody></table></div>
+<h3>Список перемычек</h3>
+<p class=""><a href="checks/new_dff_jumpers.csv">CSV</a></p>
+<div class="table"><table><thead><tr><th scope="col">ID</th><th scope="col">Конец 1</th><th scope="col">Конец 2</th><th scope="col">Цепь</th></tr></thead><tbody>
+<tr><td>J01</td><td><code>TP25</code></td><td><code>TP26</code></td><td>+5V</td></tr>
+<tr><td>J02</td><td><code>TG25</code></td><td><code>TG26</code></td><td>GND</td></tr>
+<tr><td>J03</td><td><code>BP25</code></td><td><code>BP26</code></td><td>+5V</td></tr>
+<tr><td>J04</td><td><code>BG25</code></td><td><code>BG26</code></td><td>GND</td></tr>
+<tr><td>J05</td><td><code>TP1</code></td><td><code>BP1</code></td><td>+5V</td></tr>
+<tr><td>J06</td><td><code>TG1</code></td><td><code>BG1</code></td><td>GND</td></tr>
+<tr><td>J07</td><td><code>h14</code></td><td><code>BG10</code></td><td>GND</td></tr>
+<tr><td>J08</td><td><code>h15</code></td><td><code>BG11</code></td><td>GND</td></tr>
+<tr><td>J09</td><td><code>c15</code></td><td><code>TG11</code></td><td>GND</td></tr>
+<tr><td>J10</td><td><code>c14</code></td><td><code>TG10</code></td><td>GND</td></tr>
+<tr><td>J11</td><td><code>c13</code></td><td><code>TG9</code></td><td>GND</td></tr>
+<tr><td>J12</td><td><code>c12</code></td><td><code>TG8</code></td><td>GND</td></tr>
+<tr><td>J13</td><td><code>c9</code></td><td><code>TP6</code></td><td>+5V</td></tr>
+<tr><td>J14</td><td><code>PWR.+5V</code></td><td><code>TP2</code></td><td>+5V</td></tr>
+<tr><td>J15</td><td><code>PWR.GND</code></td><td><code>TG2</code></td><td>GND</td></tr>
+<tr><td>J16</td><td><code>S1.VCC</code></td><td><code>BP7</code></td><td>+5V</td></tr>
+<tr><td>J17</td><td><code>S1.GND</code></td><td><code>BG7</code></td><td>GND</td></tr>
+<tr><td>J18</td><td><code>S2.VCC</code></td><td><code>BP18</code></td><td>+5V</td></tr>
+<tr><td>J19</td><td><code>S2.GND</code></td><td><code>BG18</code></td><td>GND</td></tr>
+<tr><td>J20</td><td><code>LED1.K</code></td><td><code>BG49</code></td><td>GND</td></tr>
+<tr><td>J21</td><td><code>OSC.VCC</code></td><td><code>BP29</code></td><td>+5V</td></tr>
+<tr><td>J22</td><td><code>OSC.GND</code></td><td><code>BG29</code></td><td>GND</td></tr>
+<tr><td>J23</td><td><code>h9</code></td><td><code>LED1.A</code></td><td>Q</td></tr>
+<tr><td>J24</td><td><code>h11</code></td><td><code>OSC.OUT</code></td><td>CLK</td></tr>
+<tr><td>J25</td><td><code>h12</code></td><td><code>S2.OUT</code></td><td>RESET</td></tr>
+<tr><td>J26</td><td><code>h13</code></td><td><code>S1.OUT</code></td><td>DATA</td></tr>
+</tbody></table></div>
+</details>
+</section>
+<section class="section" id="checks"><h2>Проверки, границы и источники</h2>
+<p class="checks">Все четыре сборки прошли проверку связности макетки: нет двух выводов/проводов в одном отверстии, замыканий разных цепей, пропущенных соединений через контакты и шины; каждый свободный выход изолирован. Проверены активные пути выводов и ориентация ИС. Обе исходные инструкции не изменены. Это проверка рисунков и цепей, без физической сборки и измерений задержек/токов.</p>
+<p class=""><a href="checks/connectivity.json">Результаты и хеши исходников</a> · <a href="checks/netlists.json">Полная модель выводов и проводов</a> · <a href="build_schematics.py">Генератор схем</a> · <a href="build_pages.py">Генератор страниц</a></p>
+<p class="">Номера выводов сверены с рисунками производителя: <a href="https://www.ti.com/lit/ds/symlink/cd4070b.pdf">CD4070B (стр. 2)</a> · <a href="https://www.ti.com/lit/ds/symlink/cd4013b.pdf">CD4013B (стр. 3)</a> · <a href="https://www.ti.com/lit/ds/symlink/sn74hct244.pdf">SN74HCT244 (стр. 3)</a> · <a href="https://www.ti.com/lit/ds/symlink/sn74hct14.pdf">SN74HCT14 (стр. 3)</a>.</p>
+<p class="">Обе языковые страницы используют общие шесть векторных рисунков и шесть PNG. Подписи рисунков двуязычны; позиции, имена сигналов и координаты отверстий совпадают.</p>
+</section>
+</main><footer>Исходные уроки: Юрий Панчул / Verilog Meetup. Схемы восстановлены Codex по архивной и текущей локальным инструкциям.</footer></body></html>

@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1210" viewBox="0 0 1500 1210" role="img" aria-labelledby="title desc">
+<title id="title">Old/new generic circuits</title><desc id="desc">Two separate experiments: XOR and a positive-edge D flip-flop with asynchronous reset.</desc>
+<style>text{font-family:DejaVu Sans,Arial,sans-serif} .mono{font-family:DejaVu Sans Mono,monospace}</style>
+<rect x="0" y="0" width="1500" height="1210" rx="0" fill="#fff" stroke="none" stroke-width="2"/>
+<text x="40" y="42" fill="#203746" font-size="25" font-weight="bold" text-anchor="start">OLD · 14 Oct 2026 / СТАРАЯ</text>
+<text x="40" y="73" fill="#536b7c" font-size="20" font-weight="normal" text-anchor="start">1 · Generic elements / Общие логические элементы</text>
+<text x="40" y="100" fill="#536b7c" font-size="16" font-weight="normal" text-anchor="start">A: XOR experiment / опыт XOR     B: D flip-flop experiment / опыт с D-триггером</text>
+<rect x="25" y="125" width="1450" height="375" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="50" y="162" fill="#203746" font-size="23" font-weight="bold" text-anchor="start">A · XOR</text>
+<rect x="65" y="215" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="250" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">A</text>
+<text x="160" y="294" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="65" y="325" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="360" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">B</text>
+<text x="160" y="404" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<path d="M450,258 Q486,300 450,342 Q515,342 554,300 Q515,258 450,258" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<path d="M440,258 Q476,300 440,342" fill="none" stroke="#203746" stroke-width="2.5"/>
+<text x="500" y="306" fill="#203746" font-size="18" font-weight="normal" text-anchor="middle">=1</text>
+<polyline points="255,245 360,245 360,278 463,278" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,355 390,355 390,322 463,322" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="554,300 770,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M770,275 L770,325 L828,300 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<text x="800" y="252" fill="#203746" font-size="17" font-weight="normal" text-anchor="middle">Buffer / буфер</text>
+<text x="800" y="350" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="middle">enabled / включён</text>
+<polyline points="828,300 975,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="975,300 989,300" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="989" y="292" width="58" height="16" rx="0" fill="#fff6d6" stroke="#203746" stroke-width="2"/>
+<polyline points="1047,300 1061,300" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1018.0" y="282" fill="#203746" font-size="16" font-weight="normal" text-anchor="middle">R1 · 2.2 kΩ</text>
+<polyline points="1061,300 1195,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1195" y="252" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1287" y="276" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1195,300 1260,300" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1260,288 L1260,312 L1280,300 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1282,287 1282,313" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1282,300 1345,300 1345,322" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1345,322 1345,334" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1332,334 1358,334" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1337,340 1353,340" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1342,346 1348,346" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1205" y="370" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1291,292 1309,280" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1309,280 1302,281" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1303,298 1321,286" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1321,286 1314,287" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="65" y="458" fill="#536b7c" font-size="17" font-weight="normal" text-anchor="start">Button modules: released = 0, pressed = 1 / Кнопочные модули: отпущена = 0, нажата = 1</text>
+<rect x="25" y="520" width="1450" height="465" rx="12" fill="#fbfcfd" stroke="#d6e1e8" stroke-width="2"/>
+<text x="50" y="558" fill="#203746" font-size="23" font-weight="bold" text-anchor="start">B · D flip-flop / D-триггер</text>
+<rect x="65" y="610" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="645" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">DATA</text>
+<text x="160" y="689" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="65" y="745" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="780" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">Clock / такт</text>
+<text x="160" y="824" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<text x="160" y="733" fill="#536b7c" font-size="14" font-weight="normal" text-anchor="middle">0.5–1 Hz</text>
+<rect x="65" y="880" width="190" height="60" rx="7" fill="#edf4fa" stroke="#7c9eb7" stroke-width="2"/>
+<text x="160" y="915" fill="#203746" font-size="19" font-weight="bold" text-anchor="middle">RESET</text>
+<text x="160" y="959" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="middle">+5V · GND</text>
+<rect x="660" y="620" width="180" height="260" rx="5" fill="#fff" stroke="#203746" stroke-width="2"/>
+<text x="750" y="655" fill="#203746" font-size="22" font-weight="bold" text-anchor="middle">D FF</text>
+<text x="688" y="665" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">D</text>
+<text x="688" y="780" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">CLK</text>
+<text x="688" y="855" fill="#203746" font-size="17" font-weight="normal" text-anchor="start">RESET</text>
+<path d="M660,764 L677,775 L660,786" fill="none" stroke="#203746" stroke-width="2.5"/>
+<text x="810" y="695" fill="#203746" font-size="20" font-weight="normal" text-anchor="middle">Q</text>
+<text x="770" y="915" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">SET = 0</text>
+<polyline points="750,880 750,929" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="750,929 750,941" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="737,941 763,941" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="742,947 758,947" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="747,953 753,953" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,640 540,640 540,660 660,660" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,910 580,910 580,850 660,850" fill="none" stroke="#7a4bac" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="255,775 355,775" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M355,750 L355,800 L413,775 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<polyline points="365,782 374,782 374,768 384,768 384,782 392,782" fill="none" stroke="#203746" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="419" cy="775" r="6" fill="white" stroke="#203746" stroke-width="2"/>
+<polyline points="425,775 475,775" fill="none" stroke="#c28320" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M475,750 L475,800 L533,775 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<polyline points="485,782 494,782 494,768 504,768 504,782 512,782" fill="none" stroke="#203746" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="539" cy="775" r="6" fill="white" stroke="#203746" stroke-width="2"/>
+<polyline points="545,775 660,775" fill="none" stroke="#ad6c04" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="450" y="730" fill="#203746" font-size="17" font-weight="normal" text-anchor="middle">2 × Schmitt NOT</text>
+<polyline points="840,690 960,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M960,665 L960,715 L1018,690 Z" fill="#fff" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1018,690 1090,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1090,690 1104,690" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1104" y="682" width="58" height="16" rx="0" fill="#fff6d6" stroke="#203746" stroke-width="2"/>
+<polyline points="1162,690 1176,690" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1133.0" y="672" fill="#203746" font-size="16" font-weight="normal" text-anchor="middle">R1 · 2.2 kΩ</text>
+<polyline points="1176,690 1230,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1230" y="642" width="185" height="132" rx="9" fill="#f2f8f4" stroke="#9eb8ac" stroke-width="2"/>
+<text x="1322" y="666" fill="#203746" font-size="20" font-weight="bold" text-anchor="middle">5 V LED</text>
+<polyline points="1230,690 1295,690" fill="none" stroke="#11806c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1295,678 L1295,702 L1315,690 Z" fill="#f4bc4b" stroke="#203746" stroke-width="2.5"/>
+<polyline points="1317,677 1317,703" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1317,690 1380,690 1380,712" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1380,712 1380,724" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1367,724 1393,724" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1372,730 1388,730" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1377,736 1383,736" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1240" y="760" fill="#536b7c" font-size="13" font-weight="normal" text-anchor="start">I limited / огр. тока</text>
+<polyline points="1326,682 1344,670" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1344,670 1337,671" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1338,688 1356,676" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1356,676 1349,677" fill="none" stroke="#203746" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1000" y="641" fill="#203746" font-size="16" font-weight="normal" text-anchor="middle">Buffer / буфер</text>
+<text x="900" y="830" fill="#203746" font-size="22" font-weight="bold" text-anchor="start">↑CLK: Q ← D</text>
+<text x="900" y="863" fill="#203746" font-size="20" font-weight="normal" text-anchor="start">RESET = 1: Q = 0</text>
+<text x="900" y="892" fill="#536b7c" font-size="16" font-weight="normal" text-anchor="start">asynchronous / асинхронно</text>
+<text x="45" y="1025" fill="#203746" font-size="18" font-weight="bold" text-anchor="start">A · Power / питание</text>
+<text x="765" y="1025" fill="#203746" font-size="18" font-weight="bold" text-anchor="start">B · Power / питание</text>
+<polyline points="105,1060 515,1060" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="105,1124 515,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="101" y="1035" width="41.9" height="23" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="108" y="1050" fill="#bf3148" font-size="15" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="105,1124 105,1136" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="92,1136 118,1136" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="97,1142 113,1142" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="102,1148 108,1148" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="105,1060 105,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="90,1088 120,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="90,1098 120,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="105,1098 105,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="130" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">100 nF</text>
+<circle cx="105" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="105" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="310,1060 310,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="295,1088 325,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="295,1098 325,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="310,1098 310,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="335" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">100 nF</text>
+<circle cx="310" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="310" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="515,1060 515,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="500,1088 530,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="500,1098 530,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="515,1098 515,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="540" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">10 µF</text>
+<text x="487" y="1083" fill="#bf3148" font-size="18" font-weight="bold" text-anchor="start">+</text>
+<circle cx="515" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="515" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="805,1060 1345,1060" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="805,1124 1345,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="801" y="1035" width="41.9" height="23" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="808" y="1050" fill="#bf3148" font-size="15" font-weight="bold" text-anchor="start">+5V</text>
+<polyline points="805,1124 805,1136" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="792,1136 818,1136" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="797,1142 813,1142" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="802,1148 808,1148" fill="none" stroke="#28629f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="805,1060 805,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="790,1088 820,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="790,1098 820,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="805,1098 805,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="830" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">100 nF</text>
+<circle cx="805" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="805" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="985,1060 985,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="970,1088 1000,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="970,1098 1000,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="985,1098 985,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1010" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">100 nF</text>
+<circle cx="985" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="985" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="1165,1060 1165,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1150,1088 1180,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1150,1098 1180,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1165,1098 1165,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1190" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">100 nF</text>
+<circle cx="1165" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="1165" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<polyline points="1345,1060 1345,1088" fill="none" stroke="#bf3148" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1330,1088 1360,1088" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1330,1098 1360,1098" fill="none" stroke="#203746" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1345,1098 1345,1124" fill="none" stroke="#28629f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="1370" y="1098" fill="#203746" font-size="16" font-weight="normal" text-anchor="start">10 µF</text>
+<text x="1317" y="1083" fill="#bf3148" font-size="18" font-weight="bold" text-anchor="start">+</text>
+<circle cx="1345" cy="1060" r="3" fill="#bf3148" stroke="none" stroke-width="1"/>
+<circle cx="1345" cy="1124" r="3" fill="#28629f" stroke="none" stroke-width="1"/>
+<text x="45" y="1180" fill="#536b7c" font-size="17" font-weight="normal" text-anchor="start">Each 100 nF is local to one IC / Каждый 100 нФ установлен у своей микросхемы.</text>
+</svg>
